@@ -13,7 +13,25 @@ const HomePageContainer = ({children, verticalCenter, horizontalCenter}) => {
           top: 0,
           bottom: 0,
           left: 0,
-          right: 0
+          right: 0,
+          display: {
+            xs: "none",
+            md: "block"
+          }
+        }}
+      />
+      <Box
+        sx={{
+          background: "linear-gradient(to right, #3f086a, #2e0659, #3f086a)",
+          position: "fixed",
+          top: 0,
+          bottom: 0,
+          left: 0,
+          right: 0,
+          display: {
+            xs: "block",
+            md: "none"
+          }
         }}
       />
       <Box

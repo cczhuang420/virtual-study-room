@@ -9,7 +9,7 @@ const HomeScreen = ({onLogin, onSignup}) => {
 
   return (
     <Page horizontalCenter verticalCenter>
-      <Box sx={{position: "absolute", top: 0, left: 0}}>
+      <Box sx={{position: "absolute", top: 0, left: 0, display: {xs: "none", md: "block"}}}>
         <img src={headphoneSvg} alt={""} />
       </Box>
       <Box
@@ -30,7 +30,10 @@ const HomeScreen = ({onLogin, onSignup}) => {
           <StyledTypography
             sx={{
               fontWeight: "999",
-              fontSize: "48px",
+              fontSize: {
+                xs: "24px",
+                md: "48px"
+              },
               textShadow: "2px 2px #9f7ff3"
             }}
           >
@@ -41,9 +44,18 @@ const HomeScreen = ({onLogin, onSignup}) => {
           <Typography
             sx={{
               fontWeight: "999",
-              fontSize: "48px",
-              color: "transparent",
-              WebkitTextStroke: "3px #9f7ff3"
+              fontSize: {
+                xs: "24px",
+                md: "48px"
+              },
+              color: {
+                xs: "#9f7ff3",
+                md: "transparent"
+              },
+              WebkitTextStroke: {
+                xs: "none",
+                md: "3px #9f7ff3"
+              }
             }}
           >
             Virtual Study room

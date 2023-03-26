@@ -3,6 +3,7 @@ import {useNavigate} from "react-router-dom";
 import HomeScreen from "../components/HomeScreen.jsx";
 import IntroScreen from "../components/IntroScreen.jsx";
 import text from "../constants/homepage-text.json"
+import {Box} from "@mui/material"
 
 const Homepage = () => {
 
@@ -29,6 +30,7 @@ const Homepage = () => {
     <>
       <HomeScreen onLogin={loginHandler} onSignup={signupHandler} />
       {introScreens}
+      <Box sx={{mb: "20px"}} />
     </>
   )
 }
