@@ -1,12 +1,12 @@
 import React from "react"
-import Page from "../containers/HomePageContainer.jsx";
+import Section from "../containers/HomePageSection.jsx";
 import {Box, styled, Typography} from "@mui/material";
 import LottiePlayer from "./LottiePlayer.jsx";
 
 const IntroScreen = ({header1, header2, animation, description, textOnRight}) => {
 
   return (
-    <Page verticalCenter horizontalCenter>
+    <Section verticalCenter horizontalCenter>
       {header1 && (
         <Box
           sx={{
@@ -80,7 +80,7 @@ const IntroScreen = ({header1, header2, animation, description, textOnRight}) =>
           </Box>
         </Box>
       </Box>
-    </Page>
+    </Section>
   )
 }
 

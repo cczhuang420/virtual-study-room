@@ -3,7 +3,7 @@ import {Box} from "@mui/material";
 import LottiePlayer from "../components/LottiePlayer.jsx";
 import backgroundAnimation from "../assets/homepage-background.json"
 
-const HomePageContainer = ({children, verticalCenter, horizontalCenter}) => {
+const HomePageSection = ({children, verticalCenter, horizontalCenter}) => {
   return (
     <Box sx={{minWidth: "100vw", minHeight: "100vh", display: "flex"}}>
       <LottiePlayer
@@ -51,4 +51,4 @@ const HomePageContainer = ({children, verticalCenter, horizontalCenter}) => {
   )
 }
 
-export default HomePageContainer
+export default HomePageSection

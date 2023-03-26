@@ -1,5 +1,5 @@
 import React from "react"
-import Page from "../containers/HomePageContainer.jsx";
+import Section from "../containers/HomePageSection.jsx";
 import headphoneSvg from "../assets/headphone.svg"
 import {Box, styled, Typography, Button} from "@mui/material";
 import AuthBlock from "../components/AuthBlock.jsx";
@@ -8,7 +8,7 @@ import AuthBlock from "../components/AuthBlock.jsx";
 const HomeScreen = ({onLogin, onSignup}) => {
 
   return (
-    <Page horizontalCenter verticalCenter>
+    <Section horizontalCenter verticalCenter>
       <Box sx={{position: "absolute", top: 0, left: 0, display: {xs: "none", md: "block"}}}>
         <img src={headphoneSvg} alt={""} />
       </Box>
@@ -16,7 +16,8 @@ const HomeScreen = ({onLogin, onSignup}) => {
         sx={{
           position: "absolute",
           top: 20,
-          right: 20
+          right: 20,
+          paddingX: "20px"
         }}
       >
         <AuthBlock
@@ -83,7 +84,7 @@ const HomeScreen = ({onLogin, onSignup}) => {
           </Button>
         </Box>
       </Box>
-    </Page>
+    </Section>
   )
 }
 
