@@ -18,10 +18,8 @@ const App = () => {
   }, []);
 
   if (!getCurrentUser()) {
-    console.log("Public Router")
     return <PublicRouter />
   } else {
-    console.log("Private Router")
     return <PrivateRouter />
   }
 }

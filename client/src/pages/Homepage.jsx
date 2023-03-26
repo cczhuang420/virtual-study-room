@@ -1,87 +1,36 @@
-import React, {useCallback} from "react"
-import Page from "../containers/HomePage.jsx";
-import headphoneSvg from "../assets/headphone.svg"
-import {Box, styled, Typography, Button} from "@mui/material";
+import React, {useCallback, useEffect, useMemo, useState} from "react"
 import {useNavigate} from "react-router-dom";
-import AuthBlock from "../components/AuthBlock.jsx";
+import HomeScreen from "../components/HomeScreen.jsx";
+import IntroScreen from "../components/IntroScreen.jsx";
+import text from "../constants/homepage-text.json"
 
 const Homepage = () => {
+
+  const [introScreens, setIntroScreens] = useState([])
 
   const navigate = useNavigate()
 
   const loginHandler = useCallback(() => () => navigate("/signup"), [navigate])
   const signupHandler = useCallback(() => () => navigate("/signup"), [navigate])
 
+  useEffect(() => {
+    ;(async () => {
+      const introSections = await Promise.all(text.map(async (t, i) => {
+        const animationId = t.header2.toLowerCase().replaceAll(" ", "-")
+        const module = await import(`../assets/${animationId}-animation.json`)
+        const anim = JSON.parse(JSON.stringify(module)).default
+        return <IntroScreen {...t} animation={JSON.parse(JSON.stringify(anim))} textOnRight={i % 2 === 0} />
+      }))
+      setIntroScreens(introSections)
+    })()
+  }, [])
+
   return (
-    <Page horizontalCenter verticalCenter>
-      <Box sx={{position: "absolute", top: 0, left: 0}}>
-        <img src={headphoneSvg} alt={""} />
-      </Box>
-      <Box
-        sx={{
-          position: "absolute",
-          top: 20,
-          right: 20
-        }}
-      >
-        <AuthBlock
-          onLogin={loginHandler}
-          onSignup={signupHandler}
-        />
-      </Box>
-      {/* main content */}
-      <Box>
-        <Box>
-          <StyledTypography
-            sx={{
-              fontWeight: "900",
-              fontSize: "48px",
-              textShadow: "2px 2px #9f7ff3"
-            }}
-          >
-            EXPERIENCE THE
-          </StyledTypography>
-        </Box>
-        <Box>
-          <Typography
-            sx={{
-              fontWeight: "900",
-              fontSize: "48px",
-              color: "transparent",
-              WebkitTextStroke: "3px #9f7ff3",
-            }}
-          >
-            Virtual Study room
-          </Typography>
-        </Box>
-        <Box sx={{mt: 10}}>
-          <StyledTypography sx={{fontWeight: "bold"}}>
-            50M+
-          </StyledTypography>
-          <StyledTypography>
-            Experiencing it
-          </StyledTypography>
-        </Box>
-        <Box sx={{mt: 10, display: "flex", justifyContent: "center", width: "100%"}}>
-          <Button
-            sx={{
-              backgroundColor: "#fff",
-              color: "#000",
-              "&:hover": {backgroundColor: "primary.light"}
-            }}
-          >
-            <StyledTypography sx={{color: "#000"}}>
-              KNOW MORE
-            </StyledTypography>
-          </Button>
-        </Box>
-      </Box>
-    </Page>
+    <>
+      <HomeScreen onLogin={loginHandler} onSignup={signupHandler} />
+      {introScreens}
+    </>
   )
 }
-
-const StyledTypography = styled(Typography)({
-  color: "#fff", textAlign: "center", fontFamily: 'Rubik'
-})
 
 export default Homepage

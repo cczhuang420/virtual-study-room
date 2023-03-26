@@ -6,7 +6,6 @@ import {BrowserRouter} from "react-router-dom";
 import {ThemeProvider} from "@mui/material";
 import theme from "./theme.js";
 import AuthProvider from "./providers/AuthProvider.jsx";
-import './fonts.css';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
