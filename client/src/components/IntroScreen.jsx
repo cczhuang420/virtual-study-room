@@ -8,10 +8,21 @@ const IntroScreen = ({header1, header2, animation, description, textOnRight}) =>
   return (
     <Page verticalCenter horizontalCenter>
       {header1 && (
-        <Box sx={{pt: "30px"}}>
+        <Box
+          sx={{
+            position: "absolute",
+            top: {
+              xs: 0,
+              md: "50px"
+            },
+            left: "50%",
+            transform: "translateX(-50%)"
+          }}
+        >
           <StyledTypography
             variant={"h2"}
             sx={{
+              whiteSpace: "nowrap",
               fontSize: {
                 xs: "35px",
                 md: "48px"
@@ -48,7 +59,7 @@ const IntroScreen = ({header1, header2, animation, description, textOnRight}) =>
               sx={{
                 mb: "15px",
                 fontSize: {
-                  xs: "30px",
+                  xs: "27px",
                   md: "40px"
                 }
               }}
