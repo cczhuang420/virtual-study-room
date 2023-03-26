@@ -20,7 +20,14 @@ const Homepage = () => {
         const animationId = t.header2.toLowerCase().replaceAll(" ", "-")
         const module = await import(`../assets/${animationId}-animation.json`)
         const anim = JSON.parse(JSON.stringify(module)).default
-        return <IntroScreen {...t} animation={JSON.parse(JSON.stringify(anim))} textOnRight={i % 2 === 0} />
+        return (
+          <IntroScreen
+            key={t.header1 + t.header2}
+            {...t}
+            animation={JSON.parse(JSON.stringify(anim))}
+            textOnRight={i % 2 === 0}
+          />
+        )
       }))
       setIntroScreens(introSections)
     })()
