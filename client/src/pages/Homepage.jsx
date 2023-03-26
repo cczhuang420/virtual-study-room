@@ -1,10 +1,9 @@
-import React, {useCallback, useEffect} from "react"
+import React, {useCallback} from "react"
 import Page from "../containers/HomePage.jsx";
 import headphoneSvg from "../assets/headphone.svg"
 import {Box, styled, Typography, Button} from "@mui/material";
 import {useNavigate} from "react-router-dom";
 import AuthBlock from "../components/AuthBlock.jsx";
-import WebFont from 'webfontloader'
 
 const Homepage = () => {
 
@@ -12,14 +11,6 @@ const Homepage = () => {
 
   const loginHandler = useCallback(() => () => navigate("/signup"), [navigate])
   const signupHandler = useCallback(() => () => navigate("/signup"), [navigate])
-
-  useEffect(() => {
-    WebFont.load({
-      google: {
-        families: ['Rubik', 'Nexa']
-      }
-    });
-  }, []);
 
   return (
     <Page horizontalCenter verticalCenter>
