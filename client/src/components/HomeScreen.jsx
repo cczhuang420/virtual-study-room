@@ -72,6 +72,9 @@ const HomeScreen = ({onLogin, onSignup}) => {
         </Box>
         <Box sx={{mt: 10, display: "flex", justifyContent: "center", width: "100%"}}>
           <Button
+            onClick={() => {
+              window.scrollTo({left: 0, top: window.innerHeight, behavior: 'smooth'})
+            }}
             sx={{
               backgroundColor: "#fff",
               color: "#000",
