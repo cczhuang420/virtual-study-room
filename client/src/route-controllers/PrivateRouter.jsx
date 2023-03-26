@@ -1,11 +1,11 @@
 import {Navigate, Route, Routes} from "react-router-dom"
-import Page from "../containers/Page.jsx"
+import DemoDashboard from "../pages/DemoDashboard";
 
 const PrivateRouter = () => {
   return (
     <>
       <Routes>
-        <Route path={"/public-rooms"} element={<Page>public-rooms</Page>} />
+        <Route path={"/public-rooms"} element={<DemoDashboard />} />
         <Route path={"*"} element={<Navigate to={"/public-rooms"} />} />
       </Routes>
     </>

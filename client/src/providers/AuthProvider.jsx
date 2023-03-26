@@ -1,5 +1,18 @@
-import {createContext, useCallback, useContext, useEffect, useMemo, useState} from "react";
-import {createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, getAuth} from "firebase/auth"
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState
+} from "react";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  onAuthStateChanged,
+  getAuth,
+  signOut
+} from "firebase/auth"
 import {auth} from "../firebase.js";
 import {useNavigate} from "react-router-dom"
 
@@ -17,7 +30,7 @@ const AuthProvider = ({children}) => {
     } catch (e) {
       console.error(e)
     }
-  }, [])
+  }, [auth, signInWithEmailAndPassword])
 
   const signup = useCallback(async (email, password) => {
     try {
@@ -25,24 +38,27 @@ const AuthProvider = ({children}) => {
     } catch (e) {
       console.error(e)
     }
-  }, [])
+  }, [auth, createUserWithEmailAndPassword])
+
+  const logout = useCallback(async () => {
+    try {
+      await signOut(auth)
+    } catch (e) {
+      console.error(e)
+    }
+  }, [auth, signOut])
 
   useEffect(() => {
     onAuthStateChanged(getAuth(), user => {
-      console.log(user)
       setCurrentUser(user)
-      if (user) {
-        navigate("/public-rooms")
-      } else {
-        navigate("login")
-      }
     })
   }, [])
 
   const value = useMemo(() => ({
     login,
     signup,
-    getCurrentUser: () => currentUser
+    getCurrentUser: () => currentUser,
+    logout
   }), [currentUser])
 
   return (
