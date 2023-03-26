@@ -3,9 +3,9 @@ import {Box} from "@mui/material";
 import LottiePlayer from "../components/LottiePlayer.jsx";
 import backgroundAnimation from "../assets/homepage-background.json"
 
-const HomePage = ({children}) => {
+const HomePage = ({children, verticalCenter, horizontalCenter}) => {
   return (
-    <Box sx={{width: "100vw", height: "100vh"}}>
+    <Box sx={{minWidth: "100vw", minHeight: "100vh", display: "flex"}}>
       <LottiePlayer
         animationData={backgroundAnimation}
         sx={{
@@ -16,7 +16,19 @@ const HomePage = ({children}) => {
           right: 0
         }}
       />
-      {children}
+      <Box
+        sx={{
+          position: "relative",
+          zIndex: 1,
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: verticalCenter ? "center" : "flex-start",
+          alignItems: horizontalCenter ? "center" : "flex-start",
+          flex: 1
+        }}
+      >
+        {children}
+      </Box>
     </Box>
   )
 }
