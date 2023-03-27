@@ -12,7 +12,7 @@ const UserSchema = new Schema({
   username: {
     required: true,
     type: String,
-    unique: true,
+    unique: true
   },
   todoList: {
     required: true,
@@ -26,7 +26,8 @@ const UserSchema = new Schema({
   },
   assets: {
     required: true,
-    type: [String]
+    type: [String],
+    default: []
   },
   isPrivateRoomUnlocked: {
     required: true,

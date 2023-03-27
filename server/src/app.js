@@ -1,10 +1,14 @@
 const express = require("express")
 const cors = require("cors")
 const dotenv = require("dotenv")
-
-const userRouter = require("./routers/user.router")
+const mongoose = require("mongoose")
 
 dotenv.config()
+
+const connectionString = process.env.MONGO_URL
+mongoose.connect(connectionString)
+
+const userRouter = require("./routers/user.router")
 
 const app = express()
 
@@ -17,6 +21,4 @@ app.get("/api/health", (_, res) => {
     res.json("OK")
 })
 
-app.listen(process.env.PORT || 4000, () => {
-    console.log(`Server running on ${process.env.PORT || 4000}`)
-})
+module.exports = app

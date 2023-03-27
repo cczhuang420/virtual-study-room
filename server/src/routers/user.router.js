@@ -5,8 +5,10 @@ const userController = new UserController()
 
 const router = Router({mergeParams: true})
 
-router.post("/", (req, res) => {
-  res.json("Hello")
+router.post("/", async (req, res) => {
+  res.json(
+    await userController.createUser(req.body.nickname, req.body.email)
+  )
 })
 
 module.exports = router
