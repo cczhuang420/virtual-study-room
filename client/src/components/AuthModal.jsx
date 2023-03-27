@@ -24,7 +24,7 @@ const AuthModal = ({onLogin, onSignup}) => {
       }}
     >
       <Box>
-        <Box sx={{width: "50%"}}>
+        <Box sx={{width: {xs: "80%", md: "50%"}}}>
           <Switcher
             options={["Log in", "Sign up"]}
             onStatusChange={(status) => setForm(status)}
@@ -32,7 +32,7 @@ const AuthModal = ({onLogin, onSignup}) => {
         </Box>
       </Box>
       <Box sx={{flex: 1, display: "flex", alignItems: "center", flexDirection: "column"}}>
-        <Box sx={{width: "70%"}}>
+        <Box sx={{width: {xs: "90%", md: "70%"}}}>
           {form.toLowerCase() === "log in" ?
             <LoginForm
               onSubmit={(values) => onLogin(values)}
@@ -41,9 +41,6 @@ const AuthModal = ({onLogin, onSignup}) => {
             />
           }
         </Box>
-        {/*<Box sx={{mt: 3}}>*/}
-        {/*  <ThirdPartyLogin />*/}
-        {/*</Box>*/}
       </Box>
     </Box>
   )

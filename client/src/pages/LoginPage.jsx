@@ -38,7 +38,7 @@ const LoginPage = () => {
           }
         }}
       >
-        <Box>
+        <Box sx={{display: {xs: "none !important", md: "flex !important"}}}>
           <Box sx={{width: "100%"}}>
             <LottiePlayer animationData={animation} />
           </Box>

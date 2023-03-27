@@ -52,15 +52,25 @@ const LoginForm = ({onSubmit}) => {
       <Box
         sx={{
           display: "flex",
-          flexDirection: "row-reverse",
+          flexDirection: {
+            xs: "column",
+            md: "row-reverse"
+          },
           justifyContent: "space-between",
-          alignItems: "center"
+          alignItems: {
+            xs: "flex-end",
+            md: "center"
+          }
         }}
       >
         <LoadingButton
           type={"submit"}
           loading={loggingIn}
           variant={"contained"}
+          sx={{
+            width: {xs: "100%", md: "auto"},
+            mb: 2
+          }}
         >
           Submit
         </LoadingButton>
