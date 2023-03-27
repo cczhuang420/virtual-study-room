@@ -13,13 +13,15 @@ import {
   getAuth,
   signOut,
   signInWithPopup,
-  GoogleAuthProvider
+  GoogleAuthProvider,
+  GithubAuthProvider
 } from "firebase/auth"
 import {auth} from "../firebase.js";
 
 const context = createContext({})
 
 const googleAuthProvider = new GoogleAuthProvider()
+const githubAuthProvider = new GithubAuthProvider()
 
 const AuthProvider = ({children}) => {
 
@@ -36,6 +38,10 @@ const AuthProvider = ({children}) => {
   const googleSignIn = useCallback(async () => {
     await signInWithPopup(auth, googleAuthProvider)
   }, [auth, signInWithPopup, googleAuthProvider])
+
+  const githubSignIn = useCallback(async () => {
+    await signInWithPopup(auth, githubAuthProvider)
+  }, [auth, signInWithPopup, githubAuthProvider])
 
   const logout = useCallback(async () => {
     try {
@@ -58,7 +64,8 @@ const AuthProvider = ({children}) => {
     signup,
     getCurrentUser: () => currentUser,
     logout,
-    googleSignIn
+    googleSignIn,
+    githubSignIn
   }), [currentUser])
 
   return (
