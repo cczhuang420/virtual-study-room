@@ -1,6 +1,13 @@
 import React, {useMemo, useState} from "react"
 import {useFormik} from "formik";
-import {InputLabel, TextField, Box, FormHelperText, OutlinedInput, InputAdornment, IconButton} from "@mui/material";
+import {
+  InputLabel,
+  Box,
+  FormHelperText,
+  OutlinedInput,
+  InputAdornment,
+  IconButton
+} from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import VisibilityIcon from "@mui/icons-material/Visibility"
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff"
@@ -13,7 +20,7 @@ const SignupForm = ({onSubmit}) => {
 
   const formik = useFormik({
     initialValues: {
-      username: "",
+      nickname: "",
       email: "",
       password: ""
     },
@@ -22,7 +29,7 @@ const SignupForm = ({onSubmit}) => {
         setError("Please complete all fields")
         return
       }
-      // password requirement is not configuration??!!??!!
+      // password requirement is not configurable??!!??!!
       // https://stackoverflow.com/questions/49183858/is-there-a-way-to-set-a-password-strength-for-firebase
       if (values.password.length < 8) {
         setError("Password must contain at least 8 characters")

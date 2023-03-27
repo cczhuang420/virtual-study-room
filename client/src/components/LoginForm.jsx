@@ -1,21 +1,36 @@
-import React, {useMemo} from "react"
+import React, {useMemo, useState} from "react"
 import {useFormik} from "formik";
-import {InputLabel, TextField, Box, Button} from "@mui/material";
+import {InputLabel, TextField, Box, Button, FormHelperText} from "@mui/material";
+import {LoadingButton} from "@mui/lab";
 
 const LoginForm = ({onSubmit}) => {
 
+  const [error, setError] = useState("")
+  const [loggingIn, setLogging] = useState(false)
+
   const formik = useFormik({
     initialValues: {
-      username: "",
+      email: "",
       password: ""
     },
-    onSubmit,
+    onSubmit: async (values) => {
+      setLogging(true)
+      try {
+        await onSubmit(values)
+      } catch (e) {
+        setError("Invalid credential")
+      } finally {
+        setLogging(false)
+      }
+    },
   })
 
   const formElements = useMemo(() => {
     return Object.keys(formik.values).map((key) => (
-      <Box key={`${+new Date()}${Math.random()}`} sx={{mb: 5}}>
-        <InputLabel>{key}</InputLabel>
+      <Box key={key} sx={{mb: 5}}>
+        <InputLabel>
+          {key.substring(0, 1).toUpperCase() + key.substring(1, key.length).toLowerCase()}
+        </InputLabel>
         <TextField
           name={key}
           onChange={formik.handleChange}
@@ -28,8 +43,19 @@ const LoginForm = ({onSubmit}) => {
   return (
     <form onSubmit={formik.handleSubmit}>
       {formElements}
+      <Box>
+        <FormHelperText>
+          {error}
+        </FormHelperText>
+      </Box>
       <Box sx={{textAlign: "right"}}>
-        <Button type={"submit"}>Submit</Button>
+        <LoadingButton
+          type={"submit"}
+          loading={loggingIn}
+          variant={"contained"}
+        >
+          Submit
+        </LoadingButton>
       </Box>
     </form>
   )

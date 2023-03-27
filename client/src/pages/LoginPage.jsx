@@ -8,10 +8,16 @@ import {useAuth} from "../providers/AuthProvider.jsx";
 
 const LoginPage = () => {
 
-  const {signup} = useAuth()
+  const {signup, login} = useAuth()
 
-  const loginHandler = useCallback((values) => console.log(values), [])
-  const signupHandler = useCallback((values) => signup(values.email, values.password), [signup])
+  const loginHandler = useCallback(
+    (values) => login(values.email, values.password),
+    [login]
+  )
+  const signupHandler = useCallback(
+    (values) => signup(values.email, values.password),
+    [signup]
+  )
 
   return (
     <Page
