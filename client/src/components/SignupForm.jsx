@@ -37,6 +37,9 @@ const SignupForm = ({onSubmit}) => {
         await onSubmit(values)
       } catch (e) {
         console.log(e)
+        if (e.message.includes("auth/email-already-in-use")) {
+          setError("Email already exists")
+        }
       } finally {
         setSigningUp(false)
       }
