@@ -28,7 +28,7 @@ const AuthModal = ({onLogin, onSignup, form, onFormChange}) => {
         </IconButton>
       </Box>
       <Box>
-        <Box sx={{width: {xs: "80%", md: "50%"}}}>
+        <Box sx={{width: {xs: "80%", md: "50%"}, mb: {xs: 2, md: 0}}}>
           <Switcher
             currentOption={form}
             options={["Log in", "Sign up"]}

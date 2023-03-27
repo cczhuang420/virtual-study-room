@@ -28,7 +28,7 @@ const LoginForm = ({onSubmit}) => {
 
   const formElements = useMemo(() => {
     return Object.keys(formik.values).map((key) => (
-      <Box key={key} sx={{mb: 5}}>
+      <Box key={key} sx={{mb: {xs: 3, md: 5}}}>
         <InputLabel>
           {key.substring(0, 1).toUpperCase() + key.substring(1, key.length).toLowerCase()}
         </InputLabel>
