@@ -13,6 +13,7 @@ import {
   getAuth,
   signOut,
   signInWithPopup,
+  signInAnonymously,
   GoogleAuthProvider,
   GithubAuthProvider
 } from "firebase/auth"
@@ -43,6 +44,10 @@ const AuthProvider = ({children}) => {
     await signInWithPopup(auth, githubAuthProvider)
   }, [auth, signInWithPopup, githubAuthProvider])
 
+  const anonymousSignIn = useCallback(async () => {
+    await signInAnonymously(auth)
+  }, [signInAnonymously])
+
   const logout = useCallback(async () => {
     try {
       await signOut(auth)
@@ -65,7 +70,8 @@ const AuthProvider = ({children}) => {
     getCurrentUser: () => currentUser,
     logout,
     googleSignIn,
-    githubSignIn
+    githubSignIn,
+    anonymousSignIn
   }), [currentUser])
 
   return (
