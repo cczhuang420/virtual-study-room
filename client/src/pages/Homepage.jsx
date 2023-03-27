@@ -11,8 +11,8 @@ const Homepage = () => {
 
   const navigate = useNavigate()
 
-  const loginHandler = useCallback(() => () => navigate("/signup"), [navigate])
-  const signupHandler = useCallback(() => () => navigate("/signup"), [navigate])
+  const loginHandler = useCallback(() => navigate("/login"), [navigate])
+  const signupHandler = useCallback(() => navigate("/signup"), [navigate])
 
   useEffect(() => {
     ;(async () => {

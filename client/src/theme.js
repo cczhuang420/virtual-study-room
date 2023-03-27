@@ -13,7 +13,27 @@ const theme = createTheme({
       defaultProps: {
         variant: "contained"
       }
+    },
+    MuiTextField: {
+      defaultProps: {
+        focused: true,
+        size: "small",
+        fullWidth: true
+      }
+    },
+    MuiInputLabel: {
+      defaultProps: {
+        sx: {
+          fontSize: "14px",
+          color: "#1b0137",
+          fontWeight: "bold",
+          verticalAlign: "bottom"
+        }
+      }
     }
+  },
+  typography: {
+    fontFamily: "Rubik"
   }
 })
 
