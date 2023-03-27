@@ -2,6 +2,7 @@ import React, {useMemo, useState} from "react"
 import {useFormik} from "formik";
 import {InputLabel, TextField, Box, Button, FormHelperText} from "@mui/material";
 import {LoadingButton} from "@mui/lab";
+import ThirdPartyLogin from "./ThirdPartyLogin.jsx";
 
 const LoginForm = ({onSubmit}) => {
 
@@ -48,7 +49,14 @@ const LoginForm = ({onSubmit}) => {
           {error}
         </FormHelperText>
       </Box>
-      <Box sx={{textAlign: "right"}}>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "row-reverse",
+          justifyContent: "space-between",
+          alignItems: "center"
+        }}
+      >
         <LoadingButton
           type={"submit"}
           loading={loggingIn}
@@ -56,6 +64,7 @@ const LoginForm = ({onSubmit}) => {
         >
           Submit
         </LoadingButton>
+        <ThirdPartyLogin />
       </Box>
     </form>
   )

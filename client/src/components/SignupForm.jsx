@@ -11,6 +11,7 @@ import {
 import { LoadingButton } from "@mui/lab";
 import VisibilityIcon from "@mui/icons-material/Visibility"
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff"
+import ThirdPartyLogin from "./ThirdPartyLogin.jsx";
 
 const SignupForm = ({onSubmit}) => {
 
@@ -84,7 +85,14 @@ const SignupForm = ({onSubmit}) => {
           {error}
         </FormHelperText>
       </Box>
-      <Box sx={{textAlign: "right"}}>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "row-reverse",
+          justifyContent: "space-between",
+          alignItems: "center"
+        }}
+      >
         <LoadingButton
           type={"submit"}
           loading={signingUp}
@@ -92,6 +100,7 @@ const SignupForm = ({onSubmit}) => {
         >
           Submit
         </LoadingButton>
+        <ThirdPartyLogin />
       </Box>
     </form>
   )

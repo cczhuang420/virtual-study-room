@@ -41,9 +41,9 @@ const AuthModal = ({onLogin, onSignup}) => {
             />
           }
         </Box>
-        <Box sx={{mt: 3}}>
-          <ThirdPartyLogin />
-        </Box>
+        {/*<Box sx={{mt: 3}}>*/}
+        {/*  <ThirdPartyLogin />*/}
+        {/*</Box>*/}
       </Box>
     </Box>
   )
