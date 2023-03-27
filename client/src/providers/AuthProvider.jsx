@@ -11,18 +11,19 @@ import {
   signInWithEmailAndPassword,
   onAuthStateChanged,
   getAuth,
-  signOut
+  signOut,
+  signInWithPopup,
+  GoogleAuthProvider
 } from "firebase/auth"
 import {auth} from "../firebase.js";
-import {useNavigate} from "react-router-dom"
 
 const context = createContext({})
+
+const googleAuthProvider = new GoogleAuthProvider()
 
 const AuthProvider = ({children}) => {
 
   const [currentUser, setCurrentUser] = useState(null)
-
-  const navigate = useNavigate()
 
   const login = useCallback(async (email, password) => {
     await signInWithEmailAndPassword(auth, email, password)
@@ -31,6 +32,10 @@ const AuthProvider = ({children}) => {
   const signup = useCallback(async (email, password) => {
     await createUserWithEmailAndPassword(auth, email, password)
   }, [auth, createUserWithEmailAndPassword])
+
+  const googleSignIn = useCallback(async () => {
+    await signInWithPopup(auth, googleAuthProvider)
+  }, [auth, signInWithPopup, googleAuthProvider])
 
   const logout = useCallback(async () => {
     try {
@@ -42,6 +47,8 @@ const AuthProvider = ({children}) => {
 
   useEffect(() => {
     onAuthStateChanged(getAuth(), user => {
+      console.log("Auth state changed")
+      console.log(user)
       setCurrentUser(user)
     })
   }, [])
@@ -50,7 +57,8 @@ const AuthProvider = ({children}) => {
     login,
     signup,
     getCurrentUser: () => currentUser,
-    logout
+    logout,
+    googleSignIn
   }), [currentUser])
 
   return (

@@ -3,6 +3,7 @@ import {Box} from "@mui/material";
 import Switcher from "./Switcher.jsx";
 import LoginForm from "./LoginForm.jsx";
 import SignupForm from "./SignupForm.jsx";
+import ThirdPartyLogin from "./ThirdPartyLogin.jsx";
 
 const AuthModal = ({onLogin, onSignup}) => {
 
@@ -30,7 +31,7 @@ const AuthModal = ({onLogin, onSignup}) => {
           />
         </Box>
       </Box>
-      <Box sx={{flex: 1, display: "flex", alignItems: "center"}}>
+      <Box sx={{flex: 1, display: "flex", alignItems: "center", flexDirection: "column"}}>
         <Box sx={{width: "70%"}}>
           {form.toLowerCase() === "log in" ?
             <LoginForm
@@ -39,6 +40,9 @@ const AuthModal = ({onLogin, onSignup}) => {
               onSubmit={(values) => onSignup(values)}
             />
           }
+        </Box>
+        <Box sx={{mt: 3}}>
+          <ThirdPartyLogin />
         </Box>
       </Box>
     </Box>
