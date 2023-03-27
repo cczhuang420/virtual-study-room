@@ -25,6 +25,7 @@ const Page = ({children, verticalCenter, horizontalCenter, title, loading, sx}) 
         justifyContent: verticalCenter ? "center" : "flex-start",
         alignItems: horizontalCenter ? "center" : "flex-start",
         background: "linear-gradient(to right, #400A71, #1D0652)",
+        overflowX: "hidden",
         ...sx
       }}
     >

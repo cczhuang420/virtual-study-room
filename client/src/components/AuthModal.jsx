@@ -1,23 +1,12 @@
-import React, {useMemo, useState} from "react"
-import {Box, Typography} from "@mui/material";
+import React, {useState} from "react"
+import {Box} from "@mui/material";
 import Switcher from "./Switcher.jsx";
-import Form from "./Form.jsx";
+import LoginForm from "./LoginForm.jsx";
+import SignupForm from "./SignupForm.jsx";
 
-const AuthModal = ({onLogin, onSignup, onStatusChange}) => {
+const AuthModal = ({onLogin, onSignup}) => {
 
   const [form, setForm] = useState("log in")
-
-  const formData = useMemo(() =>
-    (form === "log in" ? ({
-      fields: ["Username", "Password"],
-      space: 5,
-      onSubmit: onLogin
-    }) : ({
-      fields: ["Username", "Email", "Password", "Confirm Password"],
-      space: 2,
-      onSubmit: onSignup
-    })),
-    [form])
 
   return (
     <Box
@@ -43,9 +32,13 @@ const AuthModal = ({onLogin, onSignup, onStatusChange}) => {
       </Box>
       <Box sx={{flex: 1, display: "flex", alignItems: "center"}}>
         <Box sx={{width: "70%"}}>
-          <Form
-            {...formData}
-          />
+          {form.toLowerCase() === "log in" ?
+            <LoginForm
+              onSubmit={(values) => onLogin(values)}
+            /> : <SignupForm
+              onSubmit={(values) => onSignup(values)}
+            />
+          }
         </Box>
       </Box>
     </Box>

@@ -25,19 +25,11 @@ const AuthProvider = ({children}) => {
   const navigate = useNavigate()
 
   const login = useCallback(async (email, password) => {
-    try {
-      await signInWithEmailAndPassword(auth, email, password)
-    } catch (e) {
-      console.error(e)
-    }
+    await signInWithEmailAndPassword(auth, email, password)
   }, [auth, signInWithEmailAndPassword])
 
   const signup = useCallback(async (email, password) => {
-    try {
-      await createUserWithEmailAndPassword(auth, email, password)
-    } catch (e) {
-      console.error(e)
-    }
+    await createUserWithEmailAndPassword(auth, email, password)
   }, [auth, createUserWithEmailAndPassword])
 
   const logout = useCallback(async () => {

@@ -2,23 +2,19 @@ import React, {useMemo} from "react"
 import {useFormik} from "formik";
 import {InputLabel, TextField, Box, Button} from "@mui/material";
 
-const Form = ({fields, onSubmit, space}) => {
-
-  const initialValues = useMemo(() => {
-    const res = {}
-    fields.forEach(field => res[field] = "")
-    return res
-  }, [fields])
+const LoginForm = ({onSubmit}) => {
 
   const formik = useFormik({
-    initialValues,
-    onSubmit
+    initialValues: {
+      username: "",
+      password: ""
+    },
+    onSubmit,
   })
 
   const formElements = useMemo(() => {
-    console.log(123)
     return Object.keys(formik.values).map((key) => (
-      <Box key={`${+new Date()}${Math.random()}`} sx={{mb: space}}>
+      <Box key={`${+new Date()}${Math.random()}`} sx={{mb: 5}}>
         <InputLabel>{key}</InputLabel>
         <TextField
           name={key}
@@ -27,7 +23,7 @@ const Form = ({fields, onSubmit, space}) => {
         />
       </Box>
     ))
-  }, [fields.join(""), space])
+  }, [])
 
   return (
     <form onSubmit={formik.handleSubmit}>
@@ -39,4 +35,4 @@ const Form = ({fields, onSubmit, space}) => {
   )
 }
 
-export default Form
+export default LoginForm

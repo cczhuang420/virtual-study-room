@@ -34,11 +34,11 @@ const Homepage = () => {
   }, [])
 
   return (
-    <>
+    <Box sx={{overflowX: "hidden"}}>
       <HomeScreen onLogin={loginHandler} onSignup={signupHandler} />
       {introScreens}
       <Box sx={{mb: "20px"}} />
-    </>
+    </Box>
   )
 }
 

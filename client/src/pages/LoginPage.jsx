@@ -1,11 +1,18 @@
-import React from "react"
+import React, {useCallback} from "react"
 import {Box} from "@mui/material";
 import Page from "../containers/Page.jsx";
 import animation from "../assets/login-animation.json"
 import LottiePlayer from "../components/LottiePlayer.jsx";
 import AuthModal from "../components/AuthModal.jsx";
+import {useAuth} from "../providers/AuthProvider.jsx";
 
 const LoginPage = () => {
+
+  const {signup} = useAuth()
+
+  const loginHandler = useCallback((values) => console.log(values), [])
+  const signupHandler = useCallback((values) => signup(values.email, values.password), [signup])
+
   return (
     <Page
       title={"Get Started"}
@@ -33,9 +40,8 @@ const LoginPage = () => {
         <Box>
           <Box sx={{width: "70%", height: "70%"}}>
             <AuthModal
-              onLogin={(username, password) => console.log(username, password)}
-              onSignup={(username, password) => console.log(username, password)}
-              onStatusChange={(status) => console.log(status)}
+              onLogin={loginHandler}
+              onSignup={signupHandler}
             />
           </Box>
         </Box>

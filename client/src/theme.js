@@ -16,9 +16,14 @@ const theme = createTheme({
     },
     MuiTextField: {
       defaultProps: {
-        focused: true,
         size: "small",
         fullWidth: true
+      }
+    },
+    MuiOutlinedInput: {
+      defaultProps: {
+        fullWidth: true,
+        size: "small"
       }
     },
     MuiInputLabel: {
@@ -30,7 +35,15 @@ const theme = createTheme({
           verticalAlign: "bottom"
         }
       }
-    }
+    },
+    MuiFormHelperText: {
+      styleOverrides: {
+        root: {
+          color: "#ff1a1a",
+          height: "20px"
+        }
+      }
+    },
   },
   typography: {
     fontFamily: "Rubik"
