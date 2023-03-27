@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useMemo, useState} from "react"
+import React, {useCallback, useEffect, useState} from "react"
 import {useNavigate} from "react-router-dom";
 import HomeScreen from "../components/HomeScreen.jsx";
 import IntroScreen from "../components/IntroScreen.jsx";
@@ -12,7 +12,7 @@ const Homepage = () => {
   const navigate = useNavigate()
 
   const loginHandler = useCallback(() => navigate("/login"), [navigate])
-  const signupHandler = useCallback(() => navigate("/signup"), [navigate])
+  const signupHandler = useCallback(() => navigate("/login", {state: {signup: true}}), [navigate])
 
   useEffect(() => {
     ;(async () => {

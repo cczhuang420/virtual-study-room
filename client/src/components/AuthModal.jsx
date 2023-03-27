@@ -1,13 +1,11 @@
 import React, {useState} from "react"
-import {Box} from "@mui/material";
+import {Box, IconButton} from "@mui/material";
 import Switcher from "./Switcher.jsx";
 import LoginForm from "./LoginForm.jsx";
 import SignupForm from "./SignupForm.jsx";
-import ThirdPartyLogin from "./ThirdPartyLogin.jsx";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
-const AuthModal = ({onLogin, onSignup}) => {
-
-  const [form, setForm] = useState("log in")
+const AuthModal = ({onLogin, onSignup, form, onFormChange}) => {
 
   return (
     <Box
@@ -18,16 +16,23 @@ const AuthModal = ({onLogin, onSignup}) => {
         height: "100%",
         display: "flex",
         flexDirection: "column",
+        position: "relative",
         "&>.MuiBox-root": {
           display: "flex", justifyContent: "center"
         }
       }}
     >
+      <Box sx={{position: {xs: "relative", md: "absolute"}, justifyContent: "flex-start !important"}}>
+        <IconButton onClick={() => history.back()}>
+          <ArrowBackIcon />
+        </IconButton>
+      </Box>
       <Box>
         <Box sx={{width: {xs: "80%", md: "50%"}}}>
           <Switcher
+            currentOption={form}
             options={["Log in", "Sign up"]}
-            onStatusChange={(status) => setForm(status)}
+            onStatusChange={(status) => onFormChange(status)}
           />
         </Box>
       </Box>

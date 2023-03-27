@@ -1,9 +1,9 @@
 import React, {useState} from "react"
 import {Box, Typography} from "@mui/material";
 
-const Switcher = ({options, onStatusChange}) => {
+const Switcher = ({options, onStatusChange, currentOption}) => {
 
-  const [status, setStatus] = useState(options[0])
+  const [status, setStatus] = useState(currentOption)
 
   return (
     <Box
