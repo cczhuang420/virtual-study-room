@@ -45,6 +45,7 @@ const HomeScreen = ({onLogin, onSignup}) => {
           <Typography
             sx={{
               fontWeight: "999",
+              fontFamily: "Nexa",
               fontSize: {
                 xs: "24px",
                 md: "48px"

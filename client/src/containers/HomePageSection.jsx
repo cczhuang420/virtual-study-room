@@ -5,7 +5,7 @@ import backgroundAnimation from "../assets/homepage-background.json"
 
 const HomePageSection = ({children, verticalCenter, horizontalCenter}) => {
   return (
-    <Box sx={{minWidth: "100vw", minHeight: "100vh", display: "flex"}}>
+    <Box sx={{minWidth: "100vw", minHeight: "100vh", display: "flex", overflowX: "hidden"}}>
       <LottiePlayer
         animationData={backgroundAnimation}
         sx={{

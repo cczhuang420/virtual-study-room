@@ -11,34 +11,42 @@ import {
   signInWithEmailAndPassword,
   onAuthStateChanged,
   getAuth,
-  signOut
+  signOut,
+  signInWithPopup,
+  signInAnonymously,
+  GoogleAuthProvider,
+  GithubAuthProvider
 } from "firebase/auth"
 import {auth} from "../firebase.js";
-import {useNavigate} from "react-router-dom"
 
 const context = createContext({})
+
+const googleAuthProvider = new GoogleAuthProvider()
+const githubAuthProvider = new GithubAuthProvider()
 
 const AuthProvider = ({children}) => {
 
   const [currentUser, setCurrentUser] = useState(null)
 
-  const navigate = useNavigate()
-
   const login = useCallback(async (email, password) => {
-    try {
-      await signInWithEmailAndPassword(auth, email, password)
-    } catch (e) {
-      console.error(e)
-    }
+    await signInWithEmailAndPassword(auth, email, password)
   }, [auth, signInWithEmailAndPassword])
 
   const signup = useCallback(async (email, password) => {
-    try {
-      await createUserWithEmailAndPassword(auth, email, password)
-    } catch (e) {
-      console.error(e)
-    }
+    await createUserWithEmailAndPassword(auth, email, password)
   }, [auth, createUserWithEmailAndPassword])
+
+  const googleSignIn = useCallback(async () => {
+    await signInWithPopup(auth, googleAuthProvider)
+  }, [auth, signInWithPopup, googleAuthProvider])
+
+  const githubSignIn = useCallback(async () => {
+    await signInWithPopup(auth, githubAuthProvider)
+  }, [auth, signInWithPopup, githubAuthProvider])
+
+  const anonymousSignIn = useCallback(async () => {
+    await signInAnonymously(auth)
+  }, [signInAnonymously])
 
   const logout = useCallback(async () => {
     try {
@@ -50,6 +58,8 @@ const AuthProvider = ({children}) => {
 
   useEffect(() => {
     onAuthStateChanged(getAuth(), user => {
+      console.log("Auth state changed")
+      console.log(user)
       setCurrentUser(user)
     })
   }, [])
@@ -58,7 +68,10 @@ const AuthProvider = ({children}) => {
     login,
     signup,
     getCurrentUser: () => currentUser,
-    logout
+    logout,
+    googleSignIn,
+    githubSignIn,
+    anonymousSignIn
   }), [currentUser])
 
   return (
