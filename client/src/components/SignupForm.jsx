@@ -12,12 +12,16 @@ import { LoadingButton } from "@mui/lab";
 import VisibilityIcon from "@mui/icons-material/Visibility"
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff"
 import ThirdPartyLogin from "./ThirdPartyLogin.jsx";
+import {useCreateUserHandler, useFetchUserHandler} from "../api/user-api.js";
 
 const SignupForm = ({onSubmit}) => {
 
   const [error, setError] = useState("")
   const [signingUp, setSigningUp] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
+
+  const fetchUsers = useFetchUserHandler()
+  const createUser = useCreateUserHandler()
 
   const formik = useFormik({
     initialValues: {
@@ -41,8 +45,15 @@ const SignupForm = ({onSubmit}) => {
         return
       }
       setSigningUp(true)
+      const usersWithSameEmail = (await fetchUsers({email: values.email})).data
+      if (usersWithSameEmail.length !== 0) {
+        setError("Email is already taken")
+        setSigningUp(false)
+        return
+      }
       try {
         await onSubmit(values)
+        await createUser(values.nickname, values.email)
       } catch (e) {
         console.log(e)
         if (e.message.includes("auth/email-already-in-use")) {
