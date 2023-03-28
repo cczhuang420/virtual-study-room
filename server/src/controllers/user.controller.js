@@ -9,6 +9,10 @@ class UserController {
     return await userModel.create({nickname, email, username})
   }
 
+  async getUser() {
+
+  }
+
 }
 
 module.exports = UserController
