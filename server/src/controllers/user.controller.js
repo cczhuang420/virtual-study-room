@@ -9,8 +9,15 @@ class UserController {
     return await userModel.create({nickname, email, username})
   }
 
-  async getUser() {
-
+  async getUser(queryParam) {
+    const filter = {}
+    const fields = Object.keys(userModel.schema.obj)
+    Object.entries(queryParam).forEach(([key, value]) => {
+      if (fields.includes(key)) {
+        filter[key] = value
+      }
+    })
+    return userModel.find(filter);
   }
 
 }
