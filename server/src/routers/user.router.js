@@ -11,4 +11,10 @@ router.post("/", async (req, res) => {
   )
 })
 
+router.get("/", async (req, res) => {
+  res.json(
+    req.query
+  )
+})
+
 module.exports = router
