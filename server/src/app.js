@@ -8,7 +8,7 @@ dotenv.config()
 const connectionString = process.env.MONGO_URL
 mongoose.connect(connectionString)
 
-const userRouter = require("./routers/user.router")
+const userRouter = require("./users/user.router")
 
 const app = express()
 
