@@ -1,6 +1,6 @@
 import {Navigate, Route, Routes} from "react-router-dom"
 import DemoDashboard from "../pages/DemoDashboard";
-import TokenPage from "../pages/TokenPage.jsx";
+import TokenPage from "../pages/TokenPage";
 
 const PrivateRouter = () => {
   return (

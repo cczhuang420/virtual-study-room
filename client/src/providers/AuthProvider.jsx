@@ -18,7 +18,6 @@ import {
   GithubAuthProvider
 } from "firebase/auth"
 import {auth} from "../firebase.js";
-import {useCreateUserHandler, useFetchUserHandler} from "../api/user-api.js";
 
 const context = createContext({})
 
@@ -26,9 +25,6 @@ const googleAuthProvider = new GoogleAuthProvider()
 const githubAuthProvider = new GithubAuthProvider()
 
 const AuthProvider = ({children}) => {
-
-  const createUser = useCreateUserHandler()
-  const fetchUsers = useFetchUserHandler()
 
   const [currentUser, setCurrentUser] = useState(null)
 
@@ -41,23 +37,11 @@ const AuthProvider = ({children}) => {
   }, [auth, createUserWithEmailAndPassword])
 
   const googleSignIn = useCallback(async () => {
-    const res = await signInWithPopup(auth, googleAuthProvider)
-    const name = res.user.displayName
-    const email = res.user.email
-    const usersWithSameEmail = (await fetchUsers({email})).data
-    if (usersWithSameEmail.length === 0) {
-      await createUser(name, email)
-    }
+    await signInWithPopup(auth, googleAuthProvider)
   }, [auth, signInWithPopup, googleAuthProvider])
 
   const githubSignIn = useCallback(async () => {
-    const res = await signInWithPopup(auth, githubAuthProvider)
-    const name = res.user.displayName
-    const email = res.user.email
-    const usersWithSameEmail = (await fetchUsers({email})).data
-    if (usersWithSameEmail.length === 0) {
-      await createUser(name, email)
-    }
+    await signInWithPopup(auth, githubAuthProvider)
   }, [auth, signInWithPopup, githubAuthProvider])
 
   const anonymousSignIn = useCallback(async () => {
@@ -74,6 +58,8 @@ const AuthProvider = ({children}) => {
 
   useEffect(() => {
     onAuthStateChanged(getAuth(), user => {
+      console.log("Auth state changed")
+      console.log(user)
       setCurrentUser(user)
     })
   }, [])
@@ -82,7 +68,7 @@ const AuthProvider = ({children}) => {
     login,
     signup,
     getCurrentUser: () => currentUser,
-    getAccessToken: () => currentUser,
+    getAccessToken: () => currentUser.accessToken,
     logout,
     googleSignIn,
     githubSignIn,
