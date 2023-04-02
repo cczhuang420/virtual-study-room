@@ -68,6 +68,7 @@ const AuthProvider = ({children}) => {
     login,
     signup,
     getCurrentUser: () => currentUser,
+    getAccessToken: () => currentUser.accessToken,
     logout,
     googleSignIn,
     githubSignIn,
