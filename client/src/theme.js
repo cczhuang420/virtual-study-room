@@ -8,7 +8,7 @@ const theme = createTheme({
       dark: "#1b0137"
     },
     secondary:{
-      light:"#a79cbc",
+      main:"#a79cbc",
     },
   },
   components: {
