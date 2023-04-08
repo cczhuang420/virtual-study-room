@@ -3,10 +3,13 @@ import {createTheme} from "@mui/material";
 const theme = createTheme({
   palette: {
     primary: {
-      light: "#a79cbc",
-      main: "#1e0653",
+      light: "#400A71",
+      main: "#290451",
       dark: "#1b0137"
-    }
+    },
+    secondary:{
+      light:"#a79cbc",
+    },
   },
   components: {
     MuiButton: {
@@ -46,7 +49,33 @@ const theme = createTheme({
     },
   },
   typography: {
-    fontFamily: "Rubik"
+    fontFamily: ["Rubik",'Nexa', "sans-serif"].join(","),
+    fontSize: 12,
+    h1: {
+      fontFamily: ["Rubik", 'Nexa',"sans-serif"].join(","),
+      fontSize: 40,
+    },
+    h2: {
+      fontFamily: ["Rubik",'Nexa', "sans-serif"].join(","),
+      fontSize: 32,
+    },
+    h3: {
+      fontFamily: ["Rubik",'Nexa', "sans-serif"].join(","),
+      fontSize: 24,
+    },
+    h4: {
+      fontFamily: ["Rubik", 'Nexa',"sans-serif"].join(","),
+      fontSize: 20,
+    },
+    h5: {
+      fontFamily: ["Rubik",'Nexa', "sans-serif"].join(","),
+      fontSize: 16,
+    },
+    h6: {
+      fontFamily: ["Rubik", 'Nexa',"sans-serif"].join(","),
+      fontSize: 14,
+    },
+
   }
 })
 
