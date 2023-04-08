@@ -3,16 +3,13 @@ import {createTheme} from "@mui/material";
 const theme = createTheme({
   palette: {
     primary: {
-      light: "#a79cbc",
-      main: "#1e0653",
+      light: "#400A71",
+      main: "#290451",
       dark: "#1b0137"
     },
     secondary:{
-      main: "#290451"
+      light:"#a79cbc",
     },
-    tertiary:{
-      main:"#400A71"
-    }
   },
   components: {
     MuiButton: {
