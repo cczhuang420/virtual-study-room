@@ -1,4 +1,4 @@
-import {Box, IconButton} from "@mui/material";
+import {Box, IconButton, Drawer} from "@mui/material";
 import {useCallback, useEffect, useMemo} from "react";
 import PublicIcon from '@mui/icons-material/Public';
 import PublicOffIcon from '@mui/icons-material/PublicOff';
@@ -8,6 +8,9 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import logo from "../assets/logo.svg"
 import {useAuth} from "../providers/AuthProvider.jsx";
 import tempProfileImage from "../assets/temp-profile-image.svg"
+import {useLocation, useNavigate} from "react-router-dom";
+
+const drawerWidth = 80
 
 const Page = ({
   children,
@@ -20,12 +23,14 @@ const Page = ({
 }) => {
 
   const {logout} = useAuth()
+  const navigate = useNavigate()
+  const {pathname} = useLocation()
 
   const logoutHandler = useCallback(() => logout(), [logout])
 
-  const iconClickHandler = useCallback(() => alert("Icon click"), [])
+  const iconClickHandler = useCallback(() => navigate("/public-rooms"), [])
 
-  const profileClickHandler = useCallback(() => alert("profile click"), [])
+  const profileClickHandler = useCallback(() => navigate("/profile"), [])
 
   useEffect(() => {
     document.title = title
@@ -34,22 +39,25 @@ const Page = ({
   const navigationOptions = useMemo(() => [
     {
       icon: <PublicIcon />,
-      onClick: () => alert("navigate to public room")
+      onClick: () => navigate("/public-rooms"),
+      shouldHighlight: pathname.startsWith("/public-rooms")
     },
     {
       icon: <PublicOffIcon />,
-      onClick: () => alert("navigate to private room")
+      onClick: () => navigate("/private-rooms"),
+      shouldHighlight: pathname.startsWith("/private-rooms")
     },
     {
       icon: <LeaderboardIcon />,
-      onClick: () => alert("navigate to leaderboard")
+      onClick: () => navigate("/leaderboard"),
+      shouldHighlight: pathname.startsWith("/leaderboard")
     },
     {
       icon: <ShoppingCartIcon />,
-      onClick: () => alert("navigate to marketplace")
+      onClick: () => navigate("/marketplace"),
+      shouldHighlight: pathname.startsWith("/marketplace")
     }
-  ], [])
-
+  ], [navigate, pathname])
 
   if (loading) {
     return (
@@ -72,38 +80,61 @@ const Page = ({
       }}
     >
       {!excludeNavigation && (
-        <Box
-          sx={{
-            position: "absolute",
-            top: 0,
-            bottom: 0,
-            left: 0,
-            backgroundColor: "primary.dark",
-            padding: 1,
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "space-between",
-            alignItems: "center"
-          }}
+        <Drawer
+          sx={{width: `${drawerWidth}px`, "& .MuiPaper-root": {border: "none"}}}
+          variant={"permanent"}
+          anchor={"left"}
         >
-          <Box>
-            <Box
-              onClick={iconClickHandler}
-              sx={{cursor: "pointer"}}
-            >
-              <img src={logo} alt={""} />
-            </Box>
-            <Box
-              sx={{
-                borderBottom: "1px solid white",
-                margin: 1
-              }}
-            />
-            <Box sx={{display: "flex", flexDirection: "column", alignItems: "center"}}>
-              {navigationOptions.map(({icon, onClick}) => (
+          <Box
+            sx={{
+              width: `${drawerWidth}px`,
+              height: "100vh",
+              backgroundColor: "primary.dark",
+              padding: 1,
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between",
+              alignItems: "center"
+            }}
+          >
+            <Box>
+              <Box
+                onClick={iconClickHandler}
+                sx={{cursor: "pointer"}}
+              >
+                <img src={logo} alt={""} />
+              </Box>
+              <Box
+                sx={{
+                  borderBottom: "1px solid white",
+                  margin: 1
+                }}
+              />
+              <Box sx={{display: "flex", flexDirection: "column", alignItems: "center"}}>
+                {navigationOptions.map(({icon, onClick, shouldHighlight}) => (
+                  <Box
+                    sx={{
+                      marginY: 1,
+                      borderRadius: "10000px",
+                      backgroundColor: shouldHighlight ? "primary.light" : "transparent"
+                    }}
+                  >
+                    <IconButton
+                      onClick={onClick}
+                      sx={{
+                        "& svg": {
+                          color: "white",
+                          fontSize: "35px"
+                        }
+                      }}
+                    >
+                      {icon}
+                    </IconButton>
+                  </Box>
+                ))}
                 <Box sx={{marginY: 1}}>
                   <IconButton
-                    onClick={onClick}
+                    onClick={profileClickHandler}
                     sx={{
                       "& svg": {
                         color: "white",
@@ -111,39 +142,26 @@ const Page = ({
                       }
                     }}
                   >
-                    {icon}
+                    <img src={tempProfileImage} alt={""} />
                   </IconButton>
                 </Box>
-              ))}
-              <Box sx={{marginY: 1}}>
-                <IconButton
-                  onClick={profileClickHandler}
-                  sx={{
-                    "& svg": {
-                      color: "white",
-                      fontSize: "35px"
-                    }
-                  }}
-                >
-                  <img src={tempProfileImage} alt={""} />
-                </IconButton>
               </Box>
             </Box>
+            <Box>
+              <IconButton
+                onClick={logoutHandler}
+                sx={{
+                  "& svg": {
+                    color: "white",
+                    fontSize: "35px"
+                  }
+                }}
+              >
+                <LogoutIcon />
+              </IconButton>
+            </Box>
           </Box>
-          <Box>
-            <IconButton
-              onClick={logoutHandler}
-              sx={{
-                "& svg": {
-                  color: "white",
-                  fontSize: "35px"
-                }
-              }}
-            >
-              <LogoutIcon />
-            </IconButton>
-          </Box>
-        </Box>
+        </Drawer>
       )}
       <Box
         sx={{
@@ -152,7 +170,8 @@ const Page = ({
           display: "flex",
           flexDirection: "column",
           justifyContent: verticalCenter ? "center" : "flex-start",
-          alignItems: horizontalCenter ? "center" : "flex-start"
+          alignItems: horizontalCenter ? "center" : "flex-start",
+          overflowX: "hidden"
         }}
       >
         {children}
