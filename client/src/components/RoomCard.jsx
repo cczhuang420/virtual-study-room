@@ -1,5 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import personAmountIcon from "../assets/room-personAmount-icon.svg";
+import { useState } from "react";
 
 const RoomCard = ({
   title,
@@ -8,12 +9,19 @@ const RoomCard = ({
   amount,
   onClick,
 }) => {
+  const [vagueHeight, setVagueHeight] = useState("50%");
   return (
     <Box
       display={"flex"}
       flexDirection={"column"}
       justifyContent={"center"}
       onClick={onClick}
+      onMouseEnter={() => {
+        setVagueHeight("100%");
+      }}
+      onMouseLeave={() => {
+        setVagueHeight("50%");
+      }}
       sx={{
         height: "100%",
         width: "100%",
@@ -22,12 +30,11 @@ const RoomCard = ({
         backgroundSize: "cover",
         "&:hover": {
           cursor: "pointer",
-          boxShadow: 3,
         },
       }}
     >
       <Box
-        height={"50%"}
+        height={`${vagueHeight}`}
         width={"100%"}
         display={"flex"}
         flexDirection={"column"}
