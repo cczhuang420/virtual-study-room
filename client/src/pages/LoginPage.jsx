@@ -26,6 +26,7 @@ const LoginPage = () => {
 
   return (
     <Page
+      excludeNavigation
       title={"Get Started"}
     >
       <Box
