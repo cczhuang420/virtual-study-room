@@ -6,6 +6,7 @@ import EditIcon from '@mui/icons-material/Edit';
 const ModifiableTextField = ({label, value, onSubmitChange}) => {
   const [isModifying, setIsModifying] = useState(false)
   const theme = useTheme()
+  const [formValue, setFormValue] = useState(value)
 
   return (
     <Box
@@ -40,7 +41,12 @@ const ModifiableTextField = ({label, value, onSubmitChange}) => {
       {isModifying && (
         <TextField
           autoFocus
-          // onBlur={() => setIsModifying(false)}
+          onBlur={() => {
+            setIsModifying(false)
+            onSubmitChange(formValue)
+          }}
+          value={formValue}
+          onChange={e => setFormValue(e.target.value)}
           sx={{
             height: "100%",
             "& .MuiInputBase-root": {
