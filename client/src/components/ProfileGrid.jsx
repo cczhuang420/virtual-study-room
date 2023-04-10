@@ -2,7 +2,6 @@ import { Grid, Avatar } from "@mui/material";
 
 export default function ProfileGrid({ images }) {
   return (
-    // Grid display of Avatars with round corners and there are 5 columns
     <Grid
       container
       padding={3}
