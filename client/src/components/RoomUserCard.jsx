@@ -2,7 +2,7 @@ import { Box, Typography, Button } from "@mui/material";
 import { Image } from "mui-image";
 import { useState } from "react";
 
-const RoomCard = ({ name, image, xpValue, onClick }) => {
+const RoomUserCard = ({ name, image, xpValue, onClick }) => {
   return (
     <Box
       display={"flex"}
@@ -100,4 +100,4 @@ const RoomCard = ({ name, image, xpValue, onClick }) => {
   );
 };
 
-export default RoomCard;
+export default RoomUserCard;
