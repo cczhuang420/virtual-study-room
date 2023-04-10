@@ -1,4 +1,4 @@
-import {Box, IconButton, Drawer} from "@mui/material";
+import {Box, IconButton, Drawer, Tooltip} from "@mui/material";
 import {useCallback, useEffect, useMemo} from "react";
 import PublicIcon from '@mui/icons-material/Public';
 import PublicOffIcon from '@mui/icons-material/PublicOff';
@@ -40,22 +40,26 @@ const Page = ({
     {
       icon: <PublicIcon />,
       onClick: () => navigate("/public-rooms"),
-      shouldHighlight: pathname.startsWith("/public-rooms")
+      shouldHighlight: pathname.startsWith("/public-rooms"),
+      tooltip: "Public Rooms"
     },
     {
       icon: <PublicOffIcon />,
       onClick: () => navigate("/private-rooms"),
-      shouldHighlight: pathname.startsWith("/private-rooms")
+      shouldHighlight: pathname.startsWith("/private-rooms"),
+      tooltip: "Private Rooms"
     },
     {
       icon: <LeaderboardIcon />,
       onClick: () => navigate("/leaderboard"),
-      shouldHighlight: pathname.startsWith("/leaderboard")
+      shouldHighlight: pathname.startsWith("/leaderboard"),
+      tooltip: "Leaderboard"
     },
     {
       icon: <ShoppingCartIcon />,
       onClick: () => navigate("/marketplace"),
-      shouldHighlight: pathname.startsWith("/marketplace")
+      shouldHighlight: pathname.startsWith("/marketplace"),
+      tooltip: "Marketplace"
     }
   ], [navigate, pathname])
 
@@ -111,16 +115,34 @@ const Page = ({
                 }}
               />
               <Box sx={{display: "flex", flexDirection: "column", alignItems: "center"}}>
-                {navigationOptions.map(({icon, onClick, shouldHighlight}) => (
+                {navigationOptions.map(({icon, onClick, shouldHighlight, tooltip}) => (
                   <Box
+                    key={tooltip}
                     sx={{
                       marginY: 1,
                       borderRadius: "10000px",
                       backgroundColor: shouldHighlight ? "primary.light" : "transparent"
                     }}
                   >
+                    <Tooltip title={tooltip}>
+                      <IconButton
+                        onClick={onClick}
+                        sx={{
+                          "& svg": {
+                            color: "white",
+                            fontSize: "35px"
+                          }
+                        }}
+                      >
+                        {icon}
+                      </IconButton>
+                    </Tooltip>
+                  </Box>
+                ))}
+                <Box sx={{marginY: 1}}>
+                  <Tooltip title={"Profile"}>
                     <IconButton
-                      onClick={onClick}
+                      onClick={profileClickHandler}
                       sx={{
                         "& svg": {
                           color: "white",
@@ -128,22 +150,9 @@ const Page = ({
                         }
                       }}
                     >
-                      {icon}
+                      <img src={tempProfileImage} alt={""} />
                     </IconButton>
-                  </Box>
-                ))}
-                <Box sx={{marginY: 1}}>
-                  <IconButton
-                    onClick={profileClickHandler}
-                    sx={{
-                      "& svg": {
-                        color: "white",
-                        fontSize: "35px"
-                      }
-                    }}
-                  >
-                    <img src={tempProfileImage} alt={""} />
-                  </IconButton>
+                  </Tooltip>
                 </Box>
               </Box>
             </Box>
