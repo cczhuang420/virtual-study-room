@@ -32,7 +32,7 @@ export default function BackgroundCard({ image, isSelectable }) {
       />
       {isSelectable && selected && (
         <Box
-          height={"100%"}
+          height={"98%"}
           width={"100%"}
           sx={{
             backgroundColor: "white",
@@ -40,6 +40,7 @@ export default function BackgroundCard({ image, isSelectable }) {
             position: "absolute",
             top: 0,
             left: 0,
+            borderRadius: "0.7vw",
           }}
         >
           <Box

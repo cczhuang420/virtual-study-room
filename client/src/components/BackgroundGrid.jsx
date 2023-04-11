@@ -10,7 +10,7 @@ export default function BackgroundGrid({ images }) {
       sx={{ backgroundColor: "#401f6a", borderRadius: "0.7vw" }}
     >
       {images.map((image, index) => (
-        <Grid key={index} item xs={12} sm={4}>
+        <Grid key={index} item xs={12} sm={4} mb={3}>
           <BackgroundCard image={image} isSelectable={false} />
         </Grid>
       ))}
