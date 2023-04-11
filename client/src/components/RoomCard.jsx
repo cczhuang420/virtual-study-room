@@ -1,12 +1,15 @@
 import { Box, Typography } from "@mui/material";
 import personAmountIcon from "../assets/room-personAmount-icon.svg";
+import roomLock from "../assets/room-lock.svg";
 import { useState } from "react";
 
 const RoomCard = ({
   title,
   showPeopleAmount = true,
+  showLockIcon = false,
   image,
   amount,
+  showVagueBackground = true,
   onClick,
 }) => {
   const [vagueHeight, setVagueHeight] = useState("50%");
@@ -33,55 +36,73 @@ const RoomCard = ({
         },
       }}
     >
-      <Box
-        height={`${vagueHeight}`}
-        width={"100%"}
-        display={"flex"}
-        flexDirection={"column"}
-        justifyContent={"center"}
-        position={"relative"}
-        sx={{
-          background: "rgba(255, 255, 255, .3)",
-          backdropFilter: "blur(5px)",
-        }}
-      >
-        <Box alignSelf={"center"}>
-          <Typography
-            sx={{
-              color: "#fff",
-              fontWeight: "550",
-              fontSize: "calc(100% + 1rem)",
-            }}
-          >
-            {title}
-          </Typography>
-        </Box>
-
-        {showPeopleAmount && (
-          <Box
-            display={"flex"}
-            sx={{
-              position: "absolute",
-              bottom: "2px",
-              right: "10px",
-            }}
-          >
-            <Box>
-              <img src={personAmountIcon} height={"60%"} />
-            </Box>
-            <Box
+      {showVagueBackground && (
+        <Box
+          height={`${vagueHeight}`}
+          width={"100%"}
+          display={"flex"}
+          flexDirection={"column"}
+          justifyContent={"center"}
+          position={"relative"}
+          sx={{
+            background: "rgba(255, 255, 255, .3)",
+            backdropFilter: "blur(5px)",
+          }}
+        >
+          <Box alignSelf={"center"}>
+            <Typography
               sx={{
                 color: "#fff",
-                fontWeight: 550,
-                fontSize: "calc(100%)",
-                ml: 0.3,
+                fontWeight: "600",
+                fontSize: "calc(130%)",
+                textAlign: "center",
               }}
             >
-              <Typography>{amount}</Typography>
-            </Box>
+              {title}
+            </Typography>
           </Box>
-        )}
-      </Box>
+
+          {showPeopleAmount && (
+            <Box
+              display={"flex"}
+              sx={{
+                position: "absolute",
+                bottom: "2px",
+                right: "10px",
+              }}
+            >
+              <Box>
+                <img src={personAmountIcon} height={"60%"} />
+              </Box>
+              <Box
+                sx={{
+                  color: "#fff",
+                  fontWeight: 550,
+                  fontSize: "calc(100%)",
+                  ml: 0.3,
+                }}
+              >
+                <Typography>{amount}</Typography>
+              </Box>
+            </Box>
+          )}
+
+          {showLockIcon && (
+            <Box
+              display={"flex"}
+              sx={{
+                position: "absolute",
+                bottom: "2px",
+                right: "8px",
+              }}
+            >
+              <Box>
+                <img src={roomLock} height={"60%"} />
+              </Box>
+            </Box>
+          )}
+        </Box>
+      )}
     </Box>
   );
 };
