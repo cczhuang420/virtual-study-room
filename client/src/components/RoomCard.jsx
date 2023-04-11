@@ -1,10 +1,12 @@
 import { Box, Typography } from "@mui/material";
 import personAmountIcon from "../assets/room-personAmount-icon.svg";
+import roomLock from "../assets/room-lock.svg";
 import { useState } from "react";
 
 const RoomCard = ({
   title,
   showPeopleAmount = true,
+  showLockIcon = false,
   image,
   amount,
   showVagueBackground = true,
@@ -81,6 +83,21 @@ const RoomCard = ({
                 }}
               >
                 <Typography>{amount}</Typography>
+              </Box>
+            </Box>
+          )}
+
+          {showLockIcon && (
+            <Box
+              display={"flex"}
+              sx={{
+                position: "absolute",
+                bottom: "2px",
+                right: "8px",
+              }}
+            >
+              <Box>
+                <img src={roomLock} height={"60%"} />
               </Box>
             </Box>
           )}
