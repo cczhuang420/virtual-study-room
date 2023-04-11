@@ -1,6 +1,5 @@
 import { Box, Typography, Button } from "@mui/material";
 import { Image } from "mui-image";
-import { useState } from "react";
 
 const RoomUserCard = ({ name, image, xpValue, onClick }) => {
   return (

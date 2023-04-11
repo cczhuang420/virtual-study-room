@@ -1,27 +1,67 @@
-import {useAuth} from "./providers/AuthProvider.jsx";
+import { useAuth } from "./providers/AuthProvider.jsx";
 import PublicRouter from "./route-controllers/PublicRouter.jsx";
 import PrivateRouter from "./route-controllers/PrivateRouter.jsx";
-import {useEffect} from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import WebFont from "webfontloader";
-import {googleFonts} from "./fonts.js";
+import { googleFonts } from "./fonts.js";
+import CheckoutModal from "./components/CheckoutModal.jsx";
+
+const ModalContext = createContext({});
 
 const App = () => {
+  const { getCurrentUser } = useAuth();
+  const [open, setOpen] = useState(false);
+  const handleClose = useCallback(() => setOpen(false), []);
+  const handleOpen = useCallback(() => setOpen(true), []);
 
-  const {getCurrentUser} = useAuth()
+  const [content, setContent] = useState({
+    title: "",
+    imageTitle: "",
+    image: null,
+    cost: 0,
+    money: 0,
+    isRoomCard: true,
+    onClick: () => {},
+  });
+
+  const value = useMemo(
+    () => ({
+      open,
+      handleClose,
+      handleOpen,
+      content,
+      setContent,
+    }),
+    [open, content]
+  );
 
   useEffect(() => {
     WebFont.load({
       google: {
-        families: googleFonts
-      }
+        families: googleFonts,
+      },
     });
   }, []);
 
   if (!getCurrentUser()) {
-    return <PublicRouter />
+    return <PublicRouter />;
   } else {
-    return <PrivateRouter />
+    return (
+      <ModalContext.Provider value={value}>
+        <CheckoutModal />
+        <PrivateRouter />
+      </ModalContext.Provider>
+    );
   }
-}
+};
 
-export default App
+export default App;
+
+export const useModal = () => useContext(ModalContext);

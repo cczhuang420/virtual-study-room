@@ -1,6 +1,5 @@
 import { Box, Typography } from "@mui/material";
 import { Image } from "mui-image";
-import { useState } from "react";
 
 {
   /* best height and width:
@@ -21,12 +20,13 @@ const AssetLabel = ({ image, value }) => {
         width: "100%",
         borderRadius: "20px",
         background: "rgba(255, 255, 255, .5)",
+        overflow: "hidden",
       }}
     >
       <Image
-        width={"30%"}
+        width={"25%"}
         fit={"scale-down"}
-        height={"100%"}
+        height={"75%"}
         src={image}
         bgColor={""}
         duration={0}
@@ -34,8 +34,8 @@ const AssetLabel = ({ image, value }) => {
       <Typography
         sx={{
           textAlign: "center",
-          fontWeight: "bold",
-          fontSize: "1.2em",
+          fontWeight: "600",
+          fontSize: "1em",
           color: "white",
           mr: "0.5rem",
           overflow: "hidden",
