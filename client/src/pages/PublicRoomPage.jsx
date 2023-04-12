@@ -48,7 +48,10 @@ const PublicRoomPage = () => {
           userList={[
             {name: "Xiaoxiao Zhuang ".repeat(2), uid: "Ny8XNK3lW4b3YAJf8vcMPL5q7fl1", isOnline: true},
             {name: "Mike", uid: "Ny8XNK3lW4b3YAJf8vcMPL5q7fl1", isOnline: false},
-            {name: "Mike", uid: "Ny8XNK3lW4b3YAJf8vcMPL5q7fl1", isOnline: true}
+            {name: "Mike", uid: "Ny8XNK3lW4b3YAJf8vcMPL5q7fl1", isOnline: true},
+            ...Array(40).fill(
+              {name: "Mike", uid: "Ny8XNK3lW4b3YAJf8vcMPL5q7fl1", isOnline: true}
+            )
           ]}
           onSend={(message) => alert(message)}
         />
