@@ -1,7 +1,27 @@
+import { useState } from "react";
 import { Grid, Box, Typography } from "@mui/material";
 import BackgroundCard from "./BackgroundCard";
 
-export default function BackgroundSelectorGrid({ images }) {
+export default function BackgroundSelectorGrid({ images, onClick }) {
+  const [backgroundSelectedArray, setBackgroundSelectedArray] = useState(
+    new Array(images.length).fill(false)
+  );
+
+  const handleBackgroundOnClick = (index) => {
+    setBackgroundSelectedArray(new Array(images.length).fill(false));
+    if (backgroundSelectedArray[index]) {
+      return;
+    }
+
+    setBackgroundSelectedArray((prevState) => {
+      const newState = [...prevState];
+      newState[index] = true;
+      return newState;
+    });
+
+    onClick(index);
+  };
+
   return (
     <Box
       sx={{
@@ -54,7 +74,12 @@ export default function BackgroundSelectorGrid({ images }) {
         <Grid container spacing={3}>
           {images.map((image, index) => (
             <Grid key={index} item xs={12} sm={4} mb={3}>
-              <BackgroundCard image={image} isSelectable={true} />
+              <BackgroundCard
+                image={image}
+                isSelectable={true}
+                isSelected={backgroundSelectedArray[index]}
+                onClick={() => handleBackgroundOnClick(index)}
+              />
             </Grid>
           ))}
         </Grid>
