@@ -72,64 +72,66 @@ const ChatModal = ({chatHistory, targetUser, userList, onSend}) => {
           {userList && showUserList && (
             <KeyboardArrowUpIcon />
           )}
-          <Fade in={showUserList} unmountOnExit>
-            <Box
-              sx={{
-                position: "absolute",
-                top: "100%",
-                backgroundColor: "#400b71",
-                borderRadius: "5px",
-                width: "50%"
-              }}
-            >
-              <Box sx={{borderBottom: "1px solid #58337A", m: 1, mb: 0, pb: 1}}>
-                <Button sx={{backgroundColor: "#6b35a0", paddingY: 0.2, paddingX: 0.7, width: "100%"}}>
-                  Group Chat
-                </Button>
+          {userList && (
+            <Fade in={showUserList} unmountOnExit>
+              <Box
+                sx={{
+                  position: "absolute",
+                  top: "100%",
+                  backgroundColor: "#400b71",
+                  borderRadius: "5px",
+                  width: "50%"
+                }}
+              >
+                <Box sx={{borderBottom: "1px solid #58337A", m: 1, mb: 0, pb: 1}}>
+                  <Button sx={{backgroundColor: "#6b35a0", paddingY: 0.2, paddingX: 0.7, width: "100%"}}>
+                    Group Chat
+                  </Button>
+                </Box>
+                <Box>
+                  <List
+                    dense
+                    sx={{
+                      overflowY: "scroll",
+                      maxHeight: "200px",
+                      "&::-webkit-scrollbar": {
+                        width: '10px'
+                      },
+                      "&::-webkit-scrollbar-track": {
+                        backgroundColor: "rgba(0,0,0,0)",
+                      },
+                      "&::-webkit-scrollbar-thumb": {
+                        backgroundColor: "rgba(0,0,0,.5)",
+                      }
+                    }}
+                  >
+                    {userList.map(({name, uid, isOnline}) => (
+                      <ListItem sx={{paddingX: 1, paddingY: .3, "&:hover": {backgroundColor: "rgba(255,255,255,.1)"}}}>
+                        <ListItemText
+                          sx={{
+                            width: "auto",
+                            color: "white",
+                            "& span": {
+                              whiteSpace: "nowrap",
+                              overflow: "hidden",
+                              textOverflow: "ellipsis"
+                            }
+                          }}
+                        >
+                          {name}
+                        </ListItemText>
+                        {isOnline && (
+                          <ListItemIcon sx={{minWidth: "0"}}>
+                            <FiberManualRecordIcon sx={{color: "#61FF00", fontSize: "8px"}} />
+                          </ListItemIcon>
+                        )}
+                      </ListItem>
+                    ))}
+                  </List>
+                </Box>
               </Box>
-              <Box>
-                <List
-                  dense
-                  sx={{
-                    overflowY: "scroll",
-                    maxHeight: "200px",
-                    "&::-webkit-scrollbar": {
-                      width: '10px'
-                    },
-                    "&::-webkit-scrollbar-track": {
-                      backgroundColor: "rgba(0,0,0,0)",
-                    },
-                    "&::-webkit-scrollbar-thumb": {
-                      backgroundColor: "rgba(0,0,0,.5)",
-                    }
-                  }}
-                >
-                  {userList.map(({name, uid, isOnline}) => (
-                    <ListItem sx={{paddingX: 1, paddingY: .3, "&:hover": {backgroundColor: "rgba(255,255,255,.1)"}}}>
-                      <ListItemText
-                        sx={{
-                          width: "auto",
-                          color: "white",
-                          "& span": {
-                            whiteSpace: "nowrap",
-                            overflow: "hidden",
-                            textOverflow: "ellipsis"
-                          }
-                        }}
-                      >
-                        {name}
-                      </ListItemText>
-                      {isOnline && (
-                        <ListItemIcon sx={{minWidth: "0"}}>
-                          <FiberManualRecordIcon sx={{color: "#61FF00", fontSize: "8px"}} />
-                        </ListItemIcon>
-                      )}
-                    </ListItem>
-                  ))}
-                </List>
-              </Box>
-            </Box>
-          </Fade>
+            </Fade>
+          )}
         </Box>
       </Box>
 
