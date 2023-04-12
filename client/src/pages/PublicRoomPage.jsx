@@ -3,20 +3,23 @@ import React from "react";
 import { Box } from "@mui/material";
 import ChatModal from "../components/ChatModal.jsx";
 import profileImage from "../assets/temp-profile-image.svg"
+import { useAuth } from "../providers/AuthProvider.jsx";
 
 const PublicRoomPage = () => {
+  const {getCurrentUser} = useAuth()
+
   return (
     <Page title={"Public Room"} horizontalCenter>
       <Box sx={{width: "300px", height: "600px"}}>
         <ChatModal
           chatHistory={[
             {
-              senderId: "Ny8XNK3lW4b3YAJf8vcMPL5q7fl1",
+              senderId: getCurrentUser().uid,
               profileImageUrl: profileImage,
               content: "Hello"
             },
             {
-              senderId: "Ny8XNK3lW4b3YAJf8vcMPL5q7fl1",
+              senderId: getCurrentUser().uid,
               profileImageUrl: profileImage,
               content: "How are you"
             },
@@ -36,12 +39,17 @@ const PublicRoomPage = () => {
               content: "And you"
             },
             {
-              senderId: "Ny8XNK3lW4b3YAJf8vcMPL5q7fl1",
+              senderId: getCurrentUser().uid,
               profileImageUrl: profileImage,
               content: "I am fine too"
             }
           ]}
-          targetUser={{name: "Mike", isOnline: true}}
+          targetUser={{name: "Mike", uid: "Ny8XNK3lW4b3YAJf8vcMPL5q7fl1"}}
+          userList={[
+            {name: "Mike", uid: "Ny8XNK3lW4b3YAJf8vcMPL5q7fl1"},
+            {name: "Mike", uid: "Ny8XNK3lW4b3YAJf8vcMPL5q7fl1"},
+            {name: "Mike", uid: "Ny8XNK3lW4b3YAJf8vcMPL5q7fl1"}
+          ]}
           onSend={(message) => alert(message)}
         />
       </Box>

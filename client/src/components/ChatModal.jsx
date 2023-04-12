@@ -1,7 +1,7 @@
 import React, {useState} from "react"
 import {Box, Button, TextField, Typography} from "@mui/material";
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import Image from "mui-image";
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import {useAuth} from "../providers/AuthProvider.jsx";
 
 /*
@@ -11,14 +11,22 @@ chatHistory: array of {
   content: string
 }
 
-targetUser: array of a single object of {
-  name
-  isOnline
+targetUser: {
+  name: string
+  uid: string
+}
+
+userList: undefined or array of {
+  name: string
+  uid: string
+  isOnline: boolean
 }
  */
 
-const ChatModal = ({chatHistory, targetUser, onSend}) => {
+const ChatModal = ({chatHistory, targetUser, userList, onSend}) => {
   const [message, setMessage] = useState("")
+  const {getCurrentUser} = useAuth()
+  const [showUserList, setShowUserList] = useState(false)
 
   return (
     <Box
@@ -33,21 +41,20 @@ const ChatModal = ({chatHistory, targetUser, onSend}) => {
     >
       {/* HEADER */}
       <Box sx={{backgroundColor: "#C6C6C6", paddingX: 2, paddingY: 1}}>
-        {Array.isArray(targetUser) ? (
-          <Box>
-            <Button startIcon={<KeyboardArrowDownIcon />}>
-              <Typography variant={"h4"} sx={{color: "#3D3A3A"}}>
-                Chat
-              </Typography>
-            </Button>
-          </Box>
-        ) : (
-          <Box>
-            <Typography variant={"h4"} sx={{color: "#3D3A3A"}}>
-              {targetUser.name}
-            </Typography>
-          </Box>
-        )}
+        <Box
+          onClick={() => setShowUserList(prev => !prev)}
+          sx={{display: "flex", alignItems: "center", cursor: userList && "pointer"}}
+        >
+          <Typography variant={"h4"} sx={{color: "#3D3A3A"}}>
+            {targetUser.name}
+          </Typography>
+          {userList && !showUserList && (
+            <KeyboardArrowDownIcon />
+          )}
+          {userList && showUserList && (
+            <KeyboardArrowUpIcon />
+          )}
+        </Box>
       </Box>
 
       {/* CHAT HISTORY */}
@@ -58,17 +65,18 @@ const ChatModal = ({chatHistory, targetUser, onSend}) => {
             sx={{
               display: "flex",
               alignItems: "flex-end",
+              flexDirection: getCurrentUser().uid !== senderId ? "row" : "row-reverse",
               paddingY: 1,
-              marginX: 1
+              "& .mui-image-wrapper": {m: 0}
             }}
           >
-            <Box sx={{borderRadius: "10000px"}}>
-              <Image src={profileImageUrl} width={"90%"} duration={0} />
+            <Box sx={{borderRadius: "10000px", marginLeft: 1}}>
+              <img src={profileImageUrl} alt={""} width={"90%"} />
             </Box>
             <Box
               sx={{
-                backgroundColor: "#7012d3",
-                color: "white",
+                backgroundColor: getCurrentUser().uid !== senderId ? "#7012d3" : "#CEC1DB",
+                color: getCurrentUser().uid !== senderId ? "white" : "black",
                 p: 1,
                 borderRadius: "5px"
               }}
@@ -93,7 +101,7 @@ const ChatModal = ({chatHistory, targetUser, onSend}) => {
               value={message}
               onChange={e => setMessage(e.target.value)}
               placeholder={"Enter your message..."}
-              sx={{"& fieldset": {border: "none"}}}
+              sx={{"& fieldset": {border: "none"}, boxSizing: "border-box", p: 1}}
             />
             <Button
               type={"submit"}
