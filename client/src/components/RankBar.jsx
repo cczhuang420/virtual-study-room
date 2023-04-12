@@ -10,7 +10,7 @@ const RankBar = ({ rankValue, profileImage, name, xpValue, assetValue, hours }) 
       justifyContent={"space-around"}
       alignItems={"center"}
       sx={{
-        height: "8%",
+        height: "10%",
         width: "100%",
         borderRadius: "10px",
         background: "rgba(255, 255, 255, .5)",
