@@ -34,10 +34,25 @@ const AuthProvider = ({children}) => {
 
   const login = useCallback(async (email, password) => {
     await signInWithEmailAndPassword(auth, email, password)
+    const usersWithSameEmail = (await fetchUsers({email})).data
+    if (usersWithSameEmail.length === 0) {
+      await createUser(
+        "User" +
+        Array.from(
+          {length: 5},
+          () => Math.round(Math.random() * 10)
+        ).join(""),
+        email
+      )
+    }
   }, [auth, signInWithEmailAndPassword])
 
-  const signup = useCallback(async (email, password) => {
+  const signup = useCallback(async (email, password, nickname) => {
     await createUserWithEmailAndPassword(auth, email, password)
+    const usersWithSameEmail = (await fetchUsers({email})).data
+    if (usersWithSameEmail.length === 0) {
+      await createUser(nickname, email)
+    }
   }, [auth, createUserWithEmailAndPassword])
 
   const googleSignIn = useCallback(async () => {
