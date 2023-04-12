@@ -1,10 +1,12 @@
-import { useState } from "react";
 import { Box } from "@mui/material";
 import Checkmark from "../assets/checkmark.svg";
 
-export default function BackgroundCard({ image, isSelectable }) {
-  const [selected, setSelected] = useState(false);
-
+export default function BackgroundCard({
+  image,
+  isSelectable,
+  isSelected,
+  onClick,
+}) {
   return (
     <Box
       sx={{
@@ -17,11 +19,7 @@ export default function BackgroundCard({ image, isSelectable }) {
           opacity: isSelectable ? 0.5 : 1,
         },
       }}
-      onClick={() => {
-        if (isSelectable) {
-          setSelected(!selected);
-        }
-      }}
+      onClick={onClick}
     >
       <img
         height={"100%"}
@@ -30,7 +28,7 @@ export default function BackgroundCard({ image, isSelectable }) {
         draggable={false}
         style={{ objectFit: "cover" }}
       />
-      {isSelectable && selected && (
+      {isSelectable && isSelected && (
         <Box
           height={"98%"}
           width={"100%"}
