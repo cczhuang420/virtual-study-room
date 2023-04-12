@@ -46,9 +46,9 @@ const PublicRoomPage = () => {
           ]}
           targetUser={{name: "Mike", uid: "Ny8XNK3lW4b3YAJf8vcMPL5q7fl1"}}
           userList={[
-            {name: "Mike", uid: "Ny8XNK3lW4b3YAJf8vcMPL5q7fl1"},
-            {name: "Mike", uid: "Ny8XNK3lW4b3YAJf8vcMPL5q7fl1"},
-            {name: "Mike", uid: "Ny8XNK3lW4b3YAJf8vcMPL5q7fl1"}
+            {name: "Xiaoxiao Zhuang ".repeat(2), uid: "Ny8XNK3lW4b3YAJf8vcMPL5q7fl1", isOnline: true},
+            {name: "Mike", uid: "Ny8XNK3lW4b3YAJf8vcMPL5q7fl1", isOnline: false},
+            {name: "Mike", uid: "Ny8XNK3lW4b3YAJf8vcMPL5q7fl1", isOnline: true}
           ]}
           onSend={(message) => alert(message)}
         />

@@ -1,8 +1,9 @@
 import React, {useState} from "react"
-import {Box, Button, TextField, Typography} from "@mui/material";
+import {Box, Button, List, ListItem, ListItemIcon, ListItemText, TextField, Typography} from "@mui/material";
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import {useAuth} from "../providers/AuthProvider.jsx";
+import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 
 /*
 chatHistory: array of {
@@ -43,7 +44,12 @@ const ChatModal = ({chatHistory, targetUser, userList, onSend}) => {
       <Box sx={{backgroundColor: "#C6C6C6", paddingX: 2, paddingY: 1}}>
         <Box
           onClick={() => setShowUserList(prev => !prev)}
-          sx={{display: "flex", alignItems: "center", cursor: userList && "pointer"}}
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            position: "relative",
+            cursor: userList && "pointer"
+          }}
         >
           <Typography variant={"h4"} sx={{color: "#3D3A3A"}}>
             {targetUser.name}
@@ -54,6 +60,47 @@ const ChatModal = ({chatHistory, targetUser, userList, onSend}) => {
           {userList && showUserList && (
             <KeyboardArrowUpIcon />
           )}
+          <Box
+            sx={{
+              position: "absolute",
+              top: "100%",
+              backgroundColor: "#400b71",
+              borderRadius: "5px",
+              width: "50%"
+            }}
+          >
+            <Box sx={{borderBottom: "1px solid #58337A", m: 1, mb: 0, pb: 1}}>
+              <Button sx={{backgroundColor: "#6b35a0", paddingY: 0.2, paddingX: 0.7, width: "100%"}}>
+                Group Chat
+              </Button>
+            </Box>
+            <Box>
+              <List dense>
+                {userList.map(({name, uid, isOnline}) => (
+                  <ListItem sx={{paddingX: 1, paddingY: .3, "&:hover": {backgroundColor: "rgba(255,255,255,.1)"}}}>
+                    <ListItemText
+                      sx={{
+                        width: "auto",
+                        color: "white",
+                        "& span": {
+                          whiteSpace: "nowrap",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis"
+                        }
+                      }}
+                    >
+                        {name}
+                    </ListItemText>
+                    {isOnline && (
+                      <ListItemIcon sx={{minWidth: "0"}}>
+                        <FiberManualRecordIcon sx={{color: "#61FF00", fontSize: "8px"}} />
+                      </ListItemIcon>
+                    )}
+                  </ListItem>
+                ))}
+              </List>
+            </Box>
+          </Box>
         </Box>
       </Box>
 
