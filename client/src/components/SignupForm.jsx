@@ -1,4 +1,4 @@
-import React, {useCallback, useMemo, useState} from "react"
+import React, {useCallback, useRef, useState} from "react"
 import {useFormik} from "formik";
 import {
   InputLabel,
@@ -7,8 +7,7 @@ import {
   OutlinedInput,
   InputAdornment,
   IconButton,
-  TextField,
-  Button
+  TextField
 } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import VisibilityIcon from "@mui/icons-material/Visibility"
@@ -21,19 +20,29 @@ const SignupForm = ({onSubmit}) => {
   const [error, setError] = useState("")
   const [signingUp, setSigningUp] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
+  const [gettingSuggestion, setGettingSuggestion] = useState(false)
+
+  const baseName = useRef("")
 
   const fetchUsernameSuggestion = useFetchUsernameSuggestion()
 
   const getSuggestedUsername = useCallback(async () => {
-    console.log(formik.values.username)
-    const username = await fetchUsernameSuggestion(
-      formik.values.username.replaceAll(" ", "") === "" ?
-        undefined : formik.values.username
-    )
-    await formik.setValues({
-      ...formik.values,
-      username
-    })
+    setGettingSuggestion(true)
+    try {
+      const username = await fetchUsernameSuggestion(
+        baseName.current.replaceAll(" ", "") === "" ?
+          undefined : baseName.current
+      )
+      await formik.setValues({
+        ...formik.values,
+        username
+      })
+    } catch (e) {
+      console.error(e)
+    } finally {
+      setGettingSuggestion(false)
+    }
+
   }, [fetchUsernameSuggestion])
 
   const formik = useFormik({
@@ -43,8 +52,6 @@ const SignupForm = ({onSubmit}) => {
       password: ""
     },
     onSubmit: async (values) => {
-      console.log(values)
-      return
       // password requirement is not configurable??!!??!!
       // https://stackoverflow.com/questions/49183858/is-there-a-way-to-set-a-password-strength-for-firebase
       if (Object.values(values).some(v => v.length === 0)) {
@@ -62,7 +69,7 @@ const SignupForm = ({onSubmit}) => {
       try {
         await onSubmit(values)
       } catch (e) {
-        console.log(e)
+        console.error(e)
         if (e.message.includes("auth/email-already-in-use")) {
           setError("Email is already taken")
         } else {
@@ -79,12 +86,21 @@ const SignupForm = ({onSubmit}) => {
       <Box sx={{mb: {xs: 1, md: 2}}}>
         <Box sx={{display: "flex", justifyContent: "space-between", alignItems: "center"}}>
           <InputLabel>Username</InputLabel>
-          <Button variant={"text"} onClick={getSuggestedUsername}>Get random name</Button>
+          <LoadingButton
+            loading={gettingSuggestion}
+            variant={"text"}
+            onClick={getSuggestedUsername}
+          >
+            Get random name
+          </LoadingButton>
         </Box>
         <TextField
           name={"username"}
           value={formik.values.username}
-          onChange={formik.handleChange}
+          onChange={(e) => {
+            formik.handleChange(e)
+            baseName.current = e.target.value
+          }}
         />
       </Box>
       <Box sx={{mb: {xs: 1, md: 2}}}>
@@ -96,7 +112,7 @@ const SignupForm = ({onSubmit}) => {
         <OutlinedInput
           name={"password"}
           onChange={formik.handleChange}
-          type={"password"}
+          type={showPassword ? "text" : "password"}
           endAdornment={
             <InputAdornment position={"end"}>
               <IconButton onClick={() => setShowPassword((prev) => !prev)}>
