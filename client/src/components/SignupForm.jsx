@@ -1,4 +1,4 @@
-import React, {useMemo, useState} from "react"
+import React, {useCallback, useMemo, useState} from "react"
 import {useFormik} from "formik";
 import {
   InputLabel,
@@ -6,13 +6,15 @@ import {
   FormHelperText,
   OutlinedInput,
   InputAdornment,
-  IconButton
+  IconButton,
+  TextField,
+  Button
 } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import VisibilityIcon from "@mui/icons-material/Visibility"
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff"
 import ThirdPartyLogin from "./ThirdPartyLogin.jsx";
-import {useCreateUserHandler, useFetchUserHandler} from "../api/user-api.js";
+import {useFetchUsernameSuggestion} from "../api/user-api.js";
 
 const SignupForm = ({onSubmit}) => {
 
@@ -20,8 +22,19 @@ const SignupForm = ({onSubmit}) => {
   const [signingUp, setSigningUp] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
 
-  const fetchUsers = useFetchUserHandler()
-  const createUser = useCreateUserHandler()
+  const fetchUsernameSuggestion = useFetchUsernameSuggestion()
+
+  const getSuggestedUsername = useCallback(async () => {
+    console.log(formik.values.username)
+    const username = await fetchUsernameSuggestion(
+      formik.values.username.replaceAll(" ", "") === "" ?
+        undefined : formik.values.username
+    )
+    await formik.setValues({
+      ...formik.values,
+      username
+    })
+  }, [fetchUsernameSuggestion])
 
   const formik = useFormik({
     initialValues: {
@@ -30,6 +43,8 @@ const SignupForm = ({onSubmit}) => {
       password: ""
     },
     onSubmit: async (values) => {
+      console.log(values)
+      return
       // password requirement is not configurable??!!??!!
       // https://stackoverflow.com/questions/49183858/is-there-a-way-to-set-a-password-strength-for-firebase
       if (Object.values(values).some(v => v.length === 0)) {
@@ -59,32 +74,38 @@ const SignupForm = ({onSubmit}) => {
     },
   })
 
-  const formElements = useMemo(() => {
-    return Object.keys(formik.values).map((key) => (
-      <Box key={key} sx={{mb: {xs: 1, md: 2}}}>
-        <InputLabel>
-          {key.substring(0, 1).toUpperCase() + key.substring(1, key.length).toLowerCase()}
-        </InputLabel>
-        <OutlinedInput
-          name={key}
+  return (
+    <form onSubmit={formik.handleSubmit}>
+      <Box sx={{mb: {xs: 1, md: 2}}}>
+        <Box sx={{display: "flex", justifyContent: "space-between", alignItems: "center"}}>
+          <InputLabel>Username</InputLabel>
+          <Button variant={"text"} onClick={getSuggestedUsername}>Get random name</Button>
+        </Box>
+        <TextField
+          name={"username"}
+          value={formik.values.username}
           onChange={formik.handleChange}
-          type={(key.toLowerCase().includes("password") && !showPassword) ? "password" : "text"}
+        />
+      </Box>
+      <Box sx={{mb: {xs: 1, md: 2}}}>
+        <InputLabel>Email</InputLabel>
+        <TextField name={"email"} onChange={formik.handleChange} />
+      </Box>
+      <Box sx={{mb: {xs: 1, md: 2}}}>
+        <InputLabel>Password</InputLabel>
+        <OutlinedInput
+          name={"password"}
+          onChange={formik.handleChange}
+          type={"password"}
           endAdornment={
-            key.toLowerCase().includes("password") ?
-              <InputAdornment position={"end"}>
-                <IconButton onClick={() => setShowPassword((prev) => !prev)}>
-                  {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
-                </IconButton>
-              </InputAdornment> : null
+            <InputAdornment position={"end"}>
+              <IconButton onClick={() => setShowPassword((prev) => !prev)}>
+                {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+              </IconButton>
+            </InputAdornment>
           }
         />
       </Box>
-    ))
-  }, [showPassword])
-
-  return (
-    <form onSubmit={formik.handleSubmit}>
-      {formElements}
       <Box>
         <FormHelperText>
           {error}

@@ -14,3 +14,11 @@ export const useFetchUserHandler = () => {
     return await axios.get(`${BASE_URL}/users?${queryParam}`)
   }
 }
+
+export const useFetchUsernameSuggestion = () => {
+  return async (username) => {
+    const queryParam = username ? new URLSearchParams({ username }).toString() : ""
+    const { data } = await axios.get(`${BASE_URL}/users/username-suggestion?${queryParam}`)
+    return data
+  }
+}

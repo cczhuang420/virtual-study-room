@@ -1,4 +1,5 @@
 const userModel = require("./user.model")
+const { names, colors, adjectives, uniqueNamesGenerator} = require("unique-names-generator")
 
 class UserController {
 
@@ -18,15 +19,17 @@ class UserController {
   }
 
   async getNameSuggestion(name) {
-    if (name) {
-      let randNum;
-      do {
-        randNum = Array.from({length: 5}, () => Math.round(Math.random() * 10)).join("")
-      } while(await userModel.exists({username: name + randNum}));
-      return name + randNum
-    } else {
 
-    }
+    const generateRandomName = name ?
+      base => base + Array.from({length: 5}, () => Math.round(Math.random() * 10)).join("") :
+      () => uniqueNamesGenerator({dictionaries: [adjectives, colors, name], length: 2})
+
+    let username;
+    do {
+      username = generateRandomName(name);
+    } while(await userModel.exists({username}))
+
+    return username
   }
 
 }
