@@ -18,7 +18,7 @@ import {
   GithubAuthProvider
 } from "firebase/auth"
 import {auth} from "../firebase.js";
-import {useCreateUserHandler, useFetchUserHandler} from "../api/user-api.js";
+import {useCreateUserHandler, useFetchUserHandler, useFetchUsernameSuggestion} from "../api/user-api.js";
 
 const context = createContext({})
 
@@ -29,6 +29,7 @@ const AuthProvider = ({children}) => {
 
   const createUser = useCreateUserHandler()
   const fetchUsers = useFetchUserHandler()
+  const fetchUsernameSuggestion = useFetchUsernameSuggestion()
 
   const [currentUser, setCurrentUser] = useState(null)
 
@@ -74,24 +75,22 @@ const AuthProvider = ({children}) => {
 
   const googleSignIn = useCallback(async () => {
     const res = await signInWithPopup(auth, googleAuthProvider)
-    const name = res.user.displayName
     const email = res.user.email
     const usersWithSameEmail = (await fetchUsers({email})).data
+    const suggestedUsername = await fetchUsernameSuggestion(undefined)
     if (usersWithSameEmail.length === 0) {
-      await createUser(name, email)
+      await createUser(suggestedUsername, email)
     }
-    await signInWithPopup(auth, googleAuthProvider)
   }, [auth, signInWithPopup, googleAuthProvider])
 
   const githubSignIn = useCallback(async () => {
     const res = await signInWithPopup(auth, githubAuthProvider)
-    const name = res.user.displayName
     const email = res.user.email
     const usersWithSameEmail = (await fetchUsers({email})).data
+    const suggestedUsername = await fetchUsernameSuggestion(undefined)
     if (usersWithSameEmail.length === 0) {
-      await createUser(name, email)
+      await createUser(suggestedUsername, email)
     }
-    await signInWithPopup(auth, githubAuthProvider)
   }, [auth, signInWithPopup, githubAuthProvider])
 
   const anonymousSignIn = useCallback(async () => {

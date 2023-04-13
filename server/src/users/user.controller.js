@@ -22,7 +22,7 @@ class UserController {
 
     const generateRandomName = name ?
       base => base + Array.from({length: 5}, () => Math.round(Math.random() * 10)).join("") :
-      () => uniqueNamesGenerator({dictionaries: [adjectives, colors, name], length: 2})
+      () => uniqueNamesGenerator({dictionaries: [adjectives, colors, names], length: 2})
 
     let username;
     do {
