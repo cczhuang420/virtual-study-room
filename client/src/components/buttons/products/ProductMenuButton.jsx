@@ -19,10 +19,7 @@ const ProductMenuButton = () => {
     color: "black",
     textTransform: "unset !important",
     fontFamily: "Rubik",
-    "@media (min-width:500px)": {
-      fontSize: "1rem",
-    },
-
+    fontSize: "1rem",
     "&:hover": {
       opacity: "0.9",
       backgroundColor: "#FFFFFF",
@@ -61,9 +58,19 @@ const ProductMenuButton = () => {
           vertical: "top",
           horizontal: "left",
         }}
+        sx={{
+          "& .MuiMenu-paper": {
+            backgroundColor: "rgba(64, 10, 113, 0.8)",
+            borderRadius: 5,
+          },
+        }}
       >
         <MenuItem onClick={handleClose}>
-          <ProductFilterButton productName="Background" width="w-full" />
+          <ProductFilterButton
+            productName="Background"
+            width="w-full"
+            handleOnClick={() => alert("open")}
+          />
         </MenuItem>
         <MenuItem onClick={handleClose}>
           <ProductFilterButton productName="Profile Photo" width="w-full" />

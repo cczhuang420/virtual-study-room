@@ -7,7 +7,7 @@ import Typography from "@mui/material/Typography";
 import BackgroundCard from "../../assets/background-card.svg";
 import MoneyIcon from "../../assets/asset-money-icon.svg";
 import { Box } from "@mui/material";
-import PurchaseButton from "../buttons/PurchaseButton.jsx";
+import PurchaseButton from "../buttons/products/PurchaseButton.jsx";
 
 const BackgroundProductCard = ({ value, productName }) => {
   return (
