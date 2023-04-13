@@ -51,12 +51,12 @@ const AuthProvider = ({children}) => {
     const usersWithSameEmailPromise = fetchUsers({email})
     const usersWithSameUsernamePromise = fetchUsers({username})
 
-    const [usersWithSameEmailRes, usersWithSameUsernameRes] = await Promise.all(
+    const [
+      { data: usersWithSameEmail },
+      { data: usersWithSameUsername }
+    ] = await Promise.all(
       [usersWithSameEmailPromise, usersWithSameUsernamePromise]
     )
-
-    const {data: usersWithSameEmail} = usersWithSameEmailRes
-    const {data: usersWithSameUsername} = usersWithSameUsernameRes
 
     if (usersWithSameEmail.length !== 0) {
       throw new Error("Email is already taken")
@@ -65,8 +65,10 @@ const AuthProvider = ({children}) => {
       throw new Error("Username is already taken")
     }
 
-    await createUserWithEmailAndPassword(auth, email, password)
-    await createUser(username, email)
+    await Promise.all([
+      createUserWithEmailAndPassword(auth, email, password),
+      createUser(username, email)
+    ])
 
   }, [auth, createUserWithEmailAndPassword])
 

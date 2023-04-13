@@ -30,20 +30,19 @@ const SignupForm = ({onSubmit}) => {
       password: ""
     },
     onSubmit: async (values) => {
+      // password requirement is not configurable??!!??!!
+      // https://stackoverflow.com/questions/49183858/is-there-a-way-to-set-a-password-strength-for-firebase
       if (Object.values(values).some(v => v.length === 0)) {
         setError("Please complete all fields")
         return
-      }
-      // password requirement is not configurable??!!??!!
-      // https://stackoverflow.com/questions/49183858/is-there-a-way-to-set-a-password-strength-for-firebase
-      if (values.password.length < 8) {
+      } else if (values.password.length < 8) {
         setError("Password must contain at least 8 characters")
         return
-      }
-      if (!/\S+@\S+\.\S+/.test(values.email)) {
+      } else if (!/\S+@\S+\.\S+/.test(values.email)) {
         setError("Invalid email address")
         return
       }
+
       setSigningUp(true)
       try {
         await onSubmit(values)

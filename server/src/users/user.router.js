@@ -17,4 +17,10 @@ router.get("/", async (req, res) => {
   )
 })
 
+router.get("/username-suggestion", async (req, res) => {
+  res.json(
+    await userController.getNameSuggestion(req.query.username)
+  )
+})
+
 module.exports = router
