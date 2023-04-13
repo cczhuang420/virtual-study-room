@@ -4,6 +4,7 @@ import ProfileProductCard from "./ProfileProductCard.jsx";
 import MusicProductCard from "./MusicProductCard.jsx";
 import React from "react";
 
+// TODO: add real product later
 const ProductContainer = ({ product }) => {
   return (
     <div>
@@ -30,7 +31,26 @@ const ProductContainer = ({ product }) => {
       ) : (
         <Box className="flex flex-row flex-wrap space-x-10 space-y-10">
           <div></div>
-          <MusicProductCard value="200" productName="Music" />
+          <MusicProductCard
+            value="200"
+            productName="Happy Birthday"
+            artist="Frank jI"
+          />
+          <MusicProductCard
+            value="200"
+            productName="世上只有妈妈好"
+            artist="Frank jI"
+          />
+          <MusicProductCard
+            value="200"
+            productName="Baa Baa Black Sheep"
+            artist="Frank jI"
+          />
+          <MusicProductCard
+            value="200"
+            productName="哆啦a梦"
+            artist="Frank jI"
+          />
         </Box>
       )}
     </div>
