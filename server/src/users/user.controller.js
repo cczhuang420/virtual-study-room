@@ -2,10 +2,8 @@ const userModel = require("./user.model")
 
 class UserController {
 
-  async createUser(nickname, email) {
-    const plainText = `${+new Date()}${Math.random()}`
-    const username = Buffer.from(plainText).toString("base64")
-    return await userModel.create({nickname, email, username})
+  async createUser(email, username) {
+    return await userModel.create({email, username})
   }
 
   async getUser(queryParam) {

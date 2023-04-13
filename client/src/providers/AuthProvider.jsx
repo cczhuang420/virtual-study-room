@@ -47,12 +47,27 @@ const AuthProvider = ({children}) => {
     }
   }, [auth, signInWithEmailAndPassword])
 
-  const signup = useCallback(async (email, password, nickname) => {
-    await createUserWithEmailAndPassword(auth, email, password)
-    const usersWithSameEmail = (await fetchUsers({email})).data
-    if (usersWithSameEmail.length === 0) {
-      await createUser(nickname, email)
+  const signup = useCallback(async (email, password, username) => {
+    const usersWithSameEmailPromise = fetchUsers({email})
+    const usersWithSameUsernamePromise = fetchUsers({username})
+
+    const [usersWithSameEmailRes, usersWithSameUsernameRes] = await Promise.all(
+      [usersWithSameEmailPromise, usersWithSameUsernamePromise]
+    )
+
+    const {data: usersWithSameEmail} = usersWithSameEmailRes
+    const {data: usersWithSameUsername} = usersWithSameUsernameRes
+
+    if (usersWithSameEmail.length !== 0) {
+      throw new Error("Email is already taken")
     }
+    if (usersWithSameUsername.length !== 0) {
+      throw new Error("Username is already taken")
+    }
+
+    await createUserWithEmailAndPassword(auth, email, password)
+    await createUser(username, email)
+
   }, [auth, createUserWithEmailAndPassword])
 
   const googleSignIn = useCallback(async () => {

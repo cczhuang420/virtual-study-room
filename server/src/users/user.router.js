@@ -7,7 +7,7 @@ const router = Router({mergeParams: true})
 
 router.post("/", async (req, res) => {
   res.json(
-    await userController.createUser(req.body.nickname, req.body.email)
+    await userController.createUser(req.body.email, req.body.username)
   )
 })
 

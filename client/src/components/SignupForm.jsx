@@ -25,7 +25,7 @@ const SignupForm = ({onSubmit}) => {
 
   const formik = useFormik({
     initialValues: {
-      nickname: "",
+      username: "",
       email: "",
       password: ""
     },
@@ -45,19 +45,14 @@ const SignupForm = ({onSubmit}) => {
         return
       }
       setSigningUp(true)
-      const usersWithSameEmail = (await fetchUsers({email: values.email})).data
-      if (usersWithSameEmail.length !== 0) {
-        setError("Email is already taken")
-        setSigningUp(false)
-        return
-      }
       try {
         await onSubmit(values)
-        await createUser(values.nickname, values.email)
       } catch (e) {
         console.log(e)
         if (e.message.includes("auth/email-already-in-use")) {
-          setError("Email already exists")
+          setError("Email is already taken")
+        } else {
+          setError(e.message)
         }
       } finally {
         setSigningUp(false)
