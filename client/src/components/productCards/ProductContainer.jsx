@@ -21,6 +21,11 @@ const ProductContainer = ({ product }) => {
         <Box className="flex flex-row flex-wrap space-x-10 space-y-10">
           <div></div>
           <ProfileProductCard value="200" productName="Profile Photo" />
+          <ProfileProductCard value="200" productName="Profile Photo" />
+          <ProfileProductCard value="200" productName="Profile Photo" />
+          <ProfileProductCard value="200" productName="Profile Photo" />
+          <ProfileProductCard value="200" productName="Profile Photo" />
+          <ProfileProductCard value="200" productName="Profile Photo" />
         </Box>
       ) : (
         <Box className="flex flex-row flex-wrap space-x-10 space-y-10">
