@@ -73,25 +73,15 @@ const AuthProvider = ({children}) => {
 
   }, [auth, createUserWithEmailAndPassword])
 
-  const googleSignIn = useCallback(async () => {
-    const res = await signInWithPopup(auth, googleAuthProvider)
+  const thirdPartySignIn = useCallback(async (thirdPartyAuthProvider) => {
+    const res = await signInWithPopup(auth, thirdPartyAuthProvider)
     const email = res.user.email
     const usersWithSameEmail = (await fetchUsers({email})).data
     const suggestedUsername = await fetchUsernameSuggestion(undefined)
     if (usersWithSameEmail.length === 0) {
       await createUser(suggestedUsername, email)
     }
-  }, [auth, signInWithPopup, googleAuthProvider])
-
-  const githubSignIn = useCallback(async () => {
-    const res = await signInWithPopup(auth, githubAuthProvider)
-    const email = res.user.email
-    const usersWithSameEmail = (await fetchUsers({email})).data
-    const suggestedUsername = await fetchUsernameSuggestion(undefined)
-    if (usersWithSameEmail.length === 0) {
-      await createUser(suggestedUsername, email)
-    }
-  }, [auth, signInWithPopup, githubAuthProvider])
+  }, [auth, signInWithPopup])
 
   const anonymousSignIn = useCallback(async () => {
     await signInAnonymously(auth)
@@ -120,8 +110,8 @@ const AuthProvider = ({children}) => {
     // Authorization
     getAccessToken: () => currentUser.accessToken,
     logout,
-    googleSignIn,
-    githubSignIn,
+    googleSignIn: () => thirdPartySignIn(googleAuthProvider),
+    githubSignIn: () => thirdPartySignIn(githubAuthProvider),
     anonymousSignIn
   }), [currentUser])
 
