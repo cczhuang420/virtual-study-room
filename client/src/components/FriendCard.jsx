@@ -5,7 +5,7 @@ import { Image } from "mui-image";
 const FriendCard = ({ profileImage, name }) => {
   return (
     <Box
-      paddingLeft={2}
+      paddingLeft={3}
       display={"flex"}
       flexDirection={"row"}
       justifyContent={"center"}
@@ -20,7 +20,7 @@ const FriendCard = ({ profileImage, name }) => {
       <Box
         sx={{
           height: "100%",
-          width: "50%",
+          width: "35%",
           overflow: "hidden",
         }}
       >
@@ -34,6 +34,7 @@ const FriendCard = ({ profileImage, name }) => {
         />
       </Box>
       <Box
+        paddingLeft={2}
         sx={{
           width: "100%",
           overflow: "hidden",
