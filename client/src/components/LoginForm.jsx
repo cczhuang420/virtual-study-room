@@ -26,24 +26,28 @@ const LoginForm = ({onSubmit}) => {
     },
   })
 
-  const formElements = useMemo(() => {
-    return Object.keys(formik.values).map((key) => (
-      <Box key={key} sx={{mb: {xs: 3, md: 5}}}>
-        <InputLabel>
-          {key.substring(0, 1).toUpperCase() + key.substring(1, key.length).toLowerCase()}
-        </InputLabel>
-        <TextField
-          name={key}
-          onChange={formik.handleChange}
-          type={key.toLowerCase().includes("password") ? "password" : "text"}
-        />
-      </Box>
-    ))
-  }, [])
-
   return (
     <form onSubmit={formik.handleSubmit}>
-      {formElements}
+      <Box sx={{mb: {xs: 3, md: 5}}}>
+        <InputLabel>
+          Email/Username
+        </InputLabel>
+        <TextField
+          name={"email"}
+          onChange={formik.handleChange}
+          type={"text"}
+        />
+      </Box>
+      <Box sx={{mb: {xs: 3, md: 5}}}>
+        <InputLabel>
+          Password
+        </InputLabel>
+        <TextField
+          name={"password"}
+          onChange={formik.handleChange}
+          type={"password"}
+        />
+      </Box>
       <Box>
         <FormHelperText>
           {error}

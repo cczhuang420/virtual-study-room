@@ -33,9 +33,20 @@ const AuthProvider = ({children}) => {
 
   const [currentUser, setCurrentUser] = useState(null)
 
-  const login = useCallback(async (email, password) => {
-    await signInWithEmailAndPassword(auth, email, password)
-    const usersWithSameEmail = (await fetchUsers({email})).data
+
+  const login = useCallback(async (emailOrUsername, password) => {
+
+    try {
+      await signInWithEmailAndPassword(auth, emailOrUsername, password)
+    } catch (e) {
+      try {
+        const userWithSameUsername = (await fetchUsers({username: emailOrUsername})).data[0]
+        await signInWithEmailAndPassword(auth, userWithSameUsername.email, password)
+      } catch (e) {
+        throw new Error("Invalid login credential")
+      }
+    }
+    const usersWithSameEmail = (await fetchUsers({email: emailOrUsername})).data
     if (usersWithSameEmail.length === 0) {
       await createUser(
         "User" +
@@ -43,7 +54,7 @@ const AuthProvider = ({children}) => {
           {length: 5},
           () => Math.round(Math.random() * 10)
         ).join(""),
-        email
+        emailOrUsername
       )
     }
   }, [auth, signInWithEmailAndPassword])
