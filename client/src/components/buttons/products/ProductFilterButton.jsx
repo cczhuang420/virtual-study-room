@@ -1,4 +1,4 @@
-import React, from "react";
+import React from "react";
 import { styled } from "@mui/system";
 import { buttonUnstyledClasses } from "@mui/base/ButtonUnstyled";
 import TabsUnstyled from "@mui/base/TabsUnstyled";
