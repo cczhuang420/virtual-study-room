@@ -1,37 +1,79 @@
-import React from "react";
-import { styled, Button } from "@mui/material";
+import React, from "react";
+import { styled } from "@mui/system";
+import { buttonUnstyledClasses } from "@mui/base/ButtonUnstyled";
+import TabsUnstyled from "@mui/base/TabsUnstyled";
+import TabUnstyled, { tabUnstyledClasses } from "@mui/base/TabUnstyled";
+import TabsListUnstyled from "@mui/base/TabsListUnstyled";
+import { TabPanelUnstyled } from "@mui/base";
+import ProductContainer from "../../productCards/ProductContainer.jsx";
 
-const ProductFilterButton = ({ productName, width, handleOnClick }) => {
-  const ColorButton = styled(Button)(() => ({
-    backgroundColor: "#9B84B4",
-    color: "black",
-    textTransform: "unset !important",
-    fontFamily: "Rubik",
-    "@media (min-width:500px)": {
-      fontSize: "1rem",
-    },
+const ProductFilterButton = () => {
+  const Tab = styled(TabUnstyled)`
+    font-family: "Rubik", "Nexa", "sans-serif";
+    color: black;
+    cursor: pointer;
+    font-size: 0.875rem;
+    font-weight: bold;
+    background-color: #9b84b4;
+    width: 120px;
+    padding: 8px 15px;
+    margin: 5px 6px 0 6px;
+    border: none;
+    border-radius: 50px;
+    display: flex;
+    justify-content: center;
 
-    "&:hover": {
-      opacity: "0.9",
-      backgroundColor: "#FFFFFF",
-      transform: "scale(1.02)",
-    },
-    "&:focus": {
-      backgroundColor: "#FFFFFF",
-      color: "black",
-    },
-    borderRadius: 30,
-  }));
+    &:hover {
+      background-color: #ccbce3;
+    }
+
+    &.${tabUnstyledClasses.selected} {
+      background-color: #fff;
+      color: black;
+    }
+
+    &.${buttonUnstyledClasses.disabled} {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  `;
+
+  const TabsList = styled(TabsListUnstyled)(
+    ({ theme }) => `
+  min-width: 400px;
+  margin-bottom: 2px;
+  margin-left:32px;
+  margin-top:30px;
+  display: flex;
+  background-color:transparent;
+  `
+  );
+
+  const TabPanel = styled(TabPanelUnstyled)`
+    width: 100%;
+    font-family: "Rubik", "Nexa", "sans-serif";
+    font-size: 0.875rem;
+  `;
 
   return (
-    <ColorButton
-      variant="contained"
-      size="small"
-      className={width}
-      onClick={handleOnClick}
-    >
-      <p> {productName}</p>
-    </ColorButton>
+    <div>
+      <TabsUnstyled defaultValue={0} selectionFollowsFocus>
+        <TabsList>
+          <Tab>Background</Tab>
+          <Tab>Profile Photo</Tab>
+          <Tab>Music</Tab>
+        </TabsList>
+        <TabPanel value={0}>
+          <ProductContainer value={0} />
+        </TabPanel>
+        <TabPanel value={1}>
+          <ProductContainer value={1} />
+        </TabPanel>
+        <TabPanel value={2}>
+          <ProductContainer value={2} />
+        </TabPanel>
+      </TabsUnstyled>
+    </div>
   );
 };
 

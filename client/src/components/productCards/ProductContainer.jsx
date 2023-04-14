@@ -5,10 +5,10 @@ import MusicProductCard from "./MusicProductCard.jsx";
 import React from "react";
 
 // TODO: add real product later
-const ProductContainer = ({ product }) => {
+const ProductContainer = ({ value }) => {
   return (
     <div>
-      {product === "Background" ? (
+      {value === 0 ? (
         <Box className="flex flex-row flex-wrap space-x-10 space-y-10">
           <div></div>
           <BackgroundProductCard value="200" productName="Notebook" />
@@ -18,7 +18,7 @@ const ProductContainer = ({ product }) => {
           <BackgroundProductCard value="200" productName="Notebook" />
           <BackgroundProductCard value="200" productName="Notebook" />
         </Box>
-      ) : product === "Profile Photo" ? (
+      ) : value === 1 ? (
         <Box className="flex flex-row flex-wrap space-x-10 space-y-10">
           <div></div>
           <ProfileProductCard value="200" productName="Profile Photo" />
@@ -28,7 +28,7 @@ const ProductContainer = ({ product }) => {
           <ProfileProductCard value="200" productName="Profile Photo" />
           <ProfileProductCard value="200" productName="Profile Photo" />
         </Box>
-      ) : (
+      ) : value === 2 ? (
         <Box className="flex flex-row flex-wrap space-x-10 space-y-10">
           <div></div>
           <MusicProductCard
@@ -52,6 +52,8 @@ const ProductContainer = ({ product }) => {
             artist="Frank jI"
           />
         </Box>
+      ) : (
+        <> </>
       )}
     </div>
   );
