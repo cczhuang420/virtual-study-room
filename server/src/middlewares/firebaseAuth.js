@@ -1,13 +1,23 @@
-const {auth} = require("../firebase")
+const { auth } = require("../firebase");
 
 const firebaseAuth = async (req, res, next) => {
-  const token = req.header("Authorization").replace("Bearer ", "")
+  const token = req.header("Authorization").replace("Bearer ", "");
   try {
-    req.user = await auth.verifyIdToken(token)
-    next()
+    req.user = await auth.verifyIdToken(token);
+    next();
   } catch (e) {
-    res.status(401).json("Invalid JWT Token")
+    res.status(401).json("Invalid JWT Token");
   }
-}
+};
 
-module.exports.firebaseAuth = firebaseAuth
+const firebaseSocketAuth = async (socket, next) => {
+  const token = socket.handshake.auth.token;
+  try {
+    socket.user = await auth.verifyIdToken(token);
+    next();
+  } catch (e) {
+    next(new Error("Invalid JWT Token"));
+  }
+};
+
+module.exports = { firebaseAuth, firebaseSocketAuth };
