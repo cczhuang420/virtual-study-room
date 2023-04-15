@@ -78,7 +78,7 @@ const LoginForm = ({onSubmit}) => {
         >
           Submit
         </LoadingButton>
-        <ThirdPartyLogin />
+        <ThirdPartyLogin onError={() => setError("Your email exists with different credential.")} />
       </Box>
     </form>
   )
