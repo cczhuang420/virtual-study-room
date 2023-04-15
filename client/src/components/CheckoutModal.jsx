@@ -15,6 +15,26 @@ import AssetLabel from "./AssetLabel.jsx";
 import assetMoney from "../assets/asset-money-icon.svg";
 import { useModal } from "../App.jsx";
 
+/*
+   This modal will be used for the whole app, You can get a below 5 variables from useModal function
+      open,
+      handleClose,
+      handleOpen,
+      content,
+      setContent,
+   you can use these by this way const {open,content,...} = useModal()
+   the content and setContent will used for set up the different UI inside the modal,
+   it has these attributes:
+      title: "",
+      imageTitle: "",
+      image: null,
+      cost: 0,
+      money: 0,
+      isRoomCard: true,
+      onClick: () => {},
+   everytime you want to open the modal, you should setContent first and then call handleOpen function
+ */
+
 const style = {
   position: "absolute",
   top: "50%",

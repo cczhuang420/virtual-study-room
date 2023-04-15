@@ -47,6 +47,7 @@ const RoomCard = ({
           sx={{
             background: "rgba(255, 255, 255, .3)",
             backdropFilter: "blur(5px)",
+            borderRadius: vagueHeight === "100%" ? "13px" : "0",
           }}
         >
           <Box alignSelf={"center"}>
