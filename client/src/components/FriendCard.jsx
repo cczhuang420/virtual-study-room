@@ -5,7 +5,6 @@ import { Image } from "mui-image";
 const FriendCard = ({ profileImage, name }) => {
   return (
     <Box
-      paddingLeft={3}
       display={"flex"}
       flexDirection={"row"}
       justifyContent={"center"}

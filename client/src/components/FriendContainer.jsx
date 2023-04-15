@@ -14,6 +14,7 @@ const FriendContainer = () => {
         <Box
             display={"flex"}
             flexDirection={"column"}
+            paddingTop={6}
             sx={{
                 height: "100%",
                 width: "20%",
@@ -24,6 +25,9 @@ const FriendContainer = () => {
         >
             <Box
                 display={"flex"}
+                flexDirection={"row"}
+                justifyContent={"center"}
+                alignItems={"center"}
             >
                 <Button
                     variant="contained"
@@ -41,6 +45,7 @@ const FriendContainer = () => {
                 </Button>
             </Box>
             <Box
+                paddingTop={2}
                 display={"flex"}
                 justifyContent={"center"}
                 alignItems={"center"}

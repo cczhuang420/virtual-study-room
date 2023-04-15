@@ -11,8 +11,10 @@ import { useContext } from "react";
 const FriendList = ({ friends }) => {
     return (
         <Box
-            paddingTop={2}
             display={"flex"}
+            flexDirection={"row"}
+            justifyContent={"center"}
+            alignItems={"center"}
             sx={{
                 height: "100%",
                 width: "100%",
