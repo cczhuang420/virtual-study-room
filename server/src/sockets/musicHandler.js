@@ -1,15 +1,12 @@
-const musicHandler = (io, socket) => {
-  const stream = ytdl("https://www.youtube.com/watch?v=RT7CPnQtwf0", {
-    filter: "audioonly",
-  });
+module.exports = (io, socket) => {
+  const createMusic = (payload) => {
+    // ...
+  };
 
-  stream.on("data", (chunk) => {
-    io.emit("music-chunk", chunk);
-  });
+  const readMusic = (orderId, callback) => {
+    // ...
+  };
 
-  stream.on("end", () => {
-    io.emit("music-end");
-  });
+  socket.on("music:create", createMusic);
+  socket.on("music:read", readMusic);
 };
-
-module.exports = musicHandler;

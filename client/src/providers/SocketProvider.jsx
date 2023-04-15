@@ -4,6 +4,7 @@ import { useAuth } from "../providers/AuthProvider.jsx";
 import { Howl } from "howler";
 
 const context = createContext({});
+let sound = null;
 
 const SocketProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
@@ -27,11 +28,26 @@ const SocketProvider = ({ children }) => {
       newSocket.on("music-end", () => {
         const blob = new Blob(buffer, { type: "audio/mp3" });
         const url = URL.createObjectURL(blob);
-        const sound = new Howl({
+        sound = new Howl({
           src: [url],
           html5: true,
+          format: ["mp3"],
+          autoplay: true,
+          loop: true,
         });
         sound.play();
+      });
+
+      newSocket.on("connect_error", (err) => {
+        console.log(`connect_error due to ${err.message}`);
+      });
+
+      newSocket.on("disconnect", () => {
+        console.log("disconnect");
+        if (sound) {
+          sound.stop();
+          sound.unload();
+        }
       });
 
       setSocket(newSocket);
