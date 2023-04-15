@@ -1,5 +1,4 @@
 import { Box, Button } from "@mui/material";
-import { Image } from "mui-image";
 import FriendList from "../components/FriendList.jsx";
 import Nino from "../assets/Nino.svg";
 import Mike from "../assets/Mike.svg";

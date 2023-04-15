@@ -1,10 +1,7 @@
-import { Box, Typography } from "@mui/material";
-import { Image } from "mui-image";
+import { Box } from "@mui/material";
 import FriendCard from "./FriendCard";
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
-import profileImage from "../assets/profile-image.svg";
-import tempProfileImage from "../assets/temp-profile-image.svg";
 import { useContext } from "react";
 
 
