@@ -3,6 +3,7 @@ const ytdl = require("ytdl-core");
 
 const registerMessageHandler = require("./messageHandler");
 const registerMusicHandler = require("./musicHandler");
+let currentPosition = 0;
 
 const ConfigureSocket = (io) => {
   io.use(firebaseSocketAuth);
@@ -10,16 +11,24 @@ const ConfigureSocket = (io) => {
   io.on("connection", (socket) => {
     console.log(`${socket.user.name} with id ${socket.user.uid} connected`);
 
-    const stream = ytdl("https://www.youtube.com/watch?v=RT7CPnQtwf0", {
-      filter: "audioonly",
+    socket.on("music:playBackPosition", (data) => {
+      if (data.position > currentPosition) {
+        currentPosition = data.position;
+      }
     });
 
-    stream.on("data", (chunk) => {
-      io.emit("music-chunk", chunk);
-    });
+    socket.on("music:play", () => {
+      const stream = ytdl("https://www.youtube.com/watch?v=RT7CPnQtwf0", {
+        filter: "audioonly",
+      });
 
-    stream.on("end", () => {
-      io.emit("music-end");
+      stream.on("data", (chunk) => {
+        io.emit("music-chunk", chunk);
+      });
+
+      stream.on("end", () => {
+        io.emit("music-end", { positionToStart: currentPosition });
+      });
     });
 
     registerMessageHandler(io, socket);
