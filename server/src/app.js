@@ -9,6 +9,7 @@ const connectionString = process.env.MONGO_URL
 mongoose.connect(connectionString)
 
 const userRouter = require("./users/user.router")
+const productRouter = require("./products/product.router")
 const {firebaseAuth} = require("./middlewares/firebaseAuth");
 
 const app = express()
@@ -17,6 +18,7 @@ app.use(cors())
 app.use(express.json())
 
 app.use("/api/users", userRouter)
+app.use("/api/products", productRouter)
 
 app.get("/api/health", (_, res) => {
     res.json("OK")
