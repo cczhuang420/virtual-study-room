@@ -1,4 +1,4 @@
-import React from "react"
+import React, {useCallback} from "react"
 import Page from "../containers/Page.jsx";
 import {useParams} from "react-router-dom";
 import roomBg from "../assets/study-room-bg.svg"
@@ -30,6 +30,18 @@ const StudyingRoomPage = () => {
   const {roomId} = useParams()
 
   const {getCurrentUser} = useAuth()
+
+  const leaveRoomHandler = useCallback(() => {
+    alert("Leave Room")
+  }, [])
+
+  const setTimerHandler = useCallback(() => {
+    alert("Set Timer")
+  }, [])
+
+  const changeSortingHandler = useCallback(() => {
+    alert("Sort by something")
+  }, [])
 
   const mockChatHistory = [
     {
@@ -99,6 +111,7 @@ const StudyingRoomPage = () => {
             </Box>
             <Box sx={{pl: 15, paddingY: 2}}>
               <Button
+                onClick={changeSortingHandler}
                 variant={"contained"}
                 sx={{
                   color: "white",
@@ -173,6 +186,7 @@ const StudyingRoomPage = () => {
       >
         <Box>
           <Button
+            onClick={leaveRoomHandler}
             variant={"outlined"}
             sx={{
               color: "#FFFFFF88",
@@ -188,6 +202,7 @@ const StudyingRoomPage = () => {
         </Box>
         <Box>
           <Button
+            onClick={setTimerHandler}
             variant={"contained"}
             sx={{
               color: "white",
