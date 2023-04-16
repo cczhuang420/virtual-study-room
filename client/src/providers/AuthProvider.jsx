@@ -127,7 +127,7 @@ const AuthProvider = ({children}) => {
     googleSignIn: () => thirdPartySignIn(googleAuthProvider),
     githubSignIn: () => thirdPartySignIn(githubAuthProvider),
     anonymousSignIn
-  }), [currentUser])
+  }), [currentUser, loading])
 
   return (
     <context.Provider value={value}>
