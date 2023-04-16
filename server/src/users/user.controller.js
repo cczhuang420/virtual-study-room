@@ -3,6 +3,10 @@ const { colors, adjectives, uniqueNamesGenerator, animals } = require("unique-na
 
 class UserController {
 
+  async findById(id) {
+    return userModel.findById(id);
+  }
+
   async createUser(email, username) {
     return await userModel.create({email, username})
   }
@@ -22,7 +26,7 @@ class UserController {
     userDoc.username = username
     await userDoc.save()
   }
-  
+
   async getNameSuggestion(name) {
     const generateRandomName = name ? (
         base => base + Array.from({length: 5}, () => Math.round(Math.random() * 10)).join("")
@@ -41,6 +45,13 @@ class UserController {
     } while(await userModel.exists({username}))
 
     return username
+  }
+
+  async purchaseAsset(userDoc, assetId) {
+    if (!userDoc.assets.includes(assetId)) {
+      userDoc.assets.push(assetId)
+    }
+    userDoc.save()
   }
 
 }

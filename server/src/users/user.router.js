@@ -1,6 +1,7 @@
 const {Router} = require("express")
 const UserController = require("./user.controller")
 const {payloadValidator} = require("../middlewares/payloadValidator");
+const {queryValidator} = require("../middlewares/queryValidator")
 
 const userController = new UserController()
 
@@ -39,6 +40,16 @@ router.patch("/", [payloadValidator(["username"])], async (req, res) => {
   } else {
     await userController.updateUsername(filteredUsers[0], req.body.username)
     res.status(204).json()
+  }
+})
+
+router.post("/asset", [queryValidator(["userId", "productId"])], async (req, res) => {
+  const user = await userController.findById(req.query.userId)
+  if (!user) {
+    res.status(404).json("User not found")
+  } else {
+    await userController.purchaseAsset(user, req.query.productId)
+    res.status(201).json()
   }
 })
 
