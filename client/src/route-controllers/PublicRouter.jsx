@@ -10,7 +10,7 @@ const PublicRouter = () => {
         <Route path={"/"} element={<Homepage />} />
         <Route path={"/login"} element={<LoginPage />} />
         <Route path={"/signup"} element={<DemoSignupPage />} />
-        <Route path={"*"} element={<Navigate to={"/"} />} />
+        {/*<Route path={"*"} element={<Navigate to={"/"} />} />*/}
       </Routes>
     </>
   )
