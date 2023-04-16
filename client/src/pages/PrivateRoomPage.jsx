@@ -8,11 +8,12 @@ import AssetMoneyIcon from "../assets/asset-money-icon.svg";
 import FriendContainer from "../components/FriendContainer.jsx";
 import AssetLabel from "../components/AssetLabel.jsx";
 import PrivateRoomsContainer  from "../components/privateRooms/PrivateRoomsContainer.jsx";
+import PrivateRoomCreationForm from "../components/PrivateRoomCreationForm.jsx";
 
 const PrivateRoomPage = () => {
   // const [havePrivateRooms, setHavePrivateRooms] = useState(false);
 
-  const [havePrivateRooms, setHavePrivateRooms] = useState(true);
+  const [havePrivateRooms, setHavePrivateRooms] = useState(false);
 
   // TODO: This modal needed to be removed later right?
   // const { handleOpen, setContent } = useModal();
@@ -57,10 +58,7 @@ const PrivateRoomPage = () => {
             {havePrivateRooms ? (
                 <PrivateRoomsContainer />
             ) : (
-                <Box>
-                  // TODO:
-                  <p className="text-white text-2xl font-bold ">Oops!!!! </p>
-                </Box>
+                <PrivateRoomCreationForm />
             )}
           </Box>
         </Box>
