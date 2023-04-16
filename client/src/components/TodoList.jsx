@@ -81,12 +81,22 @@ export default function TodoList() {
     <Box
       sx={{
         bgcolor: "rgba(255, 255, 255, 0.5)",
-        borderRadius: "0.7vw",
+        borderRadius: "10px",
         padding: "2vw",
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between",
         color: "black",
+        overflowY: "scroll",
+        "&::-webkit-scrollbar": {
+          width: '10px'
+        },
+        "&::-webkit-scrollbar-track": {
+          backgroundColor: "rgba(0,0,0,0)",
+        },
+        "&::-webkit-scrollbar-thumb": {
+          backgroundColor: "rgba(255,255,255,.4)",
+        }
       }}
     >
       {/* title */}

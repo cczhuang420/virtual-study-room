@@ -16,7 +16,7 @@ import CheckoutModal from "./components/CheckoutModal.jsx";
 const ModalContext = createContext({});
 
 const App = () => {
-  const { getCurrentUser } = useAuth();
+  const { getCurrentUser, loading } = useAuth();
   const [open, setOpen] = useState(false);
   const handleClose = useCallback(() => setOpen(false), []);
   const handleOpen = useCallback(() => setOpen(true), []);
@@ -49,6 +49,8 @@ const App = () => {
       },
     });
   }, []);
+
+  if (loading) return null
 
   if (!getCurrentUser()) {
     return <PublicRouter />;
