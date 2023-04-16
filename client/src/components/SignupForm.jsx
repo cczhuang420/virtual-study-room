@@ -1,4 +1,4 @@
-import React, {useMemo, useState} from "react"
+import React, {useCallback, useRef, useState} from "react"
 import {useFormik} from "formik";
 import {
   InputLabel,
@@ -6,58 +6,74 @@ import {
   FormHelperText,
   OutlinedInput,
   InputAdornment,
-  IconButton
+  IconButton,
+  TextField
 } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import VisibilityIcon from "@mui/icons-material/Visibility"
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff"
 import ThirdPartyLogin from "./ThirdPartyLogin.jsx";
-import {useCreateUserHandler, useFetchUserHandler} from "../api/user-api.js";
+import {useFetchUsernameSuggestion} from "../api/user-api.js";
 
 const SignupForm = ({onSubmit}) => {
 
   const [error, setError] = useState("")
   const [signingUp, setSigningUp] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
+  const [gettingSuggestion, setGettingSuggestion] = useState(false)
 
-  const fetchUsers = useFetchUserHandler()
-  const createUser = useCreateUserHandler()
+  const baseName = useRef("")
+
+  const fetchUsernameSuggestion = useFetchUsernameSuggestion()
+
+  const getSuggestedUsername = useCallback(async () => {
+    setGettingSuggestion(true)
+    try {
+      const username = await fetchUsernameSuggestion(
+        baseName.current.replaceAll(" ", "") === "" ?
+          undefined : baseName.current
+      )
+      await formik.setValues({
+        ...formik.values,
+        username
+      })
+    } catch (e) {
+      console.error(e)
+    } finally {
+      setGettingSuggestion(false)
+    }
+
+  }, [fetchUsernameSuggestion])
 
   const formik = useFormik({
     initialValues: {
-      nickname: "",
+      username: "",
       email: "",
       password: ""
     },
     onSubmit: async (values) => {
+      // password requirement is not configurable??!!??!!
+      // https://stackoverflow.com/questions/49183858/is-there-a-way-to-set-a-password-strength-for-firebase
       if (Object.values(values).some(v => v.length === 0)) {
         setError("Please complete all fields")
         return
-      }
-      // password requirement is not configurable??!!??!!
-      // https://stackoverflow.com/questions/49183858/is-there-a-way-to-set-a-password-strength-for-firebase
-      if (values.password.length < 8) {
+      } else if (values.password.length < 8) {
         setError("Password must contain at least 8 characters")
         return
-      }
-      if (!/\S+@\S+\.\S+/.test(values.email)) {
+      } else if (!/\S+@\S+\.\S+/.test(values.email)) {
         setError("Invalid email address")
         return
       }
+
       setSigningUp(true)
-      const usersWithSameEmail = (await fetchUsers({email: values.email})).data
-      if (usersWithSameEmail.length !== 0) {
-        setError("Email is already taken")
-        setSigningUp(false)
-        return
-      }
       try {
         await onSubmit(values)
-        await createUser(values.nickname, values.email)
       } catch (e) {
-        console.log(e)
+        console.error(e)
         if (e.message.includes("auth/email-already-in-use")) {
-          setError("Email already exists")
+          setError("Email is already taken")
+        } else {
+          setError(e.message)
         }
       } finally {
         setSigningUp(false)
@@ -65,32 +81,47 @@ const SignupForm = ({onSubmit}) => {
     },
   })
 
-  const formElements = useMemo(() => {
-    return Object.keys(formik.values).map((key) => (
-      <Box key={key} sx={{mb: {xs: 1, md: 2}}}>
-        <InputLabel>
-          {key.substring(0, 1).toUpperCase() + key.substring(1, key.length).toLowerCase()}
-        </InputLabel>
+  return (
+    <form onSubmit={formik.handleSubmit}>
+      <Box sx={{mb: {xs: 1, md: 2}}}>
+        <Box sx={{display: "flex", justifyContent: "space-between", alignItems: "center"}}>
+          <InputLabel>Username</InputLabel>
+          <LoadingButton
+            loading={gettingSuggestion}
+            variant={"text"}
+            onClick={getSuggestedUsername}
+          >
+            Get random name
+          </LoadingButton>
+        </Box>
+        <TextField
+          name={"username"}
+          value={formik.values.username}
+          onChange={(e) => {
+            formik.handleChange(e)
+            baseName.current = e.target.value
+          }}
+        />
+      </Box>
+      <Box sx={{mb: {xs: 1, md: 2}}}>
+        <InputLabel>Email</InputLabel>
+        <TextField name={"email"} onChange={formik.handleChange} />
+      </Box>
+      <Box sx={{mb: {xs: 1, md: 2}}}>
+        <InputLabel>Password</InputLabel>
         <OutlinedInput
-          name={key}
+          name={"password"}
           onChange={formik.handleChange}
-          type={(key.toLowerCase().includes("password") && !showPassword) ? "password" : "text"}
+          type={showPassword ? "text" : "password"}
           endAdornment={
-            key.toLowerCase().includes("password") ?
-              <InputAdornment position={"end"}>
-                <IconButton onClick={() => setShowPassword((prev) => !prev)}>
-                  {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
-                </IconButton>
-              </InputAdornment> : null
+            <InputAdornment position={"end"}>
+              <IconButton onClick={() => setShowPassword((prev) => !prev)}>
+                {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+              </IconButton>
+            </InputAdornment>
           }
         />
       </Box>
-    ))
-  }, [showPassword])
-
-  return (
-    <form onSubmit={formik.handleSubmit}>
-      {formElements}
       <Box>
         <FormHelperText>
           {error}
@@ -121,7 +152,7 @@ const SignupForm = ({onSubmit}) => {
         >
           Submit
         </LoadingButton>
-        <ThirdPartyLogin />
+        <ThirdPartyLogin onError={() => setError("Your email exists with different credential.")} />
       </Box>
     </form>
   )

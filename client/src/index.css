@@ -10,3 +10,7 @@
 *:not(input) {
   box-sizing: border-box !important;
 }
+
+.hide-scroll-bar::-webkit-scrollbar {
+  width: 0;
+}

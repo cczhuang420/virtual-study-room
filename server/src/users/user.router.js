@@ -18,6 +18,12 @@ router.get("/", async (req, res) => {
   )
 })
 
+router.get("/username-suggestion", async (req, res) => {
+  res.json(
+    await userController.getNameSuggestion(req.query.username)
+  )
+})
+
 router.patch("/", [payloadValidator(["username"])], async (req, res) => {
   const filteredUsersPromise = userController.getUser(req.query)
   const userWithSameUsernamePromise = userController.getUser({username: req.body.username})

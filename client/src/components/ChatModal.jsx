@@ -43,16 +43,14 @@ const ChatModal = ({chatHistory, targetUser, userList, onSend}) => {
   return (
     <Box
       sx={{
-        width: "100%",
-        height: "100%",
         borderRadius: "10px",
         display: "flex",
         flexDirection: "column",
-        overflow: "hidden"
+        overflowY: "hidden"
       }}
     >
       {/* HEADER */}
-      <Box sx={{backgroundColor: "#C6C6C6", paddingX: 2, paddingY: 1}}>
+      <Box sx={{backgroundColor: "#C6C6C6", paddingX: 2, paddingY: .5}}>
         <Box
           onClick={() => setShowUserList(prev => !prev)}
           onBlur={() => setShowUserList(false)}
@@ -106,7 +104,14 @@ const ChatModal = ({chatHistory, targetUser, userList, onSend}) => {
                     }}
                   >
                     {userList.map(({name, uid, isOnline}) => (
-                      <ListItem sx={{paddingX: 1, paddingY: .3, "&:hover": {backgroundColor: "rgba(255,255,255,.1)"}}}>
+                      <ListItem
+                        key={`${Math.random()}`}
+                        sx={{
+                          paddingX: 1,
+                          paddingY: .3,
+                          "&:hover": { backgroundColor: "rgba(255,255,255,.1)" }
+                        }}
+                      >
                         <ListItemText
                           sx={{
                             width: "auto",
@@ -136,7 +141,22 @@ const ChatModal = ({chatHistory, targetUser, userList, onSend}) => {
       </Box>
 
       {/* CHAT HISTORY */}
-      <Box sx={{backgroundColor: "rgba(255,255,255,.5)", flex: 1}}>
+      <Box
+        sx={{
+          backgroundColor: "rgba(255,255,255,.5)",
+          flex: 1,
+          overflowY: "scroll",
+          "&::-webkit-scrollbar": {
+            width: '10px'
+          },
+          "&::-webkit-scrollbar-track": {
+            backgroundColor: "rgba(0,0,0,0)",
+          },
+          "&::-webkit-scrollbar-thumb": {
+            backgroundColor: "rgba(255,255,255,.4)",
+          }
+        }}
+      >
         {chatHistory.map(({senderId, profileImageUrl, content}) => (
           <Box
             key={`${+new Date()}${Math.random()}`}
@@ -179,7 +199,7 @@ const ChatModal = ({chatHistory, targetUser, userList, onSend}) => {
               value={message}
               onChange={e => setMessage(e.target.value)}
               placeholder={"Enter your message..."}
-              sx={{"& fieldset": {border: "none"}, boxSizing: "border-box", p: 1}}
+              sx={{"& fieldset": {border: "none"}, boxSizing: "border-box"}}
             />
             <Button
               type={"submit"}
