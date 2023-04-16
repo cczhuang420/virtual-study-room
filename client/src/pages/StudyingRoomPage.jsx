@@ -156,7 +156,7 @@ const StudyingRoomPage = () => {
                 alignItems: "stretch",
                 flexDirection: "column",
                 "&>*": { flex: 1 },
-                paddingX: 3,
+                paddingX: 8,
                 paddingY: 2
               }
             }}
