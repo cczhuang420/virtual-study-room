@@ -1,6 +1,7 @@
 const {Router} = require("express")
 const ProductController = require("./product.controller")
 const {payloadValidator} = require("../middlewares/payloadValidator");
+const {queryValidator} = require("../middlewares/queryValidator");
 
 const productTypes = [
   "background",
@@ -11,6 +12,17 @@ const productTypes = [
 const productController = new ProductController()
 
 const router = Router({mergeParams: true})
+
+router.get("/", [queryValidator(["type"])], async (req, res) => {
+  if (!productTypes.includes(req.query.type)) {
+    res.status(400).json(`Invalid type: product must be of type [${productTypes.join(", ")}]`)
+  } else {
+    res.json(
+      await productController.findProductsByType(req.query.type)
+    )
+  }
+
+})
 
 router.post("/", [payloadValidator(["name", "type", "price"])], async (req, res) => {
   const price = Number(req.body.price)
