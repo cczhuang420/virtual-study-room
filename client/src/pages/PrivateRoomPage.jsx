@@ -34,7 +34,7 @@ const PrivateRoomPage = () => {
   // }, []);
 
   return (
-      <Page title={"Private Room"}>
+      <Page title={"Private Room"} sx={{width: "100%"}}>
         <Box className="flex flex-1 flex-row flex-auto justify-start h-full w-full">
           <Box
               sx={{
@@ -55,11 +55,13 @@ const PrivateRoomPage = () => {
               <AssetLabel image={AssetMoneyIcon} value={12000} />
             </Box>
 
-            {havePrivateRooms ? (
+            <Box>
+              {havePrivateRooms ? (
                 <PrivateRoomsContainer />
-            ) : (
+              ) : (
                 <PrivateRoomCreationForm />
-            )}
+              )}
+            </Box>
           </Box>
         </Box>
       </Page>
