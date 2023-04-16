@@ -104,7 +104,14 @@ const ChatModal = ({chatHistory, targetUser, userList, onSend}) => {
                     }}
                   >
                     {userList.map(({name, uid, isOnline}) => (
-                      <ListItem sx={{paddingX: 1, paddingY: .3, "&:hover": {backgroundColor: "rgba(255,255,255,.1)"}}}>
+                      <ListItem
+                        key={`${Math.random()}`}
+                        sx={{
+                          paddingX: 1,
+                          paddingY: .3,
+                          "&:hover": { backgroundColor: "rgba(255,255,255,.1)" }
+                        }}
+                      >
                         <ListItemText
                           sx={{
                             width: "auto",

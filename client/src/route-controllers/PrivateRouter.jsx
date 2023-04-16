@@ -18,6 +18,7 @@ const PrivateRouter = () => {
         <Route path={"/profile"} element={<ProfilePage />} />
         <Route path={"/rooms/:roomId"} element={<StudyingRoomPage />} />
         <Route path={"/token"} element={<TokenPage />} />
+        <Route path={"*"} element={<Navigate to={"/public-rooms"} />} />
       </Routes>
     </>
   )

@@ -121,7 +121,7 @@ const StudyingRoomPage = () => {
             >
               <Grid container sx={{p: 10, pt: 1}}>
                 {roomUsers.map((roomUser) => (
-                  <Grid item xs={12} md={6} sx={{p: 5, pt: 0}}>
+                  <Grid item xs={12} md={6} sx={{p: 5, pt: 0}} key={`${Math.random()}`}>
                     <RoomUserCard {...roomUser} />
                   </Grid>
                 ))}

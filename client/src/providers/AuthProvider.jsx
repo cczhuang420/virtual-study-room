@@ -31,6 +31,7 @@ const AuthProvider = ({children}) => {
   const fetchUsers = useFetchUserHandler()
 
   const [currentUser, setCurrentUser] = useState(null)
+  const [loading, setLoading] = useState(true)
 
   const login = useCallback(async (email, password) => {
     await signInWithEmailAndPassword(auth, email, password)
@@ -94,12 +95,14 @@ const AuthProvider = ({children}) => {
       console.log("Auth state changed")
       console.log(user)
       setCurrentUser(user)
+      setLoading(false)
     })
   }, [])
 
   const value = useMemo(() => ({
     login,
     signup,
+    loading,
     getCurrentUser: () => currentUser,
     // Authorization
     getAccessToken: () => currentUser.accessToken,
