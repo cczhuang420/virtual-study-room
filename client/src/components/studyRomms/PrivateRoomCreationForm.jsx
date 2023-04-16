@@ -11,8 +11,8 @@ import {
   Typography
 } from "@mui/material";
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
-import BackgroundSelectorGrid from "./BackgroundSelectorGrid";
-import sampleBg from "../assets/background-card.svg"
+import BackgroundSelectorGrid from "../BackgroundSelectorGrid.jsx";
+import sampleBg from "../../assets/background-card.svg"
 
 
 const PrivateRoomCreationForm = () => {
