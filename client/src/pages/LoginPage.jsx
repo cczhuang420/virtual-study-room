@@ -20,7 +20,7 @@ const LoginPage = () => {
     [login]
   )
   const signupHandler = useCallback(
-    (values) => signup(values.email, values.password),
+    (values) => signup(values.email, values.password, values.username),
     [signup]
   )
 

@@ -1,11 +1,10 @@
 const userModel = require("./user.model")
+const { colors, adjectives, uniqueNamesGenerator, animals } = require("unique-names-generator")
 
 class UserController {
 
-  async createUser(nickname, email) {
-    const plainText = `${+new Date()}${Math.random()}`
-    const username = Buffer.from(plainText).toString("base64")
-    return await userModel.create({nickname, email, username})
+  async createUser(email, username) {
+    return await userModel.create({email, username})
   }
 
   async getUser(queryParam) {
@@ -17,6 +16,26 @@ class UserController {
       }
     })
     return userModel.find(filter);
+  }
+
+  async getNameSuggestion(name) {
+    const generateRandomName = name ? (
+        base => base + Array.from({length: 5}, () => Math.round(Math.random() * 10)).join("")
+      ) : (
+        () => uniqueNamesGenerator({
+          dictionaries: [adjectives, colors, animals],
+          length: 3,
+          style: "capital",
+          separator: " "
+        })
+      )
+
+    let username;
+    do {
+      username = generateRandomName(name);
+    } while(await userModel.exists({username}))
+
+    return username
   }
 
 }
