@@ -7,9 +7,9 @@ const userController = new UserController()
 
 const router = Router({mergeParams: true})
 
-router.post("/", async (req, res) => {
+router.post("/", payloadValidator(["username", "email"]), async (req, res) => {
   res.json(
-    await userController.createUser(req.body.email)
+    await userController.createUser(req.body.email, req.body.username)
   )
 })
 
