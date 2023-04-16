@@ -83,7 +83,7 @@ const PrivateRoomCreationForm = () => {
       <Box sx={{mb: 4}}>
         <BackgroundSelectorGrid
           images={Array(4).fill(sampleBg)}
-          onClick={(index) => setImage(index)}
+          onClick={(index) => setImage(image => index === image ? undefined : index)}
         />
       </Box>
       <Box sx={{display: "flex", justifyContent: "flex-end", mb: 4}}>
