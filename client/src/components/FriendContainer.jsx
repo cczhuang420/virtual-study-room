@@ -16,7 +16,7 @@ const FriendContainer = () => {
             paddingTop={6}
             sx={{
                 height: "100%",
-                width: "20%",
+                width: "100%",
                 border: 0,
                 overflow: "hidden",
                 backgroundColor: "#290451",
