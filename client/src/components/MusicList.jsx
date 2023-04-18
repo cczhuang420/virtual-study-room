@@ -12,7 +12,7 @@ export default function MusicList({ musics }) {
   return (
     <Box
       padding={3}
-      sx={{ width: "100%", backgroundColor: "#401f6a", borderRadius: "0.7vw" }}
+      // sx={{ width: "100%", backgroundColor: "#401f6a", borderRadius: "0.7vw" }}
     >
       <List>
         {musics.map((music, index) => (

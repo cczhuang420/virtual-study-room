@@ -1,9 +1,6 @@
-import { Box, Typography, Tabs, Tab, Stack, Container } from "@mui/material";
-import { useCallback, useState } from "react";
+import { Box, Typography, Stack } from "@mui/material";
+import { useState } from "react";
 import AssetTypeButton from "./AssetTypeButton.jsx";
-import { styled } from "@mui/system";
-import TabUnstyled from "@mui/base/TabUnstyled";
-import TabsListUnstyled from "@mui/base/TabsListUnstyled";
 import BackgroundGrid from "./BackgroundGrid";
 import MusicList from "./MusicList";
 import ProfileGrid from "./ProfileGrid";
@@ -20,7 +17,7 @@ const AssetPanel = ({ backgrounds, musics, profilePhotos }) => {
       </Box>
       <Box
         width={"100%"}
-        minHeight={{ xs: "130px", md: "130px" }}
+        minHeight={{ xs: "100px", md: "100px" }}
         display={"flex"}
         justifyContent={"space-between"}
       >
@@ -59,7 +56,7 @@ const AssetPanel = ({ backgrounds, musics, profilePhotos }) => {
       </Box>
       <Box
         width={"100%"}
-        height={"70%"}
+        height={"85%"}
         sx={{
           backgroundColor: "#401f6a",
           borderRadius: "0.7vw",
