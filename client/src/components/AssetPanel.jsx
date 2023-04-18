@@ -17,14 +17,14 @@ const AssetPanel = ({ backgrounds, musics, profilePhotos }) => {
       </Box>
       <Box
         width={"100%"}
-        minHeight={{ xs: "100px", md: "100px" }}
+        minHeight={{ xs: "140px", md: "100px" }}
         display={"flex"}
         justifyContent={"space-between"}
       >
-        <Box flex={1} height={"100%"} minWidth={"30%"}>
+        <Box flex={1} height={"100%"}>
           <AssetTypeButton
             title={"Background"}
-            amount={7}
+            amount={backgrounds.length}
             shouldHighLight={value === 0}
             onClick={() => {
               setValue(0);
@@ -32,10 +32,10 @@ const AssetPanel = ({ backgrounds, musics, profilePhotos }) => {
           />
         </Box>
         <Box flex={0.1}></Box>
-        <Box flex={1} height={"100%"} minWidth={"30%"}>
+        <Box flex={1} height={"100%"}>
           <AssetTypeButton
             title={"Music"}
-            amount={7}
+            amount={musics.length}
             shouldHighLight={value === 1}
             onClick={() => {
               setValue(1);
@@ -43,10 +43,10 @@ const AssetPanel = ({ backgrounds, musics, profilePhotos }) => {
           />
         </Box>
         <Box flex={0.1}></Box>
-        <Box flex={1} height={"100%"} minWidth={"30%"}>
+        <Box flex={1} height={"100%"}>
           <AssetTypeButton
             title={"Profile Image"}
-            amount={7}
+            amount={profilePhotos.length}
             shouldHighLight={value === 2}
             onClick={() => {
               setValue(2);

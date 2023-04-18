@@ -10,21 +10,20 @@ import MusicNote from "../assets/music-note.svg";
 
 export default function MusicList({ musics }) {
   return (
-    <Box
-      padding={3}
-      // sx={{ width: "100%", backgroundColor: "#401f6a", borderRadius: "0.7vw" }}
-    >
+    <Box padding={2}>
       <List>
         {musics.map((music, index) => (
-          <ListItem key={index} sx={{ padding: 3 }}>
+          <ListItem key={index} sx={{ padding: 1.5 }}>
             <Box
               sx={{
                 width: "100%",
                 display: "flex",
+                flexDirection: { xs: "column", md: "row" },
                 justifyContent: "space-between",
+                alignItems: "center",
                 backgroundColor: "#9f8fb4",
                 borderRadius: "0.5vw",
-                padding: 2,
+                padding: 1,
               }}
             >
               <Box
@@ -35,12 +34,16 @@ export default function MusicList({ musics }) {
                 }}
               >
                 <ListItemIcon>
-                  <img src={MusicNote} alt="Music Note" />
+                  <img
+                    src={MusicNote}
+                    alt="Music Note"
+                    style={{ width: "50px" }}
+                  />
                 </ListItemIcon>
                 <ListItemText
                   primary={
                     <Typography
-                      variant="h3"
+                      variant="h4"
                       sx={{ fontWeight: "bold", color: "black" }}
                     >
                       {music.name}
@@ -51,7 +54,7 @@ export default function MusicList({ musics }) {
               <Box sx={{ display: "flex", alignItems: "center" }}>
                 <ListItemText
                   primary={
-                    <Typography variant="h3" sx={{ color: "black" }}>
+                    <Typography variant="h5" sx={{ color: "black" }}>
                       {"By " + music.artist}
                     </Typography>
                   }

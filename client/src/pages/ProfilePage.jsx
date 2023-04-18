@@ -81,16 +81,16 @@ const ProfilePage = () => {
           <Stack
             mt={8}
             direction={"row"}
-            width={{ xs: "65%", sx: "78%", md: "70%" }}
+            width={{ xs: "90%", sx: "78%", md: "70%" }}
             spacing={2}
-            height={{ xs: "14%", sx: "10%", md: "5%" }}
+            height={{ xs: "18%", sx: "10%", md: "5%" }}
           >
             <AssetLabel image={moneyIcon} value={1340} />
             <AssetLabel image={xpIcon} value={2300} />
           </Stack>
           <Box
             mt={8}
-            width={{ xs: "80%", sm: "78%", md: "90%" }}
+            width={{ xs: "90%", sm: "78%", md: "90%" }}
             height={{ xs: "40%", sm: "20%", md: "10%" }}
           >
             <ModifiableTextField
