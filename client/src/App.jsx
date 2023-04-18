@@ -27,7 +27,7 @@ const App = () => {
     image: null,
     cost: 0,
     money: 0,
-    isRoomCard: true,
+    type: 0,
     onClick: () => {},
   });
 
@@ -50,7 +50,7 @@ const App = () => {
     });
   }, []);
 
-  if (loading) return null
+  if (loading) return null;
 
   if (!getCurrentUser()) {
     return <PublicRouter />;

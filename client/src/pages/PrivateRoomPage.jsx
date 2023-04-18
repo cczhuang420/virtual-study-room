@@ -1,14 +1,14 @@
 import Page from "../containers/Page.jsx";
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Box } from "@mui/material";
-import { useModal } from "../App.jsx";
-import backgroundImage from "../assets/backgroundRoom.svg";
 import AssetXPIcon from "../assets/asset-xp-icon.svg";
 import AssetMoneyIcon from "../assets/asset-money-icon.svg";
 import FriendContainer from "../components/FriendContainer.jsx";
 import AssetLabel from "../components/AssetLabel.jsx";
 import PrivateRoomsContainer from "../components/studyRomms/PrivateRoomsContainer.jsx";
 import PrivateRoomCreationForm from "../components/studyRomms/PrivateRoomCreationForm.jsx";
+import { useModal } from "../App.jsx";
+import backgroundImage from "../assets/backgroundRoom.svg";
 
 const PrivateRoomPage = () => {
   const [havePrivateRooms, setHavePrivateRooms] = useState(false);
@@ -19,11 +19,11 @@ const PrivateRoomPage = () => {
   // useEffect(() => {
   //   setContent({
   //     title: "Check out",
-  //     imageTitle: "Unlock private room now",
+  //     imageTitle: "purchase profile photo now",
   //     image: backgroundImage,
   //     cost: 400,
   //     money: 1289,
-  //     isRoomCard: true,
+  //     type: 1,
   //     onClick: () => {
   //       console.log("hahahaha");
   //     },

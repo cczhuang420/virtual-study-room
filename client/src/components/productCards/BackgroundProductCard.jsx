@@ -30,7 +30,12 @@ const BackgroundProductCard = ({ value, productName }) => {
               {value}
             </Typography>
           </Box>
-          <PurchaseButton />
+          <PurchaseButton
+            title={productName}
+            image={BackgroundCard}
+            cost={value}
+            type={0}
+          />
         </CardActions>
       </Box>
     </Card>

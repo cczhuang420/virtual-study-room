@@ -34,7 +34,12 @@ const ProfileProductCard = ({ value, productName }) => {
               {value}
             </Typography>
           </Box>
-          <PurchaseButton />
+          <PurchaseButton
+            title={productName}
+            image={ProfileImage}
+            type={2}
+            cost={value}
+          />
         </CardActions>
       </Box>
     </Card>
