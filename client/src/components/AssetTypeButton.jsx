@@ -35,7 +35,14 @@ const AssetTypeButton = ({ amount, title, onClick, shouldHighLight }) => {
         </Typography>
       </Box>
       <Box>
-        <Typography variant={"h3"} color={"#fff"} fontWeight={500}>
+        <Typography
+          variant={"h3"}
+          color={"#fff"}
+          fontWeight={500}
+          sx={{
+            wordBreak: "break-all",
+          }}
+        >
           {title}
         </Typography>
       </Box>
