@@ -12,6 +12,8 @@ import avatar from "../assets/Frank.svg";
 
 const ProfilePage = () => {
   const [nickName, setNickname] = useState("");
+
+  //fake data, will be replaced by the data which fetch from the backend
   const backgroundsImage = [
     img1,
     img2,
