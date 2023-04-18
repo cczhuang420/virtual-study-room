@@ -10,10 +10,10 @@ import {
   useTheme,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import RoomCard from "./RoomCard.jsx";
 import AssetLabel from "./AssetLabel.jsx";
 import assetMoney from "../assets/asset-money-icon.svg";
 import { useModal } from "../App.jsx";
+import ModalProductCard from "./ModalProductCard.jsx";
 
 /*
    This modal will be used for the whole app, You can get a below 5 variables from useModal function
@@ -30,9 +30,11 @@ import { useModal } from "../App.jsx";
       image: null,
       cost: 0,
       money: 0,
-      isRoomCard: true,
+      value: 0,
       onClick: () => {},
    everytime you want to open the modal, you should setContent first and then call handleOpen function
+   the value attribute is used to choose the which type product card you want to set, if the value is 0
+   that means the modal will display for background image, if value is 1, it is for music, 2 is for profile image
  */
 
 const style = {
@@ -89,11 +91,10 @@ const CheckoutModal = () => {
               </Typography>
             </Box>
             <Box p={2.5} height={"50%"} width={"100%"}>
-              <RoomCard
+              <ModalProductCard
                 title={content.imageTitle}
-                showPeopleAmount={false}
                 image={content.image}
-                showVagueBackground={content.isRoomCard}
+                value={content.value}
               />
             </Box>
             <Box pl={2.5}>

@@ -1,8 +1,6 @@
 import Page from "../containers/Page.jsx";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Box } from "@mui/material";
-import { useModal } from "../App.jsx";
-import backgroundImage from "../assets/backgroundRoom.svg";
 import AssetXPIcon from "../assets/asset-xp-icon.svg";
 import AssetMoneyIcon from "../assets/asset-money-icon.svg";
 import FriendContainer from "../components/FriendContainer.jsx";
@@ -19,11 +17,11 @@ const PrivateRoomPage = () => {
   // useEffect(() => {
   //   setContent({
   //     title: "Check out",
-  //     imageTitle: "Unlock private room now",
-  //     image: backgroundImage,
+  //     imageTitle: "purchase profile photo now",
+  //     image: profilePhoto,
   //     cost: 400,
   //     money: 1289,
-  //     isRoomCard: true,
+  //     value: 0,
   //     onClick: () => {
   //       console.log("hahahaha");
   //     },
