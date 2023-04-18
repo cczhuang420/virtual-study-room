@@ -1,5 +1,5 @@
 import Page from "../containers/Page.jsx";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Box } from "@mui/material";
 import AssetXPIcon from "../assets/asset-xp-icon.svg";
 import AssetMoneyIcon from "../assets/asset-money-icon.svg";
@@ -7,6 +7,8 @@ import FriendContainer from "../components/FriendContainer.jsx";
 import AssetLabel from "../components/AssetLabel.jsx";
 import PrivateRoomsContainer from "../components/studyRomms/PrivateRoomsContainer.jsx";
 import PrivateRoomCreationForm from "../components/studyRomms/PrivateRoomCreationForm.jsx";
+import { useModal } from "../App.jsx";
+import backgroundImage from "../assets/backgroundRoom.svg";
 
 const PrivateRoomPage = () => {
   const [havePrivateRooms, setHavePrivateRooms] = useState(false);
@@ -18,10 +20,10 @@ const PrivateRoomPage = () => {
   //   setContent({
   //     title: "Check out",
   //     imageTitle: "purchase profile photo now",
-  //     image: profilePhoto,
+  //     image: backgroundImage,
   //     cost: 400,
   //     money: 1289,
-  //     value: 0,
+  //     type: 1,
   //     onClick: () => {
   //       console.log("hahahaha");
   //     },

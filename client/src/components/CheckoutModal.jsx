@@ -30,11 +30,11 @@ import ModalProductCard from "./ModalProductCard.jsx";
       image: null,
       cost: 0,
       money: 0,
-      value: 0,
+      type: 0,
       onClick: () => {},
    everytime you want to open the modal, you should setContent first and then call handleOpen function
-   the value attribute is used to choose the which type product card you want to set, if the value is 0
-   that means the modal will display for background image, if value is 1, it is for music, 2 is for profile image
+   the type attribute is used to choose the which type product card you want to set, if the type is 0
+   that means the modal will display for background image, if type is 1, it is for music, 2 is for profile image
  */
 
 const style = {
@@ -94,7 +94,7 @@ const CheckoutModal = () => {
               <ModalProductCard
                 title={content.imageTitle}
                 image={content.image}
-                value={content.value}
+                value={content.type}
               />
             </Box>
             <Box pl={2.5}>

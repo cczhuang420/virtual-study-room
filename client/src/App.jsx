@@ -27,7 +27,7 @@ const App = () => {
     image: null,
     cost: 0,
     money: 0,
-    value: 0,
+    type: 0,
     onClick: () => {},
   });
 
