@@ -27,7 +27,7 @@ const PurchaseButton = ({ title, type, image, cost }) => {
       money: 1289,
       type: type,
       onClick: () => {
-        console.log("hahahaha");
+        alert(`I buy ${title}`);
       },
     });
     handleOpen();
