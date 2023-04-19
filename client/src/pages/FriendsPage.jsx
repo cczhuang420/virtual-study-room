@@ -48,7 +48,7 @@ const FriendsPage = () => {
             </Button>
           </Box>
           <Box className="flex flex-1 flex-row flex-auto justify-start h-full w-full">
-            <PrivateRoomsContainer />
+            <PrivateRoomsContainer isCreateRoom={false} />
           </Box>
         </Box>
         <Box sx={{ width: "35%", height: "100%" }}>
