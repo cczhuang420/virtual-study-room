@@ -7,7 +7,7 @@ import Mike from "../assets/Mike.svg";
 import Frank from "../assets/Frank.svg";
 import PrivateRoomsContainer from "../components/studyRooms/PrivateRoomsContainer.jsx";
 
-const FriendsPage = () => {
+const FriendsPage = ({ id }) => {
   const { getCurrentUser } = useAuth()
   return (
     <Page title={"Friends Page"}>
@@ -44,7 +44,7 @@ const FriendsPage = () => {
                 textTransform: 'none',
                 width: "30%",
               }}>
-              Mike Ma's Rooms
+              {id}'s Rooms
             </Button>
           </Box>
           <Box className="flex flex-1 flex-row flex-auto justify-start h-full w-full">
