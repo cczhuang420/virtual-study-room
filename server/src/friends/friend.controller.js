@@ -27,6 +27,17 @@ class FriendController {
     await userModel.updateOne({ _id: friendId }, { $pull: { friends: myId } });
   }
 
+  async addFriend(id, fid) {
+    const user = await userModel.findById(id);
+    const friendUser = await userModel.findById(fid);
+    if (!user.friends.includes(fid)) {
+      await userModel.updateOne({ _id: id }, { $push: { friends: fid } });
+    }
+    if (!friendUser.friends.includes(id)) {
+      await userModel.updateOne({ _id: fid }, { $push: { friends: id } });
+    }
+  }
+
   async sendRequest(id, fid) {
     await friendRequestModel.create({
       sender: id,
@@ -46,6 +57,59 @@ class FriendController {
       }
     }
     return sendRequestUsers;
+  }
+
+  //check whether these two users have one pending request
+  async checkExistPendingRequest(id, fid) {
+    const requestFromIdToFid = await friendRequestModel.findOne({
+      sender: id,
+      receiver: fid,
+      status: "pending",
+    });
+    const requestFromFidToId = await friendRequestModel.findOne({
+      sender: fid,
+      receiver: id,
+      status: "pending",
+    });
+
+    return requestFromFidToId != null || requestFromIdToFid != null;
+  }
+
+  //check whether exist a pending request from fid to id
+  async checkExistPendingRequestFromOneSide(id, fid) {
+    const request = await friendRequestModel.findOne({
+      sender: fid,
+      receiver: id,
+      status: "pending",
+    });
+
+    return request !== null;
+  }
+
+  //the user whose id is id approve the request from the user whose id is fid
+  async approvedRequest(id, fid) {
+    await friendRequestModel.updateOne(
+      {
+        sender: fid,
+        receiver: id,
+        status: "pending",
+      },
+      { status: "approved" }
+    );
+    await this.addFriend(id, fid);
+  }
+
+  async rejectedRequest(id, fid) {
+    await friendRequestModel.updateOne(
+      {
+        sender: fid,
+        receiver: id,
+        status: "pending",
+      },
+      {
+        status: "rejected",
+      }
+    );
   }
 }
 
