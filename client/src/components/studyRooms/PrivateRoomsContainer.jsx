@@ -4,7 +4,7 @@ import StudyRoombackground from "../../assets/study-room-bg.svg";
 import RoomCreater from "../RoomCreater.jsx";
 import React from "react";
 
-const PrivateRoomsContainer = () => {
+const PrivateRoomsContainer = ({ isCreateRoom = true }) => {
   // TODO: ADD this handler
   const handleOpenRoom = () => {
     alert("open");
@@ -56,7 +56,7 @@ const PrivateRoomsContainer = () => {
         sx={{ minWidth: 200, maxHeight: 250, minHeight: 200 }}
         className="w-5/12 h-1/2 m-5"
       >
-        <RoomCreater onClick={() => alert("add new room")} />
+        {isCreateRoom && (<RoomCreater onClick={() => alert("add new room")} />)}
       </Box>
     </Box>
   );

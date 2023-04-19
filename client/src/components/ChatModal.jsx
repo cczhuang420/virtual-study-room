@@ -46,7 +46,8 @@ const ChatModal = ({chatHistory, targetUser, userList, onSend}) => {
         borderRadius: "10px",
         display: "flex",
         flexDirection: "column",
-        overflowY: "hidden"
+        overflowY: "hidden",
+        height: "100%"
       }}
     >
       {/* HEADER */}

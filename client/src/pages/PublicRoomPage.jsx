@@ -5,7 +5,7 @@ import FriendContainer from "../components/FriendContainer.jsx";
 import AssetLabel from "../components/AssetLabel.jsx";
 import AssetXPIcon from "../assets/asset-xp-icon.svg";
 import AssetMoneyIcon from "../assets/asset-money-icon.svg";
-import PublicRoomsContainer from "../components/studyRomms/PublicRoomsContainer.jsx";
+import PublicRoomsContainer from "../components/studyRooms/PublicRoomsContainer.jsx";
 
 const PublicRoomPage = () => {
   return (
