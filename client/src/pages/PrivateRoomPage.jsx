@@ -5,8 +5,8 @@ import AssetXPIcon from "../assets/asset-xp-icon.svg";
 import AssetMoneyIcon from "../assets/asset-money-icon.svg";
 import FriendContainer from "../components/FriendContainer.jsx";
 import AssetLabel from "../components/AssetLabel.jsx";
-import PrivateRoomsContainer from "../components/studyRomms/PrivateRoomsContainer.jsx";
-import PrivateRoomCreationForm from "../components/studyRomms/PrivateRoomCreationForm.jsx";
+import PrivateRoomsContainer from "../components/studyRooms/PrivateRoomsContainer.jsx";
+import PrivateRoomCreationForm from "../components/studyRooms/PrivateRoomCreationForm.jsx";
 import { useModal } from "../App.jsx";
 import backgroundImage from "../assets/backgroundRoom.svg";
 
