@@ -8,6 +8,7 @@ const userController = new UserController();
 
 const router = Router({ mergeParams: true });
 
+// return an array which contain list of chat object
 router.get("/", [queryValidator(["myId", "customerId"])], async (req, res) => {
     const { myId, customerId } = req.query;
     const user = await userController.findById(myId);
@@ -19,6 +20,7 @@ router.get("/", [queryValidator(["myId", "customerId"])], async (req, res) => {
     }
 })
 
+// return the latest chat
 router.get("/latest", [queryValidator(["myId", "customerId"])], async (req, res) => {
     const { myId, customerId } = req.query;
     const user = await userController.findById(myId);
@@ -30,6 +32,7 @@ router.get("/latest", [queryValidator(["myId", "customerId"])], async (req, res)
     }
 })
 
+// create a chat
 router.post("/", [queryValidator(["myId", "customerId", "messages"])], async (req, res) => {
     const { myId, customerId, messages } = req.query;
     const user = await userController.findById(myId);

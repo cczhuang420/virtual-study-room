@@ -1,6 +1,7 @@
 const chatModel = require("./chat.model");
 
 class ChatController {
+    // get the chat from the two users
     async getChat(myId, customerId) {
         const chatFromUserToCustomer = await chatModel.find({
             sender: myId,
@@ -15,6 +16,7 @@ class ChatController {
         return chatFromUserToCustomer != null && chatFromCustomerToUser != null
     }
 
+    // get the latest chat
     async getLatestChat(myId, customerId) {
         const messageFromUserToCustomer = await chatModel.find({
             sender: myId,
@@ -39,6 +41,7 @@ class ChatController {
         return latestChat;
     }
 
+    // create the chat
     async createChat(myId, customerId, messages) {
         await chatModel.create({
             sender: myId,
