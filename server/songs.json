@@ -1,0 +1,21 @@
+{
+  "data": {
+    "rooms": [
+      {
+        "name": "Relaxing",
+        "id": "relaxing-01",
+        "songs": [
+          "https://www.youtube.com/watch?v=RT7CPnQtwf0",
+          "https://www.youtube.com/watch?v=0XRx5Jwjp4k",
+          "https://www.youtube.com/watch?v=QkEpD6oTNnI",
+          "https://www.youtube.com/watch?v=NXpIQSdX_wQ"
+        ]
+      },
+      {
+        "roomName": "Lofi",
+        "roomId": "lofi-01",
+        "songs": ["https://www.youtube.com/watch?v=RT7CPnQtwf0"]
+      }
+    ]
+  }
+}
