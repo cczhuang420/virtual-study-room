@@ -39,7 +39,14 @@ class ChatController {
         return latestChat;
     }
 
-
+    async createChat(myId, customerId, messages) {
+        await chatModel.create({
+            sender: myId,
+            receiver: customerId,
+            timestamp: Math.floor(Date.now() / 1000),
+            message: messages
+        });
+    }
 }
 
 module.exports = ChatController;
