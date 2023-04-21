@@ -11,6 +11,7 @@ mongoose.connect(connectionString)
 const userRouter = require("./users/user.router")
 const productRouter = require("./products/product.router")
 const friendRouter = require("./friends/friend.router")
+const chatRouter = require("./chats/chat.router")
 const {firebaseAuth} = require("./middlewares/firebaseAuth");
 
 const app = express()
@@ -21,6 +22,7 @@ app.use(express.json())
 app.use("/api/users", userRouter)
 app.use("/api/products", productRouter)
 app.use("/api/friends",friendRouter)
+app.use("/api/chats", chatRouter)
 
 app.get("/api/health", (_, res) => {
     res.json("OK")
