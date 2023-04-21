@@ -41,14 +41,16 @@ const RankBar = ({
         justifyContent={"space-evenly"}
         alignItems={"center"}
       >
-        <Image
-          width={"23%"}
-          height={"100%"}
-          fit={"scale-down"}
-          src={profileImage}
-          bgColor={""}
-          duration={0}
-        />
+        {profileImage !== "" && (
+          <Image
+            width={"23%"}
+            height={"100%"}
+            fit={"scale-down"}
+            src={profileImage}
+            bgColor={""}
+            duration={0}
+          />
+        )}
         <Typography
           sx={{
             textAlign: "center",

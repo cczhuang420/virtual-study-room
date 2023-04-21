@@ -1,13 +1,14 @@
 import Page from "../containers/Page.jsx";
 import React from "react";
 import profileImage from "../assets/Mike.svg";
-import { Box, Typography, Button, Divider } from "@mui/material";
+import { Box, Typography, Button, Divider, Grid } from "@mui/material";
 import img1 from "../assets/backgroundRoom.svg";
 import img2 from "../assets/background-card.svg";
 import ListItem from "@mui/material/ListItem";
 import FriendCard from "../components/FriendCard.jsx";
 import TopLeaderCard from "../components/TopLeaderCard.jsx";
 import RankBar from "../components/RankBar.jsx";
+import BackgroundCard from "../components/BackgroundCard.jsx";
 
 const LeaderboardPage = () => {
   //fake data, will be replaced by the data which fetch from the backend
@@ -28,18 +29,18 @@ const LeaderboardPage = () => {
   const podiumArray = dataArray.slice(0, 3);
   const rankingArray = dataArray.slice(3);
 
-  const heightPercent = ["10%", "30%", "5%", "8%"];
+  const heightPercent = ["10%", "30%", "5%", "8%", "47%"];
   return (
     <Page title={"Leaderboard"}>
       <Box
         margin={3}
+        marginLeft={6}
         display={"flex"}
         flexDirection={"column"}
         justifyContent={"flex-start"}
         sx={{
           width: "100%",
           height: "100%",
-          overflowY: "auto",
           //background: "rgba(255, 255, 255, .5)",
         }}
       >
@@ -53,10 +54,10 @@ const LeaderboardPage = () => {
           }}
         >
           <Typography
-            marginLeft={5}
+            marginLeft={4}
             sx={{
               textAlign: "flex-start",
-              fontSize: "3rem",
+              fontSize: "2.5rem",
               color: "white",
               flexGrow: "0.6",
             }}
@@ -136,6 +137,44 @@ const LeaderboardPage = () => {
             assetValue={"ASSET"}
             hours={"HOURS"}
           />
+        </Box>
+        <Box
+          marginLeft={1.7}
+          sx={{ width: "92%", height: heightPercent[4], overflowY: "auto" }}
+        >
+          <Grid
+            container
+            //direction="row"
+            //justifyContent="flex-start"
+            //alignItems="center"
+            rowSpacing={1}
+            sx={{
+              width: "100%",
+              height: "100%",
+              margin: 0,
+              //background: "rgba(255, 255, 255, .5)",
+            }}
+          >
+            {rankingArray
+              .slice(0, 5)
+              .map(
+                (
+                  { ranking, profileImage, name, hours, xpValue, assetValue },
+                  index
+                ) => (
+                  <Grid key={index} item xs={12}>
+                    <RankBar
+                      profileImage={profileImage}
+                      name={name}
+                      hours={hours}
+                      assetValue={assetValue}
+                      xpValue={xpValue}
+                      rankValue={ranking}
+                    />
+                  </Grid>
+                )
+              )}
+          </Grid>
         </Box>
       </Box>
     </Page>

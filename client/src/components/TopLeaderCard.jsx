@@ -32,10 +32,11 @@ const TopLeaderCard = ({ profileImage, name, ranking, hours }) => {
       justifyContent={"center"}
       alignItems={"flex-start"}
       sx={{
-        height: "95%",
+        height: "100%",
         width: "95%",
         overflow: "visible",
         position: "relative",
+        //background: "rgba(255, 255, 255, .8)",
       }}
     >
       <img
