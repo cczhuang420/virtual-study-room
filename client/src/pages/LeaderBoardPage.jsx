@@ -11,7 +11,7 @@ import RankBar from "../components/RankBar.jsx";
 import BackgroundCard from "../components/BackgroundCard.jsx";
 
 const LeaderboardPage = () => {
-  //fake data, will be replaced by the data which fetch from the backend
+  //fake data, will be replaced by the data which fetch from the backend-------------------
   const initialData = {
     ranking: 1,
     profileImage: profileImage,
@@ -25,6 +25,7 @@ const LeaderboardPage = () => {
     const newData = { ...initialData, ranking: initialData.ranking + i };
     dataArray.push(newData);
   }
+  //fake data end -------------------------------------------------------------------------
 
   const podiumArray = dataArray.slice(0, 3);
   const rankingArray = dataArray.slice(3);
