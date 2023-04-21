@@ -2,7 +2,7 @@ const publicRoomModel = require("./publicRoom.model")
 
 class PublicRoomController {
 
-  async returnAllPublicRooms() {
+  async getAllPublicRooms() {
     return publicRoomModel.find()
   }
 
