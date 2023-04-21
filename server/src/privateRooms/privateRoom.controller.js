@@ -1,5 +1,4 @@
 const privateRoomModel = require("./privateRoom.model")
-const publicRoomModel = require("../publicRooms/publicRoom.model");
 
 class PrivateRoomController {
 
