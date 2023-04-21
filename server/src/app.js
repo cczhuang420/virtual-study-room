@@ -13,6 +13,7 @@ const productRouter = require("./products/product.router")
 const friendRouter = require("./friends/friend.router")
 const chatRouter = require("./chats/chat.router")
 const publicRoomRouter = require("./publicRooms/publicRoom.router")
+const privateRoomRouter = require("./privateRooms/privateRoom.router")
 const {firebaseAuth} = require("./middlewares/firebaseAuth");
 
 const app = express()
@@ -25,6 +26,7 @@ app.use("/api/products", productRouter)
 app.use("/api/friends",friendRouter)
 app.use("/api/chats", chatRouter)
 app.use("/api/publicRooms", publicRoomRouter)
+app.use("/api/privateRooms", privateRoomRouter)
 
 app.get("/api/health", (_, res) => {
     res.json("OK")
