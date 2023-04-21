@@ -24,7 +24,7 @@ function selectRankingMedal(ranking) {
   }
 }
 
-const TopLeaderCard = ({ profileImage, name, ranking, hours, onClick }) => {
+const TopLeaderCard = ({ profileImage, name, ranking, hours }) => {
   return (
     <Box
       display={"flex"}
@@ -120,19 +120,6 @@ const TopLeaderCard = ({ profileImage, name, ranking, hours, onClick }) => {
             }}
           >
             {hours.toLocaleString()} hours
-          </Typography>
-          <Typography
-            onClick={onClick}
-            sx={{
-              overflow: "hidden",
-              color: "white",
-              "&:hover": {
-                cursor: "pointer",
-                transform: "scale(1.05)",
-              },
-            }}
-          >
-            {"View Profile >"}
           </Typography>
         </Box>
       </Box>
