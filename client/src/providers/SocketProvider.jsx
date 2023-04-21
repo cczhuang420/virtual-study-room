@@ -20,14 +20,16 @@ const SocketProvider = ({ children }) => {
       });
 
       newSocket.on("song", (song) => {
+        console.log("song", song);
         play(song);
       });
 
-      newSocket.on("new-song", (song) => {
+      newSocket.on("relaxing-01new-song", (song) => {
+        console.log("new-song", song);
         play(song);
       });
 
-      newSocket.emit("get-song-for-room", "relaxing-01");
+      // newSocket.emit("get-song-for-room", "relaxing-01");
 
       newSocket.on("connect_error", (err) => {
         console.log(`connect_error due to ${err.message}`);

@@ -9,7 +9,7 @@ const play = (song) => {
 
   // create src url with song.buffer
   const url = URL.createObjectURL(new Blob([song.buffer]));
-  console.log(url);
+
   currentSound = new Howl({
     src: [url],
     html5: true,

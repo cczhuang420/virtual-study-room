@@ -12,9 +12,9 @@
         ]
       },
       {
-        "roomName": "Lofi",
-        "roomId": "lofi-01",
-        "songs": ["https://www.youtube.com/watch?v=RT7CPnQtwf0"]
+        "name": "Lofi",
+        "id": "lofi-01",
+        "songs": ["https://www.youtube.com/watch?v=ony539T074w"]
       }
     ]
   }

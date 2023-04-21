@@ -5,6 +5,9 @@ module.exports = (io, rooms) => {
     songTime: 0,
   }));
 
+  // for each room, keep an interval to keep track of the song time
+  const songIntervals = rooms.map(() => null);
+
   // Define a function to start playing the song for a room
   const playSong = (roomIndex) => {
     const room = rooms[roomIndex];
@@ -15,13 +18,14 @@ module.exports = (io, rooms) => {
       return;
     }
 
-    io.emit("new-song", {
+    io.emit(room.id + "new-song", {
       buffer: song.buffer,
       title: song.title,
       time: state.songTime,
     });
 
-    const songInterval = setInterval(() => {
+    // Start a new interval for the room
+    songIntervals[roomIndex] = setInterval(() => {
       state.songTime++;
 
       if (state.songTime >= song.duration) {
@@ -32,7 +36,7 @@ module.exports = (io, rooms) => {
 
         state.songTime = 0;
 
-        clearInterval(songInterval);
+        clearInterval(songIntervals[roomIndex]);
 
         playSong(roomIndex);
       }
