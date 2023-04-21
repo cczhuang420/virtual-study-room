@@ -1,16 +1,13 @@
 const privateRoomModel = require("./privateRoom.model")
+const publicRoomModel = require("../publicRooms/publicRoom.model");
 
 class PrivateRoomController {
 
-  async getPrivateRooms(queryParam) {
-    const filter = {}
-    const fields = Object.keys(privateRoomModel.schema.obj)
-    Object.entries(queryParam).forEach(([key, value]) => {
-      if (fields.includes(key)) {
-        filter[key] = value
-      }
-    })
-    return privateRoomModel.find(filter);
+  async getPrivateRooms(ownerId) {
+    return privateRoomModel.find({ ownerId: ownerId })
+  }
+  async createPrivateRoom(ownerId, name, users, backgroundUrl, isVisibleToFriends) {
+    return privateRoomModel.create({ownerId, name, users, backgroundUrl, isVisibleToFriends})
   }
 
 }

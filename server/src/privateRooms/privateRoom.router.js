@@ -10,5 +10,18 @@ const router = Router({mergeParams: true})
 //localhost:4000/api/privateRooms?owner=
 //return an array which contain list of private rooms of an user
 
+router.get("/", [queryValidator(["owner"])], async (req, res) => {
+    res.json(
+        await privateRoomController.getPrivateRooms(req.query.owner)
+    )
+})
+
+router.post("/", payloadValidator(["ownerId", "name", "users", "backgroundUrl", "isVisibleToFriends"]) , async (req, res) => {
+    const {ownerId, name, users, backgroundUrl, isVisibleToFriends} = req.body;
+    res.json(
+        await privateRoomController.createPrivateRoom(ownerId, name, users, backgroundUrl, isVisibleToFriends)
+    )
+})
+
 
 module.exports = router;

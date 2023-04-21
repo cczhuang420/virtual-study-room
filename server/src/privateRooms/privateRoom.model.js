@@ -1,6 +1,10 @@
 const {Schema, model} = require("mongoose")
 
 const PrivateRoomSchema = new Schema({
+  name: {
+    required: true,
+    type: String
+  },
   ownerId: {
     required: true,
     type: String,
