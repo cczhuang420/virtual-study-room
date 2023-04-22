@@ -1,11 +1,17 @@
-const app = require("./app")
+const app = require("./app");
+const { Server } = require("socket.io");
+const { ConfigureSocket } = require("./sockets");
 
-const PORT = process.env.PORT || 4000
+const PORT = process.env.PORT || 4000;
 
-const startServer = () => {
-  app.listen(PORT, () => {
-    console.log(`Server running on ${PORT}`)
-  })
-}
+const server = app.listen(PORT, () => {
+  console.log(`Server running on ${PORT}`);
+});
 
-startServer()
+const io = new Server(server, {
+  cors: {
+    origin: "*",
+  },
+});
+
+ConfigureSocket(io);
