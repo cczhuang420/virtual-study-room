@@ -1,8 +1,14 @@
 import { Box, Typography } from "@mui/material";
 import { Image } from "mui-image";
 
-
-const RankBar = ({ rankValue, profileImage, name, xpValue, assetValue, hours }) => {
+const RankBar = ({
+  rankValue,
+  profileImage,
+  name,
+  xpValue,
+  assetValue,
+  hours,
+}) => {
   return (
     <Box
       display={"flex"}
@@ -10,7 +16,7 @@ const RankBar = ({ rankValue, profileImage, name, xpValue, assetValue, hours }) 
       justifyContent={"space-around"}
       alignItems={"center"}
       sx={{
-        height: "10%",
+        height: "100%",
         width: "100%",
         borderRadius: "10px",
         background: "rgba(255, 255, 255, .5)",
@@ -35,14 +41,16 @@ const RankBar = ({ rankValue, profileImage, name, xpValue, assetValue, hours }) 
         justifyContent={"space-evenly"}
         alignItems={"center"}
       >
-        <Image
-          width={"23%"}
-          height={"100%"}
-          fit={"scale-down"}
-          src={profileImage}
-          bgColor={""}
-          duration={0}
-        />
+        {profileImage !== "" && (
+          <Image
+            width={"23%"}
+            height={"100%"}
+            fit={"scale-down"}
+            src={profileImage}
+            bgColor={""}
+            duration={0}
+          />
+        )}
         <Typography
           sx={{
             textAlign: "center",

@@ -18,7 +18,7 @@ import {
   GithubAuthProvider
 } from "firebase/auth"
 import {auth} from "../firebase.js";
-import {useCreateUserHandler, useFetchUserHandler} from "../api/user-api.js";
+import {useCreateUserHandler, useFetchUserHandler, useFetchUsernameSuggestion} from "../api/user-api.js";
 
 const context = createContext({})
 
@@ -29,12 +29,25 @@ const AuthProvider = ({children}) => {
 
   const createUser = useCreateUserHandler()
   const fetchUsers = useFetchUserHandler()
+  const fetchUsernameSuggestion = useFetchUsernameSuggestion()
 
   const [currentUser, setCurrentUser] = useState(null)
+  const [loading, setLoading] = useState(true)
 
-  const login = useCallback(async (email, password) => {
-    await signInWithEmailAndPassword(auth, email, password)
-    const usersWithSameEmail = (await fetchUsers({email})).data
+
+  const login = useCallback(async (emailOrUsername, password) => {
+
+    try {
+      await signInWithEmailAndPassword(auth, emailOrUsername, password)
+    } catch (e) {
+      try {
+        const userWithSameUsername = (await fetchUsers({username: emailOrUsername})).data[0]
+        await signInWithEmailAndPassword(auth, userWithSameUsername.email, password)
+      } catch (e) {
+        throw new Error("Invalid login credential")
+      }
+    }
+    const usersWithSameEmail = (await fetchUsers({email: emailOrUsername})).data
     if (usersWithSameEmail.length === 0) {
       await createUser(
         "User" +
@@ -42,40 +55,45 @@ const AuthProvider = ({children}) => {
           {length: 5},
           () => Math.round(Math.random() * 10)
         ).join(""),
-        email
+        emailOrUsername
       )
     }
   }, [auth, signInWithEmailAndPassword])
 
-  const signup = useCallback(async (email, password, nickname) => {
-    await createUserWithEmailAndPassword(auth, email, password)
-    const usersWithSameEmail = (await fetchUsers({email})).data
-    if (usersWithSameEmail.length === 0) {
-      await createUser(nickname, email)
+  const signup = useCallback(async (email, password, username) => {
+    const usersWithSameEmailPromise = fetchUsers({email})
+    const usersWithSameUsernamePromise = fetchUsers({username})
+
+    const [
+      { data: usersWithSameEmail },
+      { data: usersWithSameUsername }
+    ] = await Promise.all(
+      [usersWithSameEmailPromise, usersWithSameUsernamePromise]
+    )
+
+    if (usersWithSameEmail.length !== 0) {
+      throw new Error("Email is already taken")
     }
+    if (usersWithSameUsername.length !== 0) {
+      throw new Error("Username is already taken")
+    }
+
+    await Promise.all([
+      createUserWithEmailAndPassword(auth, email, password),
+      createUser(username, email)
+    ])
+
   }, [auth, createUserWithEmailAndPassword])
 
-  const googleSignIn = useCallback(async () => {
-    const res = await signInWithPopup(auth, googleAuthProvider)
-    const name = res.user.displayName
+  const thirdPartySignIn = useCallback(async (thirdPartyAuthProvider) => {
+    const res = await signInWithPopup(auth, thirdPartyAuthProvider)
     const email = res.user.email
     const usersWithSameEmail = (await fetchUsers({email})).data
+    const suggestedUsername = await fetchUsernameSuggestion(undefined)
     if (usersWithSameEmail.length === 0) {
-      await createUser(name, email)
+      await createUser(suggestedUsername, email)
     }
-    await signInWithPopup(auth, googleAuthProvider)
-  }, [auth, signInWithPopup, googleAuthProvider])
-
-  const githubSignIn = useCallback(async () => {
-    const res = await signInWithPopup(auth, githubAuthProvider)
-    const name = res.user.displayName
-    const email = res.user.email
-    const usersWithSameEmail = (await fetchUsers({email})).data
-    if (usersWithSameEmail.length === 0) {
-      await createUser(name, email)
-    }
-    await signInWithPopup(auth, githubAuthProvider)
-  }, [auth, signInWithPopup, githubAuthProvider])
+  }, [auth, signInWithPopup])
 
   const anonymousSignIn = useCallback(async () => {
     await signInAnonymously(auth)
@@ -94,20 +112,22 @@ const AuthProvider = ({children}) => {
       console.log("Auth state changed")
       console.log(user)
       setCurrentUser(user)
+      setLoading(false)
     })
   }, [])
 
   const value = useMemo(() => ({
     login,
     signup,
+    loading,
     getCurrentUser: () => currentUser,
     // Authorization
     getAccessToken: () => currentUser.accessToken,
     logout,
-    googleSignIn,
-    githubSignIn,
+    googleSignIn: () => thirdPartySignIn(googleAuthProvider),
+    githubSignIn: () => thirdPartySignIn(githubAuthProvider),
     anonymousSignIn
-  }), [currentUser])
+  }), [currentUser, loading])
 
   return (
     <context.Provider value={value}>

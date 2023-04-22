@@ -5,6 +5,8 @@ import PrivateRoomPage from "../pages/PrivateRoomPage.jsx";
 import LeaderboardPage from "../pages/LeaderBoardPage";
 import MarketplacePage from "../pages/MarketplacePage.jsx";
 import ProfilePage from "../pages/ProfilePage.jsx";
+import StudyingRoomPage from "../pages/StudyingRoomPage.jsx";
+import FriendsPage from "../pages/FriendsPage.jsx";
 
 const PrivateRouter = () => {
   return (
@@ -15,6 +17,8 @@ const PrivateRouter = () => {
         <Route path={"/leaderboard"} element={<LeaderboardPage />} />
         <Route path={"/marketplace"} element={<MarketplacePage />} />
         <Route path={"/profile"} element={<ProfilePage />} />
+        <Route path={"/rooms/:roomId"} element={<StudyingRoomPage />} />
+        <Route path={"/friends/:friendId"} element={<FriendsPage id={"Mike Ma"}/>} />
         <Route path={"/token"} element={<TokenPage />} />
         <Route path={"*"} element={<Navigate to={"/public-rooms"} />} />
       </Routes>

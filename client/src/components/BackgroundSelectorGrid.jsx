@@ -9,15 +9,16 @@ export default function BackgroundSelectorGrid({ images, onClick }) {
 
   const handleBackgroundOnClick = (index) => {
     setBackgroundSelectedArray(new Array(images.length).fill(false));
-    if (backgroundSelectedArray[index]) {
-      return;
-    }
 
     setBackgroundSelectedArray((prevState) => {
       const newState = [...prevState];
       newState[index] = true;
       return newState;
     });
+
+    if (backgroundSelectedArray[index]) {
+      return;
+    }
 
     onClick(index);
   };

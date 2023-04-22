@@ -35,7 +35,7 @@ const MusicProductCard = ({ value, productName, artist }) => {
               {value}
             </Typography>
           </Box>
-          <PurchaseButton />
+          <PurchaseButton type={1} title={productName} cost={value} />
         </CardActions>
       </Box>
     </Card>

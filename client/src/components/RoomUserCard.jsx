@@ -1,7 +1,7 @@
 import { Box, Typography, Button } from "@mui/material";
 import { Image } from "mui-image";
 
-const RoomUserCard = ({ name, image, xpValue, onClick }) => {
+const RoomUserCard = ({ name, image, xpValue, onChat }) => {
   return (
     <Box
       display={"flex"}
@@ -11,7 +11,7 @@ const RoomUserCard = ({ name, image, xpValue, onClick }) => {
       sx={{
         height: "100%",
         width: "100%",
-        borderRadius: "13px",
+        borderRadius: "10px",
         background: "rgba(255, 255, 255, .8)",
         cursor: "pointer",
         boxShadow: "inset 0px 0px 15px 3px rgba(0,0,0,0.6)",
@@ -79,7 +79,7 @@ const RoomUserCard = ({ name, image, xpValue, onClick }) => {
             xp: {xpValue.toLocaleString()}
           </Typography>
           <Button
-            onClick={onClick}
+            onClick={onChat}
             size={"small"}
             disableElevation
             sx={{
