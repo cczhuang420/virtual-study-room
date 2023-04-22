@@ -24,7 +24,7 @@ const SocketProvider = ({ children }) => {
         play(song);
       });
 
-      newSocket.on("relaxing-01new-song", (song) => {
+      newSocket.on("new-song", (song) => {
         console.log("new-song", song);
         play(song);
       });
