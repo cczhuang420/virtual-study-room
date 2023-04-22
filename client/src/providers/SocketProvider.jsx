@@ -1,4 +1,4 @@
-import { useState, useEffect, createContext } from "react";
+import { useState, useEffect, createContext, useContext } from "react";
 import { io } from "socket.io-client";
 import { useAuth } from "../providers/AuthProvider.jsx";
 import { play, pause, stop } from "../utils/musicPlayer.js";
@@ -28,8 +28,6 @@ const SocketProvider = ({ children }) => {
         console.log("new-song", song);
         play(song);
       });
-
-      // newSocket.emit("get-song-for-room", "relaxing-01");
 
       newSocket.on("connect_error", (err) => {
         console.log(`connect_error due to ${err.message}`);

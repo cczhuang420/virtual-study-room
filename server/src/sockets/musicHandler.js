@@ -18,7 +18,7 @@ module.exports = (io, rooms) => {
       return;
     }
 
-    io.emit(room.id + "new-song", {
+    io.to(room.id).emit("new-song", {
       buffer: song.buffer,
       title: song.title,
       time: state.songTime,
@@ -63,6 +63,10 @@ module.exports = (io, rooms) => {
           time: state.songTime,
         });
       }
+    });
+
+    socket.on("join-room", (roomId) => {
+      socket.join(roomId);
     });
   });
 };

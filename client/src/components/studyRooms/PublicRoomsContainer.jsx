@@ -2,10 +2,14 @@ import { Box } from "@mui/material";
 import RoomCard from "../RoomCard.jsx";
 import StudyRoombackground from "../../assets/study-room-bg.svg";
 import React from "react";
+import { useSocket } from "../../providers/SocketProvider.jsx";
 
 const PublicRoomsContainer = () => {
+  const socket = useSocket();
+
   const handleOpenRoom = () => {
-    alert("open");
+    socket.emit("join-room", "relaxing-01");
+    socket.emit("get-song-for-room", "relaxing-01");
   };
   return (
     <Box className="flex flex-row flex-wrap h-full">
