@@ -15,11 +15,12 @@ const PublicRoomsContainer = () => {
   };
 
   if (isLoading) return null
-  console.log(publicRooms)
+
   return (
     <Box className="flex flex-row flex-wrap h-full">
-      {publicRooms.map(({name, users, backgroundUrl}) => (
+      {publicRooms.map(({_id, name, users, backgroundUrl}) => (
         <Box
+          key={_id}
           sx={{ minWidth: 200, maxHeight: 250, minHeight: 200 }}
           className="w-5/12 h-1/2 m-5"
         >

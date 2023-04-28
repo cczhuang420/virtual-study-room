@@ -19,6 +19,8 @@ import {
 } from "firebase/auth"
 import {auth} from "../firebase.js";
 import {useCreateUserHandler, useFetchUserHandler, useFetchUsernameSuggestion} from "../api/user-api.js";
+import {useMutation} from "../hooks/useMutation.js";
+import {HTTP_METHOD} from "../hooks/http-methods.js";
 
 const context = createContext({})
 
@@ -31,9 +33,11 @@ const AuthProvider = ({children}) => {
   const fetchUsers = useFetchUserHandler()
   const fetchUsernameSuggestion = useFetchUsernameSuggestion()
 
-  const [currentUser, setCurrentUser] = useState(null)
+  const [firebaseUser, setFirebaseUser] = useState(null)
   const [loading, setLoading] = useState(true)
+  const [userData, setUserData] = useState(null)
 
+  const fetchUserHandler = useMutation("users", HTTP_METHOD.GET)
 
   const login = useCallback(async (emailOrUsername, password) => {
 
@@ -108,10 +112,17 @@ const AuthProvider = ({children}) => {
   }, [auth, signOut])
 
   useEffect(() => {
-    onAuthStateChanged(getAuth(), user => {
-      console.log("Auth state changed")
-      console.log(user)
-      setCurrentUser(user)
+    onAuthStateChanged(getAuth(), async (user) => {
+      setFirebaseUser(user)
+      if (user.email) {
+        console.log(user.email)
+        const res = await fetchUserHandler.run({
+          query: {
+            email: user.email
+          }
+        })
+        setUserData(res[0])
+      }
       setLoading(false)
     })
   }, [])
@@ -120,14 +131,15 @@ const AuthProvider = ({children}) => {
     login,
     signup,
     loading,
-    getCurrentUser: () => currentUser,
+    getCurrentUser: () => firebaseUser,
+    getCustomUser: () => userData,
     // Authorization
-    getAccessToken: () => currentUser.accessToken,
+    getAccessToken: () => firebaseUser.accessToken,
     logout,
     googleSignIn: () => thirdPartySignIn(googleAuthProvider),
     githubSignIn: () => thirdPartySignIn(githubAuthProvider),
     anonymousSignIn
-  }), [currentUser, loading])
+  }), [firebaseUser, loading])
 
   return (
     <context.Provider value={value}>

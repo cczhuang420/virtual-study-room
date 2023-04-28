@@ -6,8 +6,11 @@ import AssetLabel from "../components/AssetLabel.jsx";
 import AssetXPIcon from "../assets/asset-xp-icon.svg";
 import AssetMoneyIcon from "../assets/asset-money-icon.svg";
 import PublicRoomsContainer from "../components/studyRooms/PublicRoomsContainer.jsx";
+import {useAuth} from "../providers/AuthProvider.jsx";
 
 const PublicRoomPage = () => {
+  const {getCurrentUser, getCustomUser} = useAuth()
+  console.log(getCustomUser())
   return (
     <Page title={"Public Room"} horizontalCenter>
       <Box className="flex flex-1 flex-row flex-auto justify-start h-full w-full">
@@ -26,8 +29,8 @@ const PublicRoomPage = () => {
             className="w-96 h-8 flex flex-row justify-end space-x-6 ml-auto"
             sx={{ minWidth: 300 }}
           >
-            <AssetLabel image={AssetXPIcon} value={13000} />
-            <AssetLabel image={AssetMoneyIcon} value={12000} />
+            <AssetLabel image={AssetXPIcon} value={getCustomUser().experience} />
+            <AssetLabel image={AssetMoneyIcon} value={getCustomUser().coins} />
           </Box>
 
           <Box>
