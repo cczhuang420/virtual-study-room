@@ -1,4 +1,4 @@
-import React, {useCallback} from "react"
+import React, {useCallback, useEffect} from "react"
 import Page from "../containers/Page.jsx";
 import {useParams} from "react-router-dom";
 import roomBg from "../assets/study-room-bg.svg"
@@ -9,6 +9,7 @@ import logo from "../assets/logo.svg";
 import TodoList from "../components/TodoList";
 import ChatModal from "../components/ChatModal.jsx";
 import {useAuth} from "../providers/AuthProvider.jsx";
+import {useSocket} from "../providers/SocketProvider.jsx";
 
 const roomUsers = Array(10).fill({
   name: "Mike Ma",
@@ -28,6 +29,7 @@ const targetUser = {name: "Mike", uid: "Ny8XNK3lW4b3YAJf8vcMPL5q7fl1"}
 const StudyingRoomPage = () => {
 
   const {roomId} = useParams()
+  const socket = useSocket();
 
   const {getCurrentUser} = useAuth()
 
@@ -41,6 +43,11 @@ const StudyingRoomPage = () => {
 
   const changeSortingHandler = useCallback(() => {
     alert("Sort by something")
+  }, [])
+
+  useEffect(() => {
+    socket.emit("join-room", "relaxing-01");
+    socket.emit("get-song-for-room", "relaxing-01");
   }, [])
 
   const mockChatHistory = [

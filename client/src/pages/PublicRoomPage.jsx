@@ -9,8 +9,8 @@ import PublicRoomsContainer from "../components/studyRooms/PublicRoomsContainer.
 import {useAuth} from "../providers/AuthProvider.jsx";
 
 const PublicRoomPage = () => {
-  const {getCurrentUser, getCustomUser} = useAuth()
-  console.log(getCustomUser())
+  const {getCustomUser} = useAuth()
+
   return (
     <Page title={"Public Room"} horizontalCenter>
       <Box className="flex flex-1 flex-row flex-auto justify-start h-full w-full">

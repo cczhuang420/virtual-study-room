@@ -4,14 +4,16 @@ import StudyRoombackground from "../../assets/study-room-bg.svg";
 import React from "react";
 import { useSocket } from "../../providers/SocketProvider.jsx";
 import {useFetch} from "../../hooks/useFetch.js";
+import {useNavigate} from "react-router-dom";
 
 const PublicRoomsContainer = () => {
   const socket = useSocket();
   const {isLoading, data: publicRooms} = useFetch("publicRooms")
+  const navigate = useNavigate()
 
-  const handleOpenRoom = () => {
-    socket.emit("join-room", "relaxing-01");
-    socket.emit("get-song-for-room", "relaxing-01");
+  const handleOpenRoom = (id) => {
+    navigate(`/rooms/${id}`)
+    // Logic to play music and join room with socket server is moved to StudyingRoomPage useEffect
   };
 
   if (isLoading) return null
@@ -31,7 +33,7 @@ const PublicRoomsContainer = () => {
             image={StudyRoombackground}
             amount={users.length}
             showVagueBackground={true}
-            onClick={handleOpenRoom}
+            onClick={() => handleOpenRoom(_id)}
           />
         </Box>
       ))}
