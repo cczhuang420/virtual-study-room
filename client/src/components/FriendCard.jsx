@@ -2,16 +2,22 @@ import { Box, Typography } from "@mui/material";
 import { Image } from "mui-image";
 
 
-const FriendCard = ({ profileImage, name }) => {
+const FriendCard = ({ profileImage, name, onClick }) => {
   return (
     <Box
+      onClick={onClick}
       display={"flex"}
       alignItems={"center"}
       sx={{
         height: "100%",
         width: "100%",
         border: 0,
-        overflow: "hidden"
+        overflow: "hidden",
+        cursor: "pointer",
+        borderRadius: "10px",
+        "&:hover": {
+          backgroundColor: "rgba(255,255,255,.3)"
+        }
       }}
     >
       <Box
