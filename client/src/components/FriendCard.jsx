@@ -6,14 +6,12 @@ const FriendCard = ({ profileImage, name }) => {
   return (
     <Box
       display={"flex"}
-      flexDirection={"row"}
-      justifyContent={"center"}
       alignItems={"center"}
       sx={{
         height: "100%",
         width: "100%",
         border: 0,
-        overflow: "hidden",
+        overflow: "hidden"
       }}
     >
       <Box
@@ -24,7 +22,6 @@ const FriendCard = ({ profileImage, name }) => {
         }}
       >
         <Image
-          width={"100%"}
           height={"100%"}
           fit={"scale-down"}
           src={profileImage}
@@ -33,7 +30,6 @@ const FriendCard = ({ profileImage, name }) => {
         />
       </Box>
       <Box
-        paddingLeft={2}
         sx={{
           width: "100%",
           overflow: "hidden",
@@ -43,14 +39,14 @@ const FriendCard = ({ profileImage, name }) => {
           sx={{
             textAlign: "left",
             fontWeight: "medium",
-            fontSize: "1em",
+            fontSize: "20px",
             color: "white",
             whiteSpace: "nowrap",
             textOverflow: "ellipsis",
             overflow: "hidden",
           }}
         >
-          {name.toLocaleString()}
+          {name}
         </Typography>
       </Box>
     </Box >
