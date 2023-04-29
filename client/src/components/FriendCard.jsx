@@ -1,6 +1,7 @@
-import { Box, Typography } from "@mui/material";
+import {Box, IconButton, Typography} from "@mui/material";
+import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 
-const FriendCard = ({ profileImage, name, onClick }) => {
+const FriendCard = ({ profileImage, name, onClick, onAddFriend }) => {
   return (
     <Box
       onClick={onClick}
@@ -30,6 +31,9 @@ const FriendCard = ({ profileImage, name, onClick }) => {
         sx={{
           width: "100%",
           overflow: "hidden",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between"
         }}
       >
         <Typography
@@ -45,6 +49,11 @@ const FriendCard = ({ profileImage, name, onClick }) => {
         >
           {name}
         </Typography>
+        {onAddFriend && (
+          <IconButton onClick={onAddFriend}>
+            <PersonAddAlt1Icon sx={{color: "white"}} />
+          </IconButton>
+        )}
       </Box>
     </Box >
   );

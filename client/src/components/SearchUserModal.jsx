@@ -61,6 +61,9 @@ const SearchUserModal = ({open, onClose}) => {
               borderRadius: "5px",
               "& fieldset": {
                 border: "none"
+              },
+              "& input": {
+                color: "white"
               }
             }}
           />
@@ -70,8 +73,10 @@ const SearchUserModal = ({open, onClose}) => {
               flex: 1
             }}
           >
-            {/*{Array(100).fill(<Box>123</Box>)}*/}
-            <FriendList friends={allUsers} />
+            <FriendList
+              friends={allUsers.filter(({name}) => name.includes(searchText))}
+              onAddFriend={(id) => console.log("add " + id)}
+            />
           </Box>
         </Box>
       </Box>

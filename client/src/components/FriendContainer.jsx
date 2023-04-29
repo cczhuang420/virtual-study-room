@@ -5,10 +5,12 @@ import profilePlaceholder from "../assets/profiles/profile-placeholder.svg"
 import {useFetch} from "../hooks/useFetch.js";
 import {useState} from "react";
 import SearchUserModal from "./SearchUserModal.jsx";
+import {useNavigate} from "react-router-dom";
 
 const FriendContainer = () => {
   const {getCustomUser} = useAuth()
   const {data, isLoading} = useFetch(`friends?id=${getCustomUser()._id}`)
+  const navigate = useNavigate()
 
   const [showUserModal, setShowUserModal] = useState(false)
 
@@ -58,7 +60,7 @@ const FriendContainer = () => {
         alignItems={"center"}
         flexDirection={"row"}
       >
-        <FriendList friends={friendList} />
+        <FriendList friends={friendList} onClick={(id) => navigate(`/friends/${id}`)} />
       </Box>
       <Box>
         <SearchUserModal open={showUserModal} onClose={() => setShowUserModal(false)} />

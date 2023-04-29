@@ -4,7 +4,7 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import {useNavigate} from "react-router-dom";
 
-const FriendList = ({ friends }) => {
+const FriendList = ({ friends, onClick, onAddFriend }) => {
   const navigate = useNavigate()
 
   return (
@@ -22,7 +22,8 @@ const FriendList = ({ friends }) => {
             <FriendCard
               profileImage={image}
               name={name}
-              onClick={() => navigate(`/friends/${id}`)}
+              onClick={onClick && (() => onClick(id))}
+              onAddFriend={onAddFriend && (() => onAddFriend(id))}
             />
           </ListItem>
         ))}
