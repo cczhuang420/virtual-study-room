@@ -8,7 +8,6 @@ const PrivateRoomSchema = new Schema({
   ownerId: {
     required: true,
     type: String,
-    unique: true
   },
   users: {
     required: true,

@@ -12,15 +12,6 @@ import BackgroundCard from "../components/BackgroundCard.jsx";
 import {useFetch} from "../hooks/useFetch.js";
 
 const LeaderboardPage = () => {
-  //fake data, will be replaced by the data which fetch from the backend-------------------
-  const initialData = {
-    ranking: 1,
-    profileImage: profileImage,
-    name: "Mike Ma",
-    hours: 100000,
-    xpValue: 10303,
-    assetValue: 3600,
-  };
 
     const {data, isLoading} = useFetch("users");
     const dataModified = isLoading ? [] : data.sort((a,b) => (b.experience - a.experience));
@@ -28,7 +19,6 @@ const LeaderboardPage = () => {
         return { ...item, ranking: index + 1, hours: Math.floor(item.experience/6), profile: `/src/assets/profiles/${item.profile}`};
     });
     console.log(dataArray);
-
 
   const podiumArray = dataArray.slice(0, 3);
   const rankingArray = dataArray.slice(3);
