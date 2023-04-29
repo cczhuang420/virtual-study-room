@@ -6,9 +6,19 @@ import { useAuth } from "../providers/AuthProvider.jsx";
 import Mike from "../assets/profiles/Mike.svg";
 import Frank from "../assets/profiles/Frank.svg";
 import PrivateRoomsContainer from "../components/studyRooms/PrivateRoomsContainer.jsx";
+import {useFetch} from "../hooks/useFetch.js";
 
 const FriendsPage = ({ id }) => {
   const { getCurrentUser } = useAuth();
+
+    const {data, isLoading} = useFetch(`privateRooms?owner=${id}`);
+    const privateRoomsTemp = isLoading ? [] : data;
+    const privateRooms = privateRoomsTemp.filter((e) => e.isVisibleToFriends === true)
+    console.log(privateRooms);
+    const {data:userData, isLoading:userIsLoading} = useFetch(`users?_id=${id}`);
+    const friend = userIsLoading ? [] : userData[0];
+    console.log(friend);
+
   return (
     <Page title={"Friends Page"}>
       <Box
@@ -33,7 +43,7 @@ const FriendsPage = ({ id }) => {
             justifyContent={"center"}
             alignItems={"center"}
           >
-            <Button
+            <Box
               sx={{
                 borderRadius: "25px",
                 backgroundColor: "#1B0137",
@@ -44,14 +54,15 @@ const FriendsPage = ({ id }) => {
                 overflow: "hidden",
                 textTransform: "none",
                 width: "30%",
+                  paddingY: "1%",
                 minWidth: 180,
               }}
             >
-              {id}'s Rooms
-            </Button>
+              {friend.username}'s Rooms
+            </Box>
           </Box>
           <Box className="flex flex-1 flex-row flex-auto justify-start w-full h-5/6 mt-5 ml-5">
-            <PrivateRoomsContainer isCreateRoom={false} />
+            <PrivateRoomsContainer privateRooms={privateRooms} isCreateRoom={false} />
           </Box>
         </Box>
         <Box
