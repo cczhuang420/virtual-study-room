@@ -10,17 +10,15 @@ import SocketProvider from "./providers/SocketProvider.jsx";
 import NotificationProvider from "./providers/NotificationProvider.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <ThemeProvider theme={theme}>
-        <AuthProvider>
-          <SocketProvider>
-            <NotificationProvider>
-              <App />
-            </NotificationProvider>
-          </SocketProvider>
-        </AuthProvider>
-      </ThemeProvider>
-    </BrowserRouter>
-  </React.StrictMode>
+  <BrowserRouter>
+    <ThemeProvider theme={theme}>
+      <AuthProvider>
+        <SocketProvider>
+          <NotificationProvider>
+            <App />
+          </NotificationProvider>
+        </SocketProvider>
+      </AuthProvider>
+    </ThemeProvider>
+  </BrowserRouter>
 );
