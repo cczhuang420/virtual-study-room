@@ -127,7 +127,6 @@ const AuthProvider = ({children}) => {
 
   useEffect(() => {
     onAuthStateChanged(getAuth(), async (user) => {
-      setFirebaseUser(user)
       if (user && user.email) {
         const res = await fetchUserHandler.run({
           query: {
@@ -136,6 +135,7 @@ const AuthProvider = ({children}) => {
         })
         setUserData(res[0])
       }
+      setFirebaseUser(user)
       setLoading(false)
     })
   }, [])

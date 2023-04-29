@@ -54,7 +54,7 @@ const StudyingRoomPage = () => {
   }, [isLoading, roomData])
 
   const leaveRoomHandler = useCallback(() => {
-    alert("Leave Room");
+    history.back();
   }, []);
 
   const setTimerHandler = useCallback(() => {
