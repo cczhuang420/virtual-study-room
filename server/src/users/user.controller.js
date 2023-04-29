@@ -27,11 +27,6 @@ class UserController {
     return userModel.find(filter);
   }
 
-  async updateUsername(userDoc, username) {
-    userDoc.username = username;
-    await userDoc.save();
-  }
-
   async getNameSuggestion(name) {
     const generateRandomName = name
       ? (base) =>
@@ -78,6 +73,17 @@ class UserController {
       assets.push(data);
     }
     return assets.filter((it) => it.type === type);
+  }
+
+  async updateName(userId, name) {
+    await userModel.updateOne(
+      {
+        _id: userId,
+      },
+      {
+        username: name,
+      }
+    );
   }
 }
 

@@ -75,4 +75,13 @@ router.get(
   }
 );
 
+router.put(
+  "/updateName",
+  [payloadValidator(["name", "userId"])],
+  async (req, res) => {
+    const { name, userId } = req.body;
+    await userController.updateName(userId, name);
+  }
+);
+
 module.exports = router;

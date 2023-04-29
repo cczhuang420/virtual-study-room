@@ -10,11 +10,12 @@ import avatar from "../assets/profiles/Frank.svg";
 import { useAuth } from "../providers/AuthProvider.jsx";
 import { useFetch } from "../hooks/useFetch.js";
 import ProgressLoading from "../components/ProgressLoading";
+import { useMutation } from "../hooks/useMutation.js";
+import { HTTP_METHOD } from "../hooks/http-methods.js";
 
 const ProfilePage = () => {
-  const [nickName, setNickname] = useState("");
-
   const { getCustomUser } = useAuth();
+  const [username, setUserName] = useState(getCustomUser().username);
 
   const { data: backgroundImages, isLoading: backgroundLoading } = useFetch(
     `users/assets?userId=${getCustomUser()._id}&type=background`
@@ -27,6 +28,8 @@ const ProfilePage = () => {
   const { data: musics, isLoading: musicLoading } = useFetch(
     `users/assets?userId=${getCustomUser()._id}&type=music`
   );
+
+  const { isLoading, run } = useMutation(`users/updateName`, HTTP_METHOD.PUT);
 
   return (
     <Page title={"Profile"}>
@@ -69,10 +72,16 @@ const ProfilePage = () => {
             height={{ xs: "40%", sm: "20%", md: "10%" }}
           >
             <ModifiableTextField
-              label={"Nickname"}
-              value={nickName}
-              onSubmitChange={(value) => {
-                setNickname(value);
+              label={"username"}
+              value={username}
+              onSubmitChange={async (value) => {
+                setUserName(value);
+                await run({
+                  body: {
+                    userId: getCustomUser()._id,
+                    name: value,
+                  },
+                });
               }}
             />
           </Box>
