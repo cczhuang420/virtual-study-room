@@ -9,6 +9,7 @@ import ModifiableTextField from "../components/ModifiableTextField.jsx";
 import avatar from "../assets/profiles/Frank.svg";
 import { useAuth } from "../providers/AuthProvider.jsx";
 import { useFetch } from "../hooks/useFetch.js";
+import ProgressLoading from "../components/ProgressLoading";
 
 const ProfilePage = () => {
   const [nickName, setNickname] = useState("");
@@ -45,7 +46,7 @@ const ProfilePage = () => {
         >
           <Box>
             <Avatar
-              src={avatar}
+              src={`/src/assets/profiles/${getCustomUser().profile}`}
               sx={{
                 width: 200,
                 height: 200,
@@ -59,8 +60,8 @@ const ProfilePage = () => {
             spacing={2}
             height={{ xs: "18%", sx: "10%", md: "5%" }}
           >
-            <AssetLabel image={moneyIcon} value={1340} />
-            <AssetLabel image={xpIcon} value={2300} />
+            <AssetLabel image={moneyIcon} value={getCustomUser().coins} />
+            <AssetLabel image={xpIcon} value={getCustomUser().experience} />
           </Stack>
           <Box
             mt={8}
@@ -76,9 +77,16 @@ const ProfilePage = () => {
             />
           </Box>
         </Box>
-        <Box p={5} height={"100%"} flex={2}>
+        <Box
+          p={5}
+          height={"100%"}
+          flex={2}
+          display={"flex"}
+          alignItems={"center"}
+          justifyContent={"center"}
+        >
           {profileImageLoading || musicLoading || backgroundLoading ? (
-            "loading..."
+            <ProgressLoading />
           ) : (
             <AssetPanel
               backgrounds={backgroundImages}
