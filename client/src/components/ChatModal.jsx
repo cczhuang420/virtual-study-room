@@ -37,7 +37,7 @@ userList: undefined or array of {
 
 const ChatModal = ({chatHistory, targetUser, userList, onSend}) => {
   const [message, setMessage] = useState("")
-  const {getCurrentUser} = useAuth()
+  const {getCustomUser} = useAuth()
   const [showUserList, setShowUserList] = useState(false)
 
   return (
@@ -164,18 +164,18 @@ const ChatModal = ({chatHistory, targetUser, userList, onSend}) => {
             sx={{
               display: "flex",
               alignItems: "flex-end",
-              flexDirection: getCurrentUser().uid !== senderId ? "row" : "row-reverse",
+              flexDirection: getCustomUser()._id !== senderId ? "row" : "row-reverse",
               paddingY: 1,
               "& .mui-image-wrapper": {m: 0}
             }}
           >
             <Box sx={{borderRadius: "10000px", marginLeft: 1}}>
-              <img src={profileImageUrl} alt={""} width={"90%"} />
+              <img src={`/src/assets/profiles/${profileImageUrl}`} alt={""} width={"90%"} />
             </Box>
             <Box
               sx={{
-                backgroundColor: getCurrentUser().uid !== senderId ? "#7012d3" : "#CEC1DB",
-                color: getCurrentUser().uid !== senderId ? "white" : "black",
+                backgroundColor: getCustomUser()._id !== senderId ? "#7012d3" : "#CEC1DB",
+                color: getCustomUser()._id !== senderId ? "white" : "black",
                 p: 1,
                 borderRadius: "5px"
               }}

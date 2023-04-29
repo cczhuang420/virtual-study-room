@@ -9,15 +9,22 @@ import PrivateRoomsContainer from "../components/studyRooms/PrivateRoomsContaine
 import {useFetch} from "../hooks/useFetch.js";
 
 const FriendsPage = ({ id }) => {
-  const { getCurrentUser } = useAuth();
+    const {getCustomUser} = useAuth();
 
     const {data, isLoading} = useFetch(`privateRooms?owner=${id}`);
     const privateRoomsTemp = isLoading ? [] : data;
     const privateRooms = privateRoomsTemp.filter((e) => e.isVisibleToFriends === true)
-    console.log(privateRooms);
-    const {data:userData, isLoading:userIsLoading} = useFetch(`users?_id=${id}`);
-    const friend = userIsLoading ? [] : userData[0];
-    console.log(friend);
+
+    const {data: userData, isLoading: userIsLoading} = useFetch(`users?_id=${id}`);
+    const friend = userIsLoading ? {} : userData[0];
+
+    const {data: chatData, isLoading: chatIsLoading} = useFetch(`chats?myId=${getCustomUser()._id}&customerId=${id}`);
+    const chatHistoryTemp = chatIsLoading ? [] : chatData.sort((a,b) => (a.timestamp - b.timestamp));
+    //console.log(chatHistoryList);
+    const chatHistoryList = chatHistoryTemp.map((item, index) => {
+        return { senderId: item.sender, profileImageUrl: item.sender === getCustomUser()._id ? getCustomUser().profile : friend.profile, content : item.message };
+    });
+    console.log(chatHistoryList);
 
   return (
     <Page title={"Friends Page"}>
@@ -70,34 +77,12 @@ const FriendsPage = ({ id }) => {
           className={"mr-2 mt-4 w-1/3"}
         >
           <ChatModal
-            chatHistory={[
-              {
-                senderId: getCurrentUser().uid,
-                profileImageUrl: Frank,
-                content: "Hello Mike, how are you?",
-              },
-              {
-                senderId: "Ny8XNK3lW4b3YAJf8vcMPL5q7fl1",
-                profileImageUrl: Mike,
-                content: "I am fine, thank you and you",
-              },
-            ]}
+            chatHistory={chatHistoryList}
             targetUser={{
-              name: "Mike Ma",
-              uid: "Ny8XNK3lW4b3YAJf8vcMPL5q7fl1",
+              name: friend.username,
+              uid: friend._id,
             }}
-            userList={[
-              {
-                name: "Xiaoxiao Zhuang ".repeat(2),
-                uid: "Ny8XNK3lW4b3YAJf8vcMPL5q7fl1",
-                isOnline: true,
-              },
-              {
-                name: "Mike",
-                uid: "Ny8XNK3lW4b3YAJf8vcMPL5q7fl1",
-                isOnline: false,
-              },
-            ]}
+            userList={[]}
             onSend={(message) => alert(message)}
           />
         </Box>
