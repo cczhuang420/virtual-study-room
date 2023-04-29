@@ -1,6 +1,4 @@
 import { Box, Typography } from "@mui/material";
-import { Image } from "mui-image";
-
 
 const FriendCard = ({ profileImage, name, onClick }) => {
   return (
@@ -9,31 +7,24 @@ const FriendCard = ({ profileImage, name, onClick }) => {
       display={"flex"}
       alignItems={"center"}
       sx={{
-        height: "100%",
+        p: 1,
         width: "100%",
         border: 0,
         overflow: "hidden",
         cursor: "pointer",
         borderRadius: "10px",
         "&:hover": {
-          backgroundColor: "rgba(255,255,255,.3)"
+          backgroundColor: onClick ? "rgba(255,255,255,.3)" : "transparent"
         }
       }}
     >
       <Box
         sx={{
-          height: "100%",
-          width: "35%",
+          mr: 1,
           overflow: "hidden",
         }}
       >
-        <Image
-          height={"100%"}
-          fit={"scale-down"}
-          src={profileImage}
-          bgColor={""}
-          duration={0}
-        />
+        <img src={profileImage} />
       </Box>
       <Box
         sx={{

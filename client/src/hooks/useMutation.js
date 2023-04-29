@@ -23,7 +23,7 @@ export const useMutation = (url, type) => {
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(false)
 
-  const run = useCallback(async ({body, query, headers}) => {
+  const run = useCallback(async ({body = {}, query, headers} = {}) => {
     const method = type.toLowerCase()
     let res;
     const queryString = new URLSearchParams(query).toString()

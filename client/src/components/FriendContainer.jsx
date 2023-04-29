@@ -3,11 +3,14 @@ import FriendList from "../components/FriendList.jsx";
 import {useAuth} from "../providers/AuthProvider.jsx";
 import profilePlaceholder from "../assets/profiles/profile-placeholder.svg"
 import {useFetch} from "../hooks/useFetch.js";
+import {useState} from "react";
+import SearchUserModal from "./SearchUserModal.jsx";
 
 const FriendContainer = () => {
   const {getCustomUser} = useAuth()
-
   const {data, isLoading} = useFetch(`friends?id=${getCustomUser()._id}`)
+
+  const [showUserModal, setShowUserModal] = useState(false)
 
   const friendList = !isLoading ?
     data.map(({username, _id}) => ({name: username, image: profilePlaceholder, id: _id})) : []
@@ -33,6 +36,7 @@ const FriendContainer = () => {
       >
         <Button
           variant="contained"
+          onClick={() => setShowUserModal(true)}
           sx={{
             height: "100%",
             width: "80%",
@@ -44,7 +48,7 @@ const FriendContainer = () => {
             fontSize: "0.8em",
           }}
         >
-          Search your friends
+          Search users
         </Button>
       </Box>
       <Box
@@ -55,6 +59,9 @@ const FriendContainer = () => {
         flexDirection={"row"}
       >
         <FriendList friends={friendList} />
+      </Box>
+      <Box>
+        <SearchUserModal open={showUserModal} onClose={() => setShowUserModal(false)} />
       </Box>
     </Box>
   );
