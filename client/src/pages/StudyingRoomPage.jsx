@@ -28,11 +28,14 @@ const sortByOptions = [
   "name", "experience"
 ]
 
-const StudyingRoomPage = () => {
+const StudyingRoomPage = (callback, deps) => {
   // array of {senderId, profileImageUrl, content}
   const [chatHistory, setChatHistory] = useState([])
   const [roomUsers, setRoomUsers] = useState([])
   const [sortBy, setSortBy] = useState("name")
+  const [targetUser, setTargetUser] = useState({
+    username: "All Users"
+  })
 
   const { roomId } = useParams();
   const socket = useSocket();
@@ -83,6 +86,7 @@ const StudyingRoomPage = () => {
   }, [sortBy, setSortBy]);
 
   useEffect(() => {
+    if (!socket) return
     socket.emit("join-room", roomId);
     socket.emit("get-song-for-room", roomId);
 
@@ -99,7 +103,7 @@ const StudyingRoomPage = () => {
     };
   }, [socket]);
 
-  const handleSendChat = (message) => {
+  const handleSendGroupChat = (message) => {
     socket.emit("send-message-in-rooms", {
       roomId: roomId,
       senderId: getCurrentUser().uid,
@@ -108,6 +112,10 @@ const StudyingRoomPage = () => {
       timestamp: Date.now(),
     });
   };
+
+  const handleChangeTargetUse = useCallback((user) => {
+    setTargetUser(user)
+  }, [setTargetUser])
 
   return (
     <Page
@@ -209,8 +217,9 @@ const StudyingRoomPage = () => {
               <ChatModal
                 chatHistory={chatHistory}
                 targetUser={targetUser}
-                userList={mockUserList}
-                onSend={handleSendChat}
+                userList={roomUsers}
+                onSend={handleSendGroupChat}
+                onChangeTargetUser={(user) => handleChangeTargetUse(user)}
               />
             </Box>
           </Box>

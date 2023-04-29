@@ -35,7 +35,7 @@ userList: undefined or array of {
 }
  */
 
-const ChatModal = ({chatHistory, targetUser, userList, onSend}) => {
+const ChatModal = ({chatHistory, targetUser, userList, onSend, onChangeTargetUser}) => {
   const [message, setMessage] = useState("")
   const {getCurrentUser} = useAuth()
   const [showUserList, setShowUserList] = useState(false)
@@ -63,7 +63,7 @@ const ChatModal = ({chatHistory, targetUser, userList, onSend}) => {
           }}
         >
           <Typography variant={"h4"} sx={{color: "#3D3A3A"}}>
-            {targetUser.name}
+            {targetUser.username}
           </Typography>
           {userList && !showUserList && (
             <KeyboardArrowDownIcon />
@@ -83,7 +83,10 @@ const ChatModal = ({chatHistory, targetUser, userList, onSend}) => {
                 }}
               >
                 <Box sx={{borderBottom: "1px solid #58337A", m: 1, mb: 0, pb: 1}}>
-                  <Button sx={{backgroundColor: "#6b35a0", paddingY: 0.2, paddingX: 0.7, width: "100%"}}>
+                  <Button
+                    onClick={() => onChangeTargetUser({username: "All users"})}
+                    sx={{backgroundColor: "#6b35a0", paddingY: 0.2, paddingX: 0.7, width: "100%"}}
+                  >
                     Group Chat
                   </Button>
                 </Box>
@@ -104,8 +107,9 @@ const ChatModal = ({chatHistory, targetUser, userList, onSend}) => {
                       }
                     }}
                   >
-                    {userList.map(({name, uid, isOnline}) => (
+                    {userList.map((user) => (
                       <ListItem
+                        onClick={() => onChangeTargetUser(user)}
                         key={`${Math.random()}`}
                         sx={{
                           paddingX: 1,
@@ -124,13 +128,13 @@ const ChatModal = ({chatHistory, targetUser, userList, onSend}) => {
                             }
                           }}
                         >
-                          {name}
+                          {user.username}
                         </ListItemText>
-                        {isOnline && (
-                          <ListItemIcon sx={{minWidth: "0"}}>
-                            <FiberManualRecordIcon sx={{color: "#61FF00", fontSize: "8px"}} />
-                          </ListItemIcon>
-                        )}
+                        {/*{isOnline && (*/}
+                        {/*  <ListItemIcon sx={{minWidth: "0"}}>*/}
+                        {/*    <FiberManualRecordIcon sx={{color: "#61FF00", fontSize: "8px"}} />*/}
+                        {/*  </ListItemIcon>*/}
+                        {/*)}*/}
                       </ListItem>
                     ))}
                   </List>

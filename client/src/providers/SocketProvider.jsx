@@ -45,7 +45,7 @@ const SocketProvider = ({ children }) => {
         stop();
       };
     }
-  }, [getCurrentUser]);
+  }, [getCurrentUser, getCurrentUser()]);
 
   return <context.Provider value={socket}>{children}</context.Provider>;
 };
