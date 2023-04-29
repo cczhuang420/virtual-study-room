@@ -9,6 +9,7 @@ import FriendCard from "../components/FriendCard.jsx";
 import TopLeaderCard from "../components/TopLeaderCard.jsx";
 import RankBar from "../components/RankBar.jsx";
 import BackgroundCard from "../components/BackgroundCard.jsx";
+import {useFetch} from "../hooks/useFetch.js";
 
 const LeaderboardPage = () => {
   //fake data, will be replaced by the data which fetch from the backend-------------------
@@ -20,12 +21,14 @@ const LeaderboardPage = () => {
     xpValue: 10303,
     assetValue: 3600,
   };
-  const dataArray = [];
-  for (let i = 0; i < 10; i++) {
-    const newData = { ...initialData, ranking: initialData.ranking + i };
-    dataArray.push(newData);
-  }
-  //fake data end -------------------------------------------------------------------------
+
+    const {data, isLoading} = useFetch("users");
+    const dataModified = isLoading ? [] : data.sort((a,b) => (b.experience - a.experience));
+    const dataArray = dataModified.map((item, index) => {
+        return { ...item, ranking: index + 1, hours: Math.floor(item.experience/6), profile: `/src/assets/profiles/${item.profile}`};
+    });
+    console.log(dataArray);
+
 
   const podiumArray = dataArray.slice(0, 3);
   const rankingArray = dataArray.slice(3);
@@ -77,7 +80,7 @@ const LeaderboardPage = () => {
             //background: "rgba(255, 255, 255, .5)",
           }}
         >
-          {podiumArray.map(({ profileImage, name, ranking, hours }, index) => (
+          {podiumArray.map(({ profile, username, ranking, hours }, index) => (
             <Box
               display={"flex"}
               flexDirection={"row"}
@@ -90,8 +93,8 @@ const LeaderboardPage = () => {
               key={index}
             >
               <TopLeaderCard
-                profileImage={profileImage}
-                name={name}
+                profileImage={profile}
+                name={username}
                 ranking={ranking}
                 hours={hours}
               />
@@ -135,7 +138,7 @@ const LeaderboardPage = () => {
             rankValue={"RANK"}
             name={"NAME"}
             xpValue={"XP"}
-            assetValue={"ASSET"}
+            assetValue={"COINS"}
             hours={"HOURS"}
           />
         </Box>
@@ -153,6 +156,7 @@ const LeaderboardPage = () => {
               width: "100%",
               height: "100%",
               margin: 0,
+                overflow: "hidden",
               //background: "rgba(255, 255, 255, .5)",
             }}
           >
@@ -160,16 +164,16 @@ const LeaderboardPage = () => {
               .slice(0, 5)
               .map(
                 (
-                  { ranking, profileImage, name, hours, xpValue, assetValue },
+                  { ranking, profile, username, hours, experience, coins },
                   index
                 ) => (
                   <Grid key={index} item xs={12}>
                     <RankBar
-                      profileImage={profileImage}
-                      name={name}
+                      profileImage={profile}
+                      name={username}
                       hours={hours}
-                      assetValue={assetValue}
-                      xpValue={xpValue}
+                      assetValue={coins}
+                      xpValue={experience}
                       rankValue={ranking}
                     />
                   </Grid>

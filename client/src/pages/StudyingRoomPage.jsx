@@ -10,6 +10,7 @@ import TodoList from "../components/TodoList";
 import ChatModal from "../components/ChatModal.jsx";
 import { useAuth } from "../providers/AuthProvider.jsx";
 import { useSocket } from "../providers/SocketProvider.jsx";
+import { stop } from "../utils/musicPlayer.js";
 
 const roomUsers = Array(10).fill({
   name: "Mike Ma",
@@ -45,9 +46,14 @@ const StudyingRoomPage = () => {
   }, []);
 
   useEffect(() => {
-    socket.emit("join-room", "relaxing-01");
-    socket.emit("get-song-for-room", "relaxing-01");
-  }, []);
+    socket.emit("join-room", roomId);
+    socket.emit("get-song-for-room", roomId);
+
+    return () => {
+      socket.emit("leave-room", roomId);
+      stop();
+    };
+  }, [socket]);
 
   const mockChatHistory = [
     {

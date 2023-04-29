@@ -1,5 +1,4 @@
 const { firebaseSocketAuth } = require("../middlewares/firebaseAuth");
-const ytdl = require("ytdl-core");
 
 const registerMessageHandler = require("./messageHandler");
 const registerMusicHandler = require("./musicHandler");
@@ -21,6 +20,8 @@ const ConfigureSocket = (io) => {
       console.log(
         `${socket.user.name} with id ${socket.user.uid} disconnected`
       );
+
+      socket.leaveAll();
     });
   });
 };
