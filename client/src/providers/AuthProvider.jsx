@@ -21,6 +21,7 @@ import {auth} from "../firebase.js";
 import {useCreateUserHandler, useFetchUserHandler, useFetchUsernameSuggestion} from "../api/user-api.js";
 import {useMutation} from "../hooks/useMutation.js";
 import {HTTP_METHOD} from "../hooks/http-methods.js";
+import {useLocation} from "react-router-dom";
 
 const context = createContext({})
 
@@ -32,6 +33,8 @@ const AuthProvider = ({children}) => {
   const createUser = useCreateUserHandler()
   const fetchUsers = useFetchUserHandler()
   const fetchUsernameSuggestion = useFetchUsernameSuggestion()
+
+  const {pathname} = useLocation()
 
   const [firebaseUser, setFirebaseUser] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -115,7 +118,6 @@ const AuthProvider = ({children}) => {
     onAuthStateChanged(getAuth(), async (user) => {
       setFirebaseUser(user)
       if (user.email) {
-        console.log(user.email)
         const res = await fetchUserHandler.run({
           query: {
             email: user.email
@@ -126,6 +128,20 @@ const AuthProvider = ({children}) => {
       setLoading(false)
     })
   }, [])
+
+  useEffect(() => {
+    console.log(123)
+    ;(async () => {
+      if (firebaseUser && firebaseUser.email) {
+        const res = await fetchUserHandler.run({
+          query: {
+            email: firebaseUser.email
+          }
+        })
+        setUserData(res[0])
+      }
+    })()
+  }, [pathname])
 
   const value = useMemo(() => ({
     login,
