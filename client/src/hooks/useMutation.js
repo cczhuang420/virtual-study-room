@@ -23,22 +23,34 @@ export const useMutation = (url, type) => {
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(false)
 
-  const run = useCallback(async (body, headers) => {
+  const run = useCallback(async ({body = {}, query, headers} = {}) => {
     const method = type.toLowerCase()
     let res;
+    const queryString = new URLSearchParams(query).toString()
     try {
       setLoading(true)
-      if (method === "delete" || method === "get") res = await axios[method](url, { headers })
-      else res = await axios[method](url, body, { headers })
+      if (method === "delete" || method === "get") {
+        res = await axios[method](
+          `${import.meta.env.VITE_SERVICE_URL}/${url}?${queryString}`,
+          { headers }
+        )
+      } else {
+        res = await axios[method](
+          `${import.meta.env.VITE_SERVICE_URL}/${url}?${queryString}`,
+          body,
+          { headers }
+        )
+      }
       setData(res.data)
       setLoading(false)
+      return res.data
     } catch(e) {
       setLoading(false)
-      console.error(e)
       setError({
         status: e.response.status,
         message: e.response.data,
       })
+      throw e
     }
   }, [url, type])
 

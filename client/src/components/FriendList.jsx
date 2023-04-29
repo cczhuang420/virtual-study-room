@@ -2,26 +2,30 @@ import { Box } from "@mui/material";
 import FriendCard from "./FriendCard";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
-import { useContext } from "react";
+import {useNavigate} from "react-router-dom";
 
-const FriendList = ({ friends }) => {
+const FriendList = ({ friends, onClick, onAddFriend }) => {
+  const navigate = useNavigate()
+
   return (
     <Box
-      display={"flex"}
-      flexDirection={"row"}
-      justifyContent={"center"}
-      alignItems={"center"}
       sx={{
         height: "100%",
         width: "100%",
         border: 0,
-        overflow: "hidden",
+        // overflow: "hidden"
       }}
     >
       <List>
-        {friends.map(({ image, name }, index) => (
-          <ListItem key={index}>
-            <FriendCard profileImage={image} name={name} />
+        {friends.map(({ image, name, id }, index) => (
+          <ListItem key={index} sx={{p: 1}}>
+            <FriendCard
+              id={id}
+              profileImage={image}
+              name={name}
+              onClick={onClick && (() => onClick(id))}
+              onAddFriend={onAddFriend && (() => onAddFriend(id))}
+            />
           </ListItem>
         ))}
       </List>

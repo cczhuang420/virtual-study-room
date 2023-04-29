@@ -23,7 +23,7 @@ export const useFetch = (url, headers) => {
     setData(null)
     setError(null)
     try {
-      const res = await axios.get(url, { headers })
+      const res = await axios.get(`${import.meta.env.VITE_SERVICE_URL}/${url}`, { headers })
       setData(res.data)
     } catch(e) {
       console.error(e)

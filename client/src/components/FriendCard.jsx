@@ -1,57 +1,70 @@
-import { Box, Typography } from "@mui/material";
-import { Image } from "mui-image";
+import {Box, IconButton, Typography} from "@mui/material";
+import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
+import {useAuth} from "../providers/AuthProvider.jsx";
 
+const FriendCard = ({ id, profileImage, name, onClick, onAddFriend }) => {
+  const {getCustomUser} = useAuth()
 
-const FriendCard = ({ profileImage, name }) => {
   return (
     <Box
+      onClick={onClick}
       display={"flex"}
-      flexDirection={"row"}
-      justifyContent={"center"}
       alignItems={"center"}
       sx={{
-        height: "100%",
+        p: 1,
         width: "100%",
         border: 0,
         overflow: "hidden",
+        cursor: "pointer",
+        borderRadius: "10px",
+        "&:hover": {
+          backgroundColor: onClick ? "rgba(255,255,255,.3)" : "transparent"
+        }
       }}
     >
       <Box
         sx={{
-          height: "100%",
-          width: "35%",
+          mr: 1,
           overflow: "hidden",
         }}
       >
-        <Image
-          width={"100%"}
-          height={"100%"}
-          fit={"scale-down"}
-          src={profileImage}
-          bgColor={""}
-          duration={0}
-        />
+        <img src={profileImage} />
       </Box>
       <Box
-        paddingLeft={2}
         sx={{
           width: "100%",
           overflow: "hidden",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between"
         }}
       >
         <Typography
           sx={{
             textAlign: "left",
             fontWeight: "medium",
-            fontSize: "1em",
+            fontSize: "20px",
             color: "white",
             whiteSpace: "nowrap",
             textOverflow: "ellipsis",
             overflow: "hidden",
           }}
         >
-          {name.toLocaleString()}
+          {name}
         </Typography>
+        {onAddFriend && (
+          <IconButton
+            onClick={onAddFriend}
+            sx={{
+              visibility: getCustomUser().friends.includes(id) ? "hidden" : "visible",
+              "&:hover": {
+                backgroundColor: "rgba(255,255,255,.1)"
+              }
+            }}
+          >
+            <PersonAddAlt1Icon sx={{color: "white"}} />
+          </IconButton>
+        )}
       </Box>
     </Box >
   );

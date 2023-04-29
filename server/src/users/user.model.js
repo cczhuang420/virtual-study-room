@@ -35,6 +35,11 @@ const UserSchema = new Schema({
     type: Number,
     default: 0
   },
+  profile: {
+    required: true,
+    type: String,
+    default: "default.svg"
+  },
   coins: {
     required: true,
     type: Number,
