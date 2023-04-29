@@ -1,10 +1,9 @@
-import React, {useMemo, useState} from "react"
+import React, {useState} from "react"
 import {Modal, Box, IconButton, TextField} from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close"
 import {useMutation} from "../hooks/useMutation.js";
 import {HTTP_METHOD} from "../hooks/http-methods.js";
 import {useFetch} from "../hooks/useFetch.js";
-import profilePlaceholder from "../assets/profiles/profile-placeholder.svg"
 import FriendList from "./FriendList.jsx";
 import {useAuth} from "../providers/AuthProvider.jsx";
 import {useNotification} from "../providers/NotificationProvider.jsx";
@@ -17,7 +16,7 @@ const SearchUserModal = ({open, onClose}) => {
   const notify = useNotification()
 
   const allUsers = !isLoading ?
-    data.map(({_id, username}) => ({id: _id, name: username, image: profilePlaceholder})) : []
+    data.map(({_id, username, profile}) => ({id: _id, name: username, image: `/src/assets/profiles/${profile}`})) : []
 
   return (
     <Modal

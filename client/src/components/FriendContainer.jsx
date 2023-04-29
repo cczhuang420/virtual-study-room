@@ -1,7 +1,6 @@
 import { Box, Button } from "@mui/material";
 import FriendList from "../components/FriendList.jsx";
 import {useAuth} from "../providers/AuthProvider.jsx";
-import profilePlaceholder from "../assets/profiles/profile-placeholder.svg"
 import {useFetch} from "../hooks/useFetch.js";
 import {useState} from "react";
 import SearchUserModal from "./SearchUserModal.jsx";
@@ -15,7 +14,7 @@ const FriendContainer = () => {
   const [showUserModal, setShowUserModal] = useState(false)
 
   const friendList = !isLoading ?
-    data.map(({username, _id}) => ({name: username, image: profilePlaceholder, id: _id})) : []
+    data.map(({username, _id, profile}) => ({name: username, image: `/src/assets/profiles/${profile}`, id: _id})) : []
 
   return (
     <Box
