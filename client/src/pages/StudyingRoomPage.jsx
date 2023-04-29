@@ -45,9 +45,19 @@ const StudyingRoomPage = () => {
   }, []);
 
   useEffect(() => {
-    socket.emit("join-room", "relaxing-01");
-    socket.emit("get-song-for-room", "relaxing-01");
-  }, []);
+    socket.emit("join-room", roomId);
+    socket.emit("get-song-for-room", roomId);
+
+    socket.on("message-in-rooms", (data) => {
+      console.log(data);
+    });
+
+    return () => {
+      socket.emit("leave-room", roomId);
+      socket.off("message-in-rooms");
+      stop();
+    };
+  }, [socket]);
 
   const mockChatHistory = [
     {
@@ -81,6 +91,16 @@ const StudyingRoomPage = () => {
       content: "I am fine too",
     },
   ];
+
+  const handleSendChat = (message) => {
+    socket.emit("send-message-in-rooms", {
+      roomId: roomId,
+      senderId: getCurrentUser().uid,
+      profileImageUrl: mikeProfile,
+      message: message,
+      timestamp: Date.now(),
+    });
+  };
 
   return (
     <Page
@@ -187,7 +207,7 @@ const StudyingRoomPage = () => {
                 chatHistory={mockChatHistory}
                 targetUser={targetUser}
                 userList={mockUserList}
-                onSend={(message) => alert(message)}
+                onSend={handleSendChat}
               />
             </Box>
           </Box>

@@ -50,6 +50,16 @@ module.exports = (io, rooms) => {
 
   // Whenever a new user joins, send the current song url, title and played upto time to the client
   io.on("connection", (socket) => {
+    socket.on("join-room", (roomId) => {
+      console.log(`${socket.user.name} joined room ${roomId}`);
+      socket.join(roomId);
+    });
+
+    socket.on("leave-room", (roomId) => {
+      console.log(`${socket.user.name} left room ${roomId}`);
+      socket.leave(roomId);
+    });
+
     socket.on("get-song-for-room", (roomId) => {
       const roomIndex = rooms.findIndex((room) => room.id === roomId);
 
@@ -63,10 +73,6 @@ module.exports = (io, rooms) => {
           time: state.songTime,
         });
       }
-    });
-
-    socket.on("join-room", (roomId) => {
-      socket.join(roomId);
     });
   });
 };
