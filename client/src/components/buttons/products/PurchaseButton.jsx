@@ -3,9 +3,11 @@ import Button from "@mui/material/Button";
 import { styled } from "@mui/material";
 import { useCallback } from "react";
 import { useModal } from "../../../App.jsx";
+import { useAuth } from "../../../providers/AuthProvider.jsx";
 
 const PurchaseButton = ({ title, type, image, cost }) => {
   const { handleOpen, setContent } = useModal();
+  const { getCustomUser } = useAuth();
   const ColorButton = styled(Button)(() => ({
     backgroundColor: "#9B84B4",
     textTransform: "unset !important",
@@ -24,7 +26,7 @@ const PurchaseButton = ({ title, type, image, cost }) => {
       imageTitle: `purchase "${title}" now`,
       image: image,
       cost: cost,
-      money: 1289,
+      money: getCustomUser().coins,
       type: type,
       onClick: () => {
         alert(`I buy ${title}`);

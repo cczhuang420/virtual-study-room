@@ -28,7 +28,7 @@ const BackgroundProductCard = ({ value, productName, image }) => {
           </Box>
           <PurchaseButton
             title={productName}
-            image={BackgroundCard}
+            image={image}
             cost={value}
             type={0}
           />

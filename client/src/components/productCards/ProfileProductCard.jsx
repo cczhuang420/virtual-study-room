@@ -36,7 +36,7 @@ const ProfileProductCard = ({ value, productName, image }) => {
           </Box>
           <PurchaseButton
             title={productName}
-            image={ProfileImage}
+            image={image}
             type={2}
             cost={value}
           />
