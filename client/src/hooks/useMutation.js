@@ -46,11 +46,11 @@ export const useMutation = (url, type) => {
       return res.data
     } catch(e) {
       setLoading(false)
-      console.error(e)
       setError({
         status: e.response.status,
         message: e.response.data,
       })
+      throw e
     }
   }, [url, type])
 

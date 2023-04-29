@@ -56,7 +56,10 @@ const FriendCard = ({ id, profileImage, name, onClick, onAddFriend }) => {
           <IconButton
             onClick={onAddFriend}
             sx={{
-              visibility: getCustomUser().friends.includes(id) ? "hidden" : "visible"
+              visibility: getCustomUser().friends.includes(id) ? "hidden" : "visible",
+              "&:hover": {
+                backgroundColor: "rgba(255,255,255,.1)"
+              }
             }}
           >
             <PersonAddAlt1Icon sx={{color: "white"}} />

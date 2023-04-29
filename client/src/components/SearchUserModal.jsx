@@ -7,15 +7,18 @@ import {useFetch} from "../hooks/useFetch.js";
 import profilePlaceholder from "../assets/profiles/profile-placeholder.svg"
 import FriendList from "./FriendList.jsx";
 import {useAuth} from "../providers/AuthProvider.jsx";
+import {useNotification} from "../providers/NotificationProvider.jsx";
 
 const SearchUserModal = ({open, onClose}) => {
   const [searchText, setSearchText] = useState("")
   const {isLoading, data} = useFetch("users")
+  const {getCustomUser} = useAuth()
+  const sendFriendRequestHandler = useMutation("friends/requests", HTTP_METHOD.POST)
+  const notify = useNotification()
+
   const allUsers = !isLoading ?
     data.map(({_id, username}) => ({id: _id, name: username, image: profilePlaceholder})) : []
 
-  const {getCustomUser} = useAuth()
-  console.log(getCustomUser())
   return (
     <Modal
       open={open}
@@ -78,7 +81,18 @@ const SearchUserModal = ({open, onClose}) => {
           >
             <FriendList
               friends={allUsers.filter(({name}) => name.includes(searchText))}
-              onAddFriend={(id) => console.log("add " + id)}
+              onAddFriend={async (fid) => {
+                try{
+                  await sendFriendRequestHandler.run({query: {id: getCustomUser()._id, fid}})
+                  notify("Friend request sent")
+                } catch (e) {
+                  if (e.response.status === 409) {
+                    notify("Friend request sent")
+                  } else {
+                    notify("Error, please try again")
+                  }
+                }
+              }}
             />
           </Box>
         </Box>
