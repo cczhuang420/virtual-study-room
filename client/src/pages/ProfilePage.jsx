@@ -1,6 +1,6 @@
 import Page from "../containers/Page.jsx";
-import React, { useState } from "react";
-import { Avatar, Box, Stack } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { Avatar, Box, Stack, Typography } from "@mui/material";
 import AssetPanel from "../components/AssetPanel.jsx";
 import moneyIcon from "../assets/asset-money-icon.svg";
 import xpIcon from "../assets/asset-xp-icon.svg";
@@ -12,6 +12,8 @@ import { useFetch } from "../hooks/useFetch.js";
 import ProgressLoading from "../components/ProgressLoading";
 import { useMutation } from "../hooks/useMutation.js";
 import { HTTP_METHOD } from "../hooks/http-methods.js";
+import FriendRequestItem from "../components/FriendRequestItem.jsx";
+import { useNotification } from "../providers/NotificationProvider.jsx";
 
 const ProfilePage = () => {
   const { getCustomUser } = useAuth();
@@ -29,7 +31,24 @@ const ProfilePage = () => {
     `users/assets?userId=${getCustomUser()._id}&type=music`
   );
 
-  const { isLoading, run } = useMutation(`users/updateName`, HTTP_METHOD.PUT);
+  const { data: friendRequests, isLoading: friendLoading } = useFetch(
+    `friends/requests?id=${getCustomUser()._id}`
+  );
+
+  const [friendRequestList, setFriendRequestList] = useState([]);
+
+  useEffect(() => {
+    if (!friendLoading) {
+      setFriendRequestList(friendRequests);
+    }
+  }, [friendRequests, friendRequestList]);
+
+  const { run } = useMutation(`users/updateName`, HTTP_METHOD.PUT);
+
+  const { run: updateRequest } = useMutation(
+    `friends/requests`,
+    HTTP_METHOD.PUT
+  );
 
   return (
     <Page title={"Profile"}>
@@ -43,7 +62,8 @@ const ProfilePage = () => {
           flex={1}
           display={"flex"}
           flexDirection={"column"}
-          p={8}
+          px={8}
+          py={4}
           height={"100%"}
           alignItems={"center"}
         >
@@ -57,7 +77,7 @@ const ProfilePage = () => {
             />
           </Box>
           <Stack
-            mt={8}
+            mt={4}
             direction={"row"}
             width={{ xs: "90%", sx: "78%", md: "70%" }}
             spacing={2}
@@ -67,8 +87,8 @@ const ProfilePage = () => {
             <AssetLabel image={xpIcon} value={getCustomUser().experience} />
           </Stack>
           <Box
-            mt={8}
-            width={{ xs: "90%", sm: "78%", md: "90%" }}
+            mt={4}
+            width={{ xs: "90%", sm: "78%", md: "100%" }}
             height={{ xs: "40%", sm: "20%", md: "10%" }}
           >
             <ModifiableTextField
@@ -85,9 +105,71 @@ const ProfilePage = () => {
               }}
             />
           </Box>
+
+          <Box
+            mt={3}
+            p={1}
+            width={{ xs: "90%", sm: "78%", md: "100%" }}
+            minHeight={"35vh"}
+            display={"flex"}
+            flexDirection={"column"}
+            sx={{
+              backgroundColor: "#401f6a",
+            }}
+          >
+            <Typography variant={"h6"} color={"#fff"}>
+              Friend Request
+            </Typography>
+            <Box
+              width={"100%"}
+              height={"90%"}
+              p={1}
+              display={"flex"}
+              flexDirection={"column"}
+              alignItems={"center"}
+              sx={{
+                overflowY: "auto",
+              }}
+            >
+              {friendLoading ? (
+                <ProgressLoading />
+              ) : friendRequestList.length === 0 ? (
+                <Typography variant={"h5"} color={"#fff"}>
+                  No friend request
+                </Typography>
+              ) : (
+                friendRequestList.map((it, index) => (
+                  <FriendRequestItem
+                    key={index}
+                    name={it.username}
+                    onAcceptClick={async () => {
+                      setFriendRequestList((pre) => pre.splice(index, 1));
+                      await updateRequest({
+                        query: {
+                          id: getCustomUser()._id,
+                          fid: it._id,
+                          action: "approved",
+                        },
+                      });
+                    }}
+                    onRejectClick={async () => {
+                      setFriendRequestList((pre) => pre.splice(index, 1));
+                      await updateRequest({
+                        query: {
+                          id: getCustomUser()._id,
+                          fid: it._id,
+                          action: "rejected",
+                        },
+                      });
+                    }}
+                  />
+                ))
+              )}
+            </Box>
+          </Box>
         </Box>
         <Box
-          p={5}
+          p={4}
           height={"100%"}
           flex={2}
           display={"flex"}
