@@ -48,20 +48,4 @@ router.post(
   }
 );
 
-router.post(
-  "/purchase",
-  [queryValidator(["userId", "productId"])],
-  async (req, res) => {
-    const { userId, productId } = req.query;
-    const user = await productController.findUserById(userId);
-    const product = await productController.findProductById(productId);
-    if (user.coins < product.price) {
-      res.status(400).json("You don't have enough coins");
-    } else {
-      await productController.purchaseProduct(productId, userId);
-      res.status(204).json("purchase successfully");
-    }
-  }
-);
-
 module.exports = router;

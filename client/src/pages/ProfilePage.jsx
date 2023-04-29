@@ -6,52 +6,26 @@ import moneyIcon from "../assets/asset-money-icon.svg";
 import xpIcon from "../assets/asset-xp-icon.svg";
 import AssetLabel from "../components/AssetLabel.jsx";
 import ModifiableTextField from "../components/ModifiableTextField.jsx";
-import img1 from "../assets/backgrounds/backgroundRoom.svg";
-import img2 from "../assets/backgrounds/background-card.svg";
 import avatar from "../assets/profiles/Frank.svg";
+import { useAuth } from "../providers/AuthProvider.jsx";
+import { useFetch } from "../hooks/useFetch.js";
 
 const ProfilePage = () => {
   const [nickName, setNickname] = useState("");
 
-  //fake data, will be replaced by the data which fetch from the backend
-  const backgroundsImage = [
-    img1,
-    img2,
-    img1,
-    img2,
-    img2,
-    img1,
-    img1,
-    img2,
-    img1,
-    img2,
-  ];
-  const musics = [
-    {
-      name: "鸡你太美",
-      artist: "harryQu",
-    },
-    {
-      name: "鸡你太美",
-      artist: "harryQu",
-    },
-    {
-      name: "鸡你太美",
-      artist: "harryQu",
-    },
-    {
-      name: "鸡你太美",
-      artist: "harryQu",
-    },
-    {
-      name: "鸡你太美",
-      artist: "harryQu",
-    },
-    {
-      name: "鸡你太美",
-      artist: "harryQu",
-    },
-  ];
+  const { getCustomUser } = useAuth();
+
+  const { data: backgroundImages, isLoading: backgroundLoading } = useFetch(
+    `users/assets?userId=${getCustomUser()._id}&type=background`
+  );
+
+  const { data: profileImages, isLoading: profileImageLoading } = useFetch(
+    `users/assets?userId=${getCustomUser()._id}&type=profile-image`
+  );
+
+  const { data: musics, isLoading: musicLoading } = useFetch(
+    `users/assets?userId=${getCustomUser()._id}&type=music`
+  );
 
   return (
     <Page title={"Profile"}>
@@ -103,11 +77,15 @@ const ProfilePage = () => {
           </Box>
         </Box>
         <Box p={5} height={"100%"} flex={2}>
-          <AssetPanel
-            backgrounds={backgroundsImage}
-            musics={musics}
-            profilePhotos={backgroundsImage}
-          />
+          {profileImageLoading || musicLoading || backgroundLoading ? (
+            "loading..."
+          ) : (
+            <AssetPanel
+              backgrounds={backgroundImages}
+              musics={musics}
+              profilePhotos={profileImages}
+            />
+          )}
         </Box>
       </Box>
     </Page>
