@@ -22,6 +22,7 @@ const App = () => {
   const handleOpen = useCallback(() => setOpen(true), []);
 
   const [content, setContent] = useState({
+    hasProduct: false,
     title: "",
     imageTitle: "",
     image: null,

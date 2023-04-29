@@ -9,7 +9,7 @@ import MoneyIcon from "../../assets/asset-money-icon.svg";
 import { Box } from "@mui/material";
 import PurchaseButton from "../buttons/products/PurchaseButton.jsx";
 
-const ProfileProductCard = ({ value, productName }) => {
+const ProfileProductCard = ({ value, productName, image, productId }) => {
   return (
     <Card className="w-48" sx={{ maxWidth: 350, borderRadius: 3 }}>
       <CardMedia
@@ -18,7 +18,7 @@ const ProfileProductCard = ({ value, productName }) => {
           width: 104,
         }}
         className="mt-5 m-auto"
-        image={ProfileImage}
+        image={image}
         title="Product Card"
       />
       <Box className="flex flex-col text-center mx-2 mb-2">
@@ -36,9 +36,10 @@ const ProfileProductCard = ({ value, productName }) => {
           </Box>
           <PurchaseButton
             title={productName}
-            image={ProfileImage}
+            image={image}
             type={2}
             cost={value}
+            productId={productId}
           />
         </CardActions>
       </Box>

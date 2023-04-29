@@ -8,7 +8,7 @@ import MusicNote from "../..//assets/music-note.svg";
 import { Box } from "@mui/material";
 import PurchaseButton from "../buttons/products/PurchaseButton.jsx";
 
-const MusicProductCard = ({ value, productName, artist }) => {
+const MusicProductCard = ({ value, productName, artist, productId }) => {
   return (
     <Card className="w-96" sx={{ maxWidth: 350, borderRadius: 3 }}>
       <Box className="mx-2 mb-2">
@@ -35,7 +35,12 @@ const MusicProductCard = ({ value, productName, artist }) => {
               {value}
             </Typography>
           </Box>
-          <PurchaseButton type={1} title={productName} cost={value} />
+          <PurchaseButton
+            type={1}
+            title={productName}
+            cost={value}
+            productId={productId}
+          />
         </CardActions>
       </Box>
     </Card>

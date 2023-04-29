@@ -1,4 +1,4 @@
-import {useState, useEffect, useCallback} from "react"
+import { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 
 /**
@@ -15,35 +15,36 @@ import axios from "axios";
  * }}
  */
 export const useFetch = (url, headers) => {
+  const [data, setData] = useState(null);
+  const [error, setError] = useState(null);
 
-  const [data, setData] = useState(null)
-  const [error, setError] = useState(null)
-
-  const fetch = useCallback(async() => {
-    setData(null)
-    setError(null)
+  const fetch = useCallback(async () => {
+    setData(null);
+    setError(null);
     try {
-      const res = await axios.get(`${import.meta.env.VITE_SERVICE_URL}/${url}`, { headers })
-      setData(res.data)
-    } catch(e) {
-      console.error(e)
+      const res = await axios.get(
+        `${import.meta.env.VITE_SERVICE_URL}/${url}`,
+        { headers }
+      );
+      setData(res.data);
+    } catch (e) {
+      console.error(e);
       setError({
         status: e.response.status,
         message: e.response.data,
-      })
+      });
     }
-  }, [url, headers])
+  }, [url, JSON.stringify(headers)]);
 
   useEffect(() => {
-    ;(async() => await fetch())()
-  }, [fetch])
+    (async () => await fetch())();
+  }, [fetch]);
 
   return {
     data,
     error,
     isError: error !== null,
     isLoading: data === null && error === null,
-    reFetch: fetch
-  }
-
-}
+    reFetch: fetch,
+  };
+};

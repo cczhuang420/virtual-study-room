@@ -1,38 +1,41 @@
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useState
-} from "react"
-import { Alert, IconButton, Snackbar } from "@mui/material"
-import CloseIcon from "@mui/icons-material/Close"
+import { createContext, useCallback, useContext, useState } from "react";
+import { IconButton, Snackbar } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
 
-const context = createContext((() => {}))
+const context = createContext(() => {});
 
 const NotificationProvider = ({ children }) => {
-  const [message, setMessage] = useState("")
-  const [open, setOpen] = useState(false)
+  const [message, setMessage] = useState("");
+  const [open, setOpen] = useState(false);
 
   const notify = useCallback(
     (message) => {
-      setMessage(message)
-      setOpen(true)
+      setMessage(message);
+      setOpen(true);
     },
     [setOpen, setMessage]
-  )
+  );
 
   return (
     <context.Provider value={notify}>
       {children}
       <Snackbar
+        sx={{
+          "& .MuiSnackbarContent-root": {
+            backgroundColor: "#fff",
+            color: "#000",
+          },
+        }}
         open={open}
         autoHideDuration={6000}
-        onClose={() => setOpen(false)}
+        onClose={() => {
+          setOpen(false);
+        }}
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
         message={message}
         action={
           <IconButton
-            size="small"
+            size="medium"
             color="inherit"
             onClick={() => setOpen(false)}
           >
@@ -41,9 +44,9 @@ const NotificationProvider = ({ children }) => {
         }
       />
     </context.Provider>
-  )
-}
+  );
+};
 
-export default NotificationProvider
+export default NotificationProvider;
 
-export const useNotification = () => useContext(context)
+export const useNotification = () => useContext(context);
