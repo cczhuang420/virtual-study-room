@@ -28,6 +28,7 @@ const ProductContainer = ({ value }) => {
                 value={it.price}
                 productName={it.name}
                 image={`/src/assets/backgrounds/${it.url}`}
+                productId={it._id}
               />
             ))}
         </Box>
@@ -41,6 +42,7 @@ const ProductContainer = ({ value }) => {
                 value={it.price}
                 productName={it.name}
                 image={`/src/assets/profiles/${it.url}`}
+                productId={it._id}
               />
             ))}
         </Box>
@@ -54,6 +56,7 @@ const ProductContainer = ({ value }) => {
                 value={it.price}
                 productName={it.name}
                 artist={it.artist}
+                productId={it._id}
               />
             ))}
         </Box>
