@@ -12,6 +12,7 @@ import { useAuth } from "../providers/AuthProvider.jsx";
 import { useSocket } from "../providers/SocketProvider.jsx";
 import { stop } from "../utils/musicPlayer.js";
 
+
 const roomUsers = Array(10).fill({
   name: "Mike Ma",
   image: mikeProfile,

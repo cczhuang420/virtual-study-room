@@ -75,7 +75,7 @@ const Page = ({
     <Box
       sx={{
         minHeight: "100vh",
-        width: "100vw",
+        width: "100%",
         background: "linear-gradient(to right, #400A71, #1D0652)",
         overflowX: "hidden",
         position: "relative",
