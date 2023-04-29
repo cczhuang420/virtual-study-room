@@ -66,7 +66,13 @@ module.exports = (io, rooms) => {
     });
 
     socket.on("join-room", (roomId) => {
+      console.log(`${socket.user.name} joined room ${roomId}`);
       socket.join(roomId);
+    });
+
+    socket.on("leave-room", (roomId) => {
+      console.log(`${socket.user.name} left room ${roomId}`);
+      socket.leave(roomId);
     });
   });
 };
