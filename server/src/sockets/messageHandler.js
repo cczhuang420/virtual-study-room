@@ -8,8 +8,8 @@ const messageHandler = (io, socket) => {
 
     // find the receiver socket and send message
     io.sockets.sockets.forEach((eachSocket) => {
-      if (eachSocket.user.uid === data.receiverId) {
-        console.log(data.senderId + " sent message to " + data.receiverId);
+      if (eachSocket.user.uid === data.receiverUId) {
+        console.log(data.senderId + " sent message to " + data.receiverUId);
 
         // send event to update message display
         eachSocket.emit("message", data);

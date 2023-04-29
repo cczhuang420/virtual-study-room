@@ -26,8 +26,9 @@ const FriendsPage = () => {
 
   const handleSendChat = (message) => {
     socket.emit("send-message", {
-      senderId: getCurrentUser().uid,
-      receiverId: friendId,
+      senderId: getCurrentUser().uid, // firebase id
+      receiverId: "111", // database id
+      receiverUId: friendId, // firebase id
       profileImageUrl: Frank,
       message: message,
       timestamp: Date.now(),
