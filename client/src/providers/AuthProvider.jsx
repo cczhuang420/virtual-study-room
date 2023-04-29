@@ -114,6 +114,17 @@ const AuthProvider = ({children}) => {
     }
   }, [auth, signOut])
 
+  const reFetchUserData = useCallback(async () => {
+    if (firebaseUser && firebaseUser.email) {
+      const res = await fetchUserHandler.run({
+        query: {
+          email: firebaseUser.email
+        }
+      })
+      setUserData(res[0])
+    }
+  }, [firebaseUser, fetchUserHandler])
+
   useEffect(() => {
     onAuthStateChanged(getAuth(), async (user) => {
       setFirebaseUser(user)
@@ -130,7 +141,6 @@ const AuthProvider = ({children}) => {
   }, [])
 
   useEffect(() => {
-    console.log(123)
     ;(async () => {
       if (firebaseUser && firebaseUser.email) {
         const res = await fetchUserHandler.run({
@@ -154,7 +164,8 @@ const AuthProvider = ({children}) => {
     logout,
     googleSignIn: () => thirdPartySignIn(googleAuthProvider),
     githubSignIn: () => thirdPartySignIn(githubAuthProvider),
-    anonymousSignIn
+    anonymousSignIn,
+    reFetchUserData
   }), [firebaseUser, loading])
 
   return (
