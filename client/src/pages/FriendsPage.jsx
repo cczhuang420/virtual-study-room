@@ -20,6 +20,8 @@ const FriendsPage = () => {
     socket.on("message", (data) => {
       console.log(data);
     });
+
+    return () => socket.off("message");
   }, [socket]);
 
   const handleSendChat = (message) => {
