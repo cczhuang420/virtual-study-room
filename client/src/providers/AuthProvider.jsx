@@ -5,6 +5,7 @@ import {
   useEffect,
   useMemo,
   useState,
+  useState,
 } from "react";
 import {
   createUserWithEmailAndPassword,
@@ -67,6 +68,7 @@ const AuthProvider = ({ children }) => {
         .data;
       if (usersWithSameEmail.length === 0) {
         await createUser(
+          auth.currentUser.uid,
           "User" +
             Array.from({ length: 5 }, () =>
               Math.round(Math.random() * 10)
@@ -96,10 +98,10 @@ const AuthProvider = ({ children }) => {
         throw new Error("Username is already taken");
       }
 
-      await Promise.all([
-        createUserWithEmailAndPassword(auth, email, password),
-        createUser(username, email),
-      ]);
+      await createUserWithEmailAndPassword(auth, email, password);
+      if (auth.currentUser) {
+        await createUser(auth.currentUser.uid, username, email);
+      }
     },
     [auth, createUserWithEmailAndPassword]
   );
@@ -111,7 +113,7 @@ const AuthProvider = ({ children }) => {
       const usersWithSameEmail = (await fetchUsers({ email })).data;
       const suggestedUsername = await fetchUsernameSuggestion(undefined);
       if (usersWithSameEmail.length === 0) {
-        await createUser(suggestedUsername, email);
+        await createUser(auth.currentUser.uid, suggestedUsername, email);
       }
     },
     [auth, signInWithPopup]
@@ -136,7 +138,6 @@ const AuthProvider = ({ children }) => {
           email: firebaseUser.email,
         },
       });
-      console.log(res[0]);
       setUserData(res[0]);
     }
   }, [firebaseUser, fetchUserHandler]);
@@ -152,6 +153,7 @@ const AuthProvider = ({ children }) => {
         });
         setUserData(res[0]);
       }
+      setFirebaseUser(user);
       setLoading(false);
     });
   }, []);

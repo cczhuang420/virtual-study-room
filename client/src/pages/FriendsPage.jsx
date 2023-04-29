@@ -1,14 +1,37 @@
 import Page from "../containers/Page.jsx";
-import React from "react";
+import React, { useEffect } from "react";
+import { useParams } from "react-router-dom";
 import { Box, Button } from "@mui/material";
 import ChatModal from "../components/ChatModal.jsx";
 import { useAuth } from "../providers/AuthProvider.jsx";
+import { useSocket } from "../providers/SocketProvider.jsx";
 import Mike from "../assets/profiles/Mike.svg";
 import Frank from "../assets/profiles/Frank.svg";
 import PrivateRoomsContainer from "../components/studyRooms/PrivateRoomsContainer.jsx";
 
-const FriendsPage = ({ id }) => {
+const FriendsPage = () => {
+  const { friendId } = useParams();
+
   const { getCurrentUser } = useAuth();
+  const socket = useSocket();
+
+  useEffect(() => {
+    if (!socket) return;
+    socket.on("message", (data) => {
+      console.log(data);
+    });
+  }, [socket]);
+
+  const handleSendChat = (message) => {
+    socket.emit("send-message", {
+      senderId: getCurrentUser().uid,
+      receiverId: friendId,
+      profileImageUrl: Frank,
+      message: message,
+      timestamp: Date.now(),
+    });
+  };
+
   return (
     <Page title={"Friends Page"}>
       <Box
@@ -47,7 +70,7 @@ const FriendsPage = ({ id }) => {
                 minWidth: 180,
               }}
             >
-              {id}'s Rooms
+              {friendId}'s Rooms
             </Button>
           </Box>
           <Box className="flex flex-1 flex-row flex-auto justify-start w-full h-5/6 mt-5 ml-5">
@@ -87,7 +110,7 @@ const FriendsPage = ({ id }) => {
                 isOnline: false,
               },
             ]}
-            onSend={(message) => alert(message)}
+            onSend={handleSendChat}
           />
         </Box>
       </Box>

@@ -2,12 +2,15 @@ import { useState, useEffect, createContext, useContext } from "react";
 import { io } from "socket.io-client";
 import { useAuth } from "../providers/AuthProvider.jsx";
 import { play, pause, stop } from "../utils/musicPlayer.js";
+import { useNotification } from "./NotificationProvider.jsx";
 
 const context = createContext({});
 
 const SocketProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
+
   const { getCurrentUser } = useAuth();
+  const notify = useNotification();
 
   useEffect(() => {
     if (getCurrentUser()) {
@@ -27,6 +30,11 @@ const SocketProvider = ({ children }) => {
       newSocket.on("new-song", (song) => {
         console.log("new-song", song);
         play(song);
+      });
+
+      newSocket.on("message-notification", (data) => {
+        console.log("message-notification", data);
+        notify(data);
       });
 
       newSocket.on("connect_error", (err) => {
