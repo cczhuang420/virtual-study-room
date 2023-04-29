@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState, useMemo } from "react";
 import Page from "../containers/Page.jsx";
 import { useParams } from "react-router-dom";
 import roomBg from "../assets/study-room-bg.svg";
@@ -24,10 +24,15 @@ const mockUserList = [
 
 const targetUser = { name: "Mike", uid: "Ny8XNK3lW4b3YAJf8vcMPL5q7fl1" };
 
+const sortByOptions = [
+  "name", "experience"
+]
+
 const StudyingRoomPage = () => {
   // array of {senderId, profileImageUrl, content}
   const [chatHistory, setChatHistory] = useState([])
   const [roomUsers, setRoomUsers] = useState([])
+  const [sortBy, setSortBy] = useState("name")
 
   const { roomId } = useParams();
   const socket = useSocket();
@@ -53,6 +58,16 @@ const StudyingRoomPage = () => {
     })()
   }, [isLoading, roomData])
 
+  const sortedRoomUsers = useMemo(() => {
+    const users = roomUsers.map(u => ({...u}))
+    users.sort((a, b) => {
+      if (a[sortBy] > b[sortBy]) return 1
+      if (a[sortBy] < b[sortBy]) return -1
+      if (a[sortBy] === b[sortBy]) return 0
+    })
+    return users
+  }, [sortBy, roomUsers])
+
   const leaveRoomHandler = useCallback(() => {
     history.back();
   }, []);
@@ -62,8 +77,10 @@ const StudyingRoomPage = () => {
   }, []);
 
   const changeSortingHandler = useCallback(() => {
-    alert("Sort by something");
-  }, []);
+    const index = sortByOptions.findIndex(o => o === sortBy)
+    const newValue = sortByOptions[(index + 1) % sortByOptions.length]
+    setSortBy(newValue)
+  }, [sortBy, setSortBy]);
 
   useEffect(() => {
     socket.emit("join-room", roomId);
@@ -139,7 +156,7 @@ const StudyingRoomPage = () => {
                   },
                 }}
               >
-                Sort by name
+                Sort by {sortBy}
               </Button>
             </Box>
             <Box
@@ -150,7 +167,7 @@ const StudyingRoomPage = () => {
               }}
             >
               <Grid container sx={{ p: 10, pt: 1 }}>
-                {roomUsers.map((roomUser) => (
+                {sortedRoomUsers.map((roomUser) => (
                   <Grid
                     item
                     xs={12}
