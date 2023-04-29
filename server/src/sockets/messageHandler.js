@@ -1,6 +1,6 @@
 const messageHandler = (io, socket) => {
-  socket.on("message", (message) => {
-    io.emit("message", message);
+  socket.on("send-message-in-rooms", (data) => {
+    io.to(data.roomId).emit("message-in-rooms", data);
   });
 };
 

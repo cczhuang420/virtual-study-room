@@ -128,7 +128,7 @@ const AuthProvider = ({children}) => {
   useEffect(() => {
     onAuthStateChanged(getAuth(), async (user) => {
       setFirebaseUser(user)
-      if (user.email) {
+      if (user && user.email) {
         const res = await fetchUserHandler.run({
           query: {
             email: user.email
