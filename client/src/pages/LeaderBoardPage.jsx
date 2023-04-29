@@ -1,9 +1,9 @@
 import Page from "../containers/Page.jsx";
 import React from "react";
-import profileImage from "../assets/Mike.svg";
+import profileImage from "../assets/profiles/Mike.svg";
 import { Box, Typography, Button, Divider, Grid } from "@mui/material";
-import img1 from "../assets/backgroundRoom.svg";
-import img2 from "../assets/background-card.svg";
+import img1 from "../assets/backgrounds/backgroundRoom.svg";
+import img2 from "../assets/backgrounds/background-card.svg";
 import ListItem from "@mui/material/ListItem";
 import FriendCard from "../components/FriendCard.jsx";
 import TopLeaderCard from "../components/TopLeaderCard.jsx";

@@ -1,93 +1,92 @@
-import React, {useCallback, useEffect} from "react"
+import React, { useCallback, useEffect } from "react";
 import Page from "../containers/Page.jsx";
-import {useParams} from "react-router-dom";
-import roomBg from "../assets/study-room-bg.svg"
-import {Box, Button, Grid} from "@mui/material"
-import mikeProfile from "../assets/Mike.svg"
+import { useParams } from "react-router-dom";
+import roomBg from "../assets/study-room-bg.svg";
+import { Box, Button, Grid } from "@mui/material";
+import mikeProfile from "../assets/profiles/Mike.svg";
 import RoomUserCard from "../components/RoomUserCard.jsx";
 import logo from "../assets/logo.svg";
 import TodoList from "../components/TodoList";
 import ChatModal from "../components/ChatModal.jsx";
-import {useAuth} from "../providers/AuthProvider.jsx";
-import {useSocket} from "../providers/SocketProvider.jsx";
+import { useAuth } from "../providers/AuthProvider.jsx";
+import { useSocket } from "../providers/SocketProvider.jsx";
 
 const roomUsers = Array(10).fill({
   name: "Mike Ma",
   image: mikeProfile,
   xpValue: Math.round(Math.random() * 10000),
-  onChat: () => alert("This is Mike")
-})
+  onChat: () => alert("This is Mike"),
+});
 
 const mockUserList = [
-  {name: "Mike", uid: "Ny8XNK3lW4b3YAJf8vcMPL5q7fl1", isOnline: true},
-  {name: "Mike", uid: "Ny8XNK3lW4b3YAJf8vcMPL5q7fl1", isOnline: false},
-  {name: "Mike", uid: "Ny8XNK3lW4b3YAJf8vcMPL5q7fl1", isOnline: true}
-]
+  { name: "Mike", uid: "Ny8XNK3lW4b3YAJf8vcMPL5q7fl1", isOnline: true },
+  { name: "Mike", uid: "Ny8XNK3lW4b3YAJf8vcMPL5q7fl1", isOnline: false },
+  { name: "Mike", uid: "Ny8XNK3lW4b3YAJf8vcMPL5q7fl1", isOnline: true },
+];
 
-const targetUser = {name: "Mike", uid: "Ny8XNK3lW4b3YAJf8vcMPL5q7fl1"}
+const targetUser = { name: "Mike", uid: "Ny8XNK3lW4b3YAJf8vcMPL5q7fl1" };
 
 const StudyingRoomPage = () => {
-
-  const {roomId} = useParams()
+  const { roomId } = useParams();
   const socket = useSocket();
 
-  const {getCurrentUser} = useAuth()
+  const { getCurrentUser } = useAuth();
 
   const leaveRoomHandler = useCallback(() => {
-    alert("Leave Room")
-  }, [])
+    alert("Leave Room");
+  }, []);
 
   const setTimerHandler = useCallback(() => {
-    alert("Set Timer")
-  }, [])
+    alert("Set Timer");
+  }, []);
 
   const changeSortingHandler = useCallback(() => {
-    alert("Sort by something")
-  }, [])
+    alert("Sort by something");
+  }, []);
 
   useEffect(() => {
     socket.emit("join-room", "relaxing-01");
     socket.emit("get-song-for-room", "relaxing-01");
-  }, [])
+  }, []);
 
   const mockChatHistory = [
     {
       senderId: getCurrentUser().uid,
       profileImageUrl: mikeProfile,
-      content: "Hello"
+      content: "Hello",
     },
     {
       senderId: getCurrentUser().uid,
       profileImageUrl: mikeProfile,
-      content: "How are you"
+      content: "How are you",
     },
     {
       senderId: "Ny8XNK3lW4b3YAJf8vcMPL5q7fl1",
       profileImageUrl: mikeProfile,
-      content: "I am fine"
+      content: "I am fine",
     },
     {
       senderId: "Ny8XNK3lW4b3YAJf8vcMPL5q7fl1",
       profileImageUrl: mikeProfile,
-      content: "Thank you"
+      content: "Thank you",
     },
     {
       senderId: "Ny8XNK3lW4b3YAJf8vcMPL5q7fl1",
       profileImageUrl: mikeProfile,
-      content: "And you"
+      content: "And you",
     },
     {
       senderId: getCurrentUser().uid,
       profileImageUrl: mikeProfile,
-      content: "I am fine too"
-    }
-  ]
+      content: "I am fine too",
+    },
+  ];
 
   return (
     <Page
       excludeNavigation
       title={`Virtual Study Room | Room ${roomId}`}
-      sx={{maxHeight: "100vh"}}
+      sx={{ maxHeight: "100vh" }}
     >
       <Box
         sx={{
@@ -95,7 +94,7 @@ const StudyingRoomPage = () => {
           height: "90%",
           background: `url(${roomBg}) no-repeat center`,
           backgroundSize: "cover",
-          display: "flex"
+          display: "flex",
         }}
       >
         <Box
@@ -105,28 +104,34 @@ const StudyingRoomPage = () => {
             backdropFilter: "blur(10px)",
             display: "flex",
             "&>*:nth-child(1)": {
-              flex: 2
+              flex: 2,
             },
             "&>*:nth-child(2)": {
-              flex: 1
+              flex: 1,
             },
           }}
         >
-          <Box sx={{display: "flex", flexDirection: "column", position: "relative"}}>
-            <Box sx={{position: "absolute", top: 1, left: 4}}>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              position: "relative",
+            }}
+          >
+            <Box sx={{ position: "absolute", top: 1, left: 4 }}>
               <img src={logo} alt={""} />
             </Box>
-            <Box sx={{pl: 15, paddingY: 2}}>
+            <Box sx={{ pl: 15, paddingY: 2 }}>
               <Button
                 onClick={changeSortingHandler}
                 variant={"contained"}
                 sx={{
                   color: "white",
                   border: "2px solid #FFFFFF88",
-                  backgroundColor:  "#FFFFFF32",
+                  backgroundColor: "#FFFFFF32",
                   "&:hover": {
                     backgroundColor: "#FFFFFF50",
-                  }
+                  },
                 }}
               >
                 Sort by name
@@ -136,12 +141,18 @@ const StudyingRoomPage = () => {
               className={"hide-scroll-bar"}
               sx={{
                 flex: 1,
-                overflowY: "scroll"
+                overflowY: "scroll",
               }}
             >
-              <Grid container sx={{p: 10, pt: 1}}>
+              <Grid container sx={{ p: 10, pt: 1 }}>
                 {roomUsers.map((roomUser) => (
-                  <Grid item xs={12} md={6} sx={{p: 5, pt: 0}} key={`${Math.random()}`}>
+                  <Grid
+                    item
+                    xs={12}
+                    md={6}
+                    sx={{ p: 5, pt: 0 }}
+                    key={`${Math.random()}`}
+                  >
                     <RoomUserCard {...roomUser} />
                   </Grid>
                 ))}
@@ -164,8 +175,8 @@ const StudyingRoomPage = () => {
                 flexDirection: "column",
                 "&>*": { flex: 1 },
                 paddingX: 8,
-                paddingY: 2
-              }
+                paddingY: 2,
+              },
             }}
           >
             <Box>
@@ -188,7 +199,7 @@ const StudyingRoomPage = () => {
           justifyContent: "space-between",
           paddingX: 3,
           paddingY: 2,
-          width: "100%"
+          width: "100%",
         }}
       >
         <Box>
@@ -201,7 +212,7 @@ const StudyingRoomPage = () => {
               "&:hover": {
                 border: "2px solid #FFFFFF88",
                 backgroundColor: "#FFFFFF11",
-              }
+              },
             }}
           >
             Leave Room
@@ -214,10 +225,10 @@ const StudyingRoomPage = () => {
             sx={{
               color: "white",
               border: "2px solid #FFFFFF88",
-              backgroundColor:  "#FFFFFF32",
+              backgroundColor: "#FFFFFF32",
               "&:hover": {
                 backgroundColor: "#FFFFFF50",
-              }
+              },
             }}
           >
             Set Timer
@@ -225,7 +236,7 @@ const StudyingRoomPage = () => {
         </Box>
       </Box>
     </Page>
-  )
-}
+  );
+};
 
-export default StudyingRoomPage
+export default StudyingRoomPage;

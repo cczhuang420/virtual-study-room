@@ -3,8 +3,8 @@ import React from "react";
 import { Box, Button } from "@mui/material";
 import ChatModal from "../components/ChatModal.jsx";
 import { useAuth } from "../providers/AuthProvider.jsx";
-import Mike from "../assets/Mike.svg";
-import Frank from "../assets/Frank.svg";
+import Mike from "../assets/profiles/Mike.svg";
+import Frank from "../assets/profiles/Frank.svg";
 import PrivateRoomsContainer from "../components/studyRooms/PrivateRoomsContainer.jsx";
 
 const FriendsPage = ({ id }) => {

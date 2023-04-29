@@ -6,9 +6,9 @@ import moneyIcon from "../assets/asset-money-icon.svg";
 import xpIcon from "../assets/asset-xp-icon.svg";
 import AssetLabel from "../components/AssetLabel.jsx";
 import ModifiableTextField from "../components/ModifiableTextField.jsx";
-import img1 from "../assets/backgroundRoom.svg";
-import img2 from "../assets/background-card.svg";
-import avatar from "../assets/Frank.svg";
+import img1 from "../assets/backgrounds/backgroundRoom.svg";
+import img2 from "../assets/backgrounds/background-card.svg";
+import avatar from "../assets/profiles/Frank.svg";
 
 const ProfilePage = () => {
   const [nickName, setNickname] = useState("");

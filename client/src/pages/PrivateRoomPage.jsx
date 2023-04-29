@@ -8,7 +8,7 @@ import AssetLabel from "../components/AssetLabel.jsx";
 import PrivateRoomsContainer from "../components/studyRooms/PrivateRoomsContainer.jsx";
 import PrivateRoomCreationForm from "../components/studyRooms/PrivateRoomCreationForm.jsx";
 import { useModal } from "../App.jsx";
-import backgroundImage from "../assets/backgroundRoom.svg";
+import backgroundImage from "../assets/backgrounds/backgroundRoom.svg";
 
 const PrivateRoomPage = () => {
   const [havePrivateRooms, setHavePrivateRooms] = useState(false);
