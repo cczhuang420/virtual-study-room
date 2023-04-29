@@ -8,7 +8,7 @@ import Frank from "../assets/profiles/Frank.svg";
 import PrivateRoomsContainer from "../components/studyRooms/PrivateRoomsContainer.jsx";
 
 const FriendsPage = ({ id }) => {
-  const {} = useAuth();
+  const { getCurrentUser } = useAuth();
   return (
     <Page title={"Friends Page"}>
       <Box
