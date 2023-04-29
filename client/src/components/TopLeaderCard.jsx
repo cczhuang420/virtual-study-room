@@ -90,6 +90,8 @@ const TopLeaderCard = ({ profileImage, name, ranking, hours }) => {
               fontSize: "2rem",
               color: "white",
               flexGrow: "0.6",
+                overflow: "hidden",
+                textOverflow: "ellipsis"
             }}
           >
             {name}

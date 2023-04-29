@@ -12,8 +12,8 @@ const RankBar = ({
   return (
     <Box
       display={"flex"}
-      flexDirection={"row"}
-      justifyContent={"space-around"}
+      //flexDirection={"row"}
+      //justifyContent={"space-around"}
       alignItems={"center"}
       sx={{
         height: "100%",
@@ -31,6 +31,7 @@ const RankBar = ({
           color: "white",
           mr: "0.5rem",
           overflow: "hidden",
+            flex: 1,
         }}
       >
         {rankValue.toLocaleString()}
@@ -38,13 +39,18 @@ const RankBar = ({
       <Box
         display={"flex"}
         flexDirection={"row"}
-        justifyContent={"space-evenly"}
         alignItems={"center"}
+        justifyContent={profileImage === "" ? 'center' : 'flex-start'}
+        sx={{
+            flex: 1,
+            overflow: "hidden",
+            textOverflow: "ellipsis"
+        }}
       >
         {profileImage !== "" && (
           <Image
-            width={"23%"}
-            height={"100%"}
+            width={"20%"}
+            height={"70%"}
             fit={"scale-down"}
             src={profileImage}
             bgColor={""}
@@ -59,9 +65,10 @@ const RankBar = ({
             color: "white",
             mr: "0.5rem",
             overflow: "hidden",
+              textOverflow: "ellipsis"
           }}
         >
-          {name.toLocaleString()}
+          {name}
         </Typography>
       </Box>
       <Typography
@@ -72,6 +79,7 @@ const RankBar = ({
           color: "white",
           mr: "0.5rem",
           overflow: "hidden",
+            flex: 1,
         }}
       >
         {xpValue.toLocaleString()}
@@ -84,6 +92,7 @@ const RankBar = ({
           color: "white",
           mr: "0.5rem",
           overflow: "hidden",
+            flex: 1,
         }}
       >
         {assetValue.toLocaleString()}
@@ -96,6 +105,7 @@ const RankBar = ({
           color: "white",
           mr: "0.5rem",
           overflow: "hidden",
+            flex: 1,
         }}
       >
         {hours.toLocaleString()}
