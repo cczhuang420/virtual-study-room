@@ -1,7 +1,7 @@
 import { Box, Typography, Button } from "@mui/material";
 import { Image } from "mui-image";
 
-const RoomUserCard = ({ name, image, xpValue, onChat }) => {
+const RoomUserCard = ({ username, profile, experience, onChat }) => {
   return (
     <Box
       display={"flex"}
@@ -9,23 +9,14 @@ const RoomUserCard = ({ name, image, xpValue, onChat }) => {
       justifyContent={"space-around"}
       alignItems={"center"}
       sx={{
-        height: "100%",
-        width: "100%",
+        p: 2,
         borderRadius: "10px",
         background: "rgba(255, 255, 255, .8)",
         cursor: "pointer",
         boxShadow: "inset 0px 0px 15px 3px rgba(0,0,0,0.6)",
       }}
     >
-      <Image
-        width={"40%"}
-        fit={"scale-down"}
-        height={"100%"}
-        src={image}
-        bgColor={""}
-        duration={0}
-      />
-
+      <img src={profile} />
       <Box
         display={"flex"}
         flexDirection={"column"}
@@ -46,6 +37,7 @@ const RoomUserCard = ({ name, image, xpValue, onChat }) => {
             height: "50%",
             width: "100%",
             overflow: "visible",
+            mb: 1,
           }}
         >
           <Typography
@@ -55,7 +47,7 @@ const RoomUserCard = ({ name, image, xpValue, onChat }) => {
               fontSize: "1.2rem",
             }}
           >
-            {name}
+            {username}
           </Typography>
         </Box>
         <Box
@@ -76,7 +68,7 @@ const RoomUserCard = ({ name, image, xpValue, onChat }) => {
               color: "#8E8E8E",
             }}
           >
-            xp: {xpValue.toLocaleString()}
+            xp: {experience.toLocaleString()}
           </Typography>
           <Button
             onClick={onChat}

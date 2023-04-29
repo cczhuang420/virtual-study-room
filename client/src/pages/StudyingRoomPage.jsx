@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Page from "../containers/Page.jsx";
 import { useParams } from "react-router-dom";
 import roomBg from "../assets/study-room-bg.svg";
@@ -10,13 +10,11 @@ import TodoList from "../components/TodoList";
 import ChatModal from "../components/ChatModal.jsx";
 import { useAuth } from "../providers/AuthProvider.jsx";
 import { useSocket } from "../providers/SocketProvider.jsx";
+import { stop } from "../utils/musicPlayer.js";
+import {useFetch} from "../hooks/useFetch.js";
+import {useMutation} from "../hooks/useMutation.js";
+import {HTTP_METHOD} from "../hooks/http-methods.js";
 
-const roomUsers = Array(10).fill({
-  name: "Mike Ma",
-  image: mikeProfile,
-  xpValue: Math.round(Math.random() * 10000),
-  onChat: () => alert("This is Mike"),
-});
 
 const mockUserList = [
   { name: "Mike", uid: "Ny8XNK3lW4b3YAJf8vcMPL5q7fl1", isOnline: true },
@@ -27,10 +25,33 @@ const mockUserList = [
 const targetUser = { name: "Mike", uid: "Ny8XNK3lW4b3YAJf8vcMPL5q7fl1" };
 
 const StudyingRoomPage = () => {
+  // array of {senderId, profileImageUrl, content}
+  const [chatHistory, setChatHistory] = useState([])
+  const [roomUsers, setRoomUsers] = useState([])
+
   const { roomId } = useParams();
   const socket = useSocket();
-
   const { getCurrentUser } = useAuth();
+
+  const {data: roomData, isLoading} = useFetch(`publicRooms/${roomId}`)
+  const fetchUserHandler = useMutation("users", HTTP_METHOD.GET)
+
+  useEffect(() => {
+    ;(async () => {
+      if (!roomData || isLoading) return
+      const userIds = roomData.users
+      setRoomUsers(
+        (await Promise.all(
+          userIds.map(id => fetchUserHandler.run({
+            query: { _id: id }
+          }))
+        ))
+        .map(res => res[0])
+        .map((user) => ({...user, profile: `/src/assets/profiles/${user.profile}`}))
+      )
+
+    })()
+  }, [isLoading, roomData])
 
   const leaveRoomHandler = useCallback(() => {
     alert("Leave Room");
@@ -48,39 +69,6 @@ const StudyingRoomPage = () => {
     socket.emit("join-room", "relaxing-01");
     socket.emit("get-song-for-room", "relaxing-01");
   }, []);
-
-  const mockChatHistory = [
-    {
-      senderId: getCurrentUser().uid,
-      profileImageUrl: mikeProfile,
-      content: "Hello",
-    },
-    {
-      senderId: getCurrentUser().uid,
-      profileImageUrl: mikeProfile,
-      content: "How are you",
-    },
-    {
-      senderId: "Ny8XNK3lW4b3YAJf8vcMPL5q7fl1",
-      profileImageUrl: mikeProfile,
-      content: "I am fine",
-    },
-    {
-      senderId: "Ny8XNK3lW4b3YAJf8vcMPL5q7fl1",
-      profileImageUrl: mikeProfile,
-      content: "Thank you",
-    },
-    {
-      senderId: "Ny8XNK3lW4b3YAJf8vcMPL5q7fl1",
-      profileImageUrl: mikeProfile,
-      content: "And you",
-    },
-    {
-      senderId: getCurrentUser().uid,
-      profileImageUrl: mikeProfile,
-      content: "I am fine too",
-    },
-  ];
 
   return (
     <Page
@@ -103,12 +91,6 @@ const StudyingRoomPage = () => {
             height: "100%",
             backdropFilter: "blur(10px)",
             display: "flex",
-            "&>*:nth-child(1)": {
-              flex: 2,
-            },
-            "&>*:nth-child(2)": {
-              flex: 1,
-            },
           }}
         >
           <Box
@@ -116,6 +98,7 @@ const StudyingRoomPage = () => {
               display: "flex",
               flexDirection: "column",
               position: "relative",
+              flex: 2,
             }}
           >
             <Box sx={{ position: "absolute", top: 1, left: 4 }}>
@@ -161,6 +144,7 @@ const StudyingRoomPage = () => {
           </Box>
           <Box
             sx={{
+              flex: 1,
               display: "flex",
               c: "stretch",
               justifyContent: "stretch",
@@ -184,7 +168,7 @@ const StudyingRoomPage = () => {
             </Box>
             <Box>
               <ChatModal
-                chatHistory={mockChatHistory}
+                chatHistory={chatHistory}
                 targetUser={targetUser}
                 userList={mockUserList}
                 onSend={(message) => alert(message)}

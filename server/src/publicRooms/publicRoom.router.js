@@ -9,11 +9,15 @@ const router = Router({mergeParams: true})
 
 //localhost:4000/api/publicRooms
 //return an array which contain list of public rooms
-
 router.get("/", async (req, res) => {
     res.json(
         await publicRoomController.getAllPublicRooms()
     )
+})
+
+router.get("/:id", async (req, res) => {
+    const {id} = req.params
+    res.json(await publicRoomController.getPublicRoom(id))
 })
 
 router.post("/", payloadValidator(["name", "users", "playList", "backgroundUrl"]), async (req, res) => {
