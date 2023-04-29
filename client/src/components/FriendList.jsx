@@ -20,6 +20,7 @@ const FriendList = ({ friends, onClick, onAddFriend }) => {
         {friends.map(({ image, name, id }, index) => (
           <ListItem key={index} sx={{p: 1}}>
             <FriendCard
+              id={id}
               profileImage={image}
               name={name}
               onClick={onClick && (() => onClick(id))}

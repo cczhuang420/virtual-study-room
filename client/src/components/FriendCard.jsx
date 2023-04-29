@@ -1,7 +1,10 @@
 import {Box, IconButton, Typography} from "@mui/material";
 import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
+import {useAuth} from "../providers/AuthProvider.jsx";
 
-const FriendCard = ({ profileImage, name, onClick, onAddFriend }) => {
+const FriendCard = ({ id, profileImage, name, onClick, onAddFriend }) => {
+  const {getCustomUser} = useAuth()
+
   return (
     <Box
       onClick={onClick}
@@ -50,7 +53,12 @@ const FriendCard = ({ profileImage, name, onClick, onAddFriend }) => {
           {name}
         </Typography>
         {onAddFriend && (
-          <IconButton onClick={onAddFriend}>
+          <IconButton
+            onClick={onAddFriend}
+            sx={{
+              visibility: getCustomUser().friends.includes(id) ? "hidden" : "visible"
+            }}
+          >
             <PersonAddAlt1Icon sx={{color: "white"}} />
           </IconButton>
         )}

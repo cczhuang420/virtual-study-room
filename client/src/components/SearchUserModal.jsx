@@ -6,6 +6,7 @@ import {HTTP_METHOD} from "../hooks/http-methods.js";
 import {useFetch} from "../hooks/useFetch.js";
 import profilePlaceholder from "../assets/profiles/profile-placeholder.svg"
 import FriendList from "./FriendList.jsx";
+import {useAuth} from "../providers/AuthProvider.jsx";
 
 const SearchUserModal = ({open, onClose}) => {
   const [searchText, setSearchText] = useState("")
@@ -13,7 +14,8 @@ const SearchUserModal = ({open, onClose}) => {
   const allUsers = !isLoading ?
     data.map(({_id, username}) => ({id: _id, name: username, image: profilePlaceholder})) : []
 
-  console.log(allUsers)
+  const {getCustomUser} = useAuth()
+  console.log(getCustomUser())
   return (
     <Modal
       open={open}
@@ -70,7 +72,8 @@ const SearchUserModal = ({open, onClose}) => {
           <Box
             sx={{
               overflowY: "scroll",
-              flex: 1
+              flex: 1,
+              mt: 1,
             }}
           >
             <FriendList
