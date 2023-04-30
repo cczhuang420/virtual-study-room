@@ -14,11 +14,11 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     <BrowserRouter>
       <ThemeProvider theme={theme}>
         <AuthProvider>
-          <SocketProvider>
-            <NotificationProvider>
-              <App />
-            </NotificationProvider>
-          </SocketProvider>
+          <NotificationProvider>
+            <SocketProvider>
+                <App />
+            </SocketProvider>
+          </NotificationProvider>
         </AuthProvider>
       </ThemeProvider>
     </BrowserRouter>
