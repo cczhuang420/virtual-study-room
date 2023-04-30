@@ -22,7 +22,7 @@ const sortByOptions = [
   "name", "experience"
 ]
 
-const StudyingRoomPage = (callback, deps) => {
+const StudyingRoomPage = () => {
   // array of {senderId, profileImageUrl, content}
   const [chatHistory, setChatHistory] = useState([])
   const [roomUsers, setRoomUsers] = useState([])
@@ -96,10 +96,9 @@ const StudyingRoomPage = (callback, deps) => {
   useEffect(() => {
     if (!socket) return
     socket.emit("join-room", roomId);
-    socket.emit("get-song-for-room", roomId);
+    socket.emit("get-song-for-room", roomData && roomData.playListId);
 
     socket.on("message-in-rooms", ({senderId, profileImageUrl, message}) => {
-      console.log(profileImageUrl)
       setChatHistory(prevState => [...prevState, {
         senderId, profileImageUrl, content: message
       }])
@@ -110,7 +109,7 @@ const StudyingRoomPage = (callback, deps) => {
       socket.off("message-in-rooms");
       stop();
     };
-  }, [socket]);
+  }, [socket, roomData]);
 
   const handleSendGroupChat = (message) => {
     socket.emit("send-message-in-rooms", {
