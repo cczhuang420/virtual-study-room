@@ -99,6 +99,7 @@ const StudyingRoomPage = (callback, deps) => {
     socket.emit("get-song-for-room", roomId);
 
     socket.on("message-in-rooms", ({senderId, profileImageUrl, message}) => {
+      console.log(profileImageUrl)
       setChatHistory(prevState => [...prevState, {
         senderId, profileImageUrl, content: message
       }])
@@ -115,7 +116,7 @@ const StudyingRoomPage = (callback, deps) => {
     socket.emit("send-message-in-rooms", {
       roomId: roomId,
       senderId: getCurrentUser().uid,
-      profileImageUrl: mikeProfile,
+      profileImageUrl: `/src/assets/profiles/${getCustomUser().profile}`,
       message: message,
       timestamp: Date.now(),
     });
