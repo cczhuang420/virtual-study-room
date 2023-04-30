@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import {useState, useEffect, useMemo, useCallback} from "react";
 import {
   Box,
   Checkbox,
@@ -7,75 +7,51 @@ import {
   List,
   ListItem,
   ListItemText,
-  Typography,
+  Typography, TextField,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
+import {useFetch} from "../hooks/useFetch.js";
+import {useAuth} from "../providers/AuthProvider.jsx";
+import {useMutation} from "../hooks/useMutation.js";
+import {HTTP_METHOD} from "../hooks/http-methods.js";
 
 export default function TodoList() {
   const [tasks, setTasks] = useState([]);
   const [completedTasks, setCompletedTasks] = useState([]);
   const [hideCompleted, setHideCompleted] = useState(false);
+  const [newTask, setNewTask] = useState("")
 
-  useEffect(() => {
-    // TODO: fetch tasks from server
+  const {getCustomUser} = useAuth()
+  const {data, isLoading, reFetch: fetchTodo} = useFetch(`users?_id=${getCustomUser()._id}`)
+  const toggleTodoHandler = useMutation("users/todo/toggle", HTTP_METHOD.PATCH)
+  const addTodoHandler = useMutation("users/todo", HTTP_METHOD.POST)
 
-    setTasks([
-      { id: 1, name: "Task 1", completed: false },
-      { id: 2, name: "Task 2", completed: false },
-      { id: 3, name: "Task 3", completed: false },
-      { id: 4, name: "Task 4", completed: false },
-      { id: 5, name: "Task 5", completed: false },
-    ]);
-
-    setCompletedTasks([
-      { id: 6, name: "Task 6", completed: true },
-      { id: 7, name: "Task 7", completed: true },
-      { id: 8, name: "Task 8", completed: true },
-      { id: 9, name: "Task 9", completed: true },
-      { id: 10, name: "Task 10", completed: true },
-    ]);
-  }, []);
+  const todoList = useMemo(() => {
+    if (isLoading || !data) return []
+    return data[0].todoList
+  }, [data, isLoading])
 
   const handleHideCompleted = () => {
     setHideCompleted(!hideCompleted);
   };
 
-  const handleAddTask = () => {
-    const newTask = {
-      id: tasks.length + completedTasks.length + 1,
-      name: "New Task",
-      completed: false,
-    };
-    setTasks([...tasks, newTask]);
-  };
+  const handleAddTask = useCallback(async () => {
+    await addTodoHandler.run({
+      body: {content: newTask},
+      query: {userId: getCustomUser()._id}
+    })
+    setNewTask("")
+    await fetchTodo()
+  }, [addTodoHandler, newTask, getCustomUser, fetchTodo])
 
-  const handleTaskComplete = (id) => {
-    let newUpdatedTasks = [...tasks];
-    let newUpdatedCompletedTasks = [...completedTasks];
-
-    const taskIndex = newUpdatedTasks.findIndex((task) => task.id === id);
-
-    if (taskIndex !== -1) {
-      newUpdatedTasks[taskIndex].completed =
-        !newUpdatedTasks[taskIndex].completed;
-      newUpdatedCompletedTasks.push(newUpdatedTasks[taskIndex]);
-      newUpdatedTasks.splice(taskIndex, 1);
-    } else {
-      const completedTaskIndex = newUpdatedCompletedTasks.findIndex(
-        (task) => task.id === id
-      );
-      newUpdatedCompletedTasks[completedTaskIndex].completed =
-        !newUpdatedCompletedTasks[completedTaskIndex].completed;
-      newUpdatedTasks.push(newUpdatedCompletedTasks[completedTaskIndex]);
-      newUpdatedCompletedTasks.splice(completedTaskIndex, 1);
-    }
-
-    setTasks(newUpdatedTasks);
-    setCompletedTasks(newUpdatedCompletedTasks);
-
-    // TODO: send updated tasks to server
-  };
+  const handleTaskComplete = useCallback(async (content) => {
+    await toggleTodoHandler.run({
+      body: {content},
+      query: {userId: getCustomUser()._id}
+    })
+    await fetchTodo()
+  }, [toggleTodoHandler, getCustomUser, fetchTodo])
 
   return (
     <Box
@@ -120,13 +96,13 @@ export default function TodoList() {
       <Divider sx={{ my: 2, borderBottomWidth: 3, bgcolor: "black" }} />
       {/* tasks to do */}
       <List>
-        {tasks.map((task) => (
-          <ListItem key={task.id}>
+        {todoList.filter(({isCompleted}) => !isCompleted).map(({content}) => (
+          <ListItem key={`${Math.random()}`}>
             <Checkbox
-              checked={task.completed}
-              onChange={() => handleTaskComplete(task.id)}
+              checked={content}
+              onChange={() => handleTaskComplete(content)}
             />
-            <ListItemText primary={task.name} />
+            <ListItemText primary={content} />
           </ListItem>
         ))}
       </List>
@@ -138,12 +114,12 @@ export default function TodoList() {
             <Divider sx={{ my: 1, borderBottomWidth: 3 }} />
           )}
           <List>
-            {completedTasks.map((task) => (
-              <ListItem key={task.id}>
+            {todoList.filter(({isCompleted}) => isCompleted).map(({content}) => (
+              <ListItem key={`${Math.random()}`}>
                 <Checkbox
                   color="secondary"
-                  checked={task.completed}
-                  onChange={() => handleTaskComplete(task.id)}
+                  checked={content}
+                  onChange={() => handleTaskComplete(content)}
                 />
                 <ListItemText
                   primary={
@@ -152,7 +128,7 @@ export default function TodoList() {
                       variant="body1"
                       style={{ textDecoration: "line-through" }}
                     >
-                      {task.name}
+                      {content}
                     </Typography>
                   }
                 />
@@ -170,6 +146,14 @@ export default function TodoList() {
           width: "100%",
         }}
       >
+        <TextField
+          placeholder={"Add new TODO"}
+          fullWidth={false}
+          value={newTask}
+          onChange={e => setNewTask(e.target.value)}
+          variant={"standard"}
+          sx={{flex: 1}}
+        />
         <Button
           variant="text"
           sx={{ color: "black", borderColor: "black" }}

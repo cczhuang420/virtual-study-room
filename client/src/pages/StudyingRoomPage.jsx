@@ -40,7 +40,7 @@ const StudyingRoomPage = (callback, deps) => {
   const { roomId } = useParams();
   const socket = useSocket();
   const { getCurrentUser, getCustomUser } = useAuth();
-  console.log(getCustomUser())
+  // console.log(getCustomUser())
   const {data: roomData, isLoading} = useFetch(`publicRooms/${roomId}`)
   const fetchUserHandler = useMutation("users", HTTP_METHOD.GET)
 
