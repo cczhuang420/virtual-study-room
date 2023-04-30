@@ -167,24 +167,34 @@ const ChatModal = ({chatHistory, targetUser, userList, onSend, onChangeTargetUse
             key={`${+new Date()}${Math.random()}`}
             sx={{
               display: "flex",
-              alignItems: "flex-end",
+              alignItems: "flex-start",
               flexDirection: getCurrentUser().uid !== senderId ? "row" : "row-reverse",
               paddingY: 1,
               "& .mui-image-wrapper": {m: 0}
             }}
           >
-            <Box sx={{borderRadius: "10000px", marginLeft: 1}}>
-              <img src={profileImageUrl} alt={""} width={"90%"} />
+            <Box sx={{borderRadius: "10000px", ml: 1}}>
+              <img src={profileImageUrl} alt={""} width={"100%"} />
             </Box>
             <Box
               sx={{
-                backgroundColor: getCurrentUser().uid !== senderId ? "#7012d3" : "#CEC1DB",
-                color: getCurrentUser().uid !== senderId ? "white" : "black",
-                p: 1,
-                borderRadius: "5px"
+                ml: 1,
+                flex: 1,
+                display: "flex",
+                flexDirection: getCurrentUser().uid !== senderId ? "row" : "row-reverse",
+                pr: getCurrentUser().uid !== senderId ? 4 : 0
               }}
             >
-              <Typography>{content}</Typography>
+              <Box
+                sx={{
+                  backgroundColor: getCurrentUser().uid !== senderId ? "#7012d3" : "#CEC1DB",
+                  color: getCurrentUser().uid !== senderId ? "white" : "black",
+                  p: 1,
+                  borderRadius: "5px"
+                }}
+              >
+                <Typography>{content}</Typography>
+              </Box>
             </Box>
           </Box>
         ))}
