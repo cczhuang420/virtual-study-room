@@ -15,7 +15,8 @@ const ProfileProductCard = ({ value, productName, image, productId }) => {
       <CardMedia
         sx={{
           height: 100,
-          width: 104,
+          width: 100,
+          borderRadius: "50%",
         }}
         className="mt-5 m-auto"
         image={image}
