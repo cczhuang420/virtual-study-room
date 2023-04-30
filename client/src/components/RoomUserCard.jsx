@@ -1,5 +1,4 @@
 import { Box, Typography, Button } from "@mui/material";
-import { Image } from "mui-image";
 
 const RoomUserCard = ({ username, profile, experience, onChat }) => {
   return (

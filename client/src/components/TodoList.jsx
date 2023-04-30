@@ -99,7 +99,6 @@ export default function TodoList() {
         {todoList.filter(({isCompleted}) => !isCompleted).map(({content}) => (
           <ListItem key={`${Math.random()}`}>
             <Checkbox
-              checked={content}
               onChange={() => handleTaskComplete(content)}
             />
             <ListItemText primary={content} />
@@ -118,7 +117,7 @@ export default function TodoList() {
               <ListItem key={`${Math.random()}`}>
                 <Checkbox
                   color="secondary"
-                  checked={content}
+                  checked
                   onChange={() => handleTaskComplete(content)}
                 />
                 <ListItemText
