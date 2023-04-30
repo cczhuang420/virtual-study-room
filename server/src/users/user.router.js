@@ -51,6 +51,8 @@ router.post(
     const product = await userController.findProductById(productId);
     if (user.coins < product.price) {
       res.status(400).json("You don't have enough coins");
+    } else if (await userController.checkExistProduct(productId, userId)) {
+      res.status(409).json("You have this product");
     } else {
       await userController.purchaseProduct(productId, userId);
       res.status(204).json("purchase successfully");

@@ -50,7 +50,11 @@ const PurchaseButton = ({ title, type, image, cost, productId }) => {
             handleClose();
           }
         } catch (e) {
-          notify("You don't have enough coins");
+          if (e.response.status === 400) {
+            notify("You don't have enough coins");
+          } else {
+            notify("You already have this product");
+          }
         }
       },
     });

@@ -65,6 +65,11 @@ class UserController {
     );
   }
 
+  async checkExistProduct(productId, userId) {
+    const user = await userModel.findById(userId);
+    return user.assets.includes(productId);
+  }
+
   async findUserProductByType(userId, type) {
     const user = await this.findById(userId);
     let assets = [];
