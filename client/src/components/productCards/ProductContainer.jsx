@@ -4,6 +4,7 @@ import ProfileProductCard from "./ProfileProductCard.jsx";
 import MusicProductCard from "./MusicProductCard.jsx";
 import React from "react";
 import { useFetch } from "../../hooks/useFetch.js";
+import ProgressLoading from "../ProgressLoading.jsx";
 
 // TODO: add real product later
 const ProductContainer = ({ value }) => {
@@ -21,7 +22,9 @@ const ProductContainer = ({ value }) => {
       {value === 0 ? (
         <Box className="flex flex-row flex-wrap space-x-10 space-y-10">
           <div></div>
-          {!isLoading &&
+          {isLoading ? (
+            <ProgressLoading />
+          ) : (
             data.map((it, index) => (
               <BackgroundProductCard
                 key={index}
@@ -30,12 +33,15 @@ const ProductContainer = ({ value }) => {
                 image={`/src/assets/backgrounds/${it.url}`}
                 productId={it._id}
               />
-            ))}
+            ))
+          )}
         </Box>
       ) : value === 1 ? (
         <Box className="flex flex-row flex-wrap space-x-10 space-y-10">
           <div></div>
-          {!isLoading &&
+          {isLoading ? (
+            <ProgressLoading />
+          ) : (
             data.map((it, index) => (
               <ProfileProductCard
                 key={index}
@@ -44,12 +50,15 @@ const ProductContainer = ({ value }) => {
                 image={`/src/assets/profiles/${it.url}`}
                 productId={it._id}
               />
-            ))}
+            ))
+          )}
         </Box>
       ) : value === 2 ? (
         <Box className="flex flex-row flex-wrap space-x-10 space-y-10">
           <div></div>
-          {!isLoading &&
+          {isLoading ? (
+            <ProgressLoading />
+          ) : (
             data.map((it, index) => (
               <MusicProductCard
                 key={index}
@@ -58,7 +67,8 @@ const ProductContainer = ({ value }) => {
                 artist={it.artist}
                 productId={it._id}
               />
-            ))}
+            ))
+          )}
         </Box>
       ) : (
         <> </>

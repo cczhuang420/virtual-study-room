@@ -2,7 +2,7 @@ import * as React from "react";
 import Button from "@mui/material/Button";
 import { styled } from "@mui/material";
 import { useCallback } from "react";
-import { useModal } from "../../../App.jsx";
+import { useModal } from "../../../providers/CheckoutModalProvider.jsx";
 import { useAuth } from "../../../providers/AuthProvider.jsx";
 import { useNotification } from "../../../providers/NotificationProvider.jsx";
 import { useMutation } from "../../../hooks/useMutation.js";
