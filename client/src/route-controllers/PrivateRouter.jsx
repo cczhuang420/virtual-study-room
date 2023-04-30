@@ -18,7 +18,7 @@ const PrivateRouter = () => {
         <Route path={"/marketplace"} element={<MarketplacePage />} />
         <Route path={"/profile"} element={<ProfilePage />} />
         <Route path={"/rooms/:roomId"} element={<StudyingRoomPage />} />
-        <Route path={"/friends/:friendId"} element={<FriendsPage id={"Mike Ma"}/>} />
+        <Route path={"/friends/:friendId"} element={<FriendsPage id={"6438bb2b8385becacfe76bf7"}/>} />
         <Route path={"/token"} element={<TokenPage />} />
         <Route path={"*"} element={<Navigate to={"/public-rooms"} />} />
       </Routes>

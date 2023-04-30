@@ -20,7 +20,7 @@ class UserController {
     const filter = {};
     const fields = Object.keys(userModel.schema.obj);
     Object.entries(queryParam).forEach(([key, value]) => {
-      if (fields.includes(key)) {
+      if (fields.includes(key) || key === "_id") {
         filter[key] = value;
       }
     });
