@@ -12,7 +12,7 @@ import {
 import CloseIcon from "@mui/icons-material/Close";
 import AssetLabel from "./AssetLabel.jsx";
 import assetMoney from "../assets/asset-money-icon.svg";
-import { useModal } from "../App.jsx";
+import { useModal } from "../providers/CheckoutModalProvider.jsx";
 import ModalProductCard from "./ModalProductCard.jsx";
 
 /*

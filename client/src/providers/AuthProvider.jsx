@@ -143,8 +143,7 @@ const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     onAuthStateChanged(getAuth(), async (user) => {
-      setFirebaseUser(user);
-      if (user.email) {
+      if (user?.email) {
         const res = await fetchUserHandler.run({
           query: {
             email: user.email,
@@ -152,6 +151,7 @@ const AuthProvider = ({ children }) => {
         });
         setUserData(res[0]);
       }
+      setFirebaseUser(user);
       setLoading(false);
     });
   }, []);
@@ -184,7 +184,19 @@ const AuthProvider = ({ children }) => {
       anonymousSignIn,
       reFetchUserData,
     }),
-    [firebaseUser, loading]
+    [
+      firebaseUser,
+      loading,
+      userData,
+      thirdPartySignIn,
+      googleAuthProvider,
+      githubAuthProvider,
+      login,
+      logout,
+      signup,
+      reFetchUserData,
+      anonymousSignIn,
+    ]
   );
 
   return <context.Provider value={value}>{children}</context.Provider>;
