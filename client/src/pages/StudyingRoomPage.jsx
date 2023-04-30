@@ -125,6 +125,8 @@ const StudyingRoomPage = (callback, deps) => {
     setTargetUser(user)
   }, [setTargetUser])
 
+  if (!roomData || isLoading) return null
+
   return (
     <Page
       excludeNavigation
@@ -135,7 +137,7 @@ const StudyingRoomPage = (callback, deps) => {
         sx={{
           width: "100%",
           height: "90%",
-          background: `url(${roomBg}) no-repeat center`,
+          background: `url(/src/assets/backgrounds/${roomData.backgroundUrl}) no-repeat center`,
           backgroundSize: "cover",
           display: "flex",
         }}
