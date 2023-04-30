@@ -85,6 +85,17 @@ class UserController {
       }
     );
   }
+
+  async updateProfileImage(userId, url) {
+    await userModel.updateOne(
+      {
+        _id: userId,
+      },
+      {
+        profile: url,
+      }
+    );
+  }
 }
 
 module.exports = UserController;

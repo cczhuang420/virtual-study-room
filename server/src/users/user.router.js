@@ -84,4 +84,13 @@ router.put(
   }
 );
 
+router.put(
+  "/updateProfileImage",
+  [payloadValidator(["url", "userId"])],
+  async (req, res) => {
+    const { url, userId } = req.body;
+    await userController.updateProfileImage(userId, url);
+  }
+);
+
 module.exports = router;

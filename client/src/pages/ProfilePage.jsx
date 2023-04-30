@@ -1,23 +1,28 @@
 import Page from "../containers/Page.jsx";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Avatar, Box, Stack, Typography } from "@mui/material";
 import AssetPanel from "../components/AssetPanel.jsx";
 import moneyIcon from "../assets/asset-money-icon.svg";
 import xpIcon from "../assets/asset-xp-icon.svg";
 import AssetLabel from "../components/AssetLabel.jsx";
 import ModifiableTextField from "../components/ModifiableTextField.jsx";
-import avatar from "../assets/profiles/Frank.svg";
 import { useAuth } from "../providers/AuthProvider.jsx";
 import { useFetch } from "../hooks/useFetch.js";
 import ProgressLoading from "../components/ProgressLoading";
 import { useMutation } from "../hooks/useMutation.js";
 import { HTTP_METHOD } from "../hooks/http-methods.js";
 import FriendRequestItem from "../components/FriendRequestItem.jsx";
-import { useNotification } from "../providers/NotificationProvider.jsx";
+import SelectProfileModal from "../components/SelectProfileModal.jsx";
 
 const ProfilePage = () => {
   const { getCustomUser } = useAuth();
   const [username, setUserName] = useState(getCustomUser().username);
+
+  const [openProfileImage, setOpenProfileImage] = useState(false);
+
+  const handleClose = () => {
+    setOpenProfileImage(false);
+  };
 
   const { data: backgroundImages, isLoading: backgroundLoading } = useFetch(
     `users/assets?userId=${getCustomUser()._id}&type=background`
@@ -50,6 +55,11 @@ const ProfilePage = () => {
     HTTP_METHOD.PUT
   );
 
+  const { run: updateProfileImage } = useMutation(
+    `users/updateProfileImage`,
+    HTTP_METHOD.PUT
+  );
+
   return (
     <Page title={"Profile"}>
       <Box
@@ -67,14 +77,33 @@ const ProfilePage = () => {
           height={"100%"}
           alignItems={"center"}
         >
-          <Box>
+          <Box sx={{ position: "relative" }}>
             <Avatar
               src={`/src/assets/profiles/${getCustomUser().profile}`}
+              onClick={() => {
+                setOpenProfileImage(true);
+              }}
               sx={{
                 width: 200,
                 height: 200,
+                "&:hover::before": {
+                  content: `"Edit"`,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  cursor: "pointer",
+                  backgroundColor: "rgba(0, 0, 0, 0.6)",
+                  fontWeight: 600,
+                  fontSize: "1.5rem",
+                  color: "#fff",
+                },
               }}
-            />
+            ></Avatar>
           </Box>
           <Stack
             mt={4}
@@ -186,6 +215,24 @@ const ProfilePage = () => {
             />
           )}
         </Box>
+      </Box>
+      <Box>
+        <SelectProfileModal
+          open={openProfileImage}
+          handleClose={handleClose}
+          profileImage={profileImages}
+          onClick={async (imageIdx) => {
+            const img = profileImages[imageIdx];
+            const url = img.url;
+            getCustomUser().profile = url;
+            await updateProfileImage({
+              body: {
+                userId: getCustomUser()._id,
+                url: url,
+              },
+            });
+          }}
+        />
       </Box>
     </Page>
   );
