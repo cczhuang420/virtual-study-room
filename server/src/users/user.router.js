@@ -73,4 +73,14 @@ router.patch("/todo/toggle", [queryValidator(["userId"]), payloadValidator(["con
   }
 })
 
+router.patch("/experience/add", [queryValidator(["userId"])], async (req, res) => {
+  const user = await userController.findById(req.query.userId)
+  if (!user) {
+    res.status(404).json("User not found")
+  } else {
+    await userController.addExperience(req.query.userId)
+    res.status(201).json()
+  }
+})
+
 module.exports = router

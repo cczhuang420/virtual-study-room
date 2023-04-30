@@ -14,15 +14,9 @@ import { stop } from "../utils/musicPlayer.js";
 import {useFetch} from "../hooks/useFetch.js";
 import {useMutation} from "../hooks/useMutation.js";
 import {HTTP_METHOD} from "../hooks/http-methods.js";
+import Timer from "../components/Timer.jsx";
+import {useNotification} from "../providers/NotificationProvider.jsx";
 
-
-const mockUserList = [
-  { name: "Mike", uid: "Ny8XNK3lW4b3YAJf8vcMPL5q7fl1", isOnline: true },
-  { name: "Mike", uid: "Ny8XNK3lW4b3YAJf8vcMPL5q7fl1", isOnline: false },
-  { name: "Mike", uid: "Ny8XNK3lW4b3YAJf8vcMPL5q7fl1", isOnline: true },
-];
-
-const targetUser = { name: "Mike", uid: "Ny8XNK3lW4b3YAJf8vcMPL5q7fl1" };
 
 const sortByOptions = [
   "name", "experience"
@@ -33,16 +27,19 @@ const StudyingRoomPage = (callback, deps) => {
   const [chatHistory, setChatHistory] = useState([])
   const [roomUsers, setRoomUsers] = useState([])
   const [sortBy, setSortBy] = useState("name")
+  const [showTimer, setShowTimer] = useState(false)
   const [targetUser, setTargetUser] = useState({
     username: "All Users"
   })
 
   const { roomId } = useParams();
   const socket = useSocket();
-  const { getCurrentUser, getCustomUser } = useAuth();
-  // console.log(getCustomUser())
+  const { getCurrentUser, getCustomUser, reFetchUserData } = useAuth();
+  const notify = useNotification()
+
   const {data: roomData, isLoading} = useFetch(`publicRooms/${roomId}`)
   const fetchUserHandler = useMutation("users", HTTP_METHOD.GET)
+  const addExperienceHandler = useMutation("users/experience/add", HTTP_METHOD.PATCH)
 
   useEffect(() => {
     ;(async () => {
@@ -76,8 +73,19 @@ const StudyingRoomPage = (callback, deps) => {
   }, []);
 
   const setTimerHandler = useCallback(() => {
-    alert("Set Timer");
+    setShowTimer(true)
   }, []);
+
+  const timerFinishHandler = useCallback(async () => {
+    notify("Timer finished, reward earned")
+    await addExperienceHandler.run({
+      query: {
+        userId: getCustomUser()._id
+      }
+    })
+    await reFetchUserData()
+    setShowTimer(false)
+  }, [])
 
   const changeSortingHandler = useCallback(() => {
     const index = sortByOptions.findIndex(o => o === sortBy)
@@ -250,21 +258,25 @@ const StudyingRoomPage = (callback, deps) => {
             Leave Room
           </Button>
         </Box>
-        <Box>
-          <Button
-            onClick={setTimerHandler}
-            variant={"contained"}
-            sx={{
-              color: "white",
-              border: "2px solid #FFFFFF88",
-              backgroundColor: "#FFFFFF32",
-              "&:hover": {
-                backgroundColor: "#FFFFFF50",
-              },
-            }}
-          >
-            Set Timer
-          </Button>
+        <Box sx={{display: "flex", alignItems: "center"}}>
+          {showTimer ? (
+            <Timer duration={3} onFinish={timerFinishHandler} />
+          ): (
+            <Button
+              onClick={setTimerHandler}
+              variant={"contained"}
+              sx={{
+                color: "white",
+                border: "2px solid #FFFFFF88",
+                backgroundColor: "#FFFFFF32",
+                "&:hover": {
+                  backgroundColor: "#FFFFFF50",
+                },
+              }}
+            >
+              Set Timer
+            </Button>
+          )}
         </Box>
       </Box>
     </Page>

@@ -68,6 +68,13 @@ class UserController {
       }
     })
   }
+
+  async addExperience(userId) {
+    const userDoc = await this.findById(userId)
+    userDoc.experience = userDoc.experience + 10
+    userDoc.coins = userDoc.coins + 10
+    userDoc.save()
+  }
 }
 
 module.exports = UserController
