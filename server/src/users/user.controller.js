@@ -54,6 +54,20 @@ class UserController {
     userDoc.save()
   }
 
+  async addTodo(userDoc, content) {
+    const newTodo = {content, isCompleted: false}
+    userDoc.todoList.push(newTodo)
+    userDoc.save()
+  }
+
+  async toggleTodo(userDoc, content) {
+    const prev = userDoc.todoList.find(t => t.content === content).isCompleted
+    await userModel.updateOne({_id: userDoc._id, "todoList.content": content}, {
+      $set: {
+        "todoList.$.isCompleted": !prev
+      }
+    })
+  }
 }
 
 module.exports = UserController
