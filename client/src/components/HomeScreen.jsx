@@ -1,15 +1,20 @@
-import React from "react"
+import React from "react";
 import Section from "../containers/HomePageSection.jsx";
-import headphoneSvg from "../assets/headphone.svg"
-import {Box, styled, Typography, Button} from "@mui/material";
+import headphoneSvg from "../assets/headphone.svg";
+import { Box, styled, Typography, Button } from "@mui/material";
 import AuthBlock from "../components/AuthBlock.jsx";
-
-
-const HomeScreen = ({onLogin, onSignup}) => {
-
+import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
+const HomeScreen = ({ onLogin, onSignup }) => {
   return (
     <Section horizontalCenter verticalCenter>
-      <Box sx={{position: "absolute", top: 0, left: 0, display: {xs: "none", md: "block"}}}>
+      <Box
+        sx={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          display: { xs: "none", md: "block" },
+        }}
+      >
         <img src={headphoneSvg} alt={""} />
       </Box>
       <Box
@@ -17,13 +22,10 @@ const HomeScreen = ({onLogin, onSignup}) => {
           position: "absolute",
           top: 20,
           right: 20,
-          paddingX: "20px"
+          paddingX: "20px",
         }}
       >
-        <AuthBlock
-          onLogin={onLogin}
-          onSignup={onSignup}
-        />
+        <AuthBlock onLogin={onLogin} onSignup={onSignup} />
       </Box>
       {/* main content */}
       <Box>
@@ -32,10 +34,10 @@ const HomeScreen = ({onLogin, onSignup}) => {
             sx={{
               fontWeight: "999",
               fontSize: {
-                xs: "24px",
-                md: "48px"
+                xs: "34px",
+                md: "60px",
               },
-              textShadow: "2px 2px #9f7ff3"
+              textShadow: "2px 2px #9f7ff3",
             }}
           >
             EXPERIENCE THE
@@ -45,55 +47,67 @@ const HomeScreen = ({onLogin, onSignup}) => {
           <Typography
             sx={{
               fontWeight: "999",
-              fontFamily: "Nexa",
+              fontFamily: "Inter",
               fontSize: {
-                xs: "24px",
-                md: "48px"
+                xs: "34px",
+                md: "60px",
               },
-              color: {
-                xs: "#9f7ff3",
-                md: "transparent"
-              },
-              WebkitTextStroke: {
-                xs: "none",
-                md: "3px #9f7ff3"
-              }
+              color: "transparent",
+              WebkitTextStroke: "3px #9f7ff3",
             }}
           >
             Virtual Study room
           </Typography>
         </Box>
-        <Box sx={{mt: 10}}>
-          <StyledTypography sx={{fontWeight: "bold"}}>
-            50M+
-          </StyledTypography>
-          <StyledTypography>
-            Experiencing it
-          </StyledTypography>
+        <Box sx={{ mt: 10 }}>
+          <StyledTypography sx={{ fontWeight: 800 }}>50M+</StyledTypography>
+          <StyledTypography>Students are experiencing it</StyledTypography>
         </Box>
-        <Box sx={{mt: 10, display: "flex", justifyContent: "center", width: "100%"}}>
+        <Box
+          sx={{
+            mt: 10,
+            display: "flex",
+            justifyContent: "center",
+            width: "100%",
+          }}
+        >
           <Button
             onClick={() => {
-              window.scrollTo({left: 0, top: window.innerHeight, behavior: 'smooth'})
+              window.scrollTo({
+                left: 0,
+                top: window.innerHeight,
+                behavior: "smooth",
+              });
             }}
             sx={{
               backgroundColor: "#fff",
               color: "#000",
-              "&:hover": {backgroundColor: "primary.light"}
+              borderRadius: 10,
+              pl: 5,
+              pr: 5,
+              pt: 1.5,
+              pb: 1.5,
+              "&:hover": {
+                backgroundColor: "#9B84B4",
+                transform: "scale(1.05)",
+              },
             }}
+            endIcon={<KeyboardArrowRightIcon fontSize={"small"} />}
           >
-            <StyledTypography sx={{color: "#000"}}>
+            <StyledTypography sx={{ color: "#000", fontWeight: "600" }}>
               KNOW MORE
             </StyledTypography>
           </Button>
         </Box>
       </Box>
     </Section>
-  )
-}
+  );
+};
 
 const StyledTypography = styled(Typography)({
-  color: "#fff", textAlign: "center", fontFamily: 'Rubik'
-})
+  color: "#fff",
+  textAlign: "center",
+  fontFamily: "Inter",
+});
 
-export default HomeScreen
+export default HomeScreen;

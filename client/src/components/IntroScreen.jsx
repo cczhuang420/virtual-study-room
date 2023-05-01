@@ -1,10 +1,15 @@
-import React from "react"
+import React from "react";
 import Section from "../containers/HomePageSection.jsx";
-import {Box, styled, Typography} from "@mui/material";
+import { Box, styled, Typography } from "@mui/material";
 import LottiePlayer from "./LottiePlayer.jsx";
 
-const IntroScreen = ({header1, header2, animation, description, textOnRight}) => {
-
+const IntroScreen = ({
+  header1,
+  header2,
+  animation,
+  description,
+  textOnRight,
+}) => {
   return (
     <Section verticalCenter horizontalCenter>
       {header1 && (
@@ -13,20 +18,17 @@ const IntroScreen = ({header1, header2, animation, description, textOnRight}) =>
             position: "absolute",
             top: {
               xs: 0,
-              md: "50px"
+              md: "50px",
             },
             left: "50%",
-            transform: "translateX(-50%)"
+            transform: "translateX(-50%)",
           }}
         >
           <StyledTypography
             variant={"h2"}
             sx={{
               whiteSpace: "nowrap",
-              fontSize: {
-                xs: "35px",
-                md: "48px"
-              },
+              fontSize: "48px",
             }}
           >
             {header1}
@@ -38,30 +40,30 @@ const IntroScreen = ({header1, header2, animation, description, textOnRight}) =>
           display: "flex",
           flexDirection: {
             xs: "column",
-            md: textOnRight ? "row" : "row-reverse"
-          }
+            md: textOnRight ? "row" : "row-reverse",
+          },
+          mt: 10,
         }}
       >
-        <Box sx={{flex: {xs: "none", md: 1}}}>
+        <Box sx={{ flex: { xs: "none", md: 1 } }}>
           <LottiePlayer animationData={animation} adjustSize={0.7} />
         </Box>
         <Box
           sx={{
-            flex: {xs: "none", md: 1},
+            flex: { xs: "none", md: 1 },
             display: "flex",
             alignItems: "center",
-            justifyContent: "center"
+            justifyContent: "center",
           }}
         >
-          <Box sx={{width: "80%"}}>
+          <Box sx={{ width: "80%" }}>
             <StyledTypography
-              variant={"h4"}
               sx={{
                 mb: "15px",
                 fontSize: {
                   xs: "27px",
-                  md: "40px"
-                }
+                  md: "40px",
+                },
               }}
             >
               {header2}
@@ -71,8 +73,8 @@ const IntroScreen = ({header1, header2, animation, description, textOnRight}) =>
                 textAlign: "left",
                 fontSize: {
                   xs: "12px",
-                  md: "17px"
-                }
+                  md: "17px",
+                },
               }}
             >
               {description}
@@ -81,11 +83,13 @@ const IntroScreen = ({header1, header2, animation, description, textOnRight}) =>
         </Box>
       </Box>
     </Section>
-  )
-}
+  );
+};
 
 const StyledTypography = styled(Typography)({
-  color: "#fff", textAlign: "center", fontFamily: 'Rubik'
-})
+  color: "#fff",
+  textAlign: "center",
+  fontFamily: "Inter",
+});
 
-export default IntroScreen
+export default IntroScreen;
