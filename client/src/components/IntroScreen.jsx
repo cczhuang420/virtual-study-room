@@ -3,6 +3,7 @@ import Section from "../containers/HomePageSection.jsx";
 import { Box, styled, Typography } from "@mui/material";
 import LottiePlayer from "./LottiePlayer.jsx";
 
+// TODO: delete the following header1 for "What we do" text if others agree
 const IntroScreen = ({
   header1,
   header2,
@@ -12,40 +13,40 @@ const IntroScreen = ({
 }) => {
   return (
     <Section verticalCenter horizontalCenter>
-      {header1 && (
-        <Box
-          sx={{
-            position: "absolute",
-            top: {
-              xs: 0,
-              md: "50px",
-            },
-            left: "50%",
-            transform: "translateX(-50%)",
-          }}
-        >
-          <StyledTypography
-            sx={{
-              fontWeight: "800",
-              whiteSpace: "nowrap",
-              fontSize: {
-                xs: "34px",
-                md: "48px",
-              },
-            }}
-          >
-            {header1}
-          </StyledTypography>
-        </Box>
-      )}
+      {/*{header1 && (*/}
+      {/*  <Box*/}
+      {/*    sx={{*/}
+      {/*      position: "absolute",*/}
+      {/*      top: {*/}
+      {/*        xs: 0,*/}
+      {/*        md: "50px",*/}
+      {/*      },*/}
+      {/*      left: "50%",*/}
+      {/*      transform: "translateX(-50%)",*/}
+      {/*    }}*/}
+      {/*  >*/}
+      {/*    <StyledTypography*/}
+      {/*      sx={{*/}
+      {/*        fontWeight: "800",*/}
+      {/*        whiteSpace: "nowrap",*/}
+      {/*        fontSize: {*/}
+      {/*          xs: "34px",*/}
+      {/*          md: "48px",*/}
+      {/*        },*/}
+      {/*      }}*/}
+      {/*    >*/}
+      {/*      {header1}*/}
+      {/*    </StyledTypography>*/}
+      {/*  </Box>*/}
+      {/*)}*/}
       <Box
         sx={{
           display: "flex",
+          width: "80%",
           flexDirection: {
             xs: "column",
-            md: textOnRight ? "row" : "row-reverse",
+            lg: textOnRight ? "row" : "row-reverse",
           },
-          mt: 10,
         }}
       >
         <Box sx={{ flex: { xs: "none", md: 1 } }}>
@@ -57,16 +58,17 @@ const IntroScreen = ({
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
+            padding: 0,
           }}
         >
-          <Box sx={{ width: "80%" }}>
+          <Box sx={{ width: "70%" }}>
             <StyledTypography
               sx={{
-                mb: "15px",
-                fontWeight: "500",
+                mb: "20px",
+                fontWeight: "600",
                 fontSize: {
-                  xs: "34px",
-                  md: "48px",
+                  xs: "24px",
+                  md: "34px",
                 },
               }}
             >

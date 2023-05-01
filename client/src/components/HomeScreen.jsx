@@ -91,6 +91,7 @@ const HomeScreen = ({ onLogin, onSignup }) => {
             }}
             sx={{
               backgroundColor: "#fff",
+              textTransform: "unset !important",
               color: "#000",
               borderRadius: 10,
               pl: 5,
@@ -104,8 +105,10 @@ const HomeScreen = ({ onLogin, onSignup }) => {
             }}
             endIcon={<KeyboardArrowRightIcon fontSize={"small"} />}
           >
-            <StyledTypography sx={{ color: "#000", fontWeight: "600" }}>
-              KNOW MORE
+            <StyledTypography
+              sx={{ color: "#000", fontWeight: "600", fontSize: 16 }}
+            >
+              Know More
             </StyledTypography>
           </Button>
         </Box>

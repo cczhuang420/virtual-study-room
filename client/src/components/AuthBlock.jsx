@@ -8,6 +8,7 @@ const AuthBlock = ({ onLogin, onSignup }) => {
         variant={"text"}
         sx={{
           color: "#fff",
+          textTransform: "unset !important",
           "&:hover": {
             transform: "scale(1.05)",
           },
@@ -20,6 +21,7 @@ const AuthBlock = ({ onLogin, onSignup }) => {
       <Button
         sx={{
           backgroundColor: "#7012d3",
+          textTransform: "unset !important",
           borderRadius: 10,
           "&:hover": {
             backgroundColor: "#7012d3",
