@@ -1,9 +1,9 @@
-import {Box, IconButton, Typography} from "@mui/material";
-import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
-import {useAuth} from "../providers/AuthProvider.jsx";
+import { Box, IconButton, Typography } from "@mui/material";
+import PersonAddAlt1Icon from "@mui/icons-material/PersonAddAlt1";
+import { useAuth } from "../providers/AuthProvider.jsx";
 
 const FriendCard = ({ id, profileImage, name, onClick, onAddFriend }) => {
-  const {getCustomUser} = useAuth()
+  const { getCustomUser } = useAuth();
 
   return (
     <Box
@@ -18,8 +18,8 @@ const FriendCard = ({ id, profileImage, name, onClick, onAddFriend }) => {
         cursor: "pointer",
         borderRadius: "10px",
         "&:hover": {
-          backgroundColor: onClick ? "rgba(255,255,255,.3)" : "transparent"
-        }
+          backgroundColor: onClick ? "rgba(255,255,255,.3)" : "transparent",
+        },
       }}
     >
       <Box
@@ -28,7 +28,11 @@ const FriendCard = ({ id, profileImage, name, onClick, onAddFriend }) => {
           overflow: "hidden",
         }}
       >
-        <img src={profileImage} />
+        <img
+          src={profileImage}
+          alt={"profile-image"}
+          style={{ width: 50, height: 50, borderRadius: "50%" }}
+        />
       </Box>
       <Box
         sx={{
@@ -36,7 +40,7 @@ const FriendCard = ({ id, profileImage, name, onClick, onAddFriend }) => {
           overflow: "hidden",
           display: "flex",
           alignItems: "center",
-          justifyContent: "space-between"
+          justifyContent: "space-between",
         }}
       >
         <Typography
@@ -56,17 +60,19 @@ const FriendCard = ({ id, profileImage, name, onClick, onAddFriend }) => {
           <IconButton
             onClick={onAddFriend}
             sx={{
-              visibility: getCustomUser().friends.includes(id) ? "hidden" : "visible",
+              visibility: getCustomUser().friends.includes(id)
+                ? "hidden"
+                : "visible",
               "&:hover": {
-                backgroundColor: "rgba(255,255,255,.1)"
-              }
+                backgroundColor: "rgba(255,255,255,.1)",
+              },
             }}
           >
-            <PersonAddAlt1Icon sx={{color: "white"}} />
+            <PersonAddAlt1Icon sx={{ color: "white" }} />
           </IconButton>
         )}
       </Box>
-    </Box >
+    </Box>
   );
 };
 

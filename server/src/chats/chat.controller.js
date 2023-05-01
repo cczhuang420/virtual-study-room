@@ -6,14 +6,24 @@ class ChatController {
         const chatFromUserToCustomer = await chatModel.find({
             sender: myId,
             receiver: customerId,
-            messsage: { $ne: null }
+            message: { $ne: null }
         });
         const chatFromCustomerToUser = await chatModel.find({
             sender: customerId,
             receiver: myId,
-            messsage: { $ne: null }
+            message: { $ne: null }
         });
-        return chatFromUserToCustomer != null && chatFromCustomerToUser != null
+        if (chatFromCustomerToUser !== null && chatFromUserToCustomer !== null){
+            return [...chatFromCustomerToUser, ...chatFromUserToCustomer]
+        } else {
+            if (chatFromCustomerToUser !== null) {
+                return chatFromCustomerToUser;
+            } else if (chatFromUserToCustomer !== null) {
+                return chatFromUserToCustomer;
+            } else {
+                return [];
+            }
+        }
     }
 
     // get the latest chat
@@ -21,12 +31,12 @@ class ChatController {
         const messageFromUserToCustomer = await chatModel.find({
             sender: myId,
             receiver: customerId,
-            messsage: { $ne: null }
+            message: { $ne: null }
         }).sort('-timestamp').limit(1);
         const messageFromCustomerToUser = await chatModel.find({
             sender: customerId,
             receiver: myId,
-            messsage: { $ne: null }
+            message: { $ne: null }
         }).sort('-timestamp').limit(1);
         const latestChat = [];
         for (let message1 of messageFromUserToCustomer) {

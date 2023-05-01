@@ -8,19 +8,20 @@ import theme from "./theme.js";
 import AuthProvider from "./providers/AuthProvider.jsx";
 import SocketProvider from "./providers/SocketProvider.jsx";
 import NotificationProvider from "./providers/NotificationProvider.jsx";
+import CheckoutModalProvider from "./providers/CheckoutModalProvider.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <ThemeProvider theme={theme}>
-        <AuthProvider>
-          <NotificationProvider>
-            <SocketProvider>
-                <App />
-            </SocketProvider>
-          </NotificationProvider>
-        </AuthProvider>
-      </ThemeProvider>
-    </BrowserRouter>
-  </React.StrictMode>
+  <BrowserRouter>
+    <ThemeProvider theme={theme}>
+      <AuthProvider>
+        <NotificationProvider>
+          <SocketProvider>
+            <CheckoutModalProvider>
+              <App />
+            </CheckoutModalProvider>
+          </SocketProvider>
+        </NotificationProvider>
+      </AuthProvider>
+    </ThemeProvider>
+  </BrowserRouter>
 );

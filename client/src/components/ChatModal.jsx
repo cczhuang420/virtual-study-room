@@ -2,11 +2,9 @@ import React, {useState} from "react"
 import {
   Box,
   Button,
-  Collapse,
   Fade,
   List,
   ListItem,
-  ListItemIcon,
   ListItemText,
   TextField,
   Typography
@@ -37,7 +35,7 @@ userList: undefined or array of {
 
 const ChatModal = ({chatHistory, targetUser, userList, onSend, onChangeTargetUser}) => {
   const [message, setMessage] = useState("")
-  const {getCurrentUser} = useAuth()
+  const {getCustomUser} = useAuth()
   const [showUserList, setShowUserList] = useState(false)
 
   return (
@@ -167,8 +165,8 @@ const ChatModal = ({chatHistory, targetUser, userList, onSend, onChangeTargetUse
             key={`${+new Date()}${Math.random()}`}
             sx={{
               display: "flex",
-              alignItems: "flex-start",
-              flexDirection: getCurrentUser().uid !== senderId ? "row" : "row-reverse",
+              alignItems: "flex-end",
+              flexDirection: getCustomUser()._id !== senderId ? "row" : "row-reverse",
               paddingY: 1,
               "& .mui-image-wrapper": {m: 0}
             }}

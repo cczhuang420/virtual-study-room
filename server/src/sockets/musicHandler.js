@@ -64,6 +64,7 @@ module.exports = (io, rooms) => {
       const roomIndex = rooms.findIndex((room) => room.id === roomId);
       console.log("Receive request for songs at room " + roomId)
       console.log(rooms)
+      console.log(roomIndex)
       if (roomIndex !== -1) {
         const state = roomStates[roomIndex];
         const song = rooms[roomIndex].songs[state.songIndex];

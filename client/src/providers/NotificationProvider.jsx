@@ -1,13 +1,8 @@
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useState
-} from "react"
 import {Box, Button, IconButton, Snackbar} from "@mui/material"
 import CloseIcon from "@mui/icons-material/Close"
+import { createContext, useCallback, useContext, useState } from "react";
 
-const context = createContext((() => {}))
+const context = createContext(() => {});
 
 const NotificationProvider = ({ children }) => {
   const [message, setMessage] = useState("")
@@ -36,11 +31,20 @@ const NotificationProvider = ({ children }) => {
         open={openTextNotification}
         autoHideDuration={6000}
         onClose={() => setOpenTextNotification(false)}
+        sx={{
+          "& .MuiSnackbarContent-root": {
+            backgroundColor: "#fff",
+            color: "#000",
+            paddingY: 1,
+            paddingX: 2,
+            fontSize: 16
+          },
+        }}
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
         message={message}
         action={
           <IconButton
-            size="small"
+            size="medium"
             color="inherit"
             onClick={() => setOpenTextNotification(false)}
           >
@@ -52,6 +56,15 @@ const NotificationProvider = ({ children }) => {
         open={openOptionNotification}
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
         message={message}
+        sx={{
+          "& .MuiSnackbarContent-root": {
+            backgroundColor: "#fff",
+            color: "#000",
+            paddingY: 1,
+            paddingX: 2,
+            fontSize: 16
+          },
+        }}
         action={
           <Box>
             {options.map(({text, onClick, closeAfterClick}) => (
@@ -70,6 +83,7 @@ const NotificationProvider = ({ children }) => {
               size="small"
               color="inherit"
               onClick={() => setOpenOptionNotification(false)}
+              sx={{pl: 1}}
             >
               <CloseIcon fontSize="small" />
             </IconButton>
@@ -77,9 +91,9 @@ const NotificationProvider = ({ children }) => {
         }
       />
     </context.Provider>
-  )
-}
+  );
+};
 
-export default NotificationProvider
+export default NotificationProvider;
 
-export const useNotification = () => useContext(context)
+export const useNotification = () => useContext(context);

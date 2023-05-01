@@ -67,20 +67,22 @@ const TopLeaderCard = ({ profileImage, name, ranking, hours }) => {
         <Box
           display={"flex"}
           flexDirection={"row"}
-          justifyContent={"space-evenly"}
+          justifyContent={"flex-start"}
           alignItems={"center"}
+          p={2}
           sx={{
-            height: "55%",
-            width: "100%",
+            height: "50%",
+            width: "85%",
             overflow: "visible",
           }}
         >
           <Image
-            width={"20%"}
-            fit={"scale-down"}
-            height={"100%"}
+            width={"70px"}
+            fit={"cover"}
+            height={"70px"}
             src={profileImage}
             bgColor={""}
+            flex={1}
             duration={0}
           />
           <Typography
@@ -89,7 +91,9 @@ const TopLeaderCard = ({ profileImage, name, ranking, hours }) => {
               fontWeight: "bold",
               fontSize: "2rem",
               color: "white",
-              flexGrow: "0.6",
+                flex:2,
+                overflow: "hidden",
+                textOverflow: "ellipsis"
             }}
           >
             {name}

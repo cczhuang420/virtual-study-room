@@ -16,7 +16,7 @@ export default function ProfileGrid({ images }) {
         >
           <Avatar
             alt="Profile Image"
-            src={image}
+            src={`src/assets/profiles/${image.url}`}
             sx={{ borderRadius: "50%", height: 70, width: 70 }}
           />
         </Grid>

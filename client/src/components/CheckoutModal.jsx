@@ -12,7 +12,7 @@ import {
 import CloseIcon from "@mui/icons-material/Close";
 import AssetLabel from "./AssetLabel.jsx";
 import assetMoney from "../assets/asset-money-icon.svg";
-import { useModal } from "../App.jsx";
+import { useModal } from "../providers/CheckoutModalProvider.jsx";
 import ModalProductCard from "./ModalProductCard.jsx";
 
 /*
@@ -31,6 +31,7 @@ import ModalProductCard from "./ModalProductCard.jsx";
       cost: 0,
       money: 0,
       type: 0,
+      hasProduct,
       onClick: () => {},
    everytime you want to open the modal, you should setContent first and then call handleOpen function
    the type attribute is used to choose the which type product card you want to set, if the type is 0
@@ -137,17 +138,29 @@ const CheckoutModal = () => {
               >
                 Cancel
               </Button>
-              <Button
-                size={"large"}
-                variant={"contained"}
-                onClick={content.onClick}
-                sx={{
-                  backgroundColor: theme.palette.secondary.dark,
-                  color: "#fff",
-                }}
-              >
-                Apply
-              </Button>
+              {content.hasProduct ? (
+                <Typography
+                  variant={"h5"}
+                  color={"#fff"}
+                  fontWeight={650}
+                  display={"flex"}
+                  alignItems={"center"}
+                >
+                  You already have this product
+                </Typography>
+              ) : (
+                <Button
+                  size={"large"}
+                  variant={"contained"}
+                  onClick={content.onClick}
+                  sx={{
+                    backgroundColor: theme.palette.secondary.dark,
+                    color: "#fff",
+                  }}
+                >
+                  Apply
+                </Button>
+              )}
             </Box>
           </Box>
         </Box>
