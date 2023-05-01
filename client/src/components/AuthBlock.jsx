@@ -1,25 +1,39 @@
-import {Button} from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import React from "react";
 
-
-const AuthBlock = ({onLogin, onSignup}) => {
+const AuthBlock = ({ onLogin, onSignup }) => {
   return (
     <>
       <Button
         variant={"text"}
-        sx={{color: "#fff"}}
+        sx={{
+          color: "#fff",
+          textTransform: "unset !important",
+          "&:hover": {
+            transform: "scale(1.05)",
+          },
+          mr: 1.5,
+        }}
         onClick={onLogin}
       >
-        Login
+        <Typography fontWeight={"600"}>Login</Typography>
       </Button>
       <Button
-        sx={{backgroundColor: "#7012d3", borderRadius: "10000px"}}
+        sx={{
+          backgroundColor: "#7012d3",
+          textTransform: "unset !important",
+          borderRadius: 10,
+          "&:hover": {
+            backgroundColor: "#7012d3",
+            transform: "scale(1.05)",
+          },
+        }}
         onClick={onSignup}
       >
-        Sign up
+        <Typography fontWeight={"600"}> Sign up</Typography>
       </Button>
     </>
-  )
-}
+  );
+};
 
-export default AuthBlock
+export default AuthBlock;
