@@ -36,6 +36,7 @@ const HomeScreen = ({ onLogin, onSignup }) => {
               fontSize: {
                 xs: "34px",
                 md: "60px",
+                lg: "96px",
               },
               textShadow: "2px 2px #9f7ff3",
             }}
@@ -51,6 +52,7 @@ const HomeScreen = ({ onLogin, onSignup }) => {
               fontSize: {
                 xs: "34px",
                 md: "60px",
+                lg: "96px",
               },
               color: "transparent",
               WebkitTextStroke: "3px #9f7ff3",

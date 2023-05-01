@@ -25,10 +25,13 @@ const IntroScreen = ({
           }}
         >
           <StyledTypography
-            variant={"h2"}
             sx={{
+              fontWeight: "800",
               whiteSpace: "nowrap",
-              fontSize: "48px",
+              fontSize: {
+                xs: "34px",
+                md: "48px",
+              },
             }}
           >
             {header1}
@@ -60,9 +63,10 @@ const IntroScreen = ({
             <StyledTypography
               sx={{
                 mb: "15px",
+                fontWeight: "500",
                 fontSize: {
-                  xs: "27px",
-                  md: "40px",
+                  xs: "34px",
+                  md: "48px",
                 },
               }}
             >
@@ -72,8 +76,8 @@ const IntroScreen = ({
               sx={{
                 textAlign: "left",
                 fontSize: {
-                  xs: "12px",
-                  md: "17px",
+                  xs: "16px",
+                  md: "20px",
                 },
               }}
             >
