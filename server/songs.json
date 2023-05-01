@@ -15,6 +15,100 @@
         "name": "Lofi",
         "id": "lofi-01",
         "songs": ["https://www.youtube.com/watch?v=ony539T074w"]
+      },
+      {
+        "name": "Classical",
+        "id": "classical-01",
+        "songs": [
+          "https://youtu.be/0bjB-IWEYI0",
+          "https://youtu.be/EFJ7kDva7JE",
+          "https://youtu.be/LMAhXhRsRXA",
+          "https://youtu.be/5X0fa7Nd5oY",
+          "https://youtu.be/1fjJb3hfQ0Q",
+          "https://youtu.be/6PTsdS9vl-Q",
+          "https://youtu.be/9Fle2CP8gR0",
+          "https://youtu.be/mIYzp5rcTvU",
+          "https://youtu.be/bQucP8F9_xg",
+          "https://youtu.be/D_LKgRX_rQg",
+          "https://youtu.be/JTc1mDieQI8",
+          "https://youtu.be/y6ryaQ6Gtpg",
+          "https://youtu.be/5-vBgVYQeYw",
+          "https://youtu.be/x3PIrRtpE0k",
+          "https://youtu.be/Zi8vJ_lMxQI",
+          "https://youtu.be/8LHJkP1iMQc",
+          "https://youtu.be/zMSz0J0QF4E"
+        ]
+      },
+      {
+        "name": "Ambient",
+        "id": "ambient-01",
+        "songs": [
+          "https://youtu.be/wKnS8VPxpHI",
+          "https://youtu.be/2Ln428rKCrI",
+          "https://youtu.be/OIFNsjuvnKo",
+          "https://youtu.be/FMrtSHAAPhM",
+          "https://youtu.be/AGcTCvn-a6g",
+          "https://youtu.be/Lp6XlsBm_Lw",
+          "https://youtu.be/xNN7iTA57jM",
+          "https://youtu.be/77ZozI0rw7w",
+          "https://youtu.be/wUZa8ziP6Ao",
+          "https://youtu.be/vTe6ryPiYYY",
+          "https://youtu.be/VbAyLxGC42o",
+          "https://youtu.be/iNPzc932cs8",
+          "https://youtu.be/70YdOaqSYsM",
+          "https://youtu.be/R0NME9W3cR4",
+          "https://youtu.be/1kfSh0O1FDA",
+          "https://youtu.be/QyEQG_aPhz4"
+        ]
+      },
+      {
+        "name": "Instrumental",
+        "id": "instrumental-01",
+        "songs": [
+          "https://youtu.be/Cxs3RClv-8g",
+          "https://youtu.be/31wt1SahLVo",
+          "https://youtu.be/JVmwLJeeOy4",
+          "https://youtu.be/mufSkxC-s3Q",
+          "https://youtu.be/ezkrkxg536o",
+          "https://youtu.be/XIJM2kZgYiI",
+          "https://youtu.be/7PTyOS_gFQM",
+          "https://youtu.be/IPFVkbCeK_A",
+          "https://youtu.be/mYnGx6Cuwhw",
+          "https://youtu.be/xV17t4E0O50",
+          "https://youtu.be/_cLnE4dqJLE",
+          "https://youtu.be/kn1gcjuhlhg",
+          "https://youtu.be/lv5xPlm6etI",
+          "https://youtu.be/jgpJVI3tDbY",
+          "https://youtu.be/SZUD1-Y4CX8",
+          "https://youtu.be/4xsqQwyEm1Y",
+          "https://youtu.be/Eu6IQA3D6Ug"
+        ]
+      },
+      {
+        "name": "Jazz",
+        "id": "jazz-01",
+        "songs": [
+          "https://youtu.be/npUK_dnv1VM",
+          "https://youtu.be/lFiGn5lpahc",
+          "https://youtu.be/le1QF3uoQNg",
+          "https://youtu.be/Ysw4svDmcxc",
+          "https://youtu.be/iObGpqXKBdY",
+          "https://youtu.be/rBrd_3VMC3c",
+          "https://youtu.be/Fd_3EkGr0-4",
+          "https://youtu.be/Mx3SPsH9AMQ",
+          "https://youtu.be/qQzdAsjWGPg",
+          "https://youtu.be/Nhm1n8a1KMw",
+          "https://youtu.be/1z3KTwhNL1A",
+          "https://youtu.be/l5Id6zfVL9I",
+          "https://youtu.be/Xr0qKsq8CM0",
+          "https://youtu.be/IRyJe-0Uie0",
+          "https://youtu.be/YVm5_eyocKo",
+          "https://youtu.be/Rve-Wpo9w8M",
+          "https://youtu.be/_ytFg0hFad8",
+          "https://youtu.be/jWfax0-3k8A",
+          "https://youtu.be/3j5CKf5zRu8",
+          "https://youtu.be/okjmgA7rGXc"
+        ]
       }
     ]
   }
