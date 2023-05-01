@@ -25,7 +25,15 @@ const HomeScreen = ({ onLogin, onSignup }) => {
           paddingX: "20px",
         }}
       >
-        <AuthBlock onLogin={onLogin} onSignup={onSignup} />
+        <Box
+          sx={{
+            mr: {
+              md: "1.5rem",
+            },
+          }}
+        >
+          <AuthBlock onLogin={onLogin} onSignup={onSignup} />
+        </Box>
       </Box>
       {/* main content */}
       <Box>
