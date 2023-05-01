@@ -19,6 +19,11 @@ const PublicRoomSchema = new Schema({
     required: true,
     type: String
   },
+  playListId: {
+    required: true,
+    type: String,
+    default: 'lofi-01'
+  },
 })
 
 const PublicRoom = model("publicRoom", PublicRoomSchema)

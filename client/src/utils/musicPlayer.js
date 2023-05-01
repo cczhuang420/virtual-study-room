@@ -17,6 +17,7 @@ const play = (song) => {
   });
 
   seek(song.time);
+  currentSound.volume(0.1);
   currentSound.play();
 };
 

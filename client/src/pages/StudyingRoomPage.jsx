@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useState, useMemo } from "react";
 import Page from "../containers/Page.jsx";
 import { useParams } from "react-router-dom";
 import roomBg from "../assets/study-room-bg.svg";
@@ -11,82 +11,119 @@ import ChatModal from "../components/ChatModal.jsx";
 import { useAuth } from "../providers/AuthProvider.jsx";
 import { useSocket } from "../providers/SocketProvider.jsx";
 import { stop } from "../utils/musicPlayer.js";
+import {useFetch} from "../hooks/useFetch.js";
+import {useMutation} from "../hooks/useMutation.js";
+import {HTTP_METHOD} from "../hooks/http-methods.js";
+import Timer from "../components/Timer.jsx";
+import {useNotification} from "../providers/NotificationProvider.jsx";
 
-const roomUsers = Array(10).fill({
-  name: "Mike Ma",
-  image: mikeProfile,
-  xpValue: Math.round(Math.random() * 10000),
-  onChat: () => alert("This is Mike"),
-});
 
-const mockUserList = [
-  { name: "Mike", uid: "Ny8XNK3lW4b3YAJf8vcMPL5q7fl1", isOnline: true },
-  { name: "Mike", uid: "Ny8XNK3lW4b3YAJf8vcMPL5q7fl1", isOnline: false },
-  { name: "Mike", uid: "Ny8XNK3lW4b3YAJf8vcMPL5q7fl1", isOnline: true },
-];
-
-const targetUser = { name: "Mike", uid: "Ny8XNK3lW4b3YAJf8vcMPL5q7fl1" };
+const sortByOptions = [
+  "name", "experience"
+]
 
 const StudyingRoomPage = () => {
+  // array of {senderId, profileImageUrl, content}
+  const [chatHistory, setChatHistory] = useState([])
+  const [roomUsers, setRoomUsers] = useState([])
+  const [sortBy, setSortBy] = useState("name")
+  const [showTimer, setShowTimer] = useState(false)
+  const [targetUser, setTargetUser] = useState({
+    username: "All Users"
+  })
+
   const { roomId } = useParams();
   const socket = useSocket();
+  const { getCurrentUser, getCustomUser, reFetchUserData } = useAuth();
+  const notify = useNotification()
 
-  const { getCurrentUser } = useAuth();
+  const {data: roomData, isLoading} = useFetch(`publicRooms/${roomId}`)
+  const fetchUserHandler = useMutation("users", HTTP_METHOD.GET)
+  const addExperienceHandler = useMutation("users/experience/add", HTTP_METHOD.PATCH)
+
+  useEffect(() => {
+    ;(async () => {
+      if (!roomData || isLoading) return
+      const userIds = roomData.users
+      setRoomUsers(
+        (await Promise.all(
+          userIds.map(id => fetchUserHandler.run({
+            query: { _id: id }
+          }))
+        ))
+        .map(res => res[0])
+        .map((user) => ({...user, profile: `/src/assets/profiles/${user.profile}`}))
+      )
+
+    })()
+  }, [isLoading, roomData])
+
+  const sortedRoomUsers = useMemo(() => {
+    const users = roomUsers.map(u => ({...u}))
+    users.sort((a, b) => {
+      if (a[sortBy] > b[sortBy]) return 1
+      if (a[sortBy] < b[sortBy]) return -1
+      if (a[sortBy] === b[sortBy]) return 0
+    })
+    return users
+  }, [sortBy, roomUsers])
 
   const leaveRoomHandler = useCallback(() => {
-    alert("Leave Room");
+    history.back();
   }, []);
 
   const setTimerHandler = useCallback(() => {
-    alert("Set Timer");
+    setShowTimer(true)
   }, []);
+
+  const timerFinishHandler = useCallback(async () => {
+    notify("Timer finished, reward earned")
+    await addExperienceHandler.run({
+      query: {
+        userId: getCustomUser()._id
+      }
+    })
+    await reFetchUserData()
+    setShowTimer(false)
+  }, [])
 
   const changeSortingHandler = useCallback(() => {
-    alert("Sort by something");
-  }, []);
+    const index = sortByOptions.findIndex(o => o === sortBy)
+    const newValue = sortByOptions[(index + 1) % sortByOptions.length]
+    setSortBy(newValue)
+  }, [sortBy, setSortBy]);
 
   useEffect(() => {
+    if (!socket) return
     socket.emit("join-room", roomId);
-    socket.emit("get-song-for-room", roomId);
+    socket.emit("get-song-for-room", roomData && roomData.playListId);
+
+    socket.on("message-in-rooms", ({senderId, profileImageUrl, message}) => {
+      setChatHistory(prevState => [...prevState, {
+        senderId, profileImageUrl, content: message
+      }])
+    });
 
     return () => {
       socket.emit("leave-room", roomId);
+      socket.off("message-in-rooms");
       stop();
     };
-  }, [socket]);
+  }, [socket, roomData]);
 
-  const mockChatHistory = [
-    {
+  const handleSendGroupChat = (message) => {
+    socket.emit("send-message-in-rooms", {
+      roomId: roomId,
       senderId: getCurrentUser().uid,
-      profileImageUrl: mikeProfile,
-      content: "Hello",
-    },
-    {
-      senderId: getCurrentUser().uid,
-      profileImageUrl: mikeProfile,
-      content: "How are you",
-    },
-    {
-      senderId: "Ny8XNK3lW4b3YAJf8vcMPL5q7fl1",
-      profileImageUrl: mikeProfile,
-      content: "I am fine",
-    },
-    {
-      senderId: "Ny8XNK3lW4b3YAJf8vcMPL5q7fl1",
-      profileImageUrl: mikeProfile,
-      content: "Thank you",
-    },
-    {
-      senderId: "Ny8XNK3lW4b3YAJf8vcMPL5q7fl1",
-      profileImageUrl: mikeProfile,
-      content: "And you",
-    },
-    {
-      senderId: getCurrentUser().uid,
-      profileImageUrl: mikeProfile,
-      content: "I am fine too",
-    },
-  ];
+      profileImageUrl: `/src/assets/profiles/${getCustomUser().profile}`,
+      message: message,
+      timestamp: Date.now(),
+    });
+  };
+
+  const handleChangeTargetUse = useCallback((user) => {
+    setTargetUser(user)
+  }, [setTargetUser])
 
   return (
     <Page
@@ -98,7 +135,7 @@ const StudyingRoomPage = () => {
         sx={{
           width: "100%",
           height: "90%",
-          background: `url(${roomBg}) no-repeat center`,
+          background: roomData && `url(/src/assets/backgrounds/${roomData.backgroundUrl}) no-repeat center`,
           backgroundSize: "cover",
           display: "flex",
         }}
@@ -109,12 +146,6 @@ const StudyingRoomPage = () => {
             height: "100%",
             backdropFilter: "blur(10px)",
             display: "flex",
-            "&>*:nth-child(1)": {
-              flex: 2,
-            },
-            "&>*:nth-child(2)": {
-              flex: 1,
-            },
           }}
         >
           <Box
@@ -122,6 +153,7 @@ const StudyingRoomPage = () => {
               display: "flex",
               flexDirection: "column",
               position: "relative",
+              flex: 2,
             }}
           >
             <Box sx={{ position: "absolute", top: 1, left: 4 }}>
@@ -140,7 +172,7 @@ const StudyingRoomPage = () => {
                   },
                 }}
               >
-                Sort by name
+                Sort by {sortBy}
               </Button>
             </Box>
             <Box
@@ -151,7 +183,7 @@ const StudyingRoomPage = () => {
               }}
             >
               <Grid container sx={{ p: 10, pt: 1 }}>
-                {roomUsers.map((roomUser) => (
+                {sortedRoomUsers.map((roomUser) => (
                   <Grid
                     item
                     xs={12}
@@ -159,7 +191,7 @@ const StudyingRoomPage = () => {
                     sx={{ p: 5, pt: 0 }}
                     key={`${Math.random()}`}
                   >
-                    <RoomUserCard {...roomUser} />
+                    <RoomUserCard {...roomUser} onChat={() => setTargetUser(roomUser)} />
                   </Grid>
                 ))}
               </Grid>
@@ -167,6 +199,7 @@ const StudyingRoomPage = () => {
           </Box>
           <Box
             sx={{
+              flex: 1,
               display: "flex",
               c: "stretch",
               justifyContent: "stretch",
@@ -190,10 +223,11 @@ const StudyingRoomPage = () => {
             </Box>
             <Box>
               <ChatModal
-                chatHistory={mockChatHistory}
+                chatHistory={chatHistory}
                 targetUser={targetUser}
-                userList={mockUserList}
-                onSend={(message) => alert(message)}
+                userList={roomUsers}
+                onSend={handleSendGroupChat}
+                onChangeTargetUser={(user) => handleChangeTargetUse(user)}
               />
             </Box>
           </Box>
@@ -224,21 +258,25 @@ const StudyingRoomPage = () => {
             Leave Room
           </Button>
         </Box>
-        <Box>
-          <Button
-            onClick={setTimerHandler}
-            variant={"contained"}
-            sx={{
-              color: "white",
-              border: "2px solid #FFFFFF88",
-              backgroundColor: "#FFFFFF32",
-              "&:hover": {
-                backgroundColor: "#FFFFFF50",
-              },
-            }}
-          >
-            Set Timer
-          </Button>
+        <Box sx={{display: "flex", alignItems: "center"}}>
+          {showTimer ? (
+            <Timer duration={3} onFinish={timerFinishHandler} />
+          ): (
+            <Button
+              onClick={setTimerHandler}
+              variant={"contained"}
+              sx={{
+                color: "white",
+                border: "2px solid #FFFFFF88",
+                backgroundColor: "#FFFFFF32",
+                "&:hover": {
+                  backgroundColor: "#FFFFFF50",
+                },
+              }}
+            >
+              Set Timer
+            </Button>
+          )}
         </Box>
       </Box>
     </Page>
