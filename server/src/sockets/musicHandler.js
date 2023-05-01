@@ -50,21 +50,6 @@ module.exports = (io, rooms) => {
 
   // Whenever a new user joins, send the current song url, title and played upto time to the client
   io.on("connection", (socket) => {
-    socket.on("get-song-for-room", (roomId) => {
-      const roomIndex = rooms.findIndex((room) => room.id === roomId);
-
-      if (roomIndex !== -1) {
-        const state = roomStates[roomIndex];
-        const song = rooms[roomIndex].songs[state.songIndex];
-
-        socket.emit("song", {
-          buffer: song.buffer,
-          title: song.title,
-          time: state.songTime,
-        });
-      }
-    });
-
     socket.on("join-room", (roomId) => {
       console.log(`${socket.user.name} joined room ${roomId}`);
       socket.join(roomId);
@@ -73,6 +58,23 @@ module.exports = (io, rooms) => {
     socket.on("leave-room", (roomId) => {
       console.log(`${socket.user.name} left room ${roomId}`);
       socket.leave(roomId);
+    });
+
+    socket.on("get-song-for-room", (roomId) => {
+      const roomIndex = rooms.findIndex((room) => room.id === roomId);
+      console.log("Receive request for songs at room " + roomId)
+      console.log(rooms)
+      console.log(roomIndex)
+      if (roomIndex !== -1) {
+        const state = roomStates[roomIndex];
+        const song = rooms[roomIndex].songs[state.songIndex];
+        console.log("Sending songs")
+        socket.emit("song", {
+          buffer: song.buffer,
+          title: song.title,
+          time: state.songTime,
+        });
+      }
     });
   });
 };

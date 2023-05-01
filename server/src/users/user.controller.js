@@ -80,6 +80,32 @@ class UserController {
     return assets.filter((it) => it.type === type);
   }
 
+  async addTodo(userDoc, content) {
+    const newTodo = { content, isCompleted: false };
+    userDoc.todoList.push(newTodo);
+    userDoc.save();
+  }
+
+  async toggleTodo(userDoc, content) {
+    const prev = userDoc.todoList.find(
+      (t) => t.content === content
+    ).isCompleted;
+    await userModel.updateOne(
+      { _id: userDoc._id, "todoList.content": content },
+      {
+        $set: {
+          "todoList.$.isCompleted": !prev,
+        },
+      }
+    );
+  }
+
+  async addExperience(userId) {
+    const userDoc = await this.findById(userId);
+    userDoc.experience = userDoc.experience + 10;
+    userDoc.coins = userDoc.coins + 10;
+    userDoc.save();
+  }
   async updateName(userId, name) {
     await userModel.updateOne(
       {

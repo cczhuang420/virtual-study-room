@@ -6,7 +6,7 @@ import WebFont from "webfontloader";
 import { googleFonts } from "./fonts.js";
 
 const App = () => {
-  const { getCurrentUser, loading } = useAuth();
+  const { getCurrentUser, loading, getCustomUser } = useAuth();
 
   useEffect(() => {
     WebFont.load({
@@ -18,7 +18,7 @@ const App = () => {
 
   if (loading) return null;
 
-  if (!getCurrentUser()) {
+  if (!getCurrentUser() || !getCustomUser()) {
     return <PublicRouter />;
   } else {
     return <PrivateRouter />;

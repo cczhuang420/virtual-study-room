@@ -60,6 +60,48 @@ router.post(
   }
 );
 
+router.post(
+  "/todo",
+  [queryValidator(["userId"]), payloadValidator(["content"])],
+  async (req, res) => {
+    const user = await userController.findById(req.query.userId);
+    if (!user) {
+      res.status(404).json("User not found");
+    } else {
+      await userController.addTodo(user, req.body.content);
+      res.status(201).json();
+    }
+  }
+);
+
+router.patch(
+  "/todo/toggle",
+  [queryValidator(["userId"]), payloadValidator(["content"])],
+  async (req, res) => {
+    const user = await userController.findById(req.query.userId);
+    if (!user) {
+      res.status(404).json("User not found");
+    } else {
+      await userController.toggleTodo(user, req.body.content);
+      res.status(201).json();
+    }
+  }
+);
+
+router.patch(
+  "/experience/add",
+  [queryValidator(["userId"])],
+  async (req, res) => {
+    const user = await userController.findById(req.query.userId);
+    if (!user) {
+      res.status(404).json("User not found");
+    } else {
+      await userController.addExperience(req.query.userId);
+      res.status(201).json();
+    }
+  }
+);
+
 router.get(
   "/assets",
   [queryValidator(["userId", "type"])],
