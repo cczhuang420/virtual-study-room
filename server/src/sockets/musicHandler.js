@@ -5,6 +5,11 @@ module.exports = (io, rooms) => {
     songTime: 0,
   }));
 
+  const roomMemberEmails = {}
+  rooms.forEach(({id}) => {
+    roomMemberEmails[id] = []
+  })
+
   // for each room, keep an interval to keep track of the song time
   const songIntervals = rooms.map(() => null);
 
@@ -51,11 +56,21 @@ module.exports = (io, rooms) => {
   io.on("connection", (socket) => {
     socket.on("join-room", (roomId) => {
       console.log(`${socket.user.name} joined room ${roomId}`);
+      // TODO send list of members
+      if (!roomMemberEmails[roomId].includes(socket.user.email))  {
+        roomMemberEmails[roomId].push(socket.user.email)
+      }
+      console.log(roomMemberEmails[roomId])
       socket.join(roomId);
+      io.to(roomId).emit("room-member-emails", roomMemberEmails[roomId])
     });
 
     socket.on("leave-room", (roomId) => {
       console.log(`${socket.user.name} left room ${roomId}`);
+      // TODO remove user and send list of members
+      const index = roomMemberEmails[roomId].indexOf(socket.user.email)
+      index !== -1 && roomMemberEmails[roomId].splice(index, 1)
+      io.to(roomId).emit("room-member-emails", roomMemberEmails[roomId])
       socket.leave(roomId);
     });
 

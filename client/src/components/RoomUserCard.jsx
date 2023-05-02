@@ -67,7 +67,7 @@ const RoomUserCard = ({ username, profile, experience, onChat }) => {
               color: "#8E8E8E",
             }}
           >
-            xp: {experience.toLocaleString()}
+            xp: {experience?.toLocaleString()}
           </Typography>
           <Button
             onClick={onChat}

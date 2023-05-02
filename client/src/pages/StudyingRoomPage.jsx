@@ -40,29 +40,6 @@ const StudyingRoomPage = () => {
     HTTP_METHOD.PATCH
   );
 
-  useEffect(() => {
-    (async () => {
-      if (!roomData || isLoading) return;
-      const userIds = roomData.users;
-      setRoomUsers(
-        (
-          await Promise.all(
-            userIds.map((id) =>
-              fetchUserHandler.run({
-                query: { _id: id },
-              })
-            )
-          )
-        )
-          .map((res) => res[0])
-          .map((user) => ({
-            ...user,
-            profile: `/src/assets/profiles/${user.profile}`,
-          }))
-      );
-    })();
-  }, [isLoading, roomData]);
-
   const sortedRoomUsers = useMemo(() => {
     const users = roomUsers.map((u) => ({ ...u }));
     users.sort((a, b) => {
@@ -121,6 +98,28 @@ const StudyingRoomPage = () => {
       pauseMusic();
     };
   }, [socket, roomData]);
+
+  useEffect(() => {
+    if (!socket) return
+    socket.on('room-member-emails', async (emails) => {
+      console.log("room members: ", emails)
+      const roomMembers =
+        (
+          await Promise.all(
+            emails.map((email) => fetchUserHandler.run({
+              query: { email }
+            }))
+          )
+        )
+          .map((res) => res[0])
+          .map((user) => ({
+            ...user,
+            profile: `/src/assets/profiles/${user.profile}`,
+          }))
+      console.log(roomMembers)
+      setRoomUsers(roomMembers)
+    })
+  }, [socket])
 
   const handleSendGroupChat = (message) => {
     socket.emit("send-message-in-rooms", {
@@ -205,7 +204,7 @@ const StudyingRoomPage = () => {
                     xs={12}
                     md={6}
                     sx={{ p: 5, pt: 0 }}
-                    key={`${Math.random()}`}
+                    key={roomUser.email}
                   >
                     <RoomUserCard
                       {...roomUser}
