@@ -22,7 +22,7 @@ const Page = ({
   sx
 }) => {
 
-  const {logout} = useAuth()
+  const {logout, getCustomUser} = useAuth()
   const navigate = useNavigate()
   const {pathname} = useLocation()
 
@@ -150,7 +150,7 @@ const Page = ({
                         }
                       }}
                     >
-                      <img src={tempProfileImage} alt={""} />
+                      <img src={`/src/assets/profiles/${getCustomUser().profile}`} alt={""} />
                     </IconButton>
                   </Tooltip>
                 </Box>
