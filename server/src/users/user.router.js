@@ -8,13 +8,7 @@ const userController = new UserController();
 const router = Router({ mergeParams: true });
 
 router.post("/", payloadValidator(["username", "email"]), async (req, res) => {
-  res.json(
-    await userController.createUser(
-      req.body.uid,
-      req.body.email,
-      req.body.username
-    )
-  );
+  res.json(await userController.createUser(req.body.email, req.body.username));
 });
 
 router.get("/", async (req, res) => {

@@ -67,7 +67,6 @@ const AuthProvider = ({ children }) => {
         .data;
       if (usersWithSameEmail.length === 0) {
         await createUser(
-          auth.currentUser.uid,
           "User" +
             Array.from({ length: 5 }, () =>
               Math.round(Math.random() * 10)
@@ -97,17 +96,12 @@ const AuthProvider = ({ children }) => {
         throw new Error("Username is already taken");
       }
 
-      await createUserWithEmailAndPassword(auth, email, password);
-      if (auth.currentUser) {
-        await createUser(auth.currentUser.uid, username, email);
-      }
+      await Promise.all([
+        createUserWithEmailAndPassword(auth, email, password),
+        createUser(username, email),
+      ]);
     },
-    [
-      auth,
-      auth.currentUser,
-      auth.currentUser.uid,
-      createUserWithEmailAndPassword,
-    ]
+    [auth, createUserWithEmailAndPassword]
   );
 
   const thirdPartySignIn = useCallback(
@@ -117,7 +111,7 @@ const AuthProvider = ({ children }) => {
       const usersWithSameEmail = (await fetchUsers({ email })).data;
       const suggestedUsername = await fetchUsernameSuggestion(undefined);
       if (usersWithSameEmail.length === 0) {
-        await createUser(auth.currentUser.uid, suggestedUsername, email);
+        await createUser(suggestedUsername, email);
       }
     },
     [auth, signInWithPopup]

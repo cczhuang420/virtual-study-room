@@ -11,8 +11,8 @@ class UserController {
     return userModel.findById(id);
   }
 
-  async createUser(uid, email, username) {
-    return await userModel.create({ uid: uid, email, username });
+  async createUser(email, username) {
+    return await userModel.create({ email, username });
   }
 
   async getUser(queryParam) {

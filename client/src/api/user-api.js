@@ -3,8 +3,8 @@ import axios from "axios";
 const BASE_URL = import.meta.env.VITE_SERVICE_URL;
 
 export const useCreateUserHandler = () => {
-  return async (uid, username, email) => {
-    return await axios.post(`${BASE_URL}/users`, { uid, username, email });
+  return async (username, email) => {
+    return await axios.post(`${BASE_URL}/users`, { username, email });
   };
 };
 
