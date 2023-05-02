@@ -100,6 +100,13 @@ const StudyingRoomPage = () => {
 
     socket.on("new-message", (data) => {
       console.log(data)
+      if (
+        data.username !== "All Users" &&
+        data.senderId !== targetUser._id &&
+        data.senderId !== getCustomUser()._id
+      ) {
+        notify(`${data.username} sends you a message`)
+      }
       setChatHistory((prevState) => [
         ...prevState,
         {
@@ -126,18 +133,10 @@ const StudyingRoomPage = () => {
       profileImageUrl: getCustomUser().profile,
       message: message,
       timestamp: Date.now(),
+      username: "All Users"
     });
   };
   const handleSendPrivateChat = (message) => {
-    console.log("private chat data")
-    console.log({
-      roomId: roomId,
-      senderId: getCustomUser()._id,
-      receiverEmail: targetUser.email,
-      profileImageUrl: getCustomUser().profile,
-      message: message,
-      timestamp: Date.now(),
-    })
     socket.emit("send-private-message-in-room", {
       roomId: roomId,
       senderId: getCustomUser()._id,
@@ -145,6 +144,7 @@ const StudyingRoomPage = () => {
       profileImageUrl: getCustomUser().profile,
       message: message,
       timestamp: Date.now(),
+      username: getCustomUser().username
     });
   };
 
