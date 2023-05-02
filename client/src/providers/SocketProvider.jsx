@@ -41,6 +41,11 @@ const SocketProvider = ({ children }) => {
         play(song);
       });
 
+      newSocket.on("message-notification", (data) => {
+        console.log("message-notification", data);
+        notify(`${data.senderName} sent you a message!`);
+      });
+
       newSocket.on("connect_error", (err) => {
         console.log(`connect_error due to ${err.message}`);
         stop();
