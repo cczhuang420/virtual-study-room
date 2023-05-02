@@ -1,4 +1,4 @@
-import {Navigate, Route, Routes} from "react-router-dom"
+import { Navigate, Route, Routes } from "react-router-dom";
 import TokenPage from "../pages/TokenPage";
 import PublicRoomPage from "../pages/PublicRoomPage.jsx";
 import PrivateRoomPage from "../pages/PrivateRoomPage.jsx";
@@ -18,12 +18,12 @@ const PrivateRouter = () => {
         <Route path={"/marketplace"} element={<MarketplacePage />} />
         <Route path={"/profile"} element={<ProfilePage />} />
         <Route path={"/rooms/:roomId"} element={<StudyingRoomPage />} />
-        <Route path={"/friends/:friendId"} element={<FriendsPage id={"6438bb2b8385becacfe76bf7"}/>} />
+        <Route path={"/friends/:friendId"} element={<FriendsPage />} />
         <Route path={"/token"} element={<TokenPage />} />
         <Route path={"*"} element={<Navigate to={"/public-rooms"} />} />
       </Routes>
     </>
-  )
-}
+  );
+};
 
-export default PrivateRouter
+export default PrivateRouter;

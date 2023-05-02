@@ -8,17 +8,18 @@ const ConfigureSocket = (io) => {
   io.use(firebaseSocketAuth);
 
   ConfigureMusicService((rooms) => {
+    console.log("Music service configured");
     registerMusicHandler(io, rooms);
   });
 
   io.on("connection", (socket) => {
-    console.log(`${socket.user.name} with id ${socket.user.uid} connected`);
+    console.log(`${socket.user.email} with id ${socket.user.uid} connected`);
 
     registerMessageHandler(io, socket);
 
     socket.on("disconnect", () => {
       console.log(
-        `${socket.user.name} with id ${socket.user.uid} disconnected`
+        `${socket.user.email} with id ${socket.user.uid} disconnected`
       );
 
       socket.leaveAll();
