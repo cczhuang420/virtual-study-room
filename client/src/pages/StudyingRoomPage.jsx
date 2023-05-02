@@ -80,17 +80,6 @@ const StudyingRoomPage = () => {
     socket.emit("join-room", roomId);
     socket.emit("get-song-for-room", roomId);
 
-    socket.on("message-in-rooms", ({ senderId, profileImageUrl, message }) => {
-      setChatHistory((prevState) => [
-        ...prevState,
-        {
-          senderId,
-          profileImageUrl,
-          content: message,
-        },
-      ]);
-    });
-
     return () => {
       socket.emit("leave-room", roomId);
       socket.off("message-in-rooms");
@@ -121,17 +110,30 @@ const StudyingRoomPage = () => {
     })
   }, [socket])
 
+  useEffect(() => {
+    socket.on("new-message", ({ senderId, profileImageUrl, message }) => {
+      setChatHistory((prevState) => [
+        ...prevState,
+        {
+          senderId,
+          profileImageUrl,
+          content: message,
+        },
+      ]);
+    });
+  }, [socket])
+
   const handleSendGroupChat = (message) => {
-    socket.emit("send-message-in-rooms", {
+    socket.emit("send-group-message-in-room", {
       roomId: roomId,
-      senderId: getCurrentUser().uid,
-      profileImageUrl: `/src/assets/profiles/${getCustomUser().profile}`,
+      senderId: getCustomUser()._id,
+      profileImageUrl: getCustomUser().profile,
       message: message,
       timestamp: Date.now(),
     });
   };
 
-  const handleChangeTargetUse = useCallback(
+  const handleChangeTargetUser = useCallback(
     (user) => {
       setTargetUser(user);
     },
@@ -245,7 +247,7 @@ const StudyingRoomPage = () => {
                 targetUser={targetUser}
                 userList={roomUsers}
                 onSend={handleSendGroupChat}
-                onChangeTargetUser={(user) => handleChangeTargetUse(user)}
+                onChangeTargetUser={(user) => handleChangeTargetUser(user)}
               />
             </Box>
           </Box>

@@ -44,7 +44,8 @@ const ChatModal = ({
   const [message, setMessage] = useState("");
   const { getCustomUser } = useAuth();
   const [showUserList, setShowUserList] = useState(false);
-  console.log(targetUser)
+  console.log(chatHistory)
+
   return (
     <Box
       sx={{
