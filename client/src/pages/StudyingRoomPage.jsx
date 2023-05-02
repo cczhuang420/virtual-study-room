@@ -115,7 +115,7 @@ const StudyingRoomPage = () => {
 
       pauseMusic();
     };
-  }, [socket, roomData]);
+  }, [socket]);
 
 
   const handleSendGroupChat = (message) => {
