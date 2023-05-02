@@ -80,16 +80,6 @@ const StudyingRoomPage = () => {
     socket.emit("join-room", roomId);
     socket.emit("get-song-for-room", roomId);
 
-    return () => {
-      socket.emit("leave-room", roomId);
-      socket.off("message-in-rooms");
-
-      pauseMusic();
-    };
-  }, [socket, roomData]);
-
-  useEffect(() => {
-    if (!socket) return
     socket.on('room-member-emails', async (emails) => {
       // console.log("room members: ", emails)
       const roomMembers =
@@ -107,9 +97,7 @@ const StudyingRoomPage = () => {
           }))
       setRoomUsers(roomMembers)
     })
-  }, [socket])
 
-  useEffect(() => {
     socket.on("new-message", (data) => {
       console.log(data)
       setChatHistory((prevState) => [
@@ -120,7 +108,15 @@ const StudyingRoomPage = () => {
         },
       ]);
     });
-  }, [socket])
+
+    return () => {
+      socket.emit("leave-room", roomId);
+      socket.off("message-in-rooms");
+
+      pauseMusic();
+    };
+  }, [socket, roomData]);
+
 
   const handleSendGroupChat = (message) => {
     socket.emit("send-group-message-in-room", {
