@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useMemo, useState} from "react";
 import {
   Avatar,
   Box,
@@ -44,7 +44,24 @@ const ChatModal = ({
   const [message, setMessage] = useState("");
   const { getCustomUser } = useAuth();
   const [showUserList, setShowUserList] = useState(false);
-  console.log(chatHistory)
+
+  const displayChatHistory = useMemo(() => {
+    return chatHistory.filter(({senderId, receiverEmail}) => {
+      if (targetUser.username === "All Users") {
+        return receiverEmail === "All Users"
+      } else {
+        console.log(senderId, receiverEmail, targetUser)
+        return receiverEmail !== "All Users" &&
+          ((
+            senderId === getCustomUser()._id ||
+            receiverEmail === targetUser.email
+          ) || (
+            senderId === targetUser._id ||
+            receiverEmail === getCustomUser().email
+          ))
+      }
+    })
+  }, [chatHistory, targetUser, targetUser.username])
 
   return (
     <Box
@@ -89,7 +106,7 @@ const ChatModal = ({
                 >
                   <Button
                     onClick={() =>
-                      onChangeTargetUser({ username: "All users" })
+                      onChangeTargetUser({ username: "All Users" })
                     }
                     sx={{
                       backgroundColor: "#6b35a0",
@@ -143,11 +160,6 @@ const ChatModal = ({
                         >
                           {user.username}
                         </ListItemText>
-                        {/*{isOnline && (*/}
-                        {/*  <ListItemIcon sx={{minWidth: "0"}}>*/}
-                        {/*    <FiberManualRecordIcon sx={{color: "#61FF00", fontSize: "8px"}} />*/}
-                        {/*  </ListItemIcon>*/}
-                        {/*)}*/}
                       </ListItem>
                     ))}
                   </List>
@@ -175,7 +187,7 @@ const ChatModal = ({
           },
         }}
       >
-        {chatHistory.map(({ senderId, profileImageUrl, content }) => (
+        {displayChatHistory.map(({ senderId, profileImageUrl, content }) => (
           <Box
             key={`${+new Date()}${Math.random()}`}
             sx={{

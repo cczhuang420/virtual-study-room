@@ -91,7 +91,7 @@ const StudyingRoomPage = () => {
   useEffect(() => {
     if (!socket) return
     socket.on('room-member-emails', async (emails) => {
-      console.log("room members: ", emails)
+      // console.log("room members: ", emails)
       const roomMembers =
         (
           await Promise.all(
@@ -105,19 +105,18 @@ const StudyingRoomPage = () => {
             ...user,
             profile: `/src/assets/profiles/${user.profile}`,
           }))
-      console.log(roomMembers)
       setRoomUsers(roomMembers)
     })
   }, [socket])
 
   useEffect(() => {
-    socket.on("new-message", ({ senderId, profileImageUrl, message }) => {
+    socket.on("new-message", (data) => {
+      console.log(data)
       setChatHistory((prevState) => [
         ...prevState,
         {
-          senderId,
-          profileImageUrl,
-          content: message,
+          ...data,
+          content: data.message,
         },
       ]);
     });
@@ -127,11 +126,36 @@ const StudyingRoomPage = () => {
     socket.emit("send-group-message-in-room", {
       roomId: roomId,
       senderId: getCustomUser()._id,
+      receiverEmail: "All Users",
       profileImageUrl: getCustomUser().profile,
       message: message,
       timestamp: Date.now(),
     });
   };
+  const handleSendPrivateChat = (message) => {
+    console.log("private chat data")
+    console.log({
+      roomId: roomId,
+      senderId: getCustomUser()._id,
+      receiverEmail: targetUser.email,
+      profileImageUrl: getCustomUser().profile,
+      message: message,
+      timestamp: Date.now(),
+    })
+    socket.emit("send-private-message-in-room", {
+      roomId: roomId,
+      senderId: getCustomUser()._id,
+      receiverEmail: targetUser.email,
+      profileImageUrl: getCustomUser().profile,
+      message: message,
+      timestamp: Date.now(),
+    });
+  };
+
+  const chatHandler = useCallback(
+    targetUser.username === "All Users" ? handleSendGroupChat : handleSendPrivateChat,
+    [targetUser, targetUser.username]
+  )
 
   const handleChangeTargetUser = useCallback(
     (user) => {
@@ -246,7 +270,7 @@ const StudyingRoomPage = () => {
                 chatHistory={chatHistory}
                 targetUser={targetUser}
                 userList={roomUsers}
-                onSend={handleSendGroupChat}
+                onSend={chatHandler}
                 onChangeTargetUser={(user) => handleChangeTargetUser(user)}
               />
             </Box>
