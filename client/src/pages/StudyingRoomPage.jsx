@@ -1,21 +1,19 @@
 import React, { useCallback, useEffect, useState, useMemo } from "react";
 import Page from "../containers/Page.jsx";
 import { useParams } from "react-router-dom";
-import roomBg from "../assets/study-room-bg.svg";
 import { Box, Button, Grid } from "@mui/material";
-import mikeProfile from "../assets/profiles/Mike.svg";
 import RoomUserCard from "../components/RoomUserCard.jsx";
 import logo from "../assets/logo.svg";
 import TodoList from "../components/TodoList";
 import ChatModal from "../components/ChatModal.jsx";
 import { useAuth } from "../providers/AuthProvider.jsx";
 import { useSocket } from "../providers/SocketProvider.jsx";
-import { stop } from "../utils/musicPlayer.js";
 import { useFetch } from "../hooks/useFetch.js";
 import { useMutation } from "../hooks/useMutation.js";
 import { HTTP_METHOD } from "../hooks/http-methods.js";
 import Timer from "../components/Timer.jsx";
 import { useNotification } from "../providers/NotificationProvider.jsx";
+import { useMusic } from "../providers/MusicProvider.jsx";
 
 const sortByOptions = ["name", "experience"];
 
@@ -33,6 +31,7 @@ const StudyingRoomPage = () => {
   const socket = useSocket();
   const { getCurrentUser, getCustomUser, reFetchUserData } = useAuth();
   const notify = useNotification();
+  const { pauseMusic } = useMusic();
 
   const { data: roomData, isLoading } = useFetch(`publicRooms/${roomId}`);
   const fetchUserHandler = useMutation("users", HTTP_METHOD.GET);
@@ -118,7 +117,8 @@ const StudyingRoomPage = () => {
     return () => {
       socket.emit("leave-room", roomId);
       socket.off("message-in-rooms");
-      stop();
+
+      pauseMusic();
     };
   }, [socket, roomData]);
 

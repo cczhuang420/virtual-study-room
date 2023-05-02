@@ -23,22 +23,11 @@ const ConfigureMusicService = (callback) => {
         // for each room, use ytdl to get the song's title, and duration
         const songsWithInfo = rooms.map(async (room) => {
           const songsWithInfo = await Promise.all(
-            room.songs.map(async (song) => {
-              const info = await ytdl.getInfo(song);
-
-              // download the song
-              const stream = await ytdl(song, { filter: "audioonly" });
-
-              let buffer = await new Promise((resolve, reject) => {
-                const buffers = [];
-                stream.on("data", (data) => buffers.push(data));
-                stream.on("end", () => resolve(Buffer.concat(buffers)));
-                stream.on("error", reject);
-              });
+            room.songs.map(async (songUrl) => {
+              const info = await ytdl.getBasicInfo(songUrl);
 
               return {
-                buffer,
-                title: info.videoDetails.title,
+                id: info.videoDetails.videoId,
                 duration: info.videoDetails.lengthSeconds,
               };
             })
