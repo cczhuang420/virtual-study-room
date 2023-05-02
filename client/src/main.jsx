@@ -9,17 +9,20 @@ import AuthProvider from "./providers/AuthProvider.jsx";
 import SocketProvider from "./providers/SocketProvider.jsx";
 import NotificationProvider from "./providers/NotificationProvider.jsx";
 import CheckoutModalProvider from "./providers/CheckoutModalProvider.jsx";
+import MusicProvider from "./providers/MusicProvider.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <BrowserRouter>
     <ThemeProvider theme={theme}>
       <AuthProvider>
         <NotificationProvider>
-          <SocketProvider>
-            <CheckoutModalProvider>
-              <App />
-            </CheckoutModalProvider>
-          </SocketProvider>
+          <MusicProvider>
+            <SocketProvider>
+              <CheckoutModalProvider>
+                <App />
+              </CheckoutModalProvider>
+            </SocketProvider>
+          </MusicProvider>
         </NotificationProvider>
       </AuthProvider>
     </ThemeProvider>

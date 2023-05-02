@@ -19,8 +19,7 @@ module.exports = (io, rooms) => {
     }
 
     io.to(room.id).emit("new-song", {
-      buffer: song.buffer,
-      title: song.title,
+      id: song.id,
       time: state.songTime,
     });
 
@@ -62,16 +61,12 @@ module.exports = (io, rooms) => {
 
     socket.on("get-song-for-room", (roomId) => {
       const roomIndex = rooms.findIndex((room) => room.id === roomId);
-      console.log("Receive request for songs at room " + roomId)
-      console.log(rooms)
-      console.log(roomIndex)
       if (roomIndex !== -1) {
         const state = roomStates[roomIndex];
         const song = rooms[roomIndex].songs[state.songIndex];
-        console.log("Sending songs")
+        console.log("Sending songs");
         socket.emit("song", {
-          buffer: song.buffer,
-          title: song.title,
+          id: song.id,
           time: state.songTime,
         });
       }

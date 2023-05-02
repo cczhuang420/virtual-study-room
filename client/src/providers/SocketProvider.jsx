@@ -1,8 +1,8 @@
-import { useState, useEffect, createContext, useContext } from "react";
+import { useState, useEffect, createContext, useContext, useRef } from "react";
 import { io } from "socket.io-client";
 import { useAuth } from "../providers/AuthProvider.jsx";
-import { play, pause, stop } from "../utils/musicPlayer.js";
 import { useNotification } from "./NotificationProvider.jsx";
+import { useMusic } from "./MusicProvider.jsx";
 
 const context = createContext({});
 
@@ -10,6 +10,7 @@ const SocketProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
   const { getCurrentUser } = useAuth();
   const notify = useNotification();
+  const { playMusic, pauseMusic } = useMusic();
 
   useEffect(() => {
     if (getCurrentUser()) {
@@ -23,22 +24,12 @@ const SocketProvider = ({ children }) => {
 
       newSocket.on("song", (song) => {
         console.log("song", song);
-        play(song);
-        const audioContext = new AudioContext();
-        if (audioContext.state === "suspended") {
-          notify("Music suspended by browser", [
-            {
-              text: "PLAY",
-              closeAfterClick: true,
-              onClick: () => play(song),
-            },
-          ]);
-        }
+        playMusic(song.id, song.time);
       });
 
       newSocket.on("new-song", (song) => {
         console.log("new-song", song);
-        play(song);
+        playMusic(song.id, song.time);
       });
 
       newSocket.on("message-notification", (data) => {
@@ -48,18 +39,18 @@ const SocketProvider = ({ children }) => {
 
       newSocket.on("connect_error", (err) => {
         console.log(`connect_error due to ${err.message}`);
-        stop();
+        pauseMusic();
       });
 
       newSocket.on("disconnect", () => {
         console.log("disconnect from socket server");
-        stop();
+        pauseMusic();
       });
 
       setSocket(newSocket);
       return () => {
         newSocket.disconnect();
-        stop();
+        pauseMusic();
       };
     }
   }, [getCurrentUser()]);
