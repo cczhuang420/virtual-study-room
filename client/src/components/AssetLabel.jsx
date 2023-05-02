@@ -41,7 +41,7 @@ const AssetLabel = ({ image, value }) => {
           overflow: "hidden",
         }}
       >
-        {value.toLocaleString()}
+        {value?.toLocaleString()}
       </Typography>
     </Box>
   );
