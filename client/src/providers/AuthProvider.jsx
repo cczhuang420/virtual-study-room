@@ -102,7 +102,12 @@ const AuthProvider = ({ children }) => {
         await createUser(auth.currentUser.uid, username, email);
       }
     },
-    [auth, createUserWithEmailAndPassword]
+    [
+      auth,
+      auth.currentUser,
+      auth.currentUser.uid,
+      createUserWithEmailAndPassword,
+    ]
   );
 
   const thirdPartySignIn = useCallback(
