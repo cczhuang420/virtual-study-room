@@ -8,6 +8,7 @@ const ConfigureSocket = (io) => {
   io.use(firebaseSocketAuth);
 
   ConfigureMusicService((rooms) => {
+    console.log("Music service configured");
     registerMusicHandler(io, rooms);
   });
 
