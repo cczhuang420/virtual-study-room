@@ -2,14 +2,14 @@ import { useState, useEffect, createContext, useContext } from "react";
 import { io } from "socket.io-client";
 import { useAuth } from "../providers/AuthProvider.jsx";
 import { play, pause, stop } from "../utils/musicPlayer.js";
-import {useNotification} from "./NotificationProvider.jsx";
+import { useNotification } from "./NotificationProvider.jsx";
 
 const context = createContext({});
 
 const SocketProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
   const { getCurrentUser } = useAuth();
-  const notify = useNotification()
+  const notify = useNotification();
 
   useEffect(() => {
     if (getCurrentUser()) {
@@ -24,15 +24,15 @@ const SocketProvider = ({ children }) => {
       newSocket.on("song", (song) => {
         console.log("song", song);
         play(song);
-        const audioContext = new AudioContext()
+        const audioContext = new AudioContext();
         if (audioContext.state === "suspended") {
           notify("Music suspended by browser", [
             {
               text: "PLAY",
               closeAfterClick: true,
-              onClick: () => play(song)
-            }
-          ])
+              onClick: () => play(song),
+            },
+          ]);
         }
       });
 
@@ -57,7 +57,7 @@ const SocketProvider = ({ children }) => {
         stop();
       };
     }
-  }, [getCurrentUser, getCurrentUser()]);
+  }, [getCurrentUser()]);
 
   return <context.Provider value={socket}>{children}</context.Provider>;
 };
