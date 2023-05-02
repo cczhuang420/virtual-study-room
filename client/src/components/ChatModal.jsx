@@ -44,7 +44,7 @@ const ChatModal = ({
   const [message, setMessage] = useState("");
   const { getCustomUser } = useAuth();
   const [showUserList, setShowUserList] = useState(false);
-
+  console.log(targetUser)
   return (
     <Box
       sx={{
@@ -68,7 +68,7 @@ const ChatModal = ({
           }}
         >
           <Typography variant={"h4"} sx={{ color: "#3D3A3A" }}>
-            {targetUser.name}
+            {targetUser.username}
           </Typography>
           {userList && !showUserList && <KeyboardArrowDownIcon />}
           {userList && showUserList && <KeyboardArrowUpIcon />}
