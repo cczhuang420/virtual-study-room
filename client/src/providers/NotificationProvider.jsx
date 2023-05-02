@@ -6,7 +6,7 @@ const context = createContext(() => {});
 
 const NotificationProvider = ({ children }) => {
   const [message, setMessage] = useState("")
-  // array of { text: string, onClick: () => void, closeAfterClick: boolean }
+  // array of { text: string, onClick: () => void, closeOnClick: boolean }
   const [options, setOptions] = useState([])
   const [openTextNotification, setOpenTextNotification] = useState(false)
   const [openOptionNotification, setOpenOptionNotification] = useState(false)
@@ -67,11 +67,11 @@ const NotificationProvider = ({ children }) => {
         }}
         action={
           <Box>
-            {options.map(({text, onClick, closeAfterClick}) => (
+            {options.map(({text, onClick, closeOnClick}) => (
               <Button
                 onClick={() => {
                   onClick()
-                  if (closeAfterClick) {
+                  if (closeOnClick) {
                     setOpenOptionNotification(false)
                   }
                 }}
