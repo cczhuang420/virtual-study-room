@@ -269,7 +269,7 @@ const StudyingRoomPage = () => {
               <ChatModal
                 chatHistory={chatHistory}
                 targetUser={targetUser}
-                userList={roomUsers}
+                userList={roomUsers.filter(({username}) => username !== getCustomUser().username)}
                 onSend={chatHandler}
                 onChangeTargetUser={(user) => handleChangeTargetUser(user)}
               />
