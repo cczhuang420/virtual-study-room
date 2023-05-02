@@ -1,20 +1,25 @@
 import { Box, Button } from "@mui/material";
 import FriendList from "../components/FriendList.jsx";
-import {useAuth} from "../providers/AuthProvider.jsx";
-import {useFetch} from "../hooks/useFetch.js";
-import {useState} from "react";
+import { useAuth } from "../providers/AuthProvider.jsx";
+import { useFetch } from "../hooks/useFetch.js";
+import { useState } from "react";
 import SearchUserModal from "./SearchUserModal.jsx";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const FriendContainer = () => {
-  const {getCustomUser} = useAuth()
-  const {data, isLoading} = useFetch(`friends?id=${getCustomUser()._id}`)
-  const navigate = useNavigate()
+  const { getCustomUser } = useAuth();
+  const { data, isLoading } = useFetch(`friends?id=${getCustomUser()?._id}`);
+  const navigate = useNavigate();
 
-  const [showUserModal, setShowUserModal] = useState(false)
+  const [showUserModal, setShowUserModal] = useState(false);
 
-  const friendList = !isLoading ?
-    data.map(({username, _id, profile}) => ({name: username, image: `/src/assets/profiles/${profile}`, id: _id})) : []
+  const friendList = !isLoading
+    ? data.map(({ username, _id, profile }) => ({
+        name: username,
+        image: `/src/assets/profiles/${profile}`,
+        id: _id,
+      }))
+    : [];
 
   return (
     <Box
@@ -59,10 +64,16 @@ const FriendContainer = () => {
         alignItems={"center"}
         flexDirection={"row"}
       >
-        <FriendList friends={friendList} onClick={(id) => navigate(`/friends/${id}`)} />
+        <FriendList
+          friends={friendList}
+          onClick={(id) => navigate(`/friends/${id}`)}
+        />
       </Box>
       <Box>
-        <SearchUserModal open={showUserModal} onClose={() => setShowUserModal(false)} />
+        <SearchUserModal
+          open={showUserModal}
+          onClose={() => setShowUserModal(false)}
+        />
       </Box>
     </Box>
   );
