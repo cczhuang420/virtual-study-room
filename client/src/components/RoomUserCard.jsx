@@ -1,10 +1,11 @@
 import { Box, Typography, Button } from "@mui/material";
 import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord.js";
 import React from "react";
+import {useAuth} from "../providers/AuthProvider.jsx";
 
 
 const RoomUserCard = ({ username, profile, experience, onChat, hasUnread }) => {
-
+  const {getCustomUser} = useAuth()
   return (
     <Box
       display={"flex"}
@@ -78,6 +79,7 @@ const RoomUserCard = ({ username, profile, experience, onChat, hasUnread }) => {
             size={"small"}
             disableElevation
             sx={{
+              visibility: getCustomUser().username !== username ? "visible" : "hidden",
               height: "60%",
               width: "20%",
               borderRadius: "30px",
