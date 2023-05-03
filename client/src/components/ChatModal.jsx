@@ -51,7 +51,7 @@ const ChatModal = ({
       if (targetUser.username === "All Users") {
         return receiverEmail === "All Users"
       } else {
-        console.log(senderId, receiverEmail, targetUser)
+        // console.log(senderId, receiverEmail, targetUser)
         return receiverEmail !== "All Users" &&
           ((
             senderId === getCustomUser()._id ||
@@ -64,7 +64,7 @@ const ChatModal = ({
     })
   }, [chatHistory, targetUser, targetUser.username])
 
-  console.log(userList)
+  // console.log(userList)
 
   return (
     <Box
@@ -102,6 +102,7 @@ const ChatModal = ({
                   backgroundColor: "#400b71",
                   borderRadius: "5px",
                   width: "50%",
+                  zIndex: 100,
                 }}
               >
                 <Box

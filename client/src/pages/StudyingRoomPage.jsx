@@ -75,12 +75,36 @@ const StudyingRoomPage = () => {
     setSortBy(newValue);
   }, [sortBy, setSortBy]);
 
+  const newMessageSocketHandler = useCallback((data) => {
+    // console.log(data)
+    if (
+      data.username !== "All Users" &&
+      data.senderId !== targetUser._id &&
+      data.senderId !== getCustomUser()._id
+    ) {
+      // notify(`${data.username} sends you a message`)
+      console.log(targetUser, data)
+      setRoomUsers(prevState => {
+        const newState = JSON.parse(JSON.stringify(prevState))
+        newState.find(u => u.username === data.username).hasUnread = targetUser.username !== data.username
+        return newState
+      })
+    }
+    setChatHistory((prevState) => [
+      ...prevState,
+      {
+        ...data,
+        content: data.message,
+      },
+    ]);
+  }, [targetUser, setRoomUsers, setChatHistory])
+
   useEffect(() => {
     if (!socket) return;
     socket.emit("join-room", roomId);
     socket.emit("get-song-for-room", roomId);
 
-    socket.on('room-member-emails', async (emails) => {
+    socket.listeners("room-member-emails").length !== 0 || socket.on('room-member-emails', async (emails) => {
       // console.log("room members: ", emails)
       const roomMembers =
         (
@@ -99,28 +123,8 @@ const StudyingRoomPage = () => {
       setRoomUsers(roomMembers)
     })
 
-    socket.on("new-message", (data) => {
-      console.log(data)
-      if (
-        data.username !== "All Users" &&
-        data.senderId !== targetUser._id &&
-        data.senderId !== getCustomUser()._id
-      ) {
-        // notify(`${data.username} sends you a message`)
-        setRoomUsers(prevState => {
-          const newState = JSON.parse(JSON.stringify(prevState))
-          newState.find(u => u.username === data.username).hasUnread = true
-          return newState
-        })
-      }
-      setChatHistory((prevState) => [
-        ...prevState,
-        {
-          ...data,
-          content: data.message,
-        },
-      ]);
-    });
+    socket.removeAllListeners("new-message")
+    socket.on("new-message", newMessageSocketHandler);
 
     return () => {
       socket.emit("leave-room", roomId);
@@ -128,7 +132,7 @@ const StudyingRoomPage = () => {
 
       pauseMusic();
     };
-  }, [socket]);
+  }, [socket, newMessageSocketHandler]);
 
 
   const handleSendGroupChat = (message) => {
@@ -228,6 +232,8 @@ const StudyingRoomPage = () => {
               sx={{
                 flex: 1,
                 overflowY: "scroll",
+                position: "relative",
+                zIndex: 100,
               }}
             >
               <Grid container sx={{ p: 10, pt: 1 }}>
