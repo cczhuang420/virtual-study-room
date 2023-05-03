@@ -165,11 +165,11 @@ const ChatModal = ({
                         >
                           {user.username}
                         </ListItemText>
-                        {user.hasUnread && (
-                          <ListItemIcon sx={{minWidth: "0"}}>
-                            <FiberManualRecordIcon sx={{color: "red", fontSize: "8px"}} />
-                          </ListItemIcon>
-                        )}
+                        {/*{user.hasUnread && (*/}
+                        {/*  <ListItemIcon sx={{minWidth: "0"}}>*/}
+                        {/*    <FiberManualRecordIcon sx={{color: "red", fontSize: "8px"}} />*/}
+                        {/*  </ListItemIcon>*/}
+                        {/*)}*/}
                       </ListItem>
                     ))}
                   </List>
