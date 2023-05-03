@@ -29,11 +29,11 @@ const StudyingRoomPage = () => {
 
   const { roomId } = useParams();
   const socket = useSocket();
-  const { getCurrentUser, getCustomUser, reFetchUserData } = useAuth();
+  const { getCustomUser, reFetchUserData } = useAuth();
   const notify = useNotification();
   const { pauseMusic } = useMusic();
 
-  const { data: roomData, isLoading } = useFetch(`publicRooms/${roomId}`);
+  const { data: roomData } = useFetch(`publicRooms/${roomId}`);
   const fetchUserHandler = useMutation("users", HTTP_METHOD.GET);
   const addExperienceHandler = useMutation(
     "users/experience/add",
@@ -94,6 +94,7 @@ const StudyingRoomPage = () => {
           .map((user) => ({
             ...user,
             profile: `/src/assets/profiles/${user.profile}`,
+            hasUnread: false
           }))
       setRoomUsers(roomMembers)
     })
@@ -105,7 +106,12 @@ const StudyingRoomPage = () => {
         data.senderId !== targetUser._id &&
         data.senderId !== getCustomUser()._id
       ) {
-        notify(`${data.username} sends you a message`)
+        // notify(`${data.username} sends you a message`)
+        setRoomUsers(prevState => {
+          const newState = JSON.parse(JSON.stringify(prevState))
+          newState.find(u => u.username === data.username).hasUnread = true
+          return newState
+        })
       }
       setChatHistory((prevState) => [
         ...prevState,
@@ -156,6 +162,11 @@ const StudyingRoomPage = () => {
   const handleChangeTargetUser = useCallback(
     (user) => {
       setTargetUser(user);
+      setRoomUsers(prevState => {
+        const newState = JSON.parse(JSON.stringify(prevState))
+        newState.find(u => u.username === user.username).hasUnread = false
+        return newState
+      })
     },
     [setTargetUser]
   );

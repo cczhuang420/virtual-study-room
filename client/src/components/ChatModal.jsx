@@ -7,6 +7,7 @@ import {
   List,
   ListItem,
   ListItemText,
+  ListItemIcon,
   TextField,
   Typography,
 } from "@mui/material";
@@ -62,6 +63,8 @@ const ChatModal = ({
       }
     })
   }, [chatHistory, targetUser, targetUser.username])
+
+  console.log(userList)
 
   return (
     <Box
@@ -151,6 +154,7 @@ const ChatModal = ({
                           sx={{
                             width: "auto",
                             color: "white",
+                            fontWeight: user.hasUnread ? "bold" : "light",
                             "& span": {
                               whiteSpace: "nowrap",
                               overflow: "hidden",
@@ -160,6 +164,11 @@ const ChatModal = ({
                         >
                           {user.username}
                         </ListItemText>
+                        {user.hasUnread && (
+                          <ListItemIcon sx={{minWidth: "0"}}>
+                            <FiberManualRecordIcon sx={{color: "red", fontSize: "8px"}} />
+                          </ListItemIcon>
+                        )}
                       </ListItem>
                     ))}
                   </List>

@@ -2,7 +2,7 @@ import {Box, Button, IconButton, Snackbar} from "@mui/material"
 import CloseIcon from "@mui/icons-material/Close"
 import { createContext, useCallback, useContext, useState } from "react";
 
-const context = createContext(() => {});
+const context = createContext((message, options) => {});
 
 const NotificationProvider = ({ children }) => {
   const [message, setMessage] = useState("")
