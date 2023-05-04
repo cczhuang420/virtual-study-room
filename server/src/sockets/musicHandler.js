@@ -57,7 +57,9 @@ module.exports = (io, rooms) => {
     socket.on("join-room", (roomId) => {
       console.log(`${socket.user.name} joined room ${roomId}`);
       // TODO send list of members
-      if (!roomMemberEmails[roomId].includes(socket.user.email))  {
+      if (!roomMemberEmails[roomId]) {
+        roomMemberEmails[roomId] = [socket.user.email]
+      } else if (!roomMemberEmails[roomId].includes(socket.user.email))  {
         roomMemberEmails[roomId].push(socket.user.email)
       }
       console.log(roomMemberEmails[roomId])

@@ -23,5 +23,10 @@ router.post("/", payloadValidator(["ownerId", "name", "users", "backgroundUrl", 
     )
 })
 
+router.get("/:id", async (req, res) => {
+    const {id} = req.params
+    res.json(await privateRoomController.findById(id))
+})
+
 
 module.exports = router;

@@ -33,7 +33,12 @@ const StudyingRoomPage = () => {
   const notify = useNotification();
   const { pauseMusic } = useMusic();
 
-  const { data: roomData } = useFetch(`publicRooms/${roomId}`);
+  const { data: publicRoom, isError: isPublicRoomNotFound } = useFetch(`publicRooms/${roomId}`);
+  const { data: privateRoom } = useFetch(`privateRooms/${roomId}`);
+
+  const roomData =  publicRoom || privateRoom;
+  console.log(roomData)
+
   const fetchUserHandler = useMutation("users", HTTP_METHOD.GET);
   const addExperienceHandler = useMutation(
     "users/experience/add",
@@ -76,14 +81,11 @@ const StudyingRoomPage = () => {
   }, [sortBy, setSortBy]);
 
   const newMessageSocketHandler = useCallback((data) => {
-    // console.log(data)
     if (
       data.username !== "All Users" &&
       data.senderId !== targetUser._id &&
       data.senderId !== getCustomUser()._id
     ) {
-      // notify(`${data.username} sends you a message`)
-      console.log(targetUser, data)
       setRoomUsers(prevState => {
         const newState = JSON.parse(JSON.stringify(prevState))
         newState.find(u => u.username === data.username).hasUnread = targetUser.username !== data.username
@@ -105,7 +107,6 @@ const StudyingRoomPage = () => {
     socket.emit("get-song-for-room", roomId);
 
     socket.listeners("room-member-emails").length !== 0 || socket.on('room-member-emails', async (emails) => {
-      // console.log("room members: ", emails)
       const roomMembers =
         (
           await Promise.all(
