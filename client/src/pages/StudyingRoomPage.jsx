@@ -168,7 +168,8 @@ const StudyingRoomPage = () => {
       setTargetUser(user);
       setRoomUsers(prevState => {
         const newState = JSON.parse(JSON.stringify(prevState))
-        newState.find(u => u.username === user.username).hasUnread = false
+        const newTarget = newState.find(u => u.username === user.username)
+        if (newTarget) targetUser.hasUnread = false
         return newState
       })
     },
