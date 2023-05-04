@@ -35,8 +35,8 @@ const PrivateRoomPage = () => {
             className="w-96 h-8 flex flex-row justify-end space-x-6 ml-auto"
             sx={{ minWidth: 300 }}
           >
-            <AssetLabel image={AssetXPIcon} value={13000} />
-            <AssetLabel image={AssetMoneyIcon} value={12000} />
+            <AssetLabel image={AssetXPIcon} value={getCustomUser().experience} />
+            <AssetLabel image={AssetMoneyIcon} value={getCustomUser().coins} />
           </Box>
 
           <Box>
