@@ -28,12 +28,12 @@ const PrivateRoomsContainer = ({ privateRooms = [], isCreateRoom = true, onAddNe
             </Box>
         ))};
 
-      <Box
-        sx={{ minWidth: 200, maxHeight: 250, minHeight: 200 }}
+      {onAddNewRoom && <Box
+        sx={{minWidth: 200, maxHeight: 250, minHeight: 200}}
         className="w-5/12 h-1/2 m-5"
       >
-        {isCreateRoom && (<RoomCreater onClick={() => onAddNewRoom()} />)}
-      </Box>
+        {isCreateRoom && (<RoomCreater onClick={() => onAddNewRoom()}/>)}
+      </Box>}
     </Box>
   );
 };

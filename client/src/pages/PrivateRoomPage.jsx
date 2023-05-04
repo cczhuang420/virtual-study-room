@@ -41,7 +41,10 @@ const PrivateRoomPage = () => {
 
           <Box>
             {!addingRoom && privateRooms.length !== 0 ? (
-              <PrivateRoomsContainer privateRooms={privateRooms} onAddNewRoom={() => setAddingRoom(true)} />
+              <PrivateRoomsContainer
+                privateRooms={privateRooms}
+                onAddNewRoom={privateRooms.length < 4 ? () => setAddingRoom(true) : undefined}
+              />
             ) : (
               <PrivateRoomCreationForm
                 onCreateRoom={() => setAddingRoom(false)}
