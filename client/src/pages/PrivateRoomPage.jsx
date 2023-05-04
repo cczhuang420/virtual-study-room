@@ -1,5 +1,5 @@
 import Page from "../containers/Page.jsx";
-import React, { useState, useEffect } from "react";
+import React, {useState, useMemo} from "react";
 import { Box } from "@mui/material";
 import AssetXPIcon from "../assets/asset-xp-icon.svg";
 import AssetMoneyIcon from "../assets/asset-money-icon.svg";
@@ -13,9 +13,10 @@ import {useAuth} from "../providers/AuthProvider.jsx";
 const PrivateRoomPage = () => {
   const [addingRoom, setAddingRoom] = useState(false)
   const {getCustomUser} = useAuth()
-  const {data: privateRooms, reFetch: fetchPrivateRooms} = useFetch(`privateRooms?owner=${getCustomUser()._id}`)
+  const {data: privateRoomsFetch, reFetch: fetchPrivateRooms} =
+    useFetch(`privateRooms?owner=${getCustomUser()._id}`)
 
-  if (!privateRooms) return null
+  const privateRooms = useMemo(() => privateRoomsFetch || [], [privateRoomsFetch])
 
   return (
     <Page title={"Private Room"} sx={{ width: "100%" }}>
