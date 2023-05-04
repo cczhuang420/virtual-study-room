@@ -34,6 +34,17 @@ const messageHandler = (io, socket) => {
       data.message
     );
   });
+
+  socket.on("send-group-message-in-room", (data) => {
+    console.log("send-group-message-in-room", data)
+    io.to(data.roomId).emit("new-message", (data))
+  })
+
+  socket.on("send-private-message-in-room", (data) => {
+    console.log("send-private-message-in-room", data)
+    socket.emit("new-message", data)
+    Array.from(io.sockets.sockets.values()).find(s => s.user.email === data.receiverEmail)?.emit("new-message", data)
+  })
 };
 
 module.exports = messageHandler;

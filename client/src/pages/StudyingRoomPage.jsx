@@ -29,39 +29,16 @@ const StudyingRoomPage = () => {
 
   const { roomId } = useParams();
   const socket = useSocket();
-  const { getCurrentUser, getCustomUser, reFetchUserData } = useAuth();
+  const { getCustomUser, reFetchUserData } = useAuth();
   const notify = useNotification();
   const { pauseMusic } = useMusic();
 
-  const { data: roomData, isLoading } = useFetch(`publicRooms/${roomId}`);
+  const { data: roomData } = useFetch(`publicRooms/${roomId}`);
   const fetchUserHandler = useMutation("users", HTTP_METHOD.GET);
   const addExperienceHandler = useMutation(
     "users/experience/add",
     HTTP_METHOD.PATCH
   );
-
-  useEffect(() => {
-    (async () => {
-      if (!roomData || isLoading) return;
-      const userIds = roomData.users;
-      setRoomUsers(
-        (
-          await Promise.all(
-            userIds.map((id) =>
-              fetchUserHandler.run({
-                query: { _id: id },
-              })
-            )
-          )
-        )
-          .map((res) => res[0])
-          .map((user) => ({
-            ...user,
-            profile: `/src/assets/profiles/${user.profile}`,
-          }))
-      );
-    })();
-  }, [isLoading, roomData]);
 
   const sortedRoomUsers = useMemo(() => {
     const users = roomUsers.map((u) => ({ ...u }));
@@ -98,21 +75,56 @@ const StudyingRoomPage = () => {
     setSortBy(newValue);
   }, [sortBy, setSortBy]);
 
+  const newMessageSocketHandler = useCallback((data) => {
+    // console.log(data)
+    if (
+      data.username !== "All Users" &&
+      data.senderId !== targetUser._id &&
+      data.senderId !== getCustomUser()._id
+    ) {
+      // notify(`${data.username} sends you a message`)
+      console.log(targetUser, data)
+      setRoomUsers(prevState => {
+        const newState = JSON.parse(JSON.stringify(prevState))
+        newState.find(u => u.username === data.username).hasUnread = targetUser.username !== data.username
+        return newState
+      })
+    }
+    setChatHistory((prevState) => [
+      ...prevState,
+      {
+        ...data,
+        content: data.message,
+      },
+    ]);
+  }, [targetUser, setRoomUsers, setChatHistory])
+
   useEffect(() => {
     if (!socket) return;
     socket.emit("join-room", roomId);
     socket.emit("get-song-for-room", roomId);
 
-    socket.on("message-in-rooms", ({ senderId, profileImageUrl, message }) => {
-      setChatHistory((prevState) => [
-        ...prevState,
-        {
-          senderId,
-          profileImageUrl,
-          content: message,
-        },
-      ]);
-    });
+    socket.listeners("room-member-emails").length !== 0 || socket.on('room-member-emails', async (emails) => {
+      // console.log("room members: ", emails)
+      const roomMembers =
+        (
+          await Promise.all(
+            emails.map((email) => fetchUserHandler.run({
+              query: { email }
+            }))
+          )
+        )
+          .map((res) => res[0])
+          .map((user) => ({
+            ...user,
+            profile: `/src/assets/profiles/${user.profile}`,
+            hasUnread: false
+          }))
+      setRoomUsers(roomMembers)
+    })
+
+    socket.removeAllListeners("new-message")
+    socket.on("new-message", newMessageSocketHandler);
 
     return () => {
       socket.emit("leave-room", roomId);
@@ -120,21 +132,46 @@ const StudyingRoomPage = () => {
 
       pauseMusic();
     };
-  }, [socket, roomData]);
+  }, [socket, newMessageSocketHandler]);
+
 
   const handleSendGroupChat = (message) => {
-    socket.emit("send-message-in-rooms", {
+    socket.emit("send-group-message-in-room", {
       roomId: roomId,
-      senderId: getCurrentUser().uid,
-      profileImageUrl: `/src/assets/profiles/${getCustomUser().profile}`,
+      senderId: getCustomUser()._id,
+      receiverEmail: "All Users",
+      profileImageUrl: getCustomUser().profile,
       message: message,
       timestamp: Date.now(),
+      username: "All Users"
+    });
+  };
+  const handleSendPrivateChat = (message) => {
+    socket.emit("send-private-message-in-room", {
+      roomId: roomId,
+      senderId: getCustomUser()._id,
+      receiverEmail: targetUser.email,
+      profileImageUrl: getCustomUser().profile,
+      message: message,
+      timestamp: Date.now(),
+      username: getCustomUser().username
     });
   };
 
-  const handleChangeTargetUse = useCallback(
+  const chatHandler = useCallback(
+    targetUser.username === "All Users" ? handleSendGroupChat : handleSendPrivateChat,
+    [targetUser, targetUser.username]
+  )
+
+  const handleChangeTargetUser = useCallback(
     (user) => {
       setTargetUser(user);
+      setRoomUsers(prevState => {
+        const newState = JSON.parse(JSON.stringify(prevState))
+        const newTarget = newState.find(u => u.username === user.username)
+        if (newTarget) targetUser.hasUnread = false
+        return newState
+      })
     },
     [setTargetUser]
   );
@@ -196,6 +233,8 @@ const StudyingRoomPage = () => {
               sx={{
                 flex: 1,
                 overflowY: "scroll",
+                position: "relative",
+                zIndex: 100,
               }}
             >
               <Grid container sx={{ p: 10, pt: 1 }}>
@@ -205,7 +244,7 @@ const StudyingRoomPage = () => {
                     xs={12}
                     md={6}
                     sx={{ p: 5, pt: 0 }}
-                    key={`${Math.random()}`}
+                    key={roomUser.email}
                   >
                     <RoomUserCard
                       {...roomUser}
@@ -244,9 +283,9 @@ const StudyingRoomPage = () => {
               <ChatModal
                 chatHistory={chatHistory}
                 targetUser={targetUser}
-                userList={roomUsers}
-                onSend={handleSendGroupChat}
-                onChangeTargetUser={(user) => handleChangeTargetUse(user)}
+                userList={roomUsers.filter(({username}) => username !== getCustomUser().username)}
+                onSend={chatHandler}
+                onChangeTargetUser={(user) => handleChangeTargetUser(user)}
               />
             </Box>
           </Box>

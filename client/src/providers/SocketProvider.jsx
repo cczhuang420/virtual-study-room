@@ -25,6 +25,14 @@ const SocketProvider = ({ children }) => {
       newSocket.on("song", (song) => {
         console.log("song", song);
         playMusic(song.id, song.time);
+        const audioContext = new AudioContext()
+        if (audioContext.state === "suspended") {
+          notify("Music is suspended by browser", [
+            {
+              text: "PLAY", onClick: () => playMusic(song.id, song.time), closeOnClick: true
+            }
+          ])
+        }
       });
 
       newSocket.on("new-song", (song) => {

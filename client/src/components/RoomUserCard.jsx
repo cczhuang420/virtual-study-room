@@ -1,6 +1,11 @@
 import { Box, Typography, Button } from "@mui/material";
+import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord.js";
+import React from "react";
+import {useAuth} from "../providers/AuthProvider.jsx";
 
-const RoomUserCard = ({ username, profile, experience, onChat }) => {
+
+const RoomUserCard = ({ username, profile, experience, onChat, hasUnread }) => {
+  const {getCustomUser} = useAuth()
   return (
     <Box
       display={"flex"}
@@ -67,22 +72,28 @@ const RoomUserCard = ({ username, profile, experience, onChat }) => {
               color: "#8E8E8E",
             }}
           >
-            xp: {experience.toLocaleString()}
+            xp: {experience?.toLocaleString()}
           </Typography>
           <Button
             onClick={onChat}
             size={"small"}
             disableElevation
             sx={{
+              visibility: getCustomUser().username !== username ? "visible" : "hidden",
               height: "60%",
               width: "20%",
               borderRadius: "30px",
-              overflow: "hidden",
               mr: "0.9rem",
               background: "#9783B0",
+              position: "relative"
             }}
           >
             CHAT
+            {hasUnread && (
+              <Box sx={{position: "absolute", top: -7, right: -7}}>
+                <FiberManualRecordIcon sx={{color: "red", fontSize: "20px"}} />
+              </Box>
+            )}
           </Button>
         </Box>
       </Box>

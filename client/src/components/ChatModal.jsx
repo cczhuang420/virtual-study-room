@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useMemo, useState} from "react";
 import {
   Avatar,
   Box,
@@ -7,6 +7,7 @@ import {
   List,
   ListItem,
   ListItemText,
+  ListItemIcon,
   TextField,
   Typography,
 } from "@mui/material";
@@ -45,6 +46,26 @@ const ChatModal = ({
   const { getCustomUser } = useAuth();
   const [showUserList, setShowUserList] = useState(false);
 
+  const displayChatHistory = useMemo(() => {
+    return chatHistory.filter(({senderId, receiverEmail}) => {
+      if (targetUser.username === "All Users") {
+        return receiverEmail === "All Users"
+      } else {
+        // console.log(senderId, receiverEmail, targetUser)
+        return receiverEmail !== "All Users" &&
+          ((
+            senderId === getCustomUser()._id ||
+            receiverEmail === targetUser.email
+          ) || (
+            senderId === targetUser._id ||
+            receiverEmail === getCustomUser().email
+          ))
+      }
+    })
+  }, [chatHistory, targetUser, targetUser.username])
+
+  // console.log(userList)
+
   return (
     <Box
       sx={{
@@ -68,7 +89,7 @@ const ChatModal = ({
           }}
         >
           <Typography variant={"h4"} sx={{ color: "#3D3A3A" }}>
-            {targetUser.name}
+            {targetUser.username}
           </Typography>
           {userList && !showUserList && <KeyboardArrowDownIcon />}
           {userList && showUserList && <KeyboardArrowUpIcon />}
@@ -81,6 +102,7 @@ const ChatModal = ({
                   backgroundColor: "#400b71",
                   borderRadius: "5px",
                   width: "50%",
+                  zIndex: 100,
                 }}
               >
                 <Box
@@ -88,7 +110,7 @@ const ChatModal = ({
                 >
                   <Button
                     onClick={() =>
-                      onChangeTargetUser({ username: "All users" })
+                      onChangeTargetUser({ username: "All Users" })
                     }
                     sx={{
                       backgroundColor: "#6b35a0",
@@ -133,6 +155,7 @@ const ChatModal = ({
                           sx={{
                             width: "auto",
                             color: "white",
+                            fontWeight: user.hasUnread ? "bold" : "light",
                             "& span": {
                               whiteSpace: "nowrap",
                               overflow: "hidden",
@@ -142,9 +165,9 @@ const ChatModal = ({
                         >
                           {user.username}
                         </ListItemText>
-                        {/*{isOnline && (*/}
+                        {/*{user.hasUnread && (*/}
                         {/*  <ListItemIcon sx={{minWidth: "0"}}>*/}
-                        {/*    <FiberManualRecordIcon sx={{color: "#61FF00", fontSize: "8px"}} />*/}
+                        {/*    <FiberManualRecordIcon sx={{color: "red", fontSize: "8px"}} />*/}
                         {/*  </ListItemIcon>*/}
                         {/*)}*/}
                       </ListItem>
@@ -174,7 +197,7 @@ const ChatModal = ({
           },
         }}
       >
-        {chatHistory.map(({ senderId, profileImageUrl, content }) => (
+        {displayChatHistory.map(({ senderId, profileImageUrl, content }) => (
           <Box
             key={`${+new Date()}${Math.random()}`}
             sx={{
