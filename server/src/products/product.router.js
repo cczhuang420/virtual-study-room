@@ -21,6 +21,12 @@ router.get("/", [queryValidator(["type"])], async (req, res) => {
   }
 });
 
+router.get("/one", [queryValidator(["id"])], async (req, res) => {
+  res.json(
+    await productController.findProductById(req.query.id)
+  )
+})
+
 router.post(
   "/",
   [payloadValidator(["name", "type", "price"])],

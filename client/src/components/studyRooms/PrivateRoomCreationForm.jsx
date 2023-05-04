@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import {
   Box,
   Button,
@@ -13,12 +13,32 @@ import {
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import BackgroundSelectorGrid from "../BackgroundSelectorGrid.jsx";
 import sampleBg from "../../assets/backgrounds/background-card.svg";
+import {useAuth} from "../../providers/AuthProvider.jsx";
+import {useMutation} from "../../hooks/useMutation.js";
+import {HTTP_METHOD} from "../../hooks/http-methods.js";
 
 const PrivateRoomCreationForm = () => {
+  const {getCustomUser} = useAuth()
   const [roomName, setRoomName] = useState("");
   const [visibleToFriends, setVisibleToFriends] = useState(false);
   const [image, setImage] = useState();
   const [error, setError] = useState("");
+  const [backgroundList, setBackgroundList] = useState([])
+
+  const fetchProductHandler = useMutation("products/one", HTTP_METHOD.GET)
+
+  useEffect(() => {
+    ;(async () => {
+      const assetIds = getCustomUser().assets
+      const allAssets = await Promise.all(assetIds.map(id => fetchProductHandler.run({
+        query: {id}
+      })))
+      const bgList = allAssets
+        .filter(({type}) => type === "background")
+        .map(({url}) => `/src/assets/backgrounds/${url}`)
+      setBackgroundList(bgList)
+    })()
+  }, [])
 
   const createRoomHandler = useCallback(() => {
     if (roomName.replaceAll(" ", "") === "") {
@@ -89,7 +109,7 @@ const PrivateRoomCreationForm = () => {
       </Box>
       <Box sx={{ mb: 4 }}>
         <BackgroundSelectorGrid
-          images={Array(4).fill(sampleBg)}
+          images={backgroundList}
           onClick={(index) =>
             setImage((image) => (index === image ? undefined : index))
           }
