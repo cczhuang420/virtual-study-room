@@ -4,7 +4,7 @@ import BackgroundCard from "./BackgroundCard";
 
 export default function BackgroundSelectorGrid({ images, onClick }) {
   const [backgroundSelectedArray, setBackgroundSelectedArray] = useState(
-    new Array(images.length).fill(false)
+    images.map((_, i) => i === 0)
   );
 
   const handleBackgroundOnClick = (index) => {
@@ -20,7 +20,7 @@ export default function BackgroundSelectorGrid({ images, onClick }) {
       return;
     }
 
-    onClick(index);
+    onClick(images[index]);
   };
 
   return (

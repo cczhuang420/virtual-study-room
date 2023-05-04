@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material";
+import {Avatar, Box, Typography} from "@mui/material";
 import { Image } from "mui-image";
 
 const RankBar = ({
@@ -48,14 +48,7 @@ const RankBar = ({
         }}
       >
         {profileImage !== "" && (
-          <Image
-            width={"20%"}
-            height={"70%"}
-            fit={"scale-down"}
-            src={profileImage}
-            bgColor={""}
-            duration={0}
-          />
+          <Avatar src={profileImage} sx={{mr: 1}} />
         )}
         <Typography
           sx={{

@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import {
   Box,
   Button,
@@ -12,15 +12,37 @@ import {
 } from "@mui/material";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import BackgroundSelectorGrid from "../BackgroundSelectorGrid.jsx";
-import sampleBg from "../../assets/backgrounds/background-card.svg";
+import {useAuth} from "../../providers/AuthProvider.jsx";
+import {useMutation} from "../../hooks/useMutation.js";
+import {HTTP_METHOD} from "../../hooks/http-methods.js";
+import {LoadingButton} from "@mui/lab";
 
-const PrivateRoomCreationForm = () => {
+const PrivateRoomCreationForm = ({onCreateRoom, onCancel}) => {
+  const {getCustomUser} = useAuth()
   const [roomName, setRoomName] = useState("");
   const [visibleToFriends, setVisibleToFriends] = useState(false);
   const [image, setImage] = useState();
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false)
+  const [backgroundList, setBackgroundList] = useState([])
 
-  const createRoomHandler = useCallback(() => {
+  const fetchProductHandler = useMutation("products/one", HTTP_METHOD.GET)
+  const createPrivateRoomHandler = useMutation("privateRooms", HTTP_METHOD.POST)
+
+  useEffect(() => {
+    ;(async () => {
+      const assetIds = getCustomUser().assets
+      const allAssets = await Promise.all(assetIds.map(id => fetchProductHandler.run({
+        query: {id}
+      })))
+      const bgList = allAssets
+        .filter(({type}) => type === "background")
+        .map(({url}) => `/src/assets/backgrounds/${url}`)
+      setBackgroundList(bgList)
+    })()
+  }, [getCustomUser, setBackgroundList])
+
+  const createRoomHandler = useCallback(async () => {
     if (roomName.replaceAll(" ", "") === "") {
       setError("Please enter a valid room name");
       return;
@@ -28,14 +50,31 @@ const PrivateRoomCreationForm = () => {
       setError("Please select a background image");
       return;
     }
-    alert(`${roomName}, ${visibleToFriends}, ${image}`);
+    const body = {
+      ownerId: getCustomUser()._id,
+      name: roomName,
+      users: [],
+      backgroundUrl: image.split("/").reverse()[0],
+      isVisibleToFriends: visibleToFriends
+    }
+    setLoading(true)
+    try {
+      await createPrivateRoomHandler.run({
+        body
+      })
+    } catch (e) {
+      throw e
+    } finally {
+      setLoading(false)
+    }
+    onCreateRoom()
   }, [roomName, visibleToFriends, image]);
 
   return (
     <Box>
       <Box sx={{ mb: 4 }}>
         <Typography variant={"h2"} sx={{ color: "white" }}>
-          Oops, you have not created your private room
+          Create Your a New Private Room
         </Typography>
       </Box>
       <Box sx={{ mb: 4 }}>
@@ -89,7 +128,7 @@ const PrivateRoomCreationForm = () => {
       </Box>
       <Box sx={{ mb: 4 }}>
         <BackgroundSelectorGrid
-          images={Array(4).fill(sampleBg)}
+          images={backgroundList}
           onClick={(index) =>
             setImage((image) => (index === image ? undefined : index))
           }
@@ -99,9 +138,22 @@ const PrivateRoomCreationForm = () => {
         <FormHelperText sx={{ fontSize: "16px" }}>{error}</FormHelperText>
       </Box>
       <Box sx={{ display: "flex", justifyContent: "flex-end", mb: 4 }}>
-        <Button onClick={createRoomHandler} sx={{ backgroundColor: "#7012d3" }}>
+        {onCancel && (
+          <Button
+            onClick={onCancel || (() => {})}
+            variant={"outlined"}
+            sx={{borderColor: "#7012d3", color: "#7012d3", mr: 2}}
+          >
+            Cancel
+          </Button>
+        )}
+        <LoadingButton
+          loading={loading}
+          variant={"contained"}
+          onClick={createRoomHandler} sx={{ backgroundColor: "#7012d3" }}
+        >
           Create
-        </Button>
+        </LoadingButton>
       </Box>
     </Box>
   );
