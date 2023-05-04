@@ -127,6 +127,13 @@ class UserController {
       }
     );
   }
+
+  async unlockPrivateRoom(userId) {
+    const userDoc = await this.findById(userId)
+    userDoc.isPrivateRoomUnlocked = true
+    userDoc.coins = userDoc.coins - 400
+    userDoc.save()
+  }
 }
 
 module.exports = UserController;
