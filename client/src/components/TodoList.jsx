@@ -90,7 +90,7 @@ export default function TodoList() {
           sx={{ color: "black", borderColor: "black" }}
           onClick={handleHideCompleted}
         >
-          hide completed
+          {hideCompleted ? "Show" : "Hide"} completed
         </Button>
       </Box>
       <Divider sx={{ my: 2, borderBottomWidth: 3, bgcolor: "black" }} />
