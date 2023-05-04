@@ -21,7 +21,7 @@ const PrivateRoomsContainer = ({ privateRooms = [], isCreateRoom = true }) => {
                     title={name}
                     showLockIcon={true}
                     showPeopleAmount={false}
-                    image={`/src/assets/${backgroundUrl}`}
+                    image={`/src/assets/backgrounds/${backgroundUrl}`}
                     showVagueBackground={true}
                     onClick={handleOpenRoom}
                 />

@@ -12,7 +12,6 @@ import {
 } from "@mui/material";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import BackgroundSelectorGrid from "../BackgroundSelectorGrid.jsx";
-import sampleBg from "../../assets/backgrounds/background-card.svg";
 import {useAuth} from "../../providers/AuthProvider.jsx";
 import {useMutation} from "../../hooks/useMutation.js";
 import {HTTP_METHOD} from "../../hooks/http-methods.js";
@@ -26,6 +25,7 @@ const PrivateRoomCreationForm = () => {
   const [backgroundList, setBackgroundList] = useState([])
 
   const fetchProductHandler = useMutation("products/one", HTTP_METHOD.GET)
+  const createPrivateRoomHandler = useMutation("privateRooms", HTTP_METHOD.POST)
 
   useEffect(() => {
     ;(async () => {
@@ -38,9 +38,9 @@ const PrivateRoomCreationForm = () => {
         .map(({url}) => `/src/assets/backgrounds/${url}`)
       setBackgroundList(bgList)
     })()
-  }, [])
+  }, [getCustomUser, setBackgroundList])
 
-  const createRoomHandler = useCallback(() => {
+  const createRoomHandler = useCallback(async () => {
     if (roomName.replaceAll(" ", "") === "") {
       setError("Please enter a valid room name");
       return;
@@ -48,7 +48,17 @@ const PrivateRoomCreationForm = () => {
       setError("Please select a background image");
       return;
     }
-    alert(`${roomName}, ${visibleToFriends}, ${image}`);
+    const body = {
+      ownerId: getCustomUser()._id,
+      name: roomName,
+      users: [],
+      backgroundUrl: image.split("/").reverse()[0],
+      isVisibleToFriends: visibleToFriends
+    }
+    await createPrivateRoomHandler.run({
+      body
+    })
+    location.reload()
   }, [roomName, visibleToFriends, image]);
 
   return (

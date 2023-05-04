@@ -8,27 +8,15 @@ import AssetLabel from "../components/AssetLabel.jsx";
 import PrivateRoomsContainer from "../components/studyRooms/PrivateRoomsContainer.jsx";
 import PrivateRoomCreationForm from "../components/studyRooms/PrivateRoomCreationForm.jsx";
 import { useModal } from "../providers/CheckoutModalProvider.jsx";
+import {useFetch} from "../hooks/useFetch.js";
+import {useAuth} from "../providers/AuthProvider.jsx";
 
 const PrivateRoomPage = () => {
   const [havePrivateRooms, setHavePrivateRooms] = useState(false);
+  const {getCustomUser} = useAuth()
+  const {data: privateRooms} = useFetch(`privateRooms?owner=${getCustomUser()._id}`)
 
-  // TODO: This modal needed to be removed later right?
-  // const { handleOpen, setContent } = useModal();
-  //
-  // useEffect(() => {
-  //   setContent({
-  //     title: "Check out",
-  //     imageTitle: "purchase profile photo now",
-  //     image: backgroundImage,
-  //     cost: 400,
-  //     money: 1289,
-  //     type: 1,
-  //     onClick: () => {
-  //       console.log("hahahaha");
-  //     },
-  //   });
-  //   handleOpen();
-  // }, []);
+  if (!privateRooms) return null
 
   return (
     <Page title={"Private Room"} sx={{ width: "100%" }}>
@@ -53,8 +41,8 @@ const PrivateRoomPage = () => {
           </Box>
 
           <Box>
-            {havePrivateRooms ? (
-              <PrivateRoomsContainer />
+            {privateRooms.length !== 0 ? (
+              <PrivateRoomsContainer privateRooms={privateRooms} />
             ) : (
               <PrivateRoomCreationForm />
             )}
