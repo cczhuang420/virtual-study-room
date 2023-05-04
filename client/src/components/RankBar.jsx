@@ -1,5 +1,4 @@
 import {Avatar, Box, Typography} from "@mui/material";
-import { Image } from "mui-image";
 
 const RankBar = ({
   rankValue,
@@ -47,9 +46,7 @@ const RankBar = ({
             textOverflow: "ellipsis"
         }}
       >
-        {profileImage !== "" && (
-          <Avatar src={profileImage} sx={{mr: 1}} />
-        )}
+        {profileImage !== "" && (<Avatar src={profileImage} sx={{mr: 1}} />)}
         <Typography
           sx={{
             textAlign: "center",
