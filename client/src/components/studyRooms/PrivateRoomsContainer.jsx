@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import {Box, Typography} from "@mui/material";
 import RoomCard from "../RoomCard.jsx";
 import RoomCreater from "../RoomCreater.jsx";
 import React from "react";
