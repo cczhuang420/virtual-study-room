@@ -15,6 +15,7 @@ import BackgroundSelectorGrid from "../BackgroundSelectorGrid.jsx";
 import {useAuth} from "../../providers/AuthProvider.jsx";
 import {useMutation} from "../../hooks/useMutation.js";
 import {HTTP_METHOD} from "../../hooks/http-methods.js";
+import {LoadingButton} from "@mui/lab";
 
 const PrivateRoomCreationForm = ({onCreateRoom, onCancel}) => {
   const {getCustomUser} = useAuth()
@@ -22,6 +23,7 @@ const PrivateRoomCreationForm = ({onCreateRoom, onCancel}) => {
   const [visibleToFriends, setVisibleToFriends] = useState(false);
   const [image, setImage] = useState();
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false)
   const [backgroundList, setBackgroundList] = useState([])
 
   const fetchProductHandler = useMutation("products/one", HTTP_METHOD.GET)
@@ -55,11 +57,17 @@ const PrivateRoomCreationForm = ({onCreateRoom, onCancel}) => {
       backgroundUrl: image.split("/").reverse()[0],
       isVisibleToFriends: visibleToFriends
     }
-    await createPrivateRoomHandler.run({
-      body
-    })
+    setLoading(true)
+    try {
+      await createPrivateRoomHandler.run({
+        body
+      })
+    } catch (e) {
+      throw e
+    } finally {
+      setLoading(false)
+    }
     onCreateRoom()
-    location.reload()
   }, [roomName, visibleToFriends, image]);
 
   return (
@@ -139,9 +147,13 @@ const PrivateRoomCreationForm = ({onCreateRoom, onCancel}) => {
             Cancel
           </Button>
         )}
-        <Button onClick={createRoomHandler} sx={{ backgroundColor: "#7012d3" }}>
+        <LoadingButton
+          loading={loading}
+          variant={"contained"}
+          onClick={createRoomHandler} sx={{ backgroundColor: "#7012d3" }}
+        >
           Create
-        </Button>
+        </LoadingButton>
       </Box>
     </Box>
   );

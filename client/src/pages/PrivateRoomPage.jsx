@@ -13,7 +13,7 @@ import {useAuth} from "../providers/AuthProvider.jsx";
 const PrivateRoomPage = () => {
   const [addingRoom, setAddingRoom] = useState(false)
   const {getCustomUser} = useAuth()
-  const {data: privateRooms} = useFetch(`privateRooms?owner=${getCustomUser()._id}`)
+  const {data: privateRooms, reFetch: fetchPrivateRooms} = useFetch(`privateRooms?owner=${getCustomUser()._id}`)
 
   if (!privateRooms) return null
 
@@ -47,7 +47,10 @@ const PrivateRoomPage = () => {
               />
             ) : (
               <PrivateRoomCreationForm
-                onCreateRoom={() => setAddingRoom(false)}
+                onCreateRoom={async () => {
+                  await fetchPrivateRooms()
+                  setAddingRoom(false)
+                }}
                 onCancel={privateRooms.length === 0 ? undefined : () => setAddingRoom(false)}
               />
             )}
