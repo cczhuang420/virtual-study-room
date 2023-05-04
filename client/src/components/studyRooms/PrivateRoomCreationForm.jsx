@@ -16,7 +16,7 @@ import {useAuth} from "../../providers/AuthProvider.jsx";
 import {useMutation} from "../../hooks/useMutation.js";
 import {HTTP_METHOD} from "../../hooks/http-methods.js";
 
-const PrivateRoomCreationForm = () => {
+const PrivateRoomCreationForm = ({onCreateRoom, onCancel}) => {
   const {getCustomUser} = useAuth()
   const [roomName, setRoomName] = useState("");
   const [visibleToFriends, setVisibleToFriends] = useState(false);
@@ -58,6 +58,7 @@ const PrivateRoomCreationForm = () => {
     await createPrivateRoomHandler.run({
       body
     })
+    onCreateRoom()
     location.reload()
   }, [roomName, visibleToFriends, image]);
 
@@ -65,7 +66,7 @@ const PrivateRoomCreationForm = () => {
     <Box>
       <Box sx={{ mb: 4 }}>
         <Typography variant={"h2"} sx={{ color: "white" }}>
-          Oops, you have not created your private room
+          Create Your a New Private Room
         </Typography>
       </Box>
       <Box sx={{ mb: 4 }}>
@@ -129,6 +130,15 @@ const PrivateRoomCreationForm = () => {
         <FormHelperText sx={{ fontSize: "16px" }}>{error}</FormHelperText>
       </Box>
       <Box sx={{ display: "flex", justifyContent: "flex-end", mb: 4 }}>
+        {onCancel && (
+          <Button
+            onClick={onCancel || (() => {})}
+            variant={"outlined"}
+            sx={{borderColor: "#7012d3", color: "#7012d3", mr: 2}}
+          >
+            Cancel
+          </Button>
+        )}
         <Button onClick={createRoomHandler} sx={{ backgroundColor: "#7012d3" }}>
           Create
         </Button>

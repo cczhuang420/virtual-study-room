@@ -7,12 +7,11 @@ import FriendContainer from "../components/FriendContainer.jsx";
 import AssetLabel from "../components/AssetLabel.jsx";
 import PrivateRoomsContainer from "../components/studyRooms/PrivateRoomsContainer.jsx";
 import PrivateRoomCreationForm from "../components/studyRooms/PrivateRoomCreationForm.jsx";
-import { useModal } from "../providers/CheckoutModalProvider.jsx";
 import {useFetch} from "../hooks/useFetch.js";
 import {useAuth} from "../providers/AuthProvider.jsx";
 
 const PrivateRoomPage = () => {
-  const [havePrivateRooms, setHavePrivateRooms] = useState(false);
+  const [addingRoom, setAddingRoom] = useState(false)
   const {getCustomUser} = useAuth()
   const {data: privateRooms} = useFetch(`privateRooms?owner=${getCustomUser()._id}`)
 
@@ -41,10 +40,13 @@ const PrivateRoomPage = () => {
           </Box>
 
           <Box>
-            {privateRooms.length !== 0 ? (
-              <PrivateRoomsContainer privateRooms={privateRooms} />
+            {!addingRoom && privateRooms.length !== 0 ? (
+              <PrivateRoomsContainer privateRooms={privateRooms} onAddNewRoom={() => setAddingRoom(true)} />
             ) : (
-              <PrivateRoomCreationForm />
+              <PrivateRoomCreationForm
+                onCreateRoom={() => setAddingRoom(false)}
+                onCancel={privateRooms.length === 0 ? undefined : () => setAddingRoom(false)}
+              />
             )}
           </Box>
         </Box>
