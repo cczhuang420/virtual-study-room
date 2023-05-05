@@ -1,14 +1,14 @@
-const {Schema, model} = require("mongoose")
+const { Schema, model } = require("mongoose");
 
 const UserSchema = new Schema({
   email: {
     required: true,
-    type: String
+    type: String,
   },
   username: {
     required: true,
     type: String,
-    unique: true
+    unique: true,
   },
   todoList: {
     required: true,
@@ -16,46 +16,56 @@ const UserSchema = new Schema({
     default: [],
     validate: {
       validator: (values) =>
-        !values.some(value => typeof value.content !== "string" || typeof value.isCompleted !== "boolean"),
-      message: () => "A task must has 'content' in string and 'isCompleted' in boolean"
-    }
+        !values.some(
+          (value) =>
+            typeof value.content !== "string" ||
+            typeof value.isCompleted !== "boolean"
+        ),
+      message: () =>
+        "A task must has 'content' in string and 'isCompleted' in boolean",
+    },
   },
   assets: {
     required: true,
     type: [String],
-    default: []
+    default: [],
   },
   isPrivateRoomUnlocked: {
     required: true,
     type: Boolean,
-    default: false
+    default: false,
   },
   experience: {
     required: true,
     type: Number,
-    default: 0
+    default: 0,
   },
   profile: {
     required: true,
     type: String,
-    default: "default.svg"
+    default: "default.svg",
   },
   coins: {
     required: true,
     type: Number,
-    default: 0
+    default: 0,
   },
   profilePhotoUrl: {
     required: false,
-    type: String
+    type: String,
   },
   friends: {
     required: true,
     type: [String],
-    default: []
-  }
-})
+    default: [],
+  },
+  playList: {
+    required: true,
+    type: [String],
+    default: [],
+  },
+});
 
-const User = model("users", UserSchema)
+const User = model("users", UserSchema);
 
-module.exports = User
+module.exports = User;

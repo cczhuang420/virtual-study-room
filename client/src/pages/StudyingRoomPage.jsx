@@ -31,13 +31,15 @@ const StudyingRoomPage = () => {
   const socket = useSocket();
   const { getCustomUser, reFetchUserData } = useAuth();
   const notify = useNotification();
-  const { pauseMusic } = useMusic();
+  const { playMusic, pauseMusic } = useMusic();
 
-  const { data: publicRoom, isError: isPublicRoomNotFound } = useFetch(`publicRooms/${roomId}`);
+  const { data: publicRoom, isError: isPublicRoomNotFound } = useFetch(
+    `publicRooms/${roomId}`
+  );
   const { data: privateRoom } = useFetch(`privateRooms/${roomId}`);
 
-  const roomData =  publicRoom || privateRoom;
-  console.log(roomData)
+  const roomData = publicRoom || privateRoom;
+  console.log(roomData);
 
   const fetchUserHandler = useMutation("users", HTTP_METHOD.GET);
   const addExperienceHandler = useMutation(
@@ -80,51 +82,57 @@ const StudyingRoomPage = () => {
     setSortBy(newValue);
   }, [sortBy, setSortBy]);
 
-  const newMessageSocketHandler = useCallback((data) => {
-    if (
-      data.username !== "All Users" &&
-      data.senderId !== targetUser._id &&
-      data.senderId !== getCustomUser()._id
-    ) {
-      setRoomUsers(prevState => {
-        const newState = JSON.parse(JSON.stringify(prevState))
-        newState.find(u => u.username === data.username).hasUnread = targetUser.username !== data.username
-        return newState
-      })
-    }
-    setChatHistory((prevState) => [
-      ...prevState,
-      {
-        ...data,
-        content: data.message,
-      },
-    ]);
-  }, [targetUser, setRoomUsers, setChatHistory])
+  const newMessageSocketHandler = useCallback(
+    (data) => {
+      if (
+        data.username !== "All Users" &&
+        data.senderId !== targetUser._id &&
+        data.senderId !== getCustomUser()._id
+      ) {
+        setRoomUsers((prevState) => {
+          const newState = JSON.parse(JSON.stringify(prevState));
+          newState.find((u) => u.username === data.username).hasUnread =
+            targetUser.username !== data.username;
+          return newState;
+        });
+      }
+      setChatHistory((prevState) => [
+        ...prevState,
+        {
+          ...data,
+          content: data.message,
+        },
+      ]);
+    },
+    [targetUser, setRoomUsers, setChatHistory]
+  );
 
   useEffect(() => {
     if (!socket) return;
     socket.emit("join-room", roomId);
     socket.emit("get-song-for-room", roomId);
 
-    socket.listeners("room-member-emails").length !== 0 || socket.on('room-member-emails', async (emails) => {
-      const roomMembers =
-        (
+    socket.listeners("room-member-emails").length !== 0 ||
+      socket.on("room-member-emails", async (emails) => {
+        const roomMembers = (
           await Promise.all(
-            emails.map((email) => fetchUserHandler.run({
-              query: { email }
-            }))
+            emails.map((email) =>
+              fetchUserHandler.run({
+                query: { email },
+              })
+            )
           )
         )
           .map((res) => res[0])
           .map((user) => ({
             ...user,
             profile: `/src/assets/profiles/${user.profile}`,
-            hasUnread: false
-          }))
-      setRoomUsers(roomMembers)
-    })
+            hasUnread: false,
+          }));
+        setRoomUsers(roomMembers);
+      });
 
-    socket.removeAllListeners("new-message")
+    socket.removeAllListeners("new-message");
     socket.on("new-message", newMessageSocketHandler);
 
     return () => {
@@ -135,7 +143,6 @@ const StudyingRoomPage = () => {
     };
   }, [socket, newMessageSocketHandler]);
 
-
   const handleSendGroupChat = (message) => {
     socket.emit("send-group-message-in-room", {
       roomId: roomId,
@@ -144,7 +151,7 @@ const StudyingRoomPage = () => {
       profileImageUrl: getCustomUser().profile,
       message: message,
       timestamp: Date.now(),
-      username: "All Users"
+      username: "All Users",
     });
   };
   const handleSendPrivateChat = (message) => {
@@ -155,24 +162,26 @@ const StudyingRoomPage = () => {
       profileImageUrl: getCustomUser().profile,
       message: message,
       timestamp: Date.now(),
-      username: getCustomUser().username
+      username: getCustomUser().username,
     });
   };
 
   const chatHandler = useCallback(
-    targetUser.username === "All Users" ? handleSendGroupChat : handleSendPrivateChat,
+    targetUser.username === "All Users"
+      ? handleSendGroupChat
+      : handleSendPrivateChat,
     [targetUser, targetUser.username]
-  )
+  );
 
   const handleChangeTargetUser = useCallback(
     (user) => {
       setTargetUser(user);
-      setRoomUsers(prevState => {
-        const newState = JSON.parse(JSON.stringify(prevState))
-        const newTarget = newState.find(u => u.username === user.username)
-        if (newTarget) targetUser.hasUnread = false
-        return newState
-      })
+      setRoomUsers((prevState) => {
+        const newState = JSON.parse(JSON.stringify(prevState));
+        const newTarget = newState.find((u) => u.username === user.username);
+        if (newTarget) targetUser.hasUnread = false;
+        return newState;
+      });
     },
     [setTargetUser]
   );
@@ -284,7 +293,9 @@ const StudyingRoomPage = () => {
               <ChatModal
                 chatHistory={chatHistory}
                 targetUser={targetUser}
-                userList={roomUsers.filter(({username}) => username !== getCustomUser().username)}
+                userList={roomUsers.filter(
+                  ({ username }) => username !== getCustomUser().username
+                )}
                 onSend={chatHandler}
                 onChangeTargetUser={(user) => handleChangeTargetUser(user)}
               />
