@@ -22,6 +22,10 @@ const SignupForm = ({onSubmit}) => {
   const [showPassword, setShowPassword] = useState(false)
   const [gettingSuggestion, setGettingSuggestion] = useState(false)
 
+  const [username, setUsername] = useState("")
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+
   const baseName = useRef("")
 
   const fetchUsernameSuggestion = useFetchUsernameSuggestion()
@@ -33,10 +37,7 @@ const SignupForm = ({onSubmit}) => {
         baseName.current.replaceAll(" ", "") === "" ?
           undefined : baseName.current
       )
-      await formik.setValues({
-        ...formik.values,
-        username
-      })
+      setUsername(username)
     } catch (e) {
       console.error(e)
     } finally {
@@ -45,44 +46,38 @@ const SignupForm = ({onSubmit}) => {
 
   }, [fetchUsernameSuggestion])
 
-  const formik = useFormik({
-    initialValues: {
-      username: "",
-      email: "",
-      password: ""
-    },
-    onSubmit: async (values) => {
-      // password requirement is not configurable??!!??!!
-      // https://stackoverflow.com/questions/49183858/is-there-a-way-to-set-a-password-strength-for-firebase
-      if (Object.values(values).some(v => v.length === 0)) {
-        setError("Please complete all fields")
-        return
-      } else if (values.password.length < 8) {
-        setError("Password must contain at least 8 characters")
-        return
-      } else if (!/\S+@\S+\.\S+/.test(values.email)) {
-        setError("Invalid email address")
-        return
-      }
+  const handleSubmit = async () => {
+    const values = {username, email, password}
+    // password requirement is not configurable??!!??!!
+    // https://stackoverflow.com/questions/49183858/is-there-a-way-to-set-a-password-strength-for-firebase
+    if (Object.values(values).some(v => v.length === 0)) {
+      setError("Please complete all fields")
+      return
+    } else if (values.password.length < 8) {
+      setError("Password must contain at least 8 characters")
+      return
+    } else if (!/\S+@\S+\.\S+/.test(values.email)) {
+      setError("Invalid email address")
+      return
+    }
 
-      setSigningUp(true)
-      try {
-        await onSubmit(values)
-      } catch (e) {
-        console.error(e)
-        if (e.message.includes("auth/email-already-in-use")) {
-          setError("Email is already taken")
-        } else {
-          setError(e.message)
-        }
-      } finally {
-        setSigningUp(false)
+    setSigningUp(true)
+    try {
+      await onSubmit(values)
+    } catch (e) {
+      console.error(e)
+      if (e.message.includes("auth/email-already-in-use")) {
+        setError("Email is already taken")
+      } else {
+        setError(e.message)
       }
-    },
-  })
+    } finally {
+      setSigningUp(false)
+    }
+  }
 
   return (
-    <form onSubmit={formik.handleSubmit}>
+    <Box>
       <Box sx={{mb: {xs: 1, md: 2}}}>
         <Box sx={{display: "flex", justifyContent: "space-between", alignItems: "center"}}>
           <InputLabel>Username</InputLabel>
@@ -95,23 +90,22 @@ const SignupForm = ({onSubmit}) => {
           </LoadingButton>
         </Box>
         <TextField
-          name={"username"}
-          value={formik.values.username}
+          value={username}
           onChange={(e) => {
-            formik.handleChange(e)
+            setUsername(e.target.value)
             baseName.current = e.target.value
           }}
         />
       </Box>
       <Box sx={{mb: {xs: 1, md: 2}}}>
         <InputLabel>Email</InputLabel>
-        <TextField name={"email"} onChange={formik.handleChange} />
+        <TextField value={email} onChange={e => setEmail(e.target.value)} />
       </Box>
       <Box sx={{mb: {xs: 1, md: 2}}}>
         <InputLabel>Password</InputLabel>
         <OutlinedInput
-          name={"password"}
-          onChange={formik.handleChange}
+          name={password}
+          onChange={e => setPassword(e.target.value)}
           type={showPassword ? "text" : "password"}
           endAdornment={
             <InputAdornment position={"end"}>
@@ -142,7 +136,7 @@ const SignupForm = ({onSubmit}) => {
         }}
       >
         <LoadingButton
-          type={"submit"}
+          onClick={handleSubmit}
           loading={signingUp}
           variant={"contained"}
           sx={{
@@ -154,7 +148,7 @@ const SignupForm = ({onSubmit}) => {
         </LoadingButton>
         <ThirdPartyLogin onError={() => setError("Your email exists with different credential.")} />
       </Box>
-    </form>
+    </Box>
   )
 }
 

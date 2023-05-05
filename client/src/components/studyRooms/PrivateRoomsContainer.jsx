@@ -1,4 +1,4 @@
-import {Box, Typography} from "@mui/material";
+import {Box, Grid, Typography} from "@mui/material";
 import RoomCard from "../RoomCard.jsx";
 import RoomCreater from "../RoomCreater.jsx";
 import React from "react";
@@ -13,12 +13,12 @@ const PrivateRoomsContainer = ({ privateRooms = [], isCreateRoom = true, onAddNe
   };
 
   return (
-    <Box className="flex flex-row flex-wrap h-full">
+    <Grid container>
       {privateRooms.map(({ _id, name, backgroundUrl }, index) => (
-        <Box
+        <Grid
+          xs={6}
           key={_id}
-          sx={{ minWidth: 200, maxHeight: 250, minHeight: 200 }}
-          className="w-5/12 h-1/2 m-5"
+          sx={{ minWidth: 200, maxHeight: 250, minHeight: 200, paddingX: 3, paddingY: 1 }}
         >
           <RoomCard
             title={name}
@@ -28,16 +28,18 @@ const PrivateRoomsContainer = ({ privateRooms = [], isCreateRoom = true, onAddNe
             showVagueBackground={true}
             onClick={() => handleOpenRoom(_id)}
           />
-        </Box>
+        </Grid>
       ))}
 
-      {onAddNewRoom && <Box
-        sx={{minWidth: 200, maxHeight: 250, minHeight: 200}}
-        className="w-5/12 h-1/2 m-5"
-      >
-        {isCreateRoom && (<RoomCreater onClick={() => onAddNewRoom()}/>)}
-      </Box>}
-    </Box>
+      {onAddNewRoom && (
+        <Grid
+          xs={6}
+          sx={{minWidth: 200, maxHeight: 250, minHeight: 200, paddingX: 3, paddingY: 1 }}
+        >
+          {isCreateRoom && (<RoomCreater onClick={() => onAddNewRoom()}/>)}
+        </Grid>
+      )}
+    </Grid>
   );
 };
 

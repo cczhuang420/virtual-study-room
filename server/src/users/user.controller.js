@@ -13,7 +13,8 @@ class UserController {
   }
 
   async createUser(email, username) {
-    return await userModel.create({ email, username });
+    const defaultAssets = await productModel.find({name: "default"})
+    return await userModel.create({ email, username, assets: defaultAssets.map(({_id}) => _id) });
   }
 
   async getUser(queryParam) {

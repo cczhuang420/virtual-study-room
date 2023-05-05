@@ -29,11 +29,11 @@ const ThirdPartyLogin = ({onError}) => {
           <img src={github} alt={""} />
         </StyledBox>
       </Tooltip>
-      <Tooltip title={"Login with anonymously"}>
-        <StyledBox onClick={() => signInErrorBoundary(anonymousSignIn)}>
-          <img src={anonymous} alt={""} />
-        </StyledBox>
-      </Tooltip>
+      {/*<Tooltip title={"Login with anonymously"}>*/}
+      {/*  <StyledBox onClick={() => signInErrorBoundary(anonymousSignIn)}>*/}
+      {/*    <img src={anonymous} alt={""} />*/}
+      {/*  </StyledBox>*/}
+      {/*</Tooltip>*/}
     </Box>
   )
 }

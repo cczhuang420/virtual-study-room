@@ -151,4 +151,8 @@ router.patch(
   }
 )
 
+router.get("/sync", async (req, res) => {
+  res.json(await userController.sync())
+})
+
 module.exports = router;

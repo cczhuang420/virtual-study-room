@@ -26,17 +26,17 @@ const Page = ({
 }) => {
   const {logout, getCustomUser, reFetchUserData} = useAuth()
 
-  const { handleOpen, setContent, handleClose, setLoading } = useModal();
+  const { handleOpen, setContent, handleClose } = useModal();
   const updateUserHandler = useMutation("users/unlock-private-room", HTTP_METHOD.PATCH)
 
   const openPrivateRoomUnlockModal = useCallback(() => {
     setContent({
       title: "Check out",
-      imageTitle: "purchase profile photo now",
+      imageTitle: "Unlock private room now",
       image: privateRoomBg,
       cost: 400,
       money: getCustomUser().coins,
-      type: 1,
+      type: 0,
       onClick: async () => {
         try {
           await updateUserHandler.run({
