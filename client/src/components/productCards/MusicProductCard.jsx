@@ -27,6 +27,8 @@ const playButtonStyle = {
   },
 };
 
+let timer = null;
+
 const MusicProductCard = ({
   value,
   productName,
@@ -34,29 +36,32 @@ const MusicProductCard = ({
   productId,
   musicUrl,
 }) => {
-  const { playMusic, pauseMusic } = useMusic();
+  const { playMusic, stopMusic } = useMusic();
 
   const [isPlay, setIsPlay] = useState(false);
 
   const handlePlay = () => {
-    if (isPlay) {
+    if (!isPlay) {
       // get music id from youtube url
       let musicId = musicUrl.split("v=")[1];
       const ampersandPosition = musicId.indexOf("&");
       if (ampersandPosition !== -1) {
         musicId = musicId.substring(0, ampersandPosition);
       }
-
-      pauseMusic();
+      stopMusic();
 
       // start a timer to play music for only 15 seconds
-      setTimeout(() => {
-        pauseMusic();
+      timer = setTimeout(() => {
+        stopMusic();
+        setIsPlay(false);
       }, 15000);
 
       playMusic(musicId, 0);
     } else {
-      pauseMusic();
+      if (timer) {
+        clearTimeout(timer);
+      }
+      stopMusic();
     }
     setIsPlay((pre) => !pre);
   };

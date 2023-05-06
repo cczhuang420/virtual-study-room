@@ -18,11 +18,16 @@ const MusicProvider = ({ children }) => {
     youtubeRef.current.internalPlayer.pauseVideo();
   };
 
+  const stopMusic = () => {
+    youtubeRef.current.internalPlayer.stopVideo();
+  };
+
   return (
     <context.Provider
       value={{
         playMusic,
         pauseMusic,
+        stopMusic,
       }}
     >
       <div
