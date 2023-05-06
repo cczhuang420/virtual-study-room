@@ -1,5 +1,4 @@
-import React, {useMemo, useState} from "react"
-import {useFormik} from "formik";
+import React, {useState} from "react"
 import {InputLabel, TextField, Box, FormHelperText} from "@mui/material";
 import {LoadingButton} from "@mui/lab";
 import ThirdPartyLogin from "./ThirdPartyLogin.jsx";
@@ -9,32 +8,18 @@ const LoginForm = ({onSubmit}) => {
   const [error, setError] = useState("")
   const [loggingIn, setLogging] = useState(false)
 
-  const formik = useFormik({
-    initialValues: {
-      email: "",
-      password: ""
-    },
-    onSubmit: async (values) => {
-      setLogging(true)
-      try {
-        await onSubmit(values)
-      } catch (e) {
-        setError("Invalid credential")
-      } finally {
-        setLogging(false)
-      }
-    },
-  })
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
 
   return (
-    <form onSubmit={formik.handleSubmit}>
+    <Box>
       <Box sx={{mb: {xs: 3, md: 5}}}>
         <InputLabel>
           Email/Username
         </InputLabel>
         <TextField
-          name={"email"}
-          onChange={formik.handleChange}
+          value={email}
+          onChange={e => setEmail(e.target.value)}
           type={"text"}
         />
       </Box>
@@ -43,8 +28,8 @@ const LoginForm = ({onSubmit}) => {
           Password
         </InputLabel>
         <TextField
-          name={"password"}
-          onChange={formik.handleChange}
+          value={password}
+          onChange={e => setPassword(e.target.value)}
           type={"password"}
         />
       </Box>
@@ -68,7 +53,16 @@ const LoginForm = ({onSubmit}) => {
         }}
       >
         <LoadingButton
-          type={"submit"}
+          onClick={async () => {
+            setLogging(true)
+            try {
+              await onSubmit({email, password})
+            } catch (e) {
+              setError("Invalid credential")
+            } finally {
+              setLogging(false)
+            }
+          }}
           loading={loggingIn}
           variant={"contained"}
           sx={{
@@ -80,7 +74,7 @@ const LoginForm = ({onSubmit}) => {
         </LoadingButton>
         <ThirdPartyLogin onError={() => setError("Your email exists with different credential.")} />
       </Box>
-    </form>
+    </Box>
   )
 }
 

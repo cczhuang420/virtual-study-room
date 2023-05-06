@@ -1,20 +1,24 @@
-import { Box } from "@mui/material";
+import {Box, Grid, Typography} from "@mui/material";
 import RoomCard from "../RoomCard.jsx";
 import RoomCreater from "../RoomCreater.jsx";
 import React from "react";
+import {useNavigate} from "react-router-dom";
 
 const PrivateRoomsContainer = ({ privateRooms = [], isCreateRoom = true, onAddNewRoom }) => {
-  // TODO: ADD this handler
-  const handleOpenRoom = () => {
-    alert("open");
+
+  const navigate = useNavigate()
+
+  const handleOpenRoom = (id) => {
+    navigate(`/rooms/${id}`)
   };
+
   return (
-    <Box className="flex flex-row flex-wrap h-full">
-      {privateRooms.map(({ name, backgroundUrl }, index) => (
-        <Box
-          key={index}
-          sx={{ minWidth: 200, maxHeight: 250, minHeight: 200 }}
-          className="w-5/12 h-1/2 m-5"
+    <Grid container>
+      {privateRooms.map(({ _id, name, backgroundUrl }, index) => (
+        <Grid
+          xs={6}
+          key={_id}
+          sx={{ minWidth: 200, maxHeight: 250, minHeight: 200, paddingX: 3, paddingY: 1 }}
         >
           <RoomCard
             title={name}
@@ -22,18 +26,20 @@ const PrivateRoomsContainer = ({ privateRooms = [], isCreateRoom = true, onAddNe
             showPeopleAmount={false}
             image={`/src/assets/backgrounds/${backgroundUrl}`}
             showVagueBackground={true}
-            onClick={handleOpenRoom}
+            onClick={() => handleOpenRoom(_id)}
           />
-        </Box>
+        </Grid>
       ))}
 
-      {onAddNewRoom && <Box
-        sx={{minWidth: 200, maxHeight: 250, minHeight: 200}}
-        className="w-5/12 h-1/2 m-5"
-      >
-        {isCreateRoom && (<RoomCreater onClick={() => onAddNewRoom()}/>)}
-      </Box>}
-    </Box>
+      {onAddNewRoom && (
+        <Grid
+          xs={6}
+          sx={{minWidth: 200, maxHeight: 250, minHeight: 200, paddingX: 3, paddingY: 1 }}
+        >
+          {isCreateRoom && (<RoomCreater onClick={() => onAddNewRoom()}/>)}
+        </Grid>
+      )}
+    </Grid>
   );
 };
 

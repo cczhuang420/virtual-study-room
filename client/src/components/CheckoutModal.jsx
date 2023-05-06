@@ -14,6 +14,8 @@ import AssetLabel from "./AssetLabel.jsx";
 import assetMoney from "../assets/asset-money-icon.svg";
 import { useModal } from "../providers/CheckoutModalProvider.jsx";
 import ModalProductCard from "./ModalProductCard.jsx";
+import {LoadingButton} from "@mui/lab";
+import {useState} from "react";
 
 /*
    This modal will be used for the whole app, You can get a below 5 variables from useModal function
@@ -55,6 +57,7 @@ const style = {
 const CheckoutModal = () => {
   const { open, handleClose, content } = useModal();
   const theme = useTheme();
+  const [loading, setLoading] = useState(false)
 
   return (
     <Modal
@@ -138,7 +141,7 @@ const CheckoutModal = () => {
               >
                 Cancel
               </Button>
-              {content.hasProduct ? (
+              {(content.hasProduct || content.cost > content.money) ? (
                 <Typography
                   variant={"h5"}
                   color={"#fff"}
@@ -146,20 +149,25 @@ const CheckoutModal = () => {
                   display={"flex"}
                   alignItems={"center"}
                 >
-                  You already have this product
+                  {content.hasProduct ? "You already have this product" : "You do not have enough funds"}
                 </Typography>
               ) : (
-                <Button
+                <LoadingButton
+                  loading={loading}
                   size={"large"}
                   variant={"contained"}
-                  onClick={content.onClick}
+                  onClick={async () => {
+                    setLoading(true)
+                    await content.onClick()
+                    setLoading(false)
+                  }}
                   sx={{
                     backgroundColor: theme.palette.secondary.dark,
                     color: "#fff",
                   }}
                 >
                   Apply
-                </Button>
+                </LoadingButton>
               )}
             </Box>
           </Box>

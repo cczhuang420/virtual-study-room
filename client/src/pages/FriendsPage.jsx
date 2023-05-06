@@ -1,6 +1,6 @@
 import Page from "../containers/Page.jsx";
 import React, { useState, useEffect } from "react";
-import { Box } from "@mui/material";
+import {Box, Typography} from "@mui/material";
 import ChatModal from "../components/ChatModal.jsx";
 import { useAuth } from "../providers/AuthProvider.jsx";
 import PrivateRoomsContainer from "../components/studyRooms/PrivateRoomsContainer.jsx";
@@ -101,7 +101,7 @@ const FriendsPage = () => {
         <Box
           sx={{
             width: "100%",
-            height: "100%",
+            height: "100%"
           }}
         >
           <Box
@@ -128,7 +128,14 @@ const FriendsPage = () => {
               {friend.username}'s Rooms
             </Box>
           </Box>
-          <Box className="flex flex-1 flex-row flex-auto justify-start w-full h-5/6 mt-5 ml-5">
+          {privateRooms.length === 0 && (
+            <Box sx={{mt: 5}}>
+              <Typography variant={"h5"} sx={{textAlign: 'center', color: "rgba(255,255,255,.5)"}}>
+                Your friend has not created any visible rooms
+              </Typography>
+            </Box>
+          )}
+          <Box className="flex flex-1 flex-row flex-auto justify-start h-5/6 mt-5 ml-5">
             <PrivateRoomsContainer
               privateRooms={privateRooms}
               isCreateRoom={false}

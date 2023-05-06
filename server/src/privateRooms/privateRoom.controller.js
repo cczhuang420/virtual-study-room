@@ -9,6 +9,10 @@ class PrivateRoomController {
     return privateRoomModel.create({ownerId, name, users, backgroundUrl, isVisibleToFriends})
   }
 
+  async findById(id) {
+    return privateRoomModel.findById(id)
+  }
+
 }
 
 module.exports = PrivateRoomController

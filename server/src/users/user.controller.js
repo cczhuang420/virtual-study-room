@@ -13,7 +13,12 @@ class UserController {
   }
 
   async createUser(email, username) {
-    return await userModel.create({ email, username });
+    const defaultAssets = await productModel.find({ name: "default" });
+    return await userModel.create({
+      email,
+      username,
+      assets: defaultAssets.map(({ _id }) => _id),
+    });
   }
 
   async getUser(queryParam) {
@@ -25,6 +30,10 @@ class UserController {
       }
     });
     return userModel.find(filter);
+  }
+
+  async getUserById(id) {
+    return userModel.findById(id);
   }
 
   async getNameSuggestion(name) {
@@ -126,6 +135,13 @@ class UserController {
         profile: url,
       }
     );
+  }
+
+  async unlockPrivateRoom(userId) {
+    const userDoc = await this.findById(userId);
+    userDoc.isPrivateRoomUnlocked = true;
+    userDoc.coins = userDoc.coins - 400;
+    userDoc.save();
   }
 }
 

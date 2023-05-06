@@ -18,7 +18,6 @@ const LeaderboardPage = () => {
     const dataArray = dataModified.map((item, index) => {
         return { ...item, ranking: index + 1, hours: Math.floor(item.experience/6), profile: `/src/assets/profiles/${item.profile}`};
     });
-    console.log(dataArray);
 
   const podiumArray = dataArray.slice(0, 3);
   const rankingArray = dataArray.slice(3);
