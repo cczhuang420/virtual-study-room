@@ -1,10 +1,13 @@
 const ytdl = require("ytdl-core");
 const publicRoomControllerClass = require("../publicRooms/publicRoom.controller");
 const publicRoomController = new publicRoomControllerClass();
+const userControllerClass = require("../users/user.controller");
+const userController = new userControllerClass();
 
 const ConfigureMusicService = async (callback) => {
   // Get all public rooms from database along with the songs in each room
   const publicRooms = await publicRoomController.getAllPublicRooms();
+  console.dir(publicRooms, { depth: 10 });
 
   const rooms = publicRooms.map((room) => {
     // shuffule the songs in each room
@@ -19,13 +22,27 @@ const ConfigureMusicService = async (callback) => {
   // for each room, use ytdl to get the song's title, and duration
   const songsWithInfo = rooms.map(async (room) => {
     const songsWithInfo = await Promise.all(
-      room.songs.map(async (songUrl) => {
+      room.songs.map(async ({ songUrl, videoId, duration }) => {
+        // if there is already a videoId and duration, then the song is already processed
+        if (videoId && duration) {
+          return {
+            id: videoId,
+            duration,
+          };
+        }
         // ignore the song if it is not available
         if (!ytdl.validateURL(songUrl)) {
           return null;
         }
 
         const info = await ytdl.getBasicInfo(songUrl);
+
+        // save the song's title and duration to the database
+        await publicRoomController.updateSong(room.id, {
+          songUrl,
+          videoId: info.videoDetails.videoId,
+          duration: info.videoDetails.lengthSeconds,
+        });
 
         return {
           id: info.videoDetails.videoId,
@@ -49,15 +66,29 @@ const ConfigureMusicService = async (callback) => {
   });
 };
 
-const RetrieveSongsBasicInfo = async (songs) => {
+const RetrieveSongsBasicInfo = async (uid, songs) => {
   const songsWithInfo = await Promise.all(
-    songs.map(async (songUrl) => {
+    songs.map(async ({ songUrl, videoId, duration }) => {
+      // if there is already a videoId and duration, then the song is already processed
+      if (videoId && duration) {
+        return {
+          id: videoId,
+          duration,
+        };
+      }
       // ignore the song if it is not available
       if (!ytdl.validateURL(songUrl)) {
         return null;
       }
 
       const info = await ytdl.getBasicInfo(songUrl);
+
+      // save the song's title and duration to the database
+      await userController.updateSong(uid, {
+        songUrl,
+        videoId: info.videoDetails.videoId,
+        duration: info.videoDetails.lengthSeconds,
+      });
 
       return {
         id: info.videoDetails.videoId,

@@ -2,21 +2,6 @@
   "data": {
     "rooms": [
       {
-        "name": "Relaxing",
-        "id": "64430fb44878566ba92c4d91",
-        "songs": [
-          "https://www.youtube.com/watch?v=RT7CPnQtwf0",
-          "https://www.youtube.com/watch?v=0XRx5Jwjp4k",
-          "https://www.youtube.com/watch?v=QkEpD6oTNnI",
-          "https://www.youtube.com/watch?v=NXpIQSdX_wQ"
-        ]
-      },
-      {
-        "name": "Lofi",
-        "id": "lofi-01",
-        "songs": ["https://www.youtube.com/watch?v=ony539T074w"]
-      },
-      {
         "name": "Classical",
         "id": "classical-01",
         "songs": [

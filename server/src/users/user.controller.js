@@ -18,6 +18,11 @@ class UserController {
       email,
       username,
       assets: defaultAssets.map(({ _id }) => _id),
+      playList: [
+        {
+          songUrl: "https://www.youtube.com/watch?v=rmPmq-HlG5g&t=1",
+        },
+      ],
     });
   }
 
@@ -142,6 +147,22 @@ class UserController {
     userDoc.isPrivateRoomUnlocked = true;
     userDoc.coins = userDoc.coins - 400;
     userDoc.save();
+  }
+
+  async updateSong(id, song) {
+    // get the room
+    const room = await this.getPublicRoom(id);
+
+    // get the index of the song that has the same songUrl
+    const songIndex = room.playList.findIndex(
+      (songInRoom) => songInRoom.songUrl === song.songUrl
+    );
+
+    // replace the song object at that index with the new song object
+    room.playList[songIndex] = song;
+
+    // save the room
+    await room.save();
   }
 }
 

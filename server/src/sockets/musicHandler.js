@@ -93,6 +93,7 @@ module.exports = (io, rooms) => {
           const owner = await userController.findById(room.ownerId);
           // add the owner's playlist along with room id to rooms and start playing
           const songsWithBasicInfo = await RetrieveSongsBasicInfo(
+            owner._id,
             owner.playList
           );
 

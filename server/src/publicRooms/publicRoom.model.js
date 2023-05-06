@@ -1,31 +1,31 @@
-const {Schema, model} = require("mongoose")
+const { Schema, model } = require("mongoose");
 
 const PublicRoomSchema = new Schema({
   name: {
     required: true,
-    type: String
+    type: String,
   },
   users: {
     required: true,
     type: [String],
-    default: []
+    default: [],
   },
   playList: {
     required: true,
-    type: [String],
-    default: []
+    type: [Object],
+    default: [],
   },
   backgroundUrl: {
     required: true,
-    type: String
+    type: String,
   },
   playListId: {
     required: true,
     type: String,
-    default: 'lofi-01'
+    default: "lofi-01",
   },
-})
+});
 
-const PublicRoom = model("publicRoom", PublicRoomSchema)
+const PublicRoom = model("publicRoom", PublicRoomSchema);
 
-module.exports = PublicRoom
+module.exports = PublicRoom;
