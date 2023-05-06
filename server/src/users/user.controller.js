@@ -71,6 +71,11 @@ class UserController {
   async purchaseProduct(productId, userId) {
     const user = await this.findById(userId);
     const product = await this.findProductById(productId);
+
+    if (product.type === "music") {
+      await this.addOrUpdateSong(userId, { songUrl: product.url });
+    }
+
     await userModel.updateOne(
       {
         _id: userId,
@@ -149,7 +154,7 @@ class UserController {
     userDoc.save();
   }
 
-  async updateSong(id, song) {
+  async addOrUpdateSong(id, song) {
     // get the user
     const user = await this.findById(id);
     // find the song with the same songUrl
