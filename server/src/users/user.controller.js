@@ -6,6 +6,7 @@ const {
   uniqueNamesGenerator,
   animals,
 } = require("unique-names-generator");
+const ytdl = require("ytdl-core");
 
 class UserController {
   async findById(id) {
@@ -73,7 +74,18 @@ class UserController {
     const product = await this.findProductById(productId);
 
     if (product.type === "music") {
-      await this.addOrUpdateSong(userId, { songUrl: product.url });
+      // ignore the song if it is not available
+      if (!ytdl.validateURL(product.url)) {
+        return null;
+      }
+
+      const info = await ytdl.getBasicInfo(product.url);
+
+      await this.addOrUpdateSong(userId, {
+        songUrl: product.url,
+        videoId: info.videoDetails.videoId,
+        duration: info.videoDetails.lengthSeconds,
+      });
     }
 
     await userModel.updateOne(
