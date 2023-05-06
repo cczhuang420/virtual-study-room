@@ -29,7 +29,7 @@ const PublicRoomsContainer = () => {
           <RoomCard
             title={name}
             showLockIcon={false}
-            showPeopleAmount={true}
+            showPeopleAmount={false}
             image={StudyRoombackground}
             amount={users.length}
             showVagueBackground={true}
