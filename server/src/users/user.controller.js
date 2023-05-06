@@ -21,7 +21,7 @@ class UserController {
       assets: defaultAssets.map(({ _id }) => _id),
       playList: [
         {
-          songUrl: "https://www.youtube.com/watch?v=rmPmq-HlG5g&t=1",
+          songUrl: "https://www.youtube.com/watch?v=W-ITtmkDoD8",
         },
       ],
     });
