@@ -66,6 +66,7 @@ const ProductContainer = ({ value }) => {
                 productName={it.name}
                 artist={it.artist}
                 productId={it._id}
+                musicUrl={it.url}
               />
             ))
           )}

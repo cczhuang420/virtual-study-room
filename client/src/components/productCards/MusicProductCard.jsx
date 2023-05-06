@@ -5,10 +5,35 @@ import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import MoneyIcon from "../../assets/asset-money-icon.svg";
 import MusicNote from "../..//assets/music-note.svg";
-import { Box } from "@mui/material";
+import { Box, IconButton } from "@mui/material";
 import PurchaseButton from "../buttons/products/PurchaseButton.jsx";
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import StopIcon from "@mui/icons-material/Stop";
+import { useState } from "react";
 
-const MusicProductCard = ({ value, productName, artist, productId }) => {
+const playButtonStyle = {
+  backgroundColor: "#9B84B4",
+  textTransform: "unset !important",
+  height: "35px",
+  width: "35px",
+  borderRadius: "50000px",
+  fontSize: 14,
+  fontFamily: "Rubik",
+  "&:hover": {
+    opacity: "0.9",
+    backgroundColor: "#9B84B4",
+    transform: "scale(1.05)",
+  },
+};
+
+const MusicProductCard = ({
+  value,
+  productName,
+  artist,
+  productId,
+  musicUrl,
+}) => {
+  const [isPlay, setIsPlay] = useState(false);
   return (
     <Card className="w-96" sx={{ maxWidth: 350, borderRadius: 3 }}>
       <Box className="mx-2 mb-2">
@@ -35,6 +60,14 @@ const MusicProductCard = ({ value, productName, artist, productId }) => {
               {value}
             </Typography>
           </Box>
+          <IconButton
+            sx={playButtonStyle}
+            onClick={() => {
+              setIsPlay((pre) => !pre);
+            }}
+          >
+            {!isPlay ? <PlayArrowIcon /> : <StopIcon />}
+          </IconButton>
           <PurchaseButton
             type={1}
             title={productName}
