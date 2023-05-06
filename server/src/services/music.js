@@ -84,7 +84,7 @@ const RetrieveSongsBasicInfo = async (uid, songs) => {
       const info = await ytdl.getBasicInfo(songUrl);
 
       // save the song's title and duration to the database
-      await userController.updateSong(uid, {
+      await userController.addOrUpdateSong(uid, {
         songUrl,
         videoId: info.videoDetails.videoId,
         duration: info.videoDetails.lengthSeconds,
