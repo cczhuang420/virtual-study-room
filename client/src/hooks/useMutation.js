@@ -1,4 +1,4 @@
-import {useState, useCallback} from "react"
+import { useState, useCallback } from "react";
 import axios from "axios";
 
 /**
@@ -18,50 +18,50 @@ import axios from "axios";
  * }}
  */
 export const useMutation = (url, type) => {
+  const [data, setData] = useState(null);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-  const [data, setData] = useState(null)
-  const [error, setError] = useState(null)
-  const [loading, setLoading] = useState(false)
-
-  const run = useCallback(async ({body = {}, query, headers} = {}) => {
-    const method = type.toLowerCase()
-    let res;
-    const queryString = new URLSearchParams(query).toString()
-    try {
-      setLoading(true)
-      if (method === "delete" || method === "get") {
-        res = await axios[method](
-          `${import.meta.env.VITE_SERVICE_URL}/${url}?${queryString}`,
-          { headers }
-        )
-      } else {
-        res = await axios[method](
-          `${import.meta.env.VITE_SERVICE_URL}/${url}?${queryString}`,
-          body,
-          { headers }
-        )
+  const run = useCallback(
+    async ({ body = {}, query, headers } = {}) => {
+      const method = type.toLowerCase();
+      let res;
+      const queryString = new URLSearchParams(query).toString();
+      try {
+        setLoading(true);
+        if (method === "delete" || method === "get") {
+          res = await axios[method](
+            `${import.meta.env.VITE_SERVICE_URL}/${url}?${queryString}`,
+            { headers }
+          );
+        } else {
+          res = await axios[method](
+            `${import.meta.env.VITE_SERVICE_URL}/${url}?${queryString}`,
+            body,
+            { headers }
+          );
+        }
+        setData(res.data);
+        setLoading(false);
+        return res.data;
+      } catch (e) {
+        setLoading(false);
+        console.log(e);
+        setError({
+          status: e.response.status,
+          message: e.response.data,
+        });
+        throw e;
       }
-      setData(res.data)
-      setLoading(false)
-      return res.data
-    } catch(e) {
-      setLoading(false)
-      console.log(e)
-      setError({
-        status: e.response.status,
-        message: e.response.data,
-      })
-      throw e
-    }
-  }, [url, type])
+    },
+    [url, type]
+  );
 
   return {
     data,
     error,
     isError: error !== null,
     isLoading: loading,
-    run
-  }
-}
-
-
+    run,
+  };
+};

@@ -114,6 +114,7 @@ const StudyingRoomPage = () => {
 
     socket.listeners("room-member-emails").length !== 0 ||
       socket.on("room-member-emails", async (emails) => {
+        console.log("***********", emails);
         const roomMembers = (
           await Promise.all(
             emails.map((email) =>
@@ -123,13 +124,16 @@ const StudyingRoomPage = () => {
             )
           )
         )
-          .map((res) => res[0])
+          .map((res) => {
+            return res[0];
+          })
           .map((user) => ({
             ...user,
             profile: `/src/assets/profiles/${user.profile}`,
             hasUnread: false,
           }));
-        setRoomUsers(roomMembers);
+        console.log("-----------------", roomMembers);
+        setRoomUsers(() => roomMembers);
       });
 
     socket.removeAllListeners("new-message");
@@ -138,10 +142,11 @@ const StudyingRoomPage = () => {
     return () => {
       socket.emit("leave-room", roomId);
       socket.off("message-in-rooms");
+      socket.off("room-member-emails");
 
       pauseMusic();
     };
-  }, [socket, newMessageSocketHandler]);
+  }, [socket, newMessageSocketHandler, setRoomUsers]);
 
   const handleSendGroupChat = (message) => {
     socket.emit("send-group-message-in-room", {
