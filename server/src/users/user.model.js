@@ -61,7 +61,7 @@ const UserSchema = new Schema({
   },
   playList: {
     required: true,
-    type: [String],
+    type: [Object],
     default: [],
   },
 });
