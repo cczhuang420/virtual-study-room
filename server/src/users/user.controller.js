@@ -150,19 +150,22 @@ class UserController {
   }
 
   async updateSong(id, song) {
-    // get the room
-    const room = await this.getPublicRoom(id);
-
-    // get the index of the song that has the same songUrl
-    const songIndex = room.playList.findIndex(
-      (songInRoom) => songInRoom.songUrl === song.songUrl
+    // get the user
+    const user = await this.findById(id);
+    // find the song with the same songUrl
+    const songIndex = user.playList.findIndex(
+      (it) => it.songUrl === song.songUrl
     );
-
-    // replace the song object at that index with the new song object
-    room.playList[songIndex] = song;
-
-    // save the room
-    await room.save();
+    // if the song is not in the playlist, add it
+    if (songIndex === -1) {
+      user.playList.push(song);
+    }
+    // if the song is in the playlist, update it
+    else {
+      user.playList[songIndex] = song;
+    }
+    // save the user
+    user.save();
   }
 }
 
