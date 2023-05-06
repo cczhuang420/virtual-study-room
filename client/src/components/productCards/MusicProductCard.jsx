@@ -10,6 +10,7 @@ import PurchaseButton from "../buttons/products/PurchaseButton.jsx";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import StopIcon from "@mui/icons-material/Stop";
 import { useState } from "react";
+import { useMusic } from "../../providers/MusicProvider.jsx";
 
 const playButtonStyle = {
   backgroundColor: "#9B84B4",
@@ -33,7 +34,33 @@ const MusicProductCard = ({
   productId,
   musicUrl,
 }) => {
+  const { playMusic, pauseMusic } = useMusic();
+
   const [isPlay, setIsPlay] = useState(false);
+
+  const handlePlay = () => {
+    if (isPlay) {
+      // get music id from youtube url
+      const musicId = musicUrl.split("v=")[1];
+      const ampersandPosition = musicId.indexOf("&");
+      if (ampersandPosition !== -1) {
+        musicId = musicId.substring(0, ampersandPosition);
+      }
+
+      pauseMusic();
+
+      // start a timer to play music for only 15 seconds
+      setTimeout(() => {
+        pauseMusic();
+      }, 15000);
+
+      playMusic(musicId, 0);
+    } else {
+      pauseMusic();
+    }
+    setIsPlay((pre) => !pre);
+  };
+
   return (
     <Card className="w-96" sx={{ maxWidth: 350, borderRadius: 3 }}>
       <Box className="mx-2 mb-2">
@@ -60,12 +87,7 @@ const MusicProductCard = ({
               {value}
             </Typography>
           </Box>
-          <IconButton
-            sx={playButtonStyle}
-            onClick={() => {
-              setIsPlay((pre) => !pre);
-            }}
-          >
+          <IconButton sx={playButtonStyle} onClick={handlePlay}>
             {!isPlay ? <PlayArrowIcon /> : <StopIcon />}
           </IconButton>
           <PurchaseButton
