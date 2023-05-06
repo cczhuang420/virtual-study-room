@@ -130,7 +130,9 @@ const SelectProfileModal = ({ open, handleClose, profileImage, onClick }) => {
             variant={"contained"}
             onClick={() => {
               handleClose();
-              onClick(imageIdx);
+              if (imageIdx) {
+                onClick(imageIdx);
+              }
             }}
             sx={{
               backgroundColor: theme.palette.secondary.dark,
