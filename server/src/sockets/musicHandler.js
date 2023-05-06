@@ -153,8 +153,9 @@ module.exports = (io, rooms) => {
     socket.on("get-song-for-room", (roomId) => {
       const roomIndex = rooms.findIndex((room) => room.id === roomId);
       if (roomIndex !== -1) {
-        const state = roomStates[roomIndex];
+        const state = roomStates[roomId];
         const song = rooms[roomIndex].songs[state.songIndex];
+        if (!song) return;
         console.log("Sending songs");
         socket.emit("song", {
           id: song.id,
