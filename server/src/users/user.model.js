@@ -48,7 +48,7 @@ const UserSchema = new Schema({
   coins: {
     required: true,
     type: Number,
-    default: 0,
+    default: 400,
   },
   profilePhotoUrl: {
     required: false,
