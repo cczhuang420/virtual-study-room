@@ -41,7 +41,7 @@ const MusicProductCard = ({
   const handlePlay = () => {
     if (isPlay) {
       // get music id from youtube url
-      const musicId = musicUrl.split("v=")[1];
+      let musicId = musicUrl.split("v=")[1];
       const ampersandPosition = musicId.indexOf("&");
       if (ampersandPosition !== -1) {
         musicId = musicId.substring(0, ampersandPosition);
