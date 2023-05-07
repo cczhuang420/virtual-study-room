@@ -1,23 +1,17 @@
 import Page from "../containers/Page.jsx";
 import React from "react";
-import profileImage from "../assets/profiles/Mike.svg";
-import { Box, Typography, Button, Divider, Grid } from "@mui/material";
-import img1 from "../assets/backgrounds/backgroundRoom.svg";
-import img2 from "../assets/backgrounds/background-card.svg";
-import ListItem from "@mui/material/ListItem";
-import FriendCard from "../components/FriendCard.jsx";
+import { Box, Typography, Grid } from "@mui/material";
 import TopLeaderCard from "../components/TopLeaderCard.jsx";
 import RankBar from "../components/RankBar.jsx";
-import BackgroundCard from "../components/BackgroundCard.jsx";
-import {useFetch} from "../hooks/useFetch.js";
+import { useFetch } from "../hooks/useFetch.js";
 
 const LeaderboardPage = () => {
 
-    const {data, isLoading} = useFetch("users");
-    const dataModified = isLoading ? [] : data.sort((a,b) => (b.experience - a.experience));
-    const dataArray = dataModified.map((item, index) => {
-        return { ...item, ranking: index + 1, hours: Math.floor(item.experience/240), profile: `/src/assets/profiles/${item.profile}`};
-    });
+  const { data, isLoading } = useFetch("users");
+  const dataModified = isLoading ? [] : data.sort((a, b) => (b.experience - a.experience));
+  const dataArray = dataModified.map((item, index) => {
+    return { ...item, ranking: index + 1, hours: Math.floor(item.experience / 240), profile: `/src/assets/profiles/${item.profile}` };
+  });
 
   const podiumArray = dataArray.slice(0, 3);
   const rankingArray = dataArray.slice(3);
@@ -145,7 +139,7 @@ const LeaderboardPage = () => {
               width: "100%",
               height: "100%",
               margin: 0,
-                overflow: "hidden",
+              overflow: "hidden",
               //background: "rgba(255, 255, 255, .5)",
             }}
           >
