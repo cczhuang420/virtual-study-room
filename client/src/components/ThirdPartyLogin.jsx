@@ -1,13 +1,12 @@
-import React, {useCallback} from 'react'
-import {Box, styled, Tooltip} from "@mui/material";
+import React, { useCallback } from 'react'
+import { Box, styled, Tooltip } from "@mui/material";
 import google from "../assets/google-logo.svg"
 import github from "../assets/github-logo.svg"
-import anonymous from "../assets/anonymous-login-icon.svg"
-import {useAuth} from "../providers/AuthProvider.jsx";
+import { useAuth } from "../providers/AuthProvider.jsx";
 
-const ThirdPartyLogin = ({onError}) => {
+const ThirdPartyLogin = ({ onError }) => {
 
-  const {googleSignIn, githubSignIn, anonymousSignIn} = useAuth()
+  const { googleSignIn, githubSignIn } = useAuth()
 
   const signInErrorBoundary = useCallback(async (signIn) => {
     try {
@@ -18,7 +17,7 @@ const ThirdPartyLogin = ({onError}) => {
   }, [onError])
 
   return (
-    <Box sx={{display: "flex", alignItems: "center", justifyContent: "center"}}>
+    <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
       <Tooltip title={"Login with Google"}>
         <StyledBox onClick={() => signInErrorBoundary(googleSignIn)}>
           <img src={google} alt={""} />

@@ -1,4 +1,4 @@
-import { Box, Typography, Button, Divider } from "@mui/material";
+import { Box, Typography, Divider } from "@mui/material";
 import { Image } from "mui-image";
 import goldMedal from "../assets/podium-gold-medal.svg";
 import silverMedal from "../assets/podium-silver-medal.svg";
@@ -91,9 +91,9 @@ const TopLeaderCard = ({ profileImage, name, ranking, hours }) => {
               fontWeight: "bold",
               fontSize: "2rem",
               color: "white",
-                flex:2,
-                overflow: "hidden",
-                textOverflow: "ellipsis"
+              flex: 2,
+              overflow: "hidden",
+              textOverflow: "ellipsis"
             }}
           >
             {name}

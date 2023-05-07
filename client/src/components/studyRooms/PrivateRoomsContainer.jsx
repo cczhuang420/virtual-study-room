@@ -1,8 +1,8 @@
-import {Box, Grid, Typography} from "@mui/material";
+import { Grid } from "@mui/material";
 import RoomCard from "../RoomCard.jsx";
 import RoomCreater from "../RoomCreater.jsx";
 import React from "react";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const PrivateRoomsContainer = ({ privateRooms = [], isCreateRoom = true, onAddNewRoom }) => {
 
@@ -34,9 +34,9 @@ const PrivateRoomsContainer = ({ privateRooms = [], isCreateRoom = true, onAddNe
       {onAddNewRoom && (
         <Grid
           xs={6}
-          sx={{minWidth: 200, maxHeight: 250, minHeight: 200, paddingX: 3, paddingY: 1 }}
+          sx={{ minWidth: 200, maxHeight: 250, minHeight: 200, paddingX: 3, paddingY: 1 }}
         >
-          {isCreateRoom && (<RoomCreater onClick={() => onAddNewRoom()}/>)}
+          {isCreateRoom && (<RoomCreater onClick={() => onAddNewRoom()} />)}
         </Grid>
       )}
     </Grid>

@@ -4,7 +4,6 @@ import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
-import BackgroundCard from "../../assets/backgrounds/background-card.svg";
 import MoneyIcon from "../../assets/asset-money-icon.svg";
 import { Box } from "@mui/material";
 import PurchaseButton from "../buttons/products/PurchaseButton.jsx";
