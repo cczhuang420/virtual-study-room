@@ -16,7 +16,7 @@ const LeaderboardPage = () => {
     const {data, isLoading} = useFetch("users");
     const dataModified = isLoading ? [] : data.sort((a,b) => (b.experience - a.experience));
     const dataArray = dataModified.map((item, index) => {
-        return { ...item, ranking: index + 1, hours: Math.floor(item.experience/6), profile: `/src/assets/profiles/${item.profile}`};
+        return { ...item, ranking: index + 1, hours: Math.floor(item.experience/240), profile: `/src/assets/profiles/${item.profile}`};
     });
 
   const podiumArray = dataArray.slice(0, 3);
