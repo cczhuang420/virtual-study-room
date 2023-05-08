@@ -37,6 +37,10 @@ export default function TodoList() {
   };
 
   const handleAddTask = useCallback(async () => {
+    if (newTask.trim() === "") {
+      setNewTask("")
+      return
+    }
     await addTodoHandler.run({
       body: {content: newTask},
       query: {userId: getCustomUser()._id}

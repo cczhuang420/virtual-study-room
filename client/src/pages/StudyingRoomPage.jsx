@@ -39,7 +39,6 @@ const StudyingRoomPage = () => {
   const { data: privateRoom } = useFetch(`privateRooms/${roomId}`);
 
   const roomData = publicRoom || privateRoom;
-  console.log(roomData);
 
   const fetchUserHandler = useMutation("users", HTTP_METHOD.GET);
   const addExperienceHandler = useMutation(
@@ -114,7 +113,6 @@ const StudyingRoomPage = () => {
 
     socket.listeners("room-member-emails").length !== 0 ||
       socket.on("room-member-emails", async (emails) => {
-        console.log("***********", emails);
         const roomMembers = (
           await Promise.all(
             emails.map((email) =>
@@ -132,13 +130,11 @@ const StudyingRoomPage = () => {
             profile: `/src/assets/profiles/${user.profile}`,
             hasUnread: false,
           }));
-        console.log("-----------------", roomMembers);
         setRoomUsers(() => roomMembers);
       });
 
     socket.removeAllListeners("new-message");
     socket.on("new-message", newMessageSocketHandler);
-
     return () => {
       socket.emit("leave-room", roomId);
       socket.off("message-in-rooms");
@@ -185,10 +181,11 @@ const StudyingRoomPage = () => {
         const newState = JSON.parse(JSON.stringify(prevState));
         const newTarget = newState.find((u) => u.username === user.username);
         if (newTarget) targetUser.hasUnread = false;
+        console.log(newState)
         return newState;
       });
     },
-    [setTargetUser]
+    [setTargetUser, setRoomUsers]
   );
 
   return (
@@ -228,20 +225,20 @@ const StudyingRoomPage = () => {
               <img src={logo} alt={""} />
             </Box>
             <Box sx={{ pl: 15, paddingY: 2 }}>
-              <Button
-                onClick={changeSortingHandler}
-                variant={"contained"}
-                sx={{
-                  color: "white",
-                  border: "2px solid #FFFFFF88",
-                  backgroundColor: "#FFFFFF32",
-                  "&:hover": {
-                    backgroundColor: "#FFFFFF50",
-                  },
-                }}
-              >
-                Sort by {sortBy}
-              </Button>
+              {/*<Button*/}
+              {/*  onClick={changeSortingHandler}*/}
+              {/*  variant={"contained"}*/}
+              {/*  sx={{*/}
+              {/*    color: "white",*/}
+              {/*    border: "2px solid #FFFFFF88",*/}
+              {/*    backgroundColor: "#FFFFFF32",*/}
+              {/*    "&:hover": {*/}
+              {/*      backgroundColor: "#FFFFFF50",*/}
+              {/*    },*/}
+              {/*  }}*/}
+              {/*>*/}
+              {/*  Sort by {sortBy}*/}
+              {/*</Button>*/}
             </Box>
             <Box
               className={"hide-scroll-bar"}

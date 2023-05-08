@@ -23,7 +23,7 @@ const SocketProvider = ({ children }) => {
       });
 
       newSocket.on("song", (song) => {
-        console.log("song", song);
+        // console.log("song", song);
         playMusic(song.id, song.time);
         const audioContext = new AudioContext();
         if (audioContext.state === "suspended") {

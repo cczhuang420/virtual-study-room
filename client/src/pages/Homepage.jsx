@@ -40,7 +40,7 @@ const Homepage = () => {
   }, []);
 
   return (
-    <Box sx={{ overflowX: "hidden" }}>
+    <Box sx={{ overflowX: "hidden", background: "linear-gradient(#3f096a, #2f065a, #1b0652)" }}>
       <HomeScreen onLogin={loginHandler} onSignup={signupHandler} />
       {introScreens}
       <Box

@@ -64,8 +64,6 @@ const ChatModal = ({
     })
   }, [chatHistory, targetUser, targetUser.username])
 
-  // console.log(userList)
-
   return (
     <Box
       sx={{
@@ -89,7 +87,7 @@ const ChatModal = ({
           }}
         >
           <Typography variant={"h4"} sx={{ color: "#3D3A3A" }}>
-            {targetUser.username}
+            {targetUser.name}
           </Typography>
           {userList && !showUserList && <KeyboardArrowDownIcon />}
           {userList && showUserList && <KeyboardArrowUpIcon />}
@@ -235,7 +233,7 @@ const ChatModal = ({
                   borderRadius: "5px",
                 }}
               >
-                <Typography>{content}</Typography>
+                <Typography noWrap={false} sx={{whiteSpace: "normal", wordBreak: "break-all"}}>{content}</Typography>
               </Box>
             </Box>
           </Box>
