@@ -143,7 +143,7 @@ const FriendsPage = () => {
           </Box>
         </Box>
         <Box
-          sx={{ width: "35%", height: "95%", minWidth: 200 }}
+          sx={{ width: "35%", minWidth: 200, height: "90vh", overflow: "hidden" }}
           className={"mr-2 mt-4 w-1/3"}
         >
           <ChatModal

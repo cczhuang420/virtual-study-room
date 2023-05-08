@@ -64,8 +64,6 @@ const ChatModal = ({
     })
   }, [chatHistory, targetUser, targetUser.username])
 
-  console.log(targetUser)
-
   return (
     <Box
       sx={{
