@@ -55,7 +55,8 @@ const RankBar = ({
             color: "white",
             mr: "0.5rem",
             overflow: "hidden",
-              textOverflow: "ellipsis"
+            textOverflow: "ellipsis",
+            whiteSpace: "nowrap"
           }}
         >
           {name}
