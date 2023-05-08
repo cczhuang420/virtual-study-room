@@ -71,7 +71,7 @@ const ChatModal = ({
         display: "flex",
         flexDirection: "column",
         overflowY: "hidden",
-        maxHeight: "100%",
+        height: "100%",
       }}
     >
       {/* HEADER */}
