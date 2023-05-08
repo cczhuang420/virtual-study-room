@@ -73,7 +73,7 @@ const ChatModal = ({
         display: "flex",
         flexDirection: "column",
         overflowY: "hidden",
-        height: "100%",
+        maxHeight: "100%",
       }}
     >
       {/* HEADER */}
@@ -235,7 +235,7 @@ const ChatModal = ({
                   borderRadius: "5px",
                 }}
               >
-                <Typography>{content}</Typography>
+                <Typography noWrap={false} sx={{whiteSpace: "normal", wordBreak: "break-all"}}>{content}</Typography>
               </Box>
             </Box>
           </Box>
