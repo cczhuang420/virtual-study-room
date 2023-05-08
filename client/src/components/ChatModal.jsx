@@ -64,7 +64,7 @@ const ChatModal = ({
     })
   }, [chatHistory, targetUser, targetUser.username])
 
-  // console.log(userList)
+  console.log(targetUser)
 
   return (
     <Box
@@ -89,7 +89,7 @@ const ChatModal = ({
           }}
         >
           <Typography variant={"h4"} sx={{ color: "#3D3A3A" }}>
-            {targetUser.username}
+            {targetUser.name}
           </Typography>
           {userList && !showUserList && <KeyboardArrowDownIcon />}
           {userList && showUserList && <KeyboardArrowUpIcon />}

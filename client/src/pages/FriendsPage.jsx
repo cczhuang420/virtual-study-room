@@ -152,7 +152,6 @@ const FriendsPage = () => {
               name: friend.username,
               uid: friend._id,
             }}
-            userList={[]}
             onSend={handleSendChat}
           />
         </Box>
