@@ -107,19 +107,11 @@ module.exports = (io, rooms) => {
           };
           songIntervals[roomId] = null;
 
-          console.dir(
-            "New room created, songs are" + rooms[rooms.length - 1].songs,
-            {
-              depth: 10,
-            }
-          );
           playSong(room);
         }
         // add the user to the list of active users
         privateRoomActiveUsers[roomId].push(socket.user.email);
       }
-      console.dir(privateRoomActiveUsers, { depth: 10 });
-      console.dir(rooms, { depth: 10 });
     });
 
     socket.on("leave-room", (roomId) => {
@@ -148,7 +140,6 @@ module.exports = (io, rooms) => {
           delete privateRoomActiveUsers[roomId];
         }
       }
-      console.dir(rooms, { depth: 10 });
     });
 
     socket.on("get-song-for-room", (roomId) => {

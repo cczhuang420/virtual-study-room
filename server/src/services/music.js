@@ -7,7 +7,6 @@ const userController = new userControllerClass();
 const ConfigureMusicService = async (callback) => {
   // Get all public rooms from database along with the songs in each room
   const publicRooms = await publicRoomController.getAllPublicRooms();
-  console.dir(publicRooms, { depth: 10 });
 
   const rooms = publicRooms.map((room) => {
     // shuffule the songs in each room
