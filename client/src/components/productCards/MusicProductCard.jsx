@@ -11,6 +11,7 @@ import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import StopIcon from "@mui/icons-material/Stop";
 import { useState } from "react";
 import { useMusic } from "../../providers/MusicProvider.jsx";
+import StyledCard from "../StyleCard.jsx";
 
 const playButtonStyle = {
   backgroundColor: "#400A71",
@@ -68,7 +69,7 @@ const MusicProductCard = ({
   };
 
   return (
-    <Card
+    <StyledCard
       className="w-96"
       sx={{
         maxWidth: 350,
@@ -122,7 +123,7 @@ const MusicProductCard = ({
           />
         </CardActions>
       </Box>
-    </Card>
+    </StyledCard>
   );
 };
 

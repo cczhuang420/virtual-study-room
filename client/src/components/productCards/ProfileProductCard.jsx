@@ -7,10 +7,11 @@ import Typography from "@mui/material/Typography";
 import MoneyIcon from "../../assets/asset-money-icon.svg";
 import { Box } from "@mui/material";
 import PurchaseButton from "../buttons/products/PurchaseButton.jsx";
+import StyledCard from "../StyleCard.jsx";
 
 const ProfileProductCard = ({ value, productName, image, productId }) => {
   return (
-    <Card
+    <StyledCard
       className="w-48"
       sx={{
         maxWidth: 350,
@@ -61,7 +62,7 @@ const ProfileProductCard = ({ value, productName, image, productId }) => {
           />
         </CardActions>
       </Box>
-    </Card>
+    </StyledCard>
   );
 };
 
