@@ -1,4 +1,4 @@
-import React, {useMemo, useState} from "react";
+import React, { useMemo, useState } from "react";
 import {
   Avatar,
   Box,
@@ -46,23 +46,24 @@ const ChatModal = ({
   const { getCustomUser } = useAuth();
   const [showUserList, setShowUserList] = useState(false);
 
+  console.log(targetUser);
+
   const displayChatHistory = useMemo(() => {
-    return chatHistory.filter(({senderId, receiverEmail}) => {
+    return chatHistory.filter(({ senderId, receiverEmail }) => {
       if (targetUser.username === "All Users") {
-        return receiverEmail === "All Users"
+        return receiverEmail === "All Users";
       } else {
         // console.log(senderId, receiverEmail, targetUser)
-        return receiverEmail !== "All Users" &&
-          ((
-            senderId === getCustomUser()._id ||
-            receiverEmail === targetUser.email
-          ) || (
+        return (
+          receiverEmail !== "All Users" &&
+          (senderId === getCustomUser()._id ||
+            receiverEmail === targetUser.email ||
             senderId === targetUser._id ||
-            receiverEmail === getCustomUser().email
-          ))
+            receiverEmail === getCustomUser().email)
+        );
       }
-    })
-  }, [chatHistory, targetUser, targetUser.username])
+    });
+  }, [chatHistory, targetUser, targetUser.username]);
 
   return (
     <Box
@@ -87,7 +88,7 @@ const ChatModal = ({
           }}
         >
           <Typography variant={"h4"} sx={{ color: "#3D3A3A" }}>
-            {targetUser.name}
+            {targetUser.name || targetUser.username}
           </Typography>
           {userList && !showUserList && <KeyboardArrowDownIcon />}
           {userList && showUserList && <KeyboardArrowUpIcon />}
@@ -233,7 +234,12 @@ const ChatModal = ({
                   borderRadius: "5px",
                 }}
               >
-                <Typography noWrap={false} sx={{whiteSpace: "normal", wordBreak: "break-all"}}>{content}</Typography>
+                <Typography
+                  noWrap={false}
+                  sx={{ whiteSpace: "normal", wordBreak: "break-all" }}
+                >
+                  {content}
+                </Typography>
               </Box>
             </Box>
           </Box>
@@ -245,6 +251,7 @@ const ChatModal = ({
         <form
           onSubmit={(e) => {
             e.preventDefault();
+            if (message.trim().length === 0) return;
             onSend(message);
             setMessage("");
           }}
