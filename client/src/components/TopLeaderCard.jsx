@@ -36,7 +36,6 @@ const TopLeaderCard = ({ profileImage, name, ranking, hours }) => {
         width: "95%",
         overflow: "visible",
         position: "relative",
-        //background: "rgba(255, 255, 255, .8)",
       }}
     >
       <img
@@ -94,7 +93,7 @@ const TopLeaderCard = ({ profileImage, name, ranking, hours }) => {
               flex: 2,
               overflow: "hidden",
               whiteSpace: "nowrap",
-              textOverflow: "ellipsis"
+              textOverflow: "ellipsis",
             }}
           >
             {name}

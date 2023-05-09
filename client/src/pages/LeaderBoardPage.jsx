@@ -6,16 +6,21 @@ import RankBar from "../components/RankBar.jsx";
 import { useFetch } from "../hooks/useFetch.js";
 
 const LeaderboardPage = () => {
-
   const { data, isLoading } = useFetch("users");
-  const dataModified = isLoading ? [] : data.sort((a, b) => (b.experience - a.experience));
+  const dataModified = isLoading
+    ? []
+    : data.sort((a, b) => b.experience - a.experience);
   const dataArray = dataModified.map((item, index) => {
-    return { ...item, ranking: index + 1, hours: Math.floor(item.experience / 240), profile: `/src/assets/profiles/${item.profile}` };
+    return {
+      ...item,
+      ranking: index + 1,
+      hours: Math.floor(item.experience / 240),
+      profile: `/src/assets/profiles/${item.profile}`,
+    };
   });
 
   const podiumArray = dataArray.slice(0, 3);
   const rankingArray = dataArray.slice(3);
-
   const heightPercent = ["10%", "30%", "5%", "8%", "47%"];
   return (
     <Page title={"Leaderboard"}>
@@ -28,30 +33,20 @@ const LeaderboardPage = () => {
         sx={{
           width: "100%",
           height: "100%",
-          //background: "rgba(255, 255, 255, .5)",
         }}
       >
-        <Box
-          display={"flex"}
-          flexDirection={"row"}
+        <Typography
+          marginLeft={1.7}
           sx={{
-            width: "100%",
-            height: heightPercent[0],
-            //background: "rgba(255, 255, 255, .5)",
+            textAlign: "flex-start",
+            fontSize: "2.5rem",
+            color: "white",
+            flexGrow: "0.6",
           }}
         >
-          <Typography
-            marginLeft={4}
-            sx={{
-              textAlign: "flex-start",
-              fontSize: "2.5rem",
-              color: "white",
-              flexGrow: "0.6",
-            }}
-          >
-            Top Learners
-          </Typography>
-        </Box>
+          Top Learners
+        </Typography>
+
         <Box
           display={"flex"}
           flexDirection={"row"}
@@ -60,7 +55,6 @@ const LeaderboardPage = () => {
           sx={{
             width: "100%",
             height: heightPercent[1],
-            //background: "rgba(255, 255, 255, .5)",
           }}
         >
           {podiumArray.map(({ profile, username, ranking, hours }, index) => (
@@ -71,7 +65,6 @@ const LeaderboardPage = () => {
               sx={{
                 width: "100%",
                 height: "100%",
-                //background: "rgba(255, 255, 255, .5)",
               }}
               key={index}
             >
@@ -90,7 +83,6 @@ const LeaderboardPage = () => {
           sx={{
             width: "100%",
             height: heightPercent[2],
-            //background: "rgba(255, 255, 255, .9)",
           }}
         >
           <Typography
@@ -113,7 +105,6 @@ const LeaderboardPage = () => {
           sx={{
             width: "92%",
             height: heightPercent[3],
-            //background: "rgba(255, 255, 255, .5)",
           }}
         >
           <RankBar
@@ -131,16 +122,12 @@ const LeaderboardPage = () => {
         >
           <Grid
             container
-            //direction="row"
-            //justifyContent="flex-start"
-            //alignItems="center"
             rowSpacing={1}
             sx={{
               width: "100%",
               height: "100%",
               margin: 0,
               overflow: "hidden",
-              //background: "rgba(255, 255, 255, .5)",
             }}
           >
             {rankingArray
