@@ -16,13 +16,12 @@ const PurchaseButton = ({ title, type, image, cost, productId }) => {
   const { isLoading, run } = useMutation(`users/purchase`, HTTP_METHOD.POST);
 
   const ColorButton = styled(Button)(() => ({
-    backgroundColor: "#9B84B4",
+    backgroundColor: "#400A71",
     textTransform: "unset !important",
     fontSize: 14,
     fontFamily: "Rubik",
     "&:hover": {
-      opacity: "0.9",
-      backgroundColor: "#9B84B4",
+      opacity: "0.6",
       transform: "scale(1.05)",
     },
   }));

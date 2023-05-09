@@ -1,5 +1,4 @@
 import * as React from "react";
-import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
@@ -7,21 +6,43 @@ import Typography from "@mui/material/Typography";
 import MoneyIcon from "../../assets/asset-money-icon.svg";
 import { Box } from "@mui/material";
 import PurchaseButton from "../buttons/products/PurchaseButton.jsx";
+import StyledCard from "../StyleCard.jsx";
 
 const BackgroundProductCard = ({ value, productName, image, productId }) => {
   return (
-    <Card className="w-96" sx={{ maxWidth: 350, borderRadius: 3 }}>
-      <CardMedia sx={{ height: 200 }} image={image} title="Product Card" />
+    <StyledCard
+      className="w-96"
+      sx={{
+        maxWidth: 350,
+        borderRadius: 3,
+        background: "rgba(255, 255, 255, .5)",
+        backdropFilter: "blur(5px)",
+        ":hover": {
+          boxShadow: 20, // theme.shadows[20]
+        },
+      }}
+    >
+      <CardMedia sx={{ height: 350 }} image={image} title="Product Card" />
       <Box className="mx-2 mb-2">
         <CardContent className="-mb-4 -mt-1">
-          <Typography gutterBottom variant="h4" component="div">
+          <Typography
+            gutterBottom
+            variant="h4"
+            fontWeight="bold"
+            component="div"
+          >
             {productName}
           </Typography>
         </CardContent>
         <CardActions className="flex flex-row justify-between">
           <Box className="flex flex-row justify-between space-x-1">
             <img src={MoneyIcon} alt={"Dollar Icon"} className="w-5 h-5" />
-            <Typography gutterBottom variant="h5" component="div">
+            <Typography
+              gutterBottom
+              variant="h5"
+              fontWeight="bold"
+              component="div"
+            >
               {value}
             </Typography>
           </Box>
@@ -34,7 +55,7 @@ const BackgroundProductCard = ({ value, productName, image, productId }) => {
           />
         </CardActions>
       </Box>
-    </Card>
+    </StyledCard>
   );
 };
 
