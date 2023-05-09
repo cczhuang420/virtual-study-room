@@ -37,7 +37,7 @@ const PublicRoomPage = () => {
             <AssetLabel image={AssetMoneyIcon} value={getCustomUser()?.coins} />
           </Box>
 
-          <Box>
+          <Box className={"h-full"}>
             <PublicRoomsContainer />
           </Box>
         </Box>

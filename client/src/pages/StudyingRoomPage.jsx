@@ -181,7 +181,7 @@ const StudyingRoomPage = () => {
         const newState = JSON.parse(JSON.stringify(prevState));
         const newTarget = newState.find((u) => u.username === user.username);
         if (newTarget) targetUser.hasUnread = false;
-        console.log(newState)
+        console.log(newState);
         return newState;
       });
     },
@@ -209,7 +209,7 @@ const StudyingRoomPage = () => {
           sx={{
             width: "100%",
             height: "100%",
-            backdropFilter: "blur(10px)",
+            backdropFilter: "blur(5px)",
             display: "flex",
           }}
         >

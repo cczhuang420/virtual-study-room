@@ -11,9 +11,11 @@ import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import StopIcon from "@mui/icons-material/Stop";
 import { useState } from "react";
 import { useMusic } from "../../providers/MusicProvider.jsx";
+import StyledCard from "../StyleCard.jsx";
 
 const playButtonStyle = {
-  backgroundColor: "#9B84B4",
+  backgroundColor: "#400A71",
+  color: "white",
   textTransform: "unset !important",
   height: "35px",
   width: "35px",
@@ -67,26 +69,44 @@ const MusicProductCard = ({
   };
 
   return (
-    <Card className="w-96" sx={{ maxWidth: 350, borderRadius: 3 }}>
-      <Box className="mx-2 mb-2">
+    <StyledCard
+      className="w-96"
+      sx={{
+        maxWidth: 350,
+        borderRadius: 3,
+        background: "rgba(255, 255, 255, .5)",
+        backdropFilter: "blur(5px)",
+      }}
+    >
+      <Box className="mb-2 mr-1">
         <CardContent className="flex fle-row justify-between -mb-4 -mt-1">
-          <div className="flex fle-row space-x-2 text-center">
+          <div className="flex fle-row space-x-0.1 text-center ">
             <img
-              className="w-10 h-10 mb-2"
+              className="w-8 h-8 mb-2"
               src={MusicNote}
               alt="Music note icon"
             />
-            <Typography gutterBottom variant="h5" component="div">
+            <Typography
+              gutterBottom
+              variant="h5"
+              fontWeight="bold"
+              component="div"
+            >
               {productName}
             </Typography>
           </div>
 
-          <Typography gutterBottom variant="h6" component="div">
-            {`By ${artist}`}
+          <Typography
+            gutterBottom
+            fontSize={12}
+            component="div"
+            className={"w-1/3 text-end"}
+          >
+            {`by ${artist}`}
           </Typography>
         </CardContent>
         <CardActions className="flex flex-row justify-between">
-          <Box className="flex flex-row justify-between space-x-1">
+          <Box className="flex flex-row justify-between space-x-1 ml-1">
             <img src={MoneyIcon} alt={"Dollar Icon"} className="w-5 h-5" />
             <Typography gutterBottom variant="h5" component="div">
               {value}
@@ -103,7 +123,7 @@ const MusicProductCard = ({
           />
         </CardActions>
       </Box>
-    </Card>
+    </StyledCard>
   );
 };
 

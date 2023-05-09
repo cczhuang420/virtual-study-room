@@ -31,6 +31,8 @@ const RoomCard = ({
         borderRadius: "13px",
         backgroundImage: `url(${image})`,
         backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
         "&:hover": {
           cursor: "pointer",
         },
@@ -73,7 +75,11 @@ const RoomCard = ({
               }}
             >
               <Box>
-                <img src={personAmountIcon} height={"60%"} />
+                <img
+                  src={personAmountIcon}
+                  height={"60%"}
+                  alt={"person-amount"}
+                />
               </Box>
               <Box
                 sx={{
@@ -98,7 +104,7 @@ const RoomCard = ({
               }}
             >
               <Box>
-                <img src={roomLock} height={"60%"} />
+                <img src={roomLock} height={"60%"} alt={"lock"} />
               </Box>
             </Box>
           )}

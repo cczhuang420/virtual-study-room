@@ -7,10 +7,19 @@ import Typography from "@mui/material/Typography";
 import MoneyIcon from "../../assets/asset-money-icon.svg";
 import { Box } from "@mui/material";
 import PurchaseButton from "../buttons/products/PurchaseButton.jsx";
+import StyledCard from "../StyleCard.jsx";
 
 const ProfileProductCard = ({ value, productName, image, productId }) => {
   return (
-    <Card className="w-48" sx={{ maxWidth: 350, borderRadius: 3 }}>
+    <StyledCard
+      className="w-48"
+      sx={{
+        maxWidth: 350,
+        borderRadius: 3,
+        background: "rgba(255, 255, 255, .5)",
+        backdropFilter: "blur(5px)",
+      }}
+    >
       <CardMedia
         sx={{
           height: 100,
@@ -23,14 +32,24 @@ const ProfileProductCard = ({ value, productName, image, productId }) => {
       />
       <Box className="flex flex-col text-center mx-2 mb-2">
         <CardContent className="-mb-4 -mt-1">
-          <Typography gutterBottom variant="h4" component="div">
+          <Typography
+            gutterBottom
+            variant="h4"
+            fontWeight="bold"
+            component="div"
+          >
             {productName}
           </Typography>
         </CardContent>
         <CardActions className="flex flex-col justify-between space-y-2">
           <Box className="flex flex-row justify-between space-x-1">
             <img src={MoneyIcon} alt={"Dollar Icon"} className="w-5 h-5" />
-            <Typography gutterBottom variant="h5" component="div">
+            <Typography
+              gutterBottom
+              variant="h5"
+              fontWeight="bold"
+              component="div"
+            >
               {value}
             </Typography>
           </Box>
@@ -43,7 +62,7 @@ const ProfileProductCard = ({ value, productName, image, productId }) => {
           />
         </CardActions>
       </Box>
-    </Card>
+    </StyledCard>
   );
 };
 
