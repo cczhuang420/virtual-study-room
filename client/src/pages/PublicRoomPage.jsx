@@ -18,6 +18,7 @@ const PublicRoomPage = () => {
           sx={{
             minWidth: 180,
             maxWidth: 250,
+            minHeight: 700,
           }}
           className="w-1/2 h-full"
         >
