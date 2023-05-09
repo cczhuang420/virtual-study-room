@@ -28,9 +28,9 @@ const PublicRoomsContainer = () => {
             minHeight: 200,
             maxHeight: 250,
             maxWidth: 500,
-            marginX: 5,
+            marginX: 3,
           }}
-          className="w-5/12 m-5"
+          className="w-5/12 m-4"
         >
           <RoomCard
             title={name}
