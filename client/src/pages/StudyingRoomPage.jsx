@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState, useMemo } from "react";
 import Page from "../containers/Page.jsx";
 import { useParams } from "react-router-dom";
-import { Box, Button, Grid } from "@mui/material";
+import { Box, Button, Grid, IconButton } from "@mui/material";
 import RoomUserCard from "../components/RoomUserCard.jsx";
 import logo from "../assets/logo.svg";
 import TodoList from "../components/TodoList";
@@ -14,6 +14,11 @@ import { HTTP_METHOD } from "../hooks/http-methods.js";
 import Timer from "../components/Timer.jsx";
 import { useNotification } from "../providers/NotificationProvider.jsx";
 import { useMusic } from "../providers/MusicProvider.jsx";
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import StopIcon from "@mui/icons-material/Stop";
+import SkipNextIcon from "@mui/icons-material/SkipNext";
+import SkipPreviousIcon from "@mui/icons-material/SkipPrevious";
+import playButtonStyle from "../utils/MusicButtonStyle.js";
 
 const sortByOptions = ["name", "experience"];
 
@@ -26,6 +31,9 @@ const StudyingRoomPage = () => {
   const [targetUser, setTargetUser] = useState({
     username: "All Users",
   });
+
+  const [isPlay, setIsPlay] = useState(false);
+  const handlePlay = () => {};
 
   const { roomId } = useParams();
   const socket = useSocket();
@@ -330,6 +338,21 @@ const StudyingRoomPage = () => {
             Leave Room
           </Button>
         </Box>
+
+        {/* TODO: only show in the private room*/}
+        {/* Play Music Buttons*/}
+        <Box className={"space-x-2"}>
+          <IconButton sx={playButtonStyle} onClick={handlePlay}>
+            <SkipPreviousIcon />
+          </IconButton>
+          <IconButton sx={playButtonStyle} onClick={handlePlay}>
+            {!isPlay ? <PlayArrowIcon /> : <StopIcon />}
+          </IconButton>
+          <IconButton sx={playButtonStyle} onClick={handlePlay}>
+            <SkipNextIcon />
+          </IconButton>
+        </Box>
+
         <Box sx={{ display: "flex", alignItems: "center" }}>
           {showTimer ? (
             <Timer duration={60 * 25} onFinish={timerFinishHandler} />

@@ -1,5 +1,4 @@
 import * as React from "react";
-import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
@@ -12,22 +11,23 @@ import StopIcon from "@mui/icons-material/Stop";
 import { useState } from "react";
 import { useMusic } from "../../providers/MusicProvider.jsx";
 import StyledCard from "../StyleCard.jsx";
+import playButtonStyle from "../../utils/MusicButtonStyle.js";
 
-const playButtonStyle = {
-  backgroundColor: "#400A71",
-  color: "white",
-  textTransform: "unset !important",
-  height: "35px",
-  width: "35px",
-  borderRadius: "50000px",
-  fontSize: 14,
-  fontFamily: "Rubik",
-  "&:hover": {
-    opacity: "0.9",
-    backgroundColor: "#9B84B4",
-    transform: "scale(1.05)",
-  },
-};
+// const playButtonStyle = {
+//   backgroundColor: "#400A71",
+//   color: "white",
+//   textTransform: "unset !important",
+//   height: "35px",
+//   width: "35px",
+//   borderRadius: "50000px",
+//   fontSize: 14,
+//   fontFamily: "Rubik",
+//   "&:hover": {
+//     opacity: "0.9",
+//     backgroundColor: "#9B84B4",
+//     transform: "scale(1.05)",
+//   },
+// };
 
 let timer = null;
 
