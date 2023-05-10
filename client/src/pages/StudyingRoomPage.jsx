@@ -34,8 +34,25 @@ const StudyingRoomPage = () => {
     username: "All Users",
   });
 
+  // TODO: handler music
   const [isPlay, setIsPlay] = useState(false);
-  const handlePlay = () => {};
+  const handlePlay = () => {
+    setIsPlay((pre) => !pre);
+  };
+
+  const handlePlayPrevious = () => {
+    alert("Previous");
+  };
+  const handlePlayNext = () => {
+    alert("Next");
+  };
+
+  // TODO: handle volumn
+  const [volumn, setVolumn] = useState(30);
+  const volumnChangeHandler = (e) => {
+    e.preventDefault();
+    setVolumn(e.target.value);
+  };
 
   const { roomId } = useParams();
   const socket = useSocket();
@@ -345,13 +362,13 @@ const StudyingRoomPage = () => {
         {/* Play Music Buttons*/}
         <Box className={"space-y-2 w-1/5"} sx={{ minWidth: 150 }}>
           <Box className={"flex space-x-2 justify-center"}>
-            <IconButton sx={playButtonStyle} onClick={handlePlay}>
+            <IconButton sx={playButtonStyle} onClick={handlePlayPrevious}>
               <SkipPreviousIcon />
             </IconButton>
             <IconButton sx={playButtonStyle} onClick={handlePlay}>
               {!isPlay ? <PlayArrowIcon /> : <StopIcon />}
             </IconButton>
-            <IconButton sx={playButtonStyle} onClick={handlePlay}>
+            <IconButton sx={playButtonStyle} onClick={handlePlayNext}>
               <SkipNextIcon />
             </IconButton>
           </Box>
@@ -367,6 +384,8 @@ const StudyingRoomPage = () => {
             <Slider
               aria-label="Volume"
               defaultValue={30}
+              value={volumn}
+              onChange={volumnChangeHandler}
               sx={{
                 color: "#fff",
                 "& .MuiSlider-track": {
