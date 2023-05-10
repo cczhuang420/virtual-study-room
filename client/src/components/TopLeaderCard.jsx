@@ -3,14 +3,7 @@ import { Image } from "mui-image";
 import goldMedal from "../assets/podium-gold-medal.svg";
 import silverMedal from "../assets/podium-silver-medal.svg";
 import bronzeMedal from "../assets/podium-bronze-medal.svg";
-import { useState } from "react";
 
-{
-  /* best height and width:
-            width: "28%",
-            height: "26%",
-     */
-}
 
 function selectRankingMedal(ranking) {
   if (ranking === 1) {
