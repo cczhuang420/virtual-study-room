@@ -1,7 +1,21 @@
 import React, { useCallback, useEffect, useState, useMemo } from "react";
 import Page from "../containers/Page.jsx";
 import { useParams } from "react-router-dom";
-import { Box, Button, Grid, IconButton, Slider, Stack } from "@mui/material";
+import {
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  FormControl,
+  Grid,
+  IconButton,
+  InputLabel,
+  OutlinedInput,
+  Select,
+  Slider,
+  Stack,
+} from "@mui/material";
 import RoomUserCard from "../components/RoomUserCard.jsx";
 import logo from "../assets/logo.svg";
 import TodoList from "../components/TodoList";
@@ -21,6 +35,7 @@ import SkipPreviousIcon from "@mui/icons-material/SkipPrevious";
 import playButtonStyle from "../utils/MusicButtonStyle.js";
 import VolumeUpRounded from "@mui/icons-material/VolumeUpRounded";
 import VolumeDownRounded from "@mui/icons-material/VolumeDownRounded";
+import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd";
 
 const sortByOptions = ["name", "experience"];
 
@@ -34,17 +49,35 @@ const StudyingRoomPage = () => {
     username: "All Users",
   });
 
-  // TODO: handler music
+  // TODO: handle play music
   const [isPlay, setIsPlay] = useState(false);
   const handlePlay = () => {
     setIsPlay((pre) => !pre);
   };
 
+  // TODO:
   const handlePlayPrevious = () => {
     alert("Previous");
   };
   const handlePlayNext = () => {
     alert("Next");
+  };
+
+  // TODO select music
+  const [music, setMusic] = useState("");
+  const [open, setOpen] = React.useState(false);
+
+  const handleChangeMusic = (event) => {
+    event.preventDefault();
+    setMusic(event.target.value);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleOpen = () => {
+    setOpen(true);
   };
 
   // TODO: handle volume
@@ -371,6 +404,72 @@ const StudyingRoomPage = () => {
               <IconButton sx={playButtonStyle} onClick={handlePlayNext}>
                 <SkipNextIcon />
               </IconButton>
+
+              {/* Choose a song */}
+              <div>
+                <IconButton onClick={handleOpen} sx={playButtonStyle}>
+                  <PlaylistAddIcon fontSize={"medium"} />
+                </IconButton>
+                <Dialog disableEscapeKeyDown open={open} onClose={handleClose}>
+                  <DialogContent
+                    sx={{
+                      paddingTop: 1,
+                    }}
+                  >
+                    <Box
+                      component="form"
+                      sx={{
+                        display: "flex",
+                        flexWrap: "wrap",
+                      }}
+                    >
+                      <FormControl
+                        sx={{
+                          my: 1,
+                          width: 300,
+                          height: 15,
+                        }}
+                      >
+                        <InputLabel
+                          sx={{ fontSize: 16, fontWeight: "bold" }}
+                          htmlFor="demo-dialog-native"
+                        >
+                          Music
+                        </InputLabel>
+                        <Select
+                          labelId="demo-simple-select-standard-label"
+                          value={music}
+                          onChange={handleChangeMusic}
+                          input={
+                            <OutlinedInput
+                              label="music"
+                              id="demo-dialog-native"
+                            />
+                          }
+                        >
+                          <option value={10}>Demo Music 1</option>
+                        </Select>
+                      </FormControl>
+                    </Box>
+                  </DialogContent>
+                  <DialogActions sx={{ marginRight: 2 }}>
+                    <Button
+                      sx={{ borderRadius: 50 }}
+                      size="small"
+                      onClick={handleClose}
+                    >
+                      Cancel
+                    </Button>
+                    <Button
+                      sx={{ borderRadius: 50 }}
+                      size="small"
+                      onClick={handleClose}
+                    >
+                      Ok
+                    </Button>
+                  </DialogActions>
+                </Dialog>
+              </div>
             </Box>
 
             {/* TODO: handle volume*/}
