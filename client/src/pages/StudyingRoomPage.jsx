@@ -341,7 +341,7 @@ const StudyingRoomPage = () => {
           width: "100%",
         }}
       >
-        <Box>
+        <Box sx={{ display: "flex", alignItems: "center" }}>
           <Button
             onClick={leaveRoomHandler}
             variant={"outlined"}
@@ -408,6 +408,7 @@ const StudyingRoomPage = () => {
           </Stack>
         </Box>
 
+        {/* SET TIMER*/}
         <Box sx={{ display: "flex", alignItems: "center" }}>
           {showTimer ? (
             <Timer duration={60 * 25} onFinish={timerFinishHandler} />
