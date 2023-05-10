@@ -23,7 +23,6 @@ const SocketProvider = ({ children }) => {
       });
 
       newSocket.on("song", (song) => {
-        // console.log("song", song);
         playMusic(song.id, song.time);
         const audioContext = new AudioContext();
         if (audioContext.state === "suspended") {
@@ -38,22 +37,18 @@ const SocketProvider = ({ children }) => {
       });
 
       newSocket.on("new-song", (song) => {
-        console.log("new-song", song);
         playMusic(song.id, song.time);
       });
 
       newSocket.on("message-notification", (data) => {
-        console.log("message-notification", data);
         notify(`${data.senderName} sent you a message!`);
       });
 
       newSocket.on("connect_error", (err) => {
-        console.log(`connect_error due to ${err.message}`);
         pauseMusic();
       });
 
       newSocket.on("disconnect", () => {
-        console.log("disconnect from socket server");
         pauseMusic();
       });
 

@@ -9,7 +9,6 @@ const ConfigureSocket = (io) => {
 
   ConfigureMusicService((rooms) => {
     console.dir(rooms, { depth: 10 });
-    console.log("Music service configured");
     registerMusicHandler(io, rooms);
   });
 

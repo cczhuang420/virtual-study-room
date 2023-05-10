@@ -68,9 +68,9 @@ const AuthProvider = ({ children }) => {
       if (usersWithSameEmail.length === 0) {
         await createUser(
           "User" +
-            Array.from({ length: 5 }, () =>
-              Math.round(Math.random() * 10)
-            ).join(""),
+          Array.from({ length: 5 }, () =>
+            Math.round(Math.random() * 10)
+          ).join(""),
           emailOrUsername
         );
       }
@@ -136,7 +136,6 @@ const AuthProvider = ({ children }) => {
           email: firebaseUser.email,
         },
       });
-      console.log(res[0]);
       setUserData(res[0]);
     }
   }, [firebaseUser, fetchUserHandler]);

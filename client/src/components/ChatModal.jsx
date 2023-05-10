@@ -46,14 +46,11 @@ const ChatModal = ({
   const { getCustomUser } = useAuth();
   const [showUserList, setShowUserList] = useState(false);
 
-  console.log(targetUser);
-
   const displayChatHistory = useMemo(() => {
     return chatHistory.filter(({ senderId, receiverEmail }) => {
       if (targetUser.username === "All Users") {
         return receiverEmail === "All Users";
       } else {
-        // console.log(senderId, receiverEmail, targetUser)
         return (
           receiverEmail !== "All Users" &&
           (senderId === getCustomUser()._id ||

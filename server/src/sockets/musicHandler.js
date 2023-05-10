@@ -148,7 +148,6 @@ module.exports = (io, rooms) => {
         const state = roomStates[roomId];
         const song = rooms[roomIndex].songs[state.songIndex];
         if (!song) return;
-        console.log("Sending songs");
         socket.emit("song", {
           id: song.id,
           time: state.songTime,

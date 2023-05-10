@@ -1,6 +1,6 @@
 import Page from "../containers/Page.jsx";
 import React, { useState, useEffect } from "react";
-import {Box, Typography} from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import ChatModal from "../components/ChatModal.jsx";
 import { useAuth } from "../providers/AuthProvider.jsx";
 import PrivateRoomsContainer from "../components/studyRooms/PrivateRoomsContainer.jsx";
@@ -67,7 +67,6 @@ const FriendsPage = () => {
 
     return () => {
       socket.on("message-notification", (data) => {
-        console.log("message-notification", data);
         notify(`${data.senderName} sent you a message!`);
       });
       socket.off("message");
@@ -129,8 +128,8 @@ const FriendsPage = () => {
             </Box>
           </Box>
           {privateRooms.length === 0 && (
-            <Box sx={{mt: 5}}>
-              <Typography variant={"h5"} sx={{textAlign: 'center', color: "rgba(255,255,255,.5)"}}>
+            <Box sx={{ mt: 5 }}>
+              <Typography variant={"h5"} sx={{ textAlign: 'center', color: "rgba(255,255,255,.5)" }}>
                 Your friend has not created any visible rooms
               </Typography>
             </Box>
