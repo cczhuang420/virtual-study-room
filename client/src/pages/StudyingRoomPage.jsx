@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState, useMemo } from "react";
 import Page from "../containers/Page.jsx";
 import { useParams } from "react-router-dom";
-import { Box, Button, Grid, IconButton } from "@mui/material";
+import { Box, Button, Grid, IconButton, Slider, Stack } from "@mui/material";
 import RoomUserCard from "../components/RoomUserCard.jsx";
 import logo from "../assets/logo.svg";
 import TodoList from "../components/TodoList";
@@ -19,6 +19,8 @@ import StopIcon from "@mui/icons-material/Stop";
 import SkipNextIcon from "@mui/icons-material/SkipNext";
 import SkipPreviousIcon from "@mui/icons-material/SkipPrevious";
 import playButtonStyle from "../utils/MusicButtonStyle.js";
+import VolumeUpRounded from "@mui/icons-material/VolumeUpRounded";
+import VolumeDownRounded from "@mui/icons-material/VolumeDownRounded";
 
 const sortByOptions = ["name", "experience"];
 
@@ -341,16 +343,50 @@ const StudyingRoomPage = () => {
 
         {/* TODO: only show in the private room*/}
         {/* Play Music Buttons*/}
-        <Box className={"space-x-2"}>
-          <IconButton sx={playButtonStyle} onClick={handlePlay}>
-            <SkipPreviousIcon />
-          </IconButton>
-          <IconButton sx={playButtonStyle} onClick={handlePlay}>
-            {!isPlay ? <PlayArrowIcon /> : <StopIcon />}
-          </IconButton>
-          <IconButton sx={playButtonStyle} onClick={handlePlay}>
-            <SkipNextIcon />
-          </IconButton>
+        <Box className={"space-y-2 w-1/5"} sx={{ minWidth: 150 }}>
+          <Box className={"flex space-x-2 justify-center"}>
+            <IconButton sx={playButtonStyle} onClick={handlePlay}>
+              <SkipPreviousIcon />
+            </IconButton>
+            <IconButton sx={playButtonStyle} onClick={handlePlay}>
+              {!isPlay ? <PlayArrowIcon /> : <StopIcon />}
+            </IconButton>
+            <IconButton sx={playButtonStyle} onClick={handlePlay}>
+              <SkipNextIcon />
+            </IconButton>
+          </Box>
+
+          {/* TODO: handle volumn*/}
+          <Stack
+            spacing={2}
+            direction="row"
+            sx={{ mb: 1, px: 1 }}
+            alignItems="center"
+          >
+            <VolumeDownRounded htmlColor={"#fff"} />
+            <Slider
+              aria-label="Volume"
+              defaultValue={30}
+              sx={{
+                color: "black",
+                "& .MuiSlider-track": {
+                  border: "none",
+                },
+                "& .MuiSlider-thumb": {
+                  width: 24,
+                  height: 24,
+                  backgroundColor: "#fff",
+                  "&:before": {
+                    boxShadow: "0 4px 8px rgba(0,0,0,0.4)",
+                  },
+                  "&:hover, &.Mui-focusVisible, &.Mui-active": {
+                    boxShadow: "none",
+                  },
+                },
+              }}
+            />
+            <VolumeUpRounded htmlColor={"#fff"} />
+          </Stack>
         </Box>
 
         <Box sx={{ display: "flex", alignItems: "center" }}>
