@@ -358,55 +358,56 @@ const StudyingRoomPage = () => {
           </Button>
         </Box>
 
-        {/* TODO: only show in the private room*/}
-        {/* Play Music Buttons*/}
-        <Box className={"space-y-2 w-1/5"} sx={{ minWidth: 150 }}>
-          <Box className={"flex space-x-2 justify-center"}>
-            <IconButton sx={playButtonStyle} onClick={handlePlayPrevious}>
-              <SkipPreviousIcon />
-            </IconButton>
-            <IconButton sx={playButtonStyle} onClick={handlePlay}>
-              {!isPlay ? <PlayArrowIcon /> : <StopIcon />}
-            </IconButton>
-            <IconButton sx={playButtonStyle} onClick={handlePlayNext}>
-              <SkipNextIcon />
-            </IconButton>
-          </Box>
+        {/* Play Music Buttons only in the private study rooms*/}
+        {roomData === privateRoom && (
+          <Box className={"space-y-2 w-1/5"} sx={{ minWidth: 150 }}>
+            <Box className={"flex space-x-2 justify-center"}>
+              <IconButton sx={playButtonStyle} onClick={handlePlayPrevious}>
+                <SkipPreviousIcon />
+              </IconButton>
+              <IconButton sx={playButtonStyle} onClick={handlePlay}>
+                {!isPlay ? <PlayArrowIcon /> : <StopIcon />}
+              </IconButton>
+              <IconButton sx={playButtonStyle} onClick={handlePlayNext}>
+                <SkipNextIcon />
+              </IconButton>
+            </Box>
 
-          {/* TODO: handle volumn*/}
-          <Stack
-            spacing={2}
-            direction="row"
-            sx={{ mb: 1, px: 1 }}
-            alignItems="center"
-          >
-            <VolumeDownRounded htmlColor={"#fff"} />
-            <Slider
-              aria-label="Volume"
-              defaultValue={30}
-              value={volumn}
-              onChange={volumnChangeHandler}
-              sx={{
-                color: "#fff",
-                "& .MuiSlider-track": {
-                  border: "none",
-                },
-                "& .MuiSlider-thumb": {
-                  width: 24,
-                  height: 24,
-                  backgroundColor: "#fff",
-                  "&:before": {
-                    boxShadow: "0 4px 8px rgba(0,0,0,0.4)",
+            {/* TODO: handle volumn*/}
+            <Stack
+              spacing={2}
+              direction="row"
+              sx={{ mb: 1, px: 1 }}
+              alignItems="center"
+            >
+              <VolumeDownRounded htmlColor={"#fff"} />
+              <Slider
+                aria-label="Volume"
+                defaultValue={30}
+                value={volumn}
+                onChange={volumnChangeHandler}
+                sx={{
+                  color: "#fff",
+                  "& .MuiSlider-track": {
+                    border: "none",
                   },
-                  "&:hover, &.Mui-focusVisible, &.Mui-active": {
-                    boxShadow: "none",
+                  "& .MuiSlider-thumb": {
+                    width: 24,
+                    height: 24,
+                    backgroundColor: "#fff",
+                    "&:before": {
+                      boxShadow: "0 4px 8px rgba(0,0,0,0.4)",
+                    },
+                    "&:hover, &.Mui-focusVisible, &.Mui-active": {
+                      boxShadow: "none",
+                    },
                   },
-                },
-              }}
-            />
-            <VolumeUpRounded htmlColor={"#fff"} />
-          </Stack>
-        </Box>
+                }}
+              />
+              <VolumeUpRounded htmlColor={"#fff"} />
+            </Stack>
+          </Box>
+        )}
 
         {/* SET TIMER*/}
         <Box sx={{ display: "flex", alignItems: "center" }}>
