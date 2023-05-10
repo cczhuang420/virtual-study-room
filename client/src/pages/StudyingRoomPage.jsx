@@ -368,7 +368,7 @@ const StudyingRoomPage = () => {
               aria-label="Volume"
               defaultValue={30}
               sx={{
-                color: "black",
+                color: "#fff",
                 "& .MuiSlider-track": {
                   border: "none",
                 },
