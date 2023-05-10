@@ -1,11 +1,5 @@
 import { Box, Stack, Typography } from "@mui/material";
 
-{
-  /* best height and width:
-            width: "18%",
-            height: "18%",
-     */
-}
 
 const AssetTypeButton = ({ amount, title, onClick, shouldHighLight }) => {
   return (

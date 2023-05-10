@@ -1,12 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import { Image } from "mui-image";
 
-{
-  /* best height and width:
-          width: "9%",
-          height: "5%",
-   */
-}
 
 const AssetLabel = ({ image, value }) => {
   return (
