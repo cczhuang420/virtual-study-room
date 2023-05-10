@@ -47,11 +47,11 @@ const StudyingRoomPage = () => {
     alert("Next");
   };
 
-  // TODO: handle volumn
-  const [volumn, setVolumn] = useState(30);
-  const volumnChangeHandler = (e) => {
+  // TODO: handle volume
+  const [volume, setVolume] = useState(30);
+  const volumeChangeHandler = (e) => {
     e.preventDefault();
-    setVolumn(e.target.value);
+    setVolume(e.target.value);
   };
 
   const { roomId } = useParams();
@@ -373,7 +373,7 @@ const StudyingRoomPage = () => {
               </IconButton>
             </Box>
 
-            {/* TODO: handle volumn*/}
+            {/* TODO: handle volume*/}
             <Stack
               spacing={2}
               direction="row"
@@ -384,8 +384,8 @@ const StudyingRoomPage = () => {
               <Slider
                 aria-label="Volume"
                 defaultValue={30}
-                value={volumn}
-                onChange={volumnChangeHandler}
+                value={volume}
+                onChange={volumeChangeHandler}
                 sx={{
                   color: "#fff",
                   "& .MuiSlider-track": {
