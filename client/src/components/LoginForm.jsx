@@ -1,9 +1,13 @@
-import React, {useState} from "react"
-import {InputLabel, TextField, Box, FormHelperText} from "@mui/material";
-import {LoadingButton} from "@mui/lab";
+import React, { useState } from "react"
+import { InputLabel, TextField, Box, FormHelperText } from "@mui/material";
+import { LoadingButton } from "@mui/lab";
 import ThirdPartyLogin from "./ThirdPartyLogin.jsx";
 
-const LoginForm = ({onSubmit}) => {
+/**
+ * This is used for users to login into the app.
+ */
+
+const LoginForm = ({ onSubmit }) => {
 
   const [error, setError] = useState("")
   const [loggingIn, setLogging] = useState(false)
@@ -13,7 +17,7 @@ const LoginForm = ({onSubmit}) => {
 
   return (
     <Box>
-      <Box sx={{mb: {xs: 3, md: 5}}}>
+      <Box sx={{ mb: { xs: 3, md: 5 } }}>
         <InputLabel>
           Email/Username
         </InputLabel>
@@ -23,7 +27,7 @@ const LoginForm = ({onSubmit}) => {
           type={"text"}
         />
       </Box>
-      <Box sx={{mb: {xs: 3, md: 5}}}>
+      <Box sx={{ mb: { xs: 3, md: 5 } }}>
         <InputLabel>
           Password
         </InputLabel>
@@ -56,7 +60,7 @@ const LoginForm = ({onSubmit}) => {
           onClick={async () => {
             setLogging(true)
             try {
-              await onSubmit({email, password})
+              await onSubmit({ email, password })
             } catch (e) {
               setError("Invalid credential")
             } finally {
@@ -66,7 +70,7 @@ const LoginForm = ({onSubmit}) => {
           loading={loggingIn}
           variant={"contained"}
           sx={{
-            width: {xs: "100%", md: "auto"},
+            width: { xs: "100%", md: "auto" },
             mb: 2
           }}
         >

@@ -1,6 +1,9 @@
 import { Box, Typography } from "@mui/material";
 import { Image } from "mui-image";
 
+/**
+ * The asset label is used to show the coins and the experience of the user.
+ */
 
 const AssetLabel = ({ image, value }) => {
   return (

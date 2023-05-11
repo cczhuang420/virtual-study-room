@@ -1,7 +1,11 @@
-import React, {useState} from "react"
-import {Box, Typography} from "@mui/material";
+import React, { useState } from "react"
+import { Box, Typography } from "@mui/material";
 
-const Switcher = ({options, onStatusChange, currentOption}) => {
+/**
+ * This is the switcher used to switch between the states.
+ */
+
+const Switcher = ({ options, onStatusChange, currentOption }) => {
 
   const [status, setStatus] = useState(currentOption)
 

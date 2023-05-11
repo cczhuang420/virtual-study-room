@@ -2,6 +2,11 @@ import { Box, IconButton, Typography } from "@mui/material";
 import PersonAddAlt1Icon from "@mui/icons-material/PersonAddAlt1";
 import { useAuth } from "../providers/AuthProvider.jsx";
 
+/**
+ * The friend card contains each friend's profile image and friend's name. There is an add
+ * friend button for user to add friend.
+ */
+
 const FriendCard = ({ id, profileImage, name, onClick, onAddFriend }) => {
   const { getCustomUser } = useAuth();
 

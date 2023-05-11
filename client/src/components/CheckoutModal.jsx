@@ -14,8 +14,8 @@ import AssetLabel from "./AssetLabel.jsx";
 import assetMoney from "../assets/asset-money-icon.svg";
 import { useModal } from "../providers/CheckoutModalProvider.jsx";
 import ModalProductCard from "./ModalProductCard.jsx";
-import {LoadingButton} from "@mui/lab";
-import {useState} from "react";
+import { LoadingButton } from "@mui/lab";
+import { useState } from "react";
 
 /*
    This modal will be used for the whole app, You can get a below 5 variables from useModal function

@@ -1,5 +1,5 @@
-import React, {useCallback, useRef, useState} from "react"
-import {useFormik} from "formik";
+import React, { useCallback, useRef, useState } from "react"
+import { useFormik } from "formik";
 import {
   InputLabel,
   Box,
@@ -13,9 +13,13 @@ import { LoadingButton } from "@mui/lab";
 import VisibilityIcon from "@mui/icons-material/Visibility"
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff"
 import ThirdPartyLogin from "./ThirdPartyLogin.jsx";
-import {useFetchUsernameSuggestion} from "../api/user-api.js";
+import { useFetchUsernameSuggestion } from "../api/user-api.js";
 
-const SignupForm = ({onSubmit}) => {
+/**
+ * This is used for users to sign up for the app.
+ */
+
+const SignupForm = ({ onSubmit }) => {
 
   const [error, setError] = useState("")
   const [signingUp, setSigningUp] = useState(false)
@@ -47,9 +51,7 @@ const SignupForm = ({onSubmit}) => {
   }, [fetchUsernameSuggestion])
 
   const handleSubmit = async () => {
-    const values = {username, email, password}
-    // password requirement is not configurable??!!??!!
-    // https://stackoverflow.com/questions/49183858/is-there-a-way-to-set-a-password-strength-for-firebase
+    const values = { username, email, password }
     if (Object.values(values).some(v => v.length === 0)) {
       setError("Please complete all fields")
       return
@@ -78,8 +80,8 @@ const SignupForm = ({onSubmit}) => {
 
   return (
     <Box>
-      <Box sx={{mb: {xs: 1, md: 2}}}>
-        <Box sx={{display: "flex", justifyContent: "space-between", alignItems: "center"}}>
+      <Box sx={{ mb: { xs: 1, md: 2 } }}>
+        <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
           <InputLabel>Username</InputLabel>
           <LoadingButton
             loading={gettingSuggestion}
@@ -97,11 +99,11 @@ const SignupForm = ({onSubmit}) => {
           }}
         />
       </Box>
-      <Box sx={{mb: {xs: 1, md: 2}}}>
+      <Box sx={{ mb: { xs: 1, md: 2 } }}>
         <InputLabel>Email</InputLabel>
         <TextField value={email} onChange={e => setEmail(e.target.value)} />
       </Box>
-      <Box sx={{mb: {xs: 1, md: 2}}}>
+      <Box sx={{ mb: { xs: 1, md: 2 } }}>
         <InputLabel>Password</InputLabel>
         <OutlinedInput
           name={password}
@@ -140,7 +142,7 @@ const SignupForm = ({onSubmit}) => {
           loading={signingUp}
           variant={"contained"}
           sx={{
-            width: {xs: "100%", md: "auto"},
+            width: { xs: "100%", md: "auto" },
             mb: 2
           }}
         >
