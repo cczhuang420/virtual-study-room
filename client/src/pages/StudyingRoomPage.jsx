@@ -1,4 +1,10 @@
-import React, { useCallback, useEffect, useState, useMemo } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useState,
+  useMemo,
+  useRef,
+} from "react";
 import Page from "../containers/Page.jsx";
 import { useParams } from "react-router-dom";
 import { Box, Button, Grid, IconButton, Slider, Stack } from "@mui/material";
@@ -86,17 +92,21 @@ const StudyingRoomPage = () => {
   const roomData = publicRoom || privateRoom;
 
   const { run } = useMutation("users/playList", HTTP_METHOD.GET);
+  const firstRender = useRef(true);
 
   useEffect(() => {
     if (privateRoom) {
-      (async () => {
-        const data = await run({
-          query: {
-            userId: privateRoom.ownerId,
-          },
-        });
-        startPlayList(data);
-      })();
+      if (firstRender.current) {
+        firstRender.current = false;
+        (async () => {
+          const data = await run({
+            query: {
+              userId: privateRoom.ownerId,
+            },
+          });
+          startPlayList(data);
+        })();
+      }
     }
   }, [privateRoom]);
 
