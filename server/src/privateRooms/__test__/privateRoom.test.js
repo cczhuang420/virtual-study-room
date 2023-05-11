@@ -74,4 +74,21 @@ describe('Router Tests', () => {
                 done();
             })
     });
+
+    it('test invalid users id for private room  (GET /api/privateRooms)', (done) => {
+        request(app)
+            .get('/api/privateRooms')
+            .query({owner: "000000000000000000000099"})
+            .send()
+            .expect(200)
+            .end(async (err, res) => {
+                if (err) {
+                    return done(err);
+                }
+                const dataFromApi = res.body;
+
+                expect(dataFromApi.length).toBe(0);
+                done();
+            });
+    });
 });
