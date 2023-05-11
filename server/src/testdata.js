@@ -125,5 +125,24 @@ const products = [
     }
 ];
 
-
-export {chats, users, friendRequests, privateRooms, products};
+const publicRooms = [
+    {
+        _id: new mongoose.Types.ObjectId('000000000000000000000001'),
+        name: "Classical",
+        users: ["000000000000000000000001"],
+        playList: [
+            {
+                "songUrl": "https://youtu.be/0bjB-IWEYI0",
+                "videoId": "0bjB-IWEYI0",
+                "duration": "382"
+            },
+            {
+                "songUrl": "https://youtu.be/EFJ7kDva7JE",
+                "videoId": "EFJ7kDva7JE",
+                "duration": "312"
+            }],
+        backgroundUrl: "backgroundRoom.svg",
+        playListId: "lofi-01"
+    }
+]
+export {chats, users, friendRequests, privateRooms, products, publicRooms};
