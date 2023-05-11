@@ -14,6 +14,7 @@ import { HTTP_METHOD } from "../hooks/http-methods.js";
 import Timer from "../components/Timer.jsx";
 import { useNotification } from "../providers/NotificationProvider.jsx";
 import { useMusic } from "../providers/MusicProvider.jsx";
+import PrivateSettingModal from "../components/PrivateSettingModal.jsx";
 
 const sortByOptions = ["name", "experience"];
 
@@ -36,7 +37,9 @@ const StudyingRoomPage = () => {
   const { data: publicRoom, isError: isPublicRoomNotFound } = useFetch(
     `publicRooms/${roomId}`
   );
-  const { data: privateRoom } = useFetch(`privateRooms/${roomId}`);
+  const { data: privateRoom, reFetch: reFetchPrivateRoom } = useFetch(
+    `privateRooms/${roomId}`
+  );
 
   const roomData = publicRoom || privateRoom;
 
@@ -106,11 +109,35 @@ const StudyingRoomPage = () => {
     [targetUser, setRoomUsers, setChatHistory]
   );
 
+  //setting modal
+  const [openSettingModal, setOpenSettingModal] = useState(false);
+
+  const handleSettingClose = useCallback(() => {
+    setOpenSettingModal(false);
+  }, [openSettingModal]);
+
+  //get users all background
+  const { data: allBackground } = useFetch(
+    `users/getAllBackground?userId=${getCustomUser()._id}`
+  );
+
+  //save the private room setting
+  const { run: savePrivateRoomSetting } = useMutation(
+    `privateRooms/updatePrivateRoomSetting`,
+    HTTP_METHOD.PUT
+  );
+
+  const findIndexOfCurrentImage = () => {
+    for (let i = 0; i < allBackground?.length; i++) {
+      if (allBackground[i].url === roomData?.backgroundUrl) {
+        return i;
+      }
+    }
+    return -1;
+  };
+
   useEffect(() => {
     if (!socket) return;
-    socket.emit("join-room", roomId);
-    socket.emit("get-song-for-room", roomId);
-
     socket.listeners("room-member-emails").length !== 0 ||
       socket.on("room-member-emails", async (emails) => {
         const roomMembers = (
@@ -135,6 +162,13 @@ const StudyingRoomPage = () => {
 
     socket.removeAllListeners("new-message");
     socket.on("new-message", newMessageSocketHandler);
+  }, [socket, newMessageSocketHandler, setRoomUsers]);
+
+  useEffect(() => {
+    if (!socket) return;
+    socket.emit("join-room", roomId);
+    socket.emit("get-song-for-room", roomId);
+
     return () => {
       socket.emit("leave-room", roomId);
       socket.off("message-in-rooms");
@@ -142,7 +176,7 @@ const StudyingRoomPage = () => {
 
       pauseMusic();
     };
-  }, [socket, newMessageSocketHandler, setRoomUsers]);
+  }, [socket]);
 
   const handleSendGroupChat = (message) => {
     socket.emit("send-group-message-in-room", {
@@ -225,20 +259,25 @@ const StudyingRoomPage = () => {
               <img src={logo} alt={""} />
             </Box>
             <Box sx={{ pl: 15, paddingY: 2 }}>
-              {/*<Button*/}
-              {/*  onClick={changeSortingHandler}*/}
-              {/*  variant={"contained"}*/}
-              {/*  sx={{*/}
-              {/*    color: "white",*/}
-              {/*    border: "2px solid #FFFFFF88",*/}
-              {/*    backgroundColor: "#FFFFFF32",*/}
-              {/*    "&:hover": {*/}
-              {/*      backgroundColor: "#FFFFFF50",*/}
-              {/*    },*/}
-              {/*  }}*/}
-              {/*>*/}
-              {/*  Sort by {sortBy}*/}
-              {/*</Button>*/}
+              {privateRoom && privateRoom.ownerId === getCustomUser()._id && (
+                <Button
+                  onClick={() => {
+                    setOpenSettingModal(true);
+                  }}
+                  variant={"contained"}
+                  sx={{
+                    color: "black",
+                    fontWeight: 700,
+                    border: "2px solid #FFFFFF88",
+                    backgroundColor: "#FFFFFF32",
+                    "&:hover": {
+                      backgroundColor: "#FFFFFF50",
+                    },
+                  }}
+                >
+                  Setting
+                </Button>
+              )}
             </Box>
             <Box
               className={"hide-scroll-bar"}
@@ -351,6 +390,28 @@ const StudyingRoomPage = () => {
           )}
         </Box>
       </Box>
+      {privateRoom && privateRoom.ownerId === getCustomUser()._id && (
+        <PrivateSettingModal
+          open={openSettingModal}
+          handleClose={handleSettingClose}
+          roomData={privateRoom}
+          images={allBackground?.map(
+            (it) => `/src/assets/backgrounds/${it.url}`
+          )}
+          onClickToSave={async (isVisibleToFriend, imageUri) => {
+            const backgroundUri = imageUri.split("/").pop();
+            await savePrivateRoomSetting({
+              query: {
+                privateRoomId: privateRoom._id,
+                isVisibleToFriend: isVisibleToFriend,
+                imageUri: backgroundUri,
+              },
+            });
+            await reFetchPrivateRoom();
+          }}
+          index={findIndexOfCurrentImage()}
+        />
+      )}
     </Page>
   );
 };
