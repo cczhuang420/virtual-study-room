@@ -5,10 +5,10 @@ import ChatController from '../chat.controller';
 import {chats, users, friendRequests, privateRooms, products, publicRooms} from '../../testdata'
 
 let mongod;
+const chatController = new ChatController();
 
 beforeAll(async () => {
     mongod = await MongoMemoryServer.create();
-
     const connectionString = mongod.getUri();
     await mongoose.connect(connectionString, { useNewUrlParser: true });
 });
@@ -33,4 +33,12 @@ it('check chats collection', async () => {
     for (let i = 0; i < chatsFromDb.length; i++) {
         expect(chatsFromDb[i]._id.toString()).toBe(chats[i]._id.toString());
     }
-})
+});
+
+it('check get chat from ChatController', async() => {
+    const allChatHistory = await chatController.getChat("000000000000000000000001","000000000000000000000002");
+    expect(allChatHistory.length).toBe(2);
+
+    expect(allChatHistory[0].message).toBe("hi, back!");
+    expect(allChatHistory[1].message).toBe("hi, there");
+});
