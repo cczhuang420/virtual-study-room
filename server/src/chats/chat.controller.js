@@ -62,11 +62,11 @@ class ChatController {
   }
 
   // create the chat
-  async createChat(myId, customerId, timestamp, messages) {
+  async createChat(myId, customerId, messages) {
     await chatModel.create({
       sender: myId,
       receiver: customerId,
-      timestamp: timestamp,
+      timestamp: 0,
       message: messages,
     });
   }
