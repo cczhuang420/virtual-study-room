@@ -20,8 +20,6 @@ export const useFetch = (url, headers) => {
   const [error, setError] = useState(null);
   const {getAccessToken} = useAuth()
 
-  console.log(getAccessToken())
-
   const fetch = useCallback(async () => {
     setData(null);
     setError(null);
