@@ -158,4 +158,8 @@ router.get("/sync", async (req, res) => {
   res.json(await userController.sync());
 });
 
+router.get("/playList", async (req, res) => {
+  res.json(await userController.getPlayList(req.query.userId));
+});
+
 module.exports = router;

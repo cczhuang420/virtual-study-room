@@ -32,16 +32,33 @@ const StudyingRoomPage = () => {
   const socket = useSocket();
   const { getCustomUser, reFetchUserData } = useAuth();
   const notify = useNotification();
-  const { playMusic, pauseMusic } = useMusic();
+  const { pauseMusic, startPlayList } = useMusic();
 
   const { data: publicRoom, isError: isPublicRoomNotFound } = useFetch(
     `publicRooms/${roomId}`
   );
-  const { data: privateRoom, reFetch: reFetchPrivateRoom } = useFetch(
-    `privateRooms/${roomId}`
-  );
+  const {
+    data: privateRoom,
+    reFetch: reFetchPrivateRoom,
+    isLoading,
+  } = useFetch(`privateRooms/${roomId}`);
 
   const roomData = publicRoom || privateRoom;
+
+  const { run } = useMutation("users/playList", HTTP_METHOD.GET);
+
+  useEffect(() => {
+    if (privateRoom) {
+      (async () => {
+        const data = await run({
+          query: {
+            userId: privateRoom.ownerId,
+          },
+        });
+        startPlayList(data);
+      })();
+    }
+  }, [privateRoom]);
 
   const fetchUserHandler = useMutation("users", HTTP_METHOD.GET);
   const addExperienceHandler = useMutation(
@@ -166,12 +183,20 @@ const StudyingRoomPage = () => {
 
   useEffect(() => {
     if (!socket) return;
+    // join room
     socket.emit("join-room", roomId);
-    socket.emit("get-song-for-room", roomId);
+
+    // get current streaming song if it is not private room
+    if (!privateRoom) {
+      socket.emit("get-song-for-room", roomId);
+    }
 
     return () => {
+      // unsubscribe from socket events
+      if (!privateRoom) {
+        socket.off("message-in-rooms");
+      }
       socket.emit("leave-room", roomId);
-      socket.off("message-in-rooms");
       socket.off("room-member-emails");
 
       pauseMusic();
@@ -205,7 +230,7 @@ const StudyingRoomPage = () => {
     targetUser.username === "All Users"
       ? handleSendGroupChat
       : handleSendPrivateChat,
-    [targetUser, targetUser.username]
+    [targetUser, targetUser.username, socket]
   );
 
   const handleChangeTargetUser = useCallback(
@@ -215,7 +240,6 @@ const StudyingRoomPage = () => {
         const newState = JSON.parse(JSON.stringify(prevState));
         const newTarget = newState.find((u) => u.username === user.username);
         if (newTarget) targetUser.hasUnread = false;
-        console.log(newState);
         return newState;
       });
     },
