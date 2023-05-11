@@ -4,6 +4,13 @@ import headphoneSvg from "../assets/headphone.svg";
 import { Box, styled, Typography, Button } from "@mui/material";
 import AuthBlock from "../components/AuthBlock.jsx";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
+
+/**
+ * This is the home screen of the app. There is a headphone image, the title of the app, the
+ * auth block for users to login / sign up, and a know more button which will lead users to the
+ * intro screen.
+ */
+
 const HomeScreen = ({ onLogin, onSignup }) => {
   return (
     <Section horizontalCenter verticalCenter>

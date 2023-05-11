@@ -1,15 +1,16 @@
 import { Box, IconButton, Drawer, Tooltip } from "@mui/material";
 import { useCallback, useEffect, useMemo } from "react";
-import PublicIcon from "@mui/icons-material/Public";
-import PublicOffIcon from "@mui/icons-material/PublicOff";
-import LeaderboardIcon from "@mui/icons-material/Leaderboard";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import LogoutIcon from "@mui/icons-material/Logout";
-import logo from "../assets/logo.svg";
+import PublicIcon from '@mui/icons-material/Public';
+import PublicOffIcon from '@mui/icons-material/PublicOff';
+import LeaderboardIcon from '@mui/icons-material/Leaderboard';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import LogoutIcon from '@mui/icons-material/Logout';
+import logo from "../assets/logo.svg"
 import { useAuth } from "../providers/AuthProvider.jsx";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useModal } from "../providers/CheckoutModalProvider.jsx";
-import privateRoomBg from "../assets/private-room/private-room-bg.svg";
+import privateRoomBg from "../assets/private-room/private-room-bg.svg"
+
 import { useMutation } from "../hooks/useMutation.js";
 import { HTTP_METHOD } from "../hooks/http-methods.js";
 
@@ -24,6 +25,7 @@ const Page = ({
   excludeNavigation = false,
   sx,
 }) => {
+
   const { logout, getCustomUser, reFetchUserData } = useAuth();
 
   const { handleOpen, setContent, handleClose } = useModal();
@@ -143,7 +145,10 @@ const Page = ({
             }}
           >
             <Box>
-              <Box onClick={iconClickHandler} sx={{ cursor: "pointer" }}>
+              <Box
+                onClick={iconClickHandler}
+                sx={{ cursor: "pointer" }}
+              >
                 <img src={logo} alt={""} />
               </Box>
               <Box

@@ -1,4 +1,4 @@
-import {useState, useEffect, useMemo, useCallback} from "react";
+import { useState, useMemo, useCallback } from "react";
 import {
   Box,
   Checkbox,
@@ -10,11 +10,14 @@ import {
   Typography, TextField,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
-import DeleteIcon from "@mui/icons-material/Delete";
-import {useFetch} from "../hooks/useFetch.js";
-import {useAuth} from "../providers/AuthProvider.jsx";
-import {useMutation} from "../hooks/useMutation.js";
-import {HTTP_METHOD} from "../hooks/http-methods.js";
+import { useFetch } from "../hooks/useFetch.js";
+import { useAuth } from "../providers/AuthProvider.jsx";
+import { useMutation } from "../hooks/useMutation.js";
+import { HTTP_METHOD } from "../hooks/http-methods.js";
+
+/**
+ * This allows user to set a to do list. Users can add tasks to remind themselves.
+ */
 
 export default function TodoList() {
   const [tasks, setTasks] = useState([]);
@@ -22,8 +25,8 @@ export default function TodoList() {
   const [hideCompleted, setHideCompleted] = useState(false);
   const [newTask, setNewTask] = useState("")
 
-  const {getCustomUser} = useAuth()
-  const {data, isLoading, reFetch: fetchTodo} = useFetch(`users?_id=${getCustomUser()._id}`)
+  const { getCustomUser } = useAuth()
+  const { data, isLoading, reFetch: fetchTodo } = useFetch(`users?_id=${getCustomUser()._id}`)
   const toggleTodoHandler = useMutation("users/todo/toggle", HTTP_METHOD.PATCH)
   const addTodoHandler = useMutation("users/todo", HTTP_METHOD.POST)
 
@@ -42,8 +45,8 @@ export default function TodoList() {
       return
     }
     await addTodoHandler.run({
-      body: {content: newTask},
-      query: {userId: getCustomUser()._id}
+      body: { content: newTask },
+      query: { userId: getCustomUser()._id }
     })
     setNewTask("")
     await fetchTodo()
@@ -51,8 +54,8 @@ export default function TodoList() {
 
   const handleTaskComplete = useCallback(async (content) => {
     await toggleTodoHandler.run({
-      body: {content},
-      query: {userId: getCustomUser()._id}
+      body: { content },
+      query: { userId: getCustomUser()._id }
     })
     await fetchTodo()
   }, [toggleTodoHandler, getCustomUser, fetchTodo])
@@ -100,7 +103,7 @@ export default function TodoList() {
       <Divider sx={{ my: 2, borderBottomWidth: 3, bgcolor: "black" }} />
       {/* tasks to do */}
       <List>
-        {todoList.filter(({isCompleted}) => !isCompleted).map(({content}) => (
+        {todoList.filter(({ isCompleted }) => !isCompleted).map(({ content }) => (
           <ListItem key={`${Math.random()}`}>
             <Checkbox
               onChange={() => handleTaskComplete(content)}
@@ -117,7 +120,7 @@ export default function TodoList() {
             <Divider sx={{ my: 1, borderBottomWidth: 3 }} />
           )}
           <List>
-            {todoList.filter(({isCompleted}) => isCompleted).map(({content}) => (
+            {todoList.filter(({ isCompleted }) => isCompleted).map(({ content }) => (
               <ListItem key={`${Math.random()}`}>
                 <Checkbox
                   color="secondary"
@@ -155,7 +158,7 @@ export default function TodoList() {
           value={newTask}
           onChange={e => setNewTask(e.target.value)}
           variant={"standard"}
-          sx={{flex: 1}}
+          sx={{ flex: 1 }}
         />
         <Button
           variant="text"

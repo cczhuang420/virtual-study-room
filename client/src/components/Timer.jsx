@@ -1,7 +1,12 @@
-import React, {useEffect, useState} from "react"
-import {Box, Typography} from "@mui/material";
+import React, { useEffect, useState } from "react"
+import { Box, Typography } from "@mui/material";
 
-const Timer = ({duration, onFinish}) => {
+/**
+ * The timer is used for users to set a 25 mins timer. If the user stays after the timer
+ * finished, the user will gain the experience and coins.
+ */
+
+const Timer = ({ duration, onFinish }) => {
   const [time, setTime] = useState(duration)
 
   useEffect(() => {
@@ -21,7 +26,7 @@ const Timer = ({duration, onFinish}) => {
 
   return (
     <Box>
-      <Typography variant={"h5"} sx={{color: "white"}}>
+      <Typography variant={"h5"} sx={{ color: "white" }}>
         {new Date(time * 1000).toISOString().substring(11, 19)}
       </Typography>
     </Box>

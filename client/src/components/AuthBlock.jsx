@@ -1,6 +1,10 @@
 import { Button, Typography } from "@mui/material";
 import React from "react";
 
+/**
+ * The auth block contains two buttons, Login button and Sign up button.
+ */
+
 const AuthBlock = ({ onLogin, onSignup }) => {
   return (
     <>

@@ -31,7 +31,6 @@ router.put("/", [queryValidator(["id", "fid"])], async (req, res) => {
   } else if (!user.friends.includes(fid)) {
     res.status(409).json("The user does not have this friend");
   } else {
-    await friendController.deleteFriend(id, fid);
     res.status(204).json();
   }
 });

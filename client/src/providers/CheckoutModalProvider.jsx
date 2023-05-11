@@ -22,7 +22,7 @@ const CheckoutModalProvider = ({ children }) => {
     cost: 0,
     money: 0,
     type: 0,
-    onClick: () => {},
+    onClick: () => { },
   });
 
   const value = useMemo(

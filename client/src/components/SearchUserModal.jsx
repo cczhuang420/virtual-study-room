@@ -8,6 +8,10 @@ import FriendList from "./FriendList.jsx";
 import { useAuth } from "../providers/AuthProvider.jsx";
 import { useNotification } from "../providers/NotificationProvider.jsx";
 
+/**
+ * This is used to search for specific user. The search is case sensitive.
+ */
+
 const SearchUserModal = ({ open, onClose }) => {
   const [searchText, setSearchText] = useState("");
   const { isLoading, data } = useFetch("users");
@@ -20,10 +24,10 @@ const SearchUserModal = ({ open, onClose }) => {
 
   const allUsers = !isLoading
     ? data.map(({ _id, username, profile }) => ({
-        id: _id,
-        name: username,
-        image: `/src/assets/profiles/${profile}`,
-      }))
+      id: _id,
+      name: username,
+      image: `/src/assets/profiles/${profile}`,
+    }))
     : [];
 
   return (

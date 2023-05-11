@@ -9,6 +9,12 @@ import { useParams } from "react-router-dom";
 import { useSocket } from "../providers/SocketProvider.jsx";
 import { useNotification } from "../providers/NotificationProvider.jsx";
 
+/**
+ * The friend page can be entered when the user presses the friend's card. On the top of the page,
+ * the user can see the friend's name. Then the friend's private room that is visible to friends
+ * will be shown. Users can enter the friend's private room, or chat with the friend.
+ */
+
 const FriendsPage = () => {
   const { friendId } = useParams();
   const { getCustomUser } = useAuth();

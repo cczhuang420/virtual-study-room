@@ -4,6 +4,11 @@ import goldMedal from "../assets/podium-gold-medal.svg";
 import silverMedal from "../assets/podium-silver-medal.svg";
 import bronzeMedal from "../assets/podium-bronze-medal.svg";
 
+/**
+ * The top leader card will show the 3 top leaders. The rank 1 user will be given the gold prize,
+ * the rank 2 user will be given the silver prize, and the rank 3 user will be given the bronze
+ * prize on the leader board page.
+ */
 
 function selectRankingMedal(ranking) {
   if (ranking === 1) {

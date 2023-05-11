@@ -17,8 +17,13 @@ import { useMutation } from "../../hooks/useMutation.js";
 import { HTTP_METHOD } from "../../hooks/http-methods.js";
 import { LoadingButton } from "@mui/lab";
 
+/**
+ * This form is used to create the private room. It allows users to input the room name, choose
+ * if they want their friends to visit the room, and select the background of the room.
+ */
+
 const PrivateRoomCreationForm = ({ onCreateRoom, onCancel }) => {
-  const { getCustomUser } = useAuth();
+  const { getCustomUser } = useAuth()
   const [roomName, setRoomName] = useState("");
   const [visibleToFriends, setVisibleToFriends] = useState(false);
   const [image, setImage] = useState();
@@ -33,21 +38,17 @@ const PrivateRoomCreationForm = ({ onCreateRoom, onCancel }) => {
   );
 
   useEffect(() => {
-    (async () => {
-      const assetIds = getCustomUser().assets;
-      const allAssets = await Promise.all(
-        assetIds.map((id) =>
-          fetchProductHandler.run({
-            query: { id },
-          })
-        )
-      );
+    ; (async () => {
+      const assetIds = getCustomUser().assets
+      const allAssets = await Promise.all(assetIds.map(id => fetchProductHandler.run({
+        query: { id }
+      })))
       const bgList = allAssets
         .filter(({ type }) => type === "background")
-        .map(({ url }) => `/src/assets/backgrounds/${url}`);
-      setBackgroundList(bgList);
-    })();
-  }, [getCustomUser, setBackgroundList]);
+        .map(({ url }) => `/src/assets/backgrounds/${url}`)
+      setBackgroundList(bgList)
+    })()
+  }, [getCustomUser, setBackgroundList])
 
   const createRoomHandler = useCallback(async () => {
     if (roomName.replaceAll(" ", "") === "") {
@@ -148,7 +149,7 @@ const PrivateRoomCreationForm = ({ onCreateRoom, onCancel }) => {
       <Box sx={{ display: "flex", justifyContent: "flex-end", mb: 4 }}>
         {onCancel && (
           <Button
-            onClick={onCancel || (() => {})}
+            onClick={onCancel || (() => { })}
             variant={"outlined"}
             sx={{ borderColor: "#7012d3", color: "#7012d3", mr: 2 }}
           >

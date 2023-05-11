@@ -5,7 +5,6 @@ import { TextField, Box, Button } from "@mui/material";
 const TokenPage = () => {
   const { getAccessToken } = useAuth()
 
-
   return (
     <Page horizontalCenter verticalCenter title={"Token"}>
       <Box sx={{ paddingX: 20, width: "100%" }}>

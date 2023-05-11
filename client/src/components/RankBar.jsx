@@ -1,5 +1,10 @@
 import { Avatar, Box, Typography } from "@mui/material";
 
+/**
+ * This rank bar is used to display user's rank, profile image, name, xp value, coins, and hours
+ * on the leader board page.
+ */
+
 const RankBar = ({
   rankValue,
   profileImage,

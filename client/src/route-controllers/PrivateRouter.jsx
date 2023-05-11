@@ -8,6 +8,11 @@ import ProfilePage from "../pages/ProfilePage.jsx";
 import StudyingRoomPage from "../pages/StudyingRoomPage.jsx";
 import FriendsPage from "../pages/FriendsPage.jsx";
 
+/**
+ * The private router can route to the "private pages", such as PublicRoomPage, PrivateRoomPage,
+ * LeaderboardPage, MarketplacePage, ProfilePage, StudyingRoomPage, FriendsPage, and TokenPage.
+ */
+
 const PrivateRouter = () => {
   return (
     <>

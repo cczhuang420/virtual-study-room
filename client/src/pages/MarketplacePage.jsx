@@ -9,6 +9,10 @@ import { TabPanelUnstyled } from "@mui/base";
 import TabsUnstyled from "@mui/base/TabsUnstyled";
 import ProductContainer from "../components/productCards/ProductContainer.jsx";
 
+/**
+ * The market place page is used for user to buy background, music, and profile photo.
+ */
+
 const MarketplacePage = () => {
   const Tab = styled(TabUnstyled)`
     font-family: "Rubik", "Nexa", "sans-serif";

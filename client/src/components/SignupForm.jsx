@@ -15,6 +15,10 @@ import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import ThirdPartyLogin from "./ThirdPartyLogin.jsx";
 import { useFetchUsernameSuggestion } from "../api/user-api.js";
 
+/**
+ * This is used for users to sign up for the app.
+ */
+
 const SignupForm = ({ onSubmit }) => {
   const [error, setError] = useState("");
   const [signingUp, setSigningUp] = useState(false);
@@ -45,12 +49,10 @@ const SignupForm = ({ onSubmit }) => {
   }, [fetchUsernameSuggestion]);
 
   const handleSubmit = async () => {
-    const values = { username, email, password };
-    // password requirement is not configurable??!!??!!
-    // https://stackoverflow.com/questions/49183858/is-there-a-way-to-set-a-password-strength-for-firebase
-    if (Object.values(values).some((v) => v.length === 0)) {
-      setError("Please complete all fields");
-      return;
+    const values = { username, email, password }
+    if (Object.values(values).some(v => v.length === 0)) {
+      setError("Please complete all fields")
+      return
     } else if (values.password.length < 8) {
       setError("Password must contain at least 8 characters");
       return;

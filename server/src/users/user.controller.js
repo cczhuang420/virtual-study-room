@@ -14,6 +14,7 @@ class UserController {
     return userModel.findById(id);
   }
 
+  // create the user identity
   async createUser(email, username) {
     const defaultAssets = await productModel.find({ name: "default" });
     return await userModel.create({
@@ -28,6 +29,7 @@ class UserController {
     });
   }
 
+  // get user information
   async getUser(queryParam) {
     const filter = {};
     const fields = Object.keys(userModel.schema.obj);
@@ -43,20 +45,21 @@ class UserController {
     return userModel.findById(id);
   }
 
+  // get the random name suggestion for the username
   async getNameSuggestion(name) {
     const generateRandomName = name
       ? (base) =>
-          base +
-          Array.from({ length: 5 }, () => Math.round(Math.random() * 10)).join(
-            ""
-          )
+        base +
+        Array.from({ length: 5 }, () => Math.round(Math.random() * 10)).join(
+          ""
+        )
       : () =>
-          uniqueNamesGenerator({
-            dictionaries: [adjectives, colors, animals],
-            length: 3,
-            style: "capital",
-            separator: " ",
-          });
+        uniqueNamesGenerator({
+          dictionaries: [adjectives, colors, animals],
+          length: 3,
+          style: "capital",
+          separator: " ",
+        });
 
     let username;
     do {
@@ -70,6 +73,7 @@ class UserController {
     return productModel.findById(productId);
   }
 
+  // purchase the product
   async purchaseProduct(productId, userId) {
     const user = await this.findById(userId);
     const product = await this.findProductById(productId);
@@ -112,12 +116,14 @@ class UserController {
     return assets.filter((it) => it.type === type);
   }
 
+  // add a new todo in the todo list
   async addTodo(userDoc, content) {
     const newTodo = { content, isCompleted: false };
     userDoc.todoList.push(newTodo);
     userDoc.save();
   }
 
+  // toggle the todo between completed and uncompleted
   async toggleTodo(userDoc, content) {
     const prev = userDoc.todoList.find(
       (t) => t.content === content
@@ -132,12 +138,15 @@ class UserController {
     );
   }
 
+  // add the experience and coins to the user if the timer is finished
   async addExperience(userId) {
     const userDoc = await this.findById(userId);
     userDoc.experience = userDoc.experience + 100;
     userDoc.coins = userDoc.coins + 50;
     userDoc.save();
   }
+
+  // modify the username
   async updateName(userId, name) {
     await userModel.updateOne(
       {
@@ -149,6 +158,7 @@ class UserController {
     );
   }
 
+  // modify the profile image
   async updateProfileImage(userId, url) {
     await userModel.updateOne(
       {
@@ -160,6 +170,7 @@ class UserController {
     );
   }
 
+  // use 400 coins to unlock the private room
   async unlockPrivateRoom(userId) {
     const userDoc = await this.findById(userId);
     userDoc.isPrivateRoomUnlocked = true;

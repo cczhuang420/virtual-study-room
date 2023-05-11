@@ -1,4 +1,4 @@
-const {Schema, model} = require("mongoose")
+const { Schema, model } = require("mongoose")
 
 const PrivateRoomSchema = new Schema({
   name: {
@@ -18,7 +18,7 @@ const PrivateRoomSchema = new Schema({
     required: true,
     type: String
   },
-  isVisibleToFriends:{
+  isVisibleToFriends: {
     required: true,
     type: Boolean,
     default: false

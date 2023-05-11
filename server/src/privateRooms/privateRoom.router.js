@@ -14,29 +14,12 @@ router.get("/", [queryValidator(["owner"])], async (req, res) => {
   res.json(await privateRoomController.getPrivateRooms(req.query.owner));
 });
 
-router.post(
-  "/",
-  payloadValidator([
-    "ownerId",
-    "name",
-    "users",
-    "backgroundUrl",
-    "isVisibleToFriends",
-  ]),
-  async (req, res) => {
-    const { ownerId, name, users, backgroundUrl, isVisibleToFriends } =
-      req.body;
+router.post("/", payloadValidator(["ownerId", "name", "users", "backgroundUrl", "isVisibleToFriends"]), async (req, res) => {
+    const { ownerId, name, users, backgroundUrl, isVisibleToFriends } = req.body;
     res.json(
-      await privateRoomController.createPrivateRoom(
-        ownerId,
-        name,
-        users,
-        backgroundUrl,
-        isVisibleToFriends
-      )
-    );
-  }
-);
+        await privateRoomController.createPrivateRoom(ownerId, name, users, backgroundUrl, isVisibleToFriends)
+    )
+})
 
 router.get("/:id", async (req, res) => {
   const { id } = req.params;

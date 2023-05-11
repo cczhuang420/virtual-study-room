@@ -1,5 +1,9 @@
 const { Schema, model } = require("mongoose");
 
+/**
+ * The chat schema is used to store the latest chat.
+ */
+
 const ChatSchema = new Schema({
   sender: {
     require: true,

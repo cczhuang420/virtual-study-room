@@ -6,6 +6,11 @@ import { useSocket } from "../../providers/SocketProvider.jsx";
 import { useFetch } from "../../hooks/useFetch.js";
 import { useNavigate } from "react-router-dom";
 
+/**
+ * A public room container is used to show the public rooms to every user. Each room is shown
+ * as a room card, which has the background image of the room and the room name.
+ */
+
 const PublicRoomsContainer = () => {
   const socket = useSocket();
   const { isLoading, data: publicRooms } = useFetch("publicRooms");
@@ -20,7 +25,7 @@ const PublicRoomsContainer = () => {
 
   return (
     <Box className="flex flex-row flex-wrap h-full">
-      {publicRooms.map(({ _id, name, users, backgroundUrl }) => (
+      {publicRooms.map(({ _id, name, users, }) => (
         <Box
           key={_id}
           sx={{

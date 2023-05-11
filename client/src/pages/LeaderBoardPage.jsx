@@ -5,6 +5,11 @@ import TopLeaderCard from "../components/TopLeaderCard.jsx";
 import RankBar from "../components/RankBar.jsx";
 import { useFetch } from "../hooks/useFetch.js";
 
+/**
+ * The leader board page shows the top 3 leaders on the top of the page, and shows other top
+ * rank users's rank, profile image, name, experience, coins, and hours.
+ */
+
 const LeaderboardPage = () => {
   const { data, isLoading } = useFetch("users");
   const dataModified = isLoading
