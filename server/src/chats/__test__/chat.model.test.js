@@ -25,6 +25,12 @@ afterAll(async () => {
     await mongod.stop();
 });
 
+it('check chats collection', async () => {
+    const chatsFromDb = await ChatModel.find({});
+    expect(chatsFromDb).toBeTruthy();
+    expect(chatsFromDb.length).toBe(2);
 
-it('is true', () => expect(true).toBeTruthy());
-
+    for (let i = 0; i < chatsFromDb.length; i++) {
+        expect(chatsFromDb[i]._id.toString()).toBe(chats[i]._id.toString());
+    }
+})
