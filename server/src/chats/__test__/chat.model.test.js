@@ -20,10 +20,6 @@ beforeEach(async () => {
     await Chats.insertMany(chats);
 });
 
-afterEach(async () => {
-    await mongoose.connection.db.dropCollection('chats')
-})
-
 afterAll(async () => {
     await mongoose.disconnect();
     await mongod.stop();
