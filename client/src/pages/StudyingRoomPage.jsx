@@ -14,6 +14,7 @@ import { HTTP_METHOD } from "../hooks/http-methods.js";
 import Timer from "../components/Timer.jsx";
 import { useNotification } from "../providers/NotificationProvider.jsx";
 import { useMusic } from "../providers/MusicProvider.jsx";
+import PrivateSettingModal from "../components/PrivateSettingModal.jsx";
 
 const sortByOptions = ["name", "experience"];
 
@@ -106,11 +107,15 @@ const StudyingRoomPage = () => {
     [targetUser, setRoomUsers, setChatHistory]
   );
 
+  //setting modal
+  const [openSettingModal, setOpenSettingModal] = useState(false);
+
+  const handleSettingClose = useCallback(() => {
+    setOpenSettingModal(false);
+  }, [openSettingModal]);
+
   useEffect(() => {
     if (!socket) return;
-    socket.emit("join-room", roomId);
-    socket.emit("get-song-for-room", roomId);
-
     socket.listeners("room-member-emails").length !== 0 ||
       socket.on("room-member-emails", async (emails) => {
         const roomMembers = (
@@ -135,6 +140,13 @@ const StudyingRoomPage = () => {
 
     socket.removeAllListeners("new-message");
     socket.on("new-message", newMessageSocketHandler);
+  }, [socket, newMessageSocketHandler, setRoomUsers]);
+
+  useEffect(() => {
+    if (!socket) return;
+    socket.emit("join-room", roomId);
+    socket.emit("get-song-for-room", roomId);
+
     return () => {
       socket.emit("leave-room", roomId);
       socket.off("message-in-rooms");
@@ -142,7 +154,7 @@ const StudyingRoomPage = () => {
 
       pauseMusic();
     };
-  }, [socket, newMessageSocketHandler, setRoomUsers]);
+  }, [socket]);
 
   const handleSendGroupChat = (message) => {
     socket.emit("send-group-message-in-room", {
@@ -225,20 +237,25 @@ const StudyingRoomPage = () => {
               <img src={logo} alt={""} />
             </Box>
             <Box sx={{ pl: 15, paddingY: 2 }}>
-              {/*<Button*/}
-              {/*  onClick={changeSortingHandler}*/}
-              {/*  variant={"contained"}*/}
-              {/*  sx={{*/}
-              {/*    color: "white",*/}
-              {/*    border: "2px solid #FFFFFF88",*/}
-              {/*    backgroundColor: "#FFFFFF32",*/}
-              {/*    "&:hover": {*/}
-              {/*      backgroundColor: "#FFFFFF50",*/}
-              {/*    },*/}
-              {/*  }}*/}
-              {/*>*/}
-              {/*  Sort by {sortBy}*/}
-              {/*</Button>*/}
+              {privateRoom && (
+                <Button
+                  onClick={() => {
+                    setOpenSettingModal(true);
+                  }}
+                  variant={"contained"}
+                  sx={{
+                    color: "black",
+                    fontWeight: 700,
+                    border: "2px solid #FFFFFF88",
+                    backgroundColor: "#FFFFFF32",
+                    "&:hover": {
+                      backgroundColor: "#FFFFFF50",
+                    },
+                  }}
+                >
+                  Setting
+                </Button>
+              )}
             </Box>
             <Box
               className={"hide-scroll-bar"}
@@ -351,6 +368,11 @@ const StudyingRoomPage = () => {
           )}
         </Box>
       </Box>
+      <PrivateSettingModal
+        open={openSettingModal}
+        handleClose={handleSettingClose}
+        roomData={privateRoom}
+      />
     </Page>
   );
 };
