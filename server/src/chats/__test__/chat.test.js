@@ -18,9 +18,12 @@ beforeAll(async () => {
     mongod = await MongoMemoryServer.create();
     const connectionString = mongod.getUri();
     await mongoose.connect(connectionString, { useNewUrlParser: true });
+    await mongoose.connection.db.dropDatabase();
+    await mongoose.connection.db.dropDatabase();
 });
 
 beforeEach(async () => {
+    await mongoose.connection.db.dropDatabase();
     await mongoose.connection.db.dropDatabase();
     const Chats = await mongoose.connection.db.createCollection('chats');
     const Users = await mongoose.connection.db.createCollection('users');
