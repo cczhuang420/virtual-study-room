@@ -54,3 +54,26 @@ describe('Model Tests', () => {
         }
     });
 });
+
+describe('Router Tests', () => {
+    it('test a type of products (GET /api/products)', (done) => {
+        request(app)
+            .get('/api/products')
+            .query({type: "profile-image"})
+            .send()
+            .expect(200)
+            .end(async (err, res) => {
+                if (err) {
+                    return done(err);
+                }
+                const dataFromApi = res.body;
+
+                expect(dataFromApi).toBeTruthy();
+                expect(dataFromApi.length).toBe(2);
+                expect(dataFromApi[0].name).toBe("Frank");
+                expect(dataFromApi[1].name).toBe("Mike");
+
+                done();
+            })
+    });
+});
