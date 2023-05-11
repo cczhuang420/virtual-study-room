@@ -40,10 +40,10 @@ const ChatModal = ({
       } else {
         return (
           receiverEmail !== "All Users" &&
-          (senderId === getCustomUser()._id ||
-            receiverEmail === targetUser.email ||
-            senderId === targetUser._id ||
-            receiverEmail === getCustomUser().email)
+          ((senderId === getCustomUser()._id &&
+            receiverEmail === targetUser.email) ||
+            (senderId === targetUser._id &&
+              receiverEmail === getCustomUser().email))
         );
       }
     });

@@ -65,9 +65,9 @@ const AuthProvider = ({ children }) => {
       if (usersWithSameEmail.length === 0) {
         await createUser(
           "User" +
-          Array.from({ length: 5 }, () =>
-            Math.round(Math.random() * 10)
-          ).join(""),
+            Array.from({ length: 5 }, () =>
+              Math.round(Math.random() * 10)
+            ).join(""),
           emailOrUsername
         );
       }
@@ -117,9 +117,7 @@ const AuthProvider = ({ children }) => {
   const logout = useCallback(async () => {
     try {
       await signOut(auth);
-    } catch (e) {
-      console.error(e);
-    }
+    } catch (e) {}
   }, [auth, signOut]);
 
   const reFetchUserData = useCallback(async () => {

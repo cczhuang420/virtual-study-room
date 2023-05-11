@@ -28,7 +28,6 @@ export const useFetch = (url, headers) => {
       );
       setData(res.data);
     } catch (e) {
-      console.error(e);
       setError({
         status: e.response.status,
         message: e.response.data,

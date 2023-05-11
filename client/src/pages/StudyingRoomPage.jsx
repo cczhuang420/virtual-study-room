@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState, useMemo } from "react";
 import Page from "../containers/Page.jsx";
 import { useParams } from "react-router-dom";
-import { Box, Button, Grid } from "@mui/material";
+import { Box, Button, Grid, IconButton, Slider, Stack } from "@mui/material";
 import RoomUserCard from "../components/RoomUserCard.jsx";
 import logo from "../assets/logo.svg";
 import TodoList from "../components/TodoList";
@@ -14,6 +14,15 @@ import { HTTP_METHOD } from "../hooks/http-methods.js";
 import Timer from "../components/Timer.jsx";
 import { useNotification } from "../providers/NotificationProvider.jsx";
 import { useMusic } from "../providers/MusicProvider.jsx";
+import PrivateSettingModal from "../components/PrivateSettingModal.jsx";
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import StopIcon from "@mui/icons-material/Stop";
+import SkipNextIcon from "@mui/icons-material/SkipNext";
+import SkipPreviousIcon from "@mui/icons-material/SkipPrevious";
+import playButtonStyle from "../utils/MusicButtonStyle.js";
+import VolumeUpRounded from "@mui/icons-material/VolumeUpRounded";
+import VolumeDownRounded from "@mui/icons-material/VolumeDownRounded";
+import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd";
 
 const sortByOptions = ["name", "experience"];
 
@@ -27,18 +36,69 @@ const StudyingRoomPage = () => {
     username: "All Users",
   });
 
+  const [volume, setVolume] = useState(50);
+
+  const [isPlay, setIsPlay] = useState(true);
+  const handlePlay = () => {
+    if (isPlay) {
+      pauseMusic();
+    } else {
+      continueMusic();
+    }
+    setIsPlay((pre) => !pre);
+  };
+
+  const handlePlayPrevious = () => {
+    playPreviousMusic();
+    setIsPlay(true);
+  };
+  const handlePlayNext = () => {
+    playNextMusic();
+    setIsPlay(true);
+  };
+
+  const volumeChangeHandler = (e) => {
+    e.preventDefault();
+    changeVolume(e.target.value);
+    setVolume(e.target.value);
+  };
+
   const { roomId } = useParams();
   const socket = useSocket();
   const { getCustomUser, reFetchUserData } = useAuth();
   const notify = useNotification();
-  const { playMusic, pauseMusic } = useMusic();
+  const {
+    pauseMusic,
+    continueMusic,
+    startPlayList,
+    playPreviousMusic,
+    playNextMusic,
+    changeVolume,
+  } = useMusic();
 
   const { data: publicRoom, isError: isPublicRoomNotFound } = useFetch(
     `publicRooms/${roomId}`
   );
-  const { data: privateRoom } = useFetch(`privateRooms/${roomId}`);
+  const { data: privateRoom, reFetch: reFetchPrivateRoom } = useFetch(
+    `privateRooms/${roomId}`
+  );
 
   const roomData = publicRoom || privateRoom;
+
+  const { run } = useMutation("users/playList", HTTP_METHOD.GET);
+
+  useEffect(() => {
+    if (privateRoom) {
+      (async () => {
+        const data = await run({
+          query: {
+            userId: privateRoom.ownerId,
+          },
+        });
+        startPlayList(data);
+      })();
+    }
+  }, [privateRoom]);
 
   const fetchUserHandler = useMutation("users", HTTP_METHOD.GET);
   const addExperienceHandler = useMutation(
@@ -106,11 +166,35 @@ const StudyingRoomPage = () => {
     [targetUser, setRoomUsers, setChatHistory]
   );
 
+  //setting modal
+  const [openSettingModal, setOpenSettingModal] = useState(false);
+
+  const handleSettingClose = useCallback(() => {
+    setOpenSettingModal(false);
+  }, [openSettingModal]);
+
+  //get users all background
+  const { data: allBackground } = useFetch(
+    `users/getAllBackground?userId=${getCustomUser()._id}`
+  );
+
+  //save the private room setting
+  const { run: savePrivateRoomSetting } = useMutation(
+    `privateRooms/updatePrivateRoomSetting`,
+    HTTP_METHOD.PUT
+  );
+
+  const findIndexOfCurrentImage = () => {
+    for (let i = 0; i < allBackground?.length; i++) {
+      if (allBackground[i].url === roomData?.backgroundUrl) {
+        return i;
+      }
+    }
+    return -1;
+  };
+
   useEffect(() => {
     if (!socket) return;
-    socket.emit("join-room", roomId);
-    socket.emit("get-song-for-room", roomId);
-
     socket.listeners("room-member-emails").length !== 0 ||
       socket.on("room-member-emails", async (emails) => {
         const roomMembers = (
@@ -135,14 +219,29 @@ const StudyingRoomPage = () => {
 
     socket.removeAllListeners("new-message");
     socket.on("new-message", newMessageSocketHandler);
+  }, [socket, newMessageSocketHandler, setRoomUsers]);
+
+  useEffect(() => {
+    if (!socket) return;
+    // join room
+    socket.emit("join-room", roomId);
+
+    // get current streaming song if it is not private room
+    if (!privateRoom) {
+      socket.emit("get-song-for-room", roomId);
+    }
+
     return () => {
+      // unsubscribe from socket events
+      if (!privateRoom) {
+        socket.off("message-in-rooms");
+      }
       socket.emit("leave-room", roomId);
-      socket.off("message-in-rooms");
       socket.off("room-member-emails");
 
       pauseMusic();
     };
-  }, [socket, newMessageSocketHandler, setRoomUsers]);
+  }, [socket]);
 
   const handleSendGroupChat = (message) => {
     socket.emit("send-group-message-in-room", {
@@ -171,7 +270,7 @@ const StudyingRoomPage = () => {
     targetUser.username === "All Users"
       ? handleSendGroupChat
       : handleSendPrivateChat,
-    [targetUser, targetUser.username]
+    [targetUser, targetUser.username, socket]
   );
 
   const handleChangeTargetUser = useCallback(
@@ -180,8 +279,10 @@ const StudyingRoomPage = () => {
       setRoomUsers((prevState) => {
         const newState = JSON.parse(JSON.stringify(prevState));
         const newTarget = newState.find((u) => u.username === user.username);
-        if (newTarget) targetUser.hasUnread = false;
-        console.log(newState);
+        if (newTarget) {
+          targetUser.hasUnread = false;
+          newTarget.hasUnread = false;
+        }
         return newState;
       });
     },
@@ -225,20 +326,25 @@ const StudyingRoomPage = () => {
               <img src={logo} alt={""} />
             </Box>
             <Box sx={{ pl: 15, paddingY: 2 }}>
-              {/*<Button*/}
-              {/*  onClick={changeSortingHandler}*/}
-              {/*  variant={"contained"}*/}
-              {/*  sx={{*/}
-              {/*    color: "white",*/}
-              {/*    border: "2px solid #FFFFFF88",*/}
-              {/*    backgroundColor: "#FFFFFF32",*/}
-              {/*    "&:hover": {*/}
-              {/*      backgroundColor: "#FFFFFF50",*/}
-              {/*    },*/}
-              {/*  }}*/}
-              {/*>*/}
-              {/*  Sort by {sortBy}*/}
-              {/*</Button>*/}
+              {privateRoom && privateRoom.ownerId === getCustomUser()._id && (
+                <Button
+                  onClick={() => {
+                    setOpenSettingModal(true);
+                  }}
+                  variant={"contained"}
+                  sx={{
+                    color: "black",
+                    fontWeight: 700,
+                    border: "2px solid #FFFFFF88",
+                    backgroundColor: "#FFFFFF32",
+                    "&:hover": {
+                      backgroundColor: "#FFFFFF50",
+                    },
+                  }}
+                >
+                  Setting
+                </Button>
+              )}
             </Box>
             <Box
               className={"hide-scroll-bar"}
@@ -256,11 +362,11 @@ const StudyingRoomPage = () => {
                     xs={12}
                     md={6}
                     sx={{ p: 5, pt: 0 }}
-                    key={roomUser.email}
+                    key={JSON.stringify(roomUser)}
                   >
                     <RoomUserCard
                       {...roomUser}
-                      onChat={() => setTargetUser(roomUser)}
+                      onChat={() => handleChangeTargetUser(roomUser)}
                     />
                   </Grid>
                 ))}
@@ -314,7 +420,7 @@ const StudyingRoomPage = () => {
           width: "100%",
         }}
       >
-        <Box>
+        <Box sx={{ display: "flex", alignItems: "center" }}>
           <Button
             onClick={leaveRoomHandler}
             variant={"outlined"}
@@ -330,6 +436,59 @@ const StudyingRoomPage = () => {
             Leave Room
           </Button>
         </Box>
+
+        {/* Play Music Buttons only in the private study rooms*/}
+        {roomData === privateRoom && (
+          <Box className={"space-y-2 w-1/5"} sx={{ minWidth: 150 }}>
+            <Box className={"flex space-x-2 justify-center"}>
+              <IconButton sx={playButtonStyle} onClick={handlePlayPrevious}>
+                <SkipPreviousIcon />
+              </IconButton>
+              <IconButton sx={playButtonStyle} onClick={handlePlay}>
+                {!isPlay ? <PlayArrowIcon /> : <StopIcon />}
+              </IconButton>
+              <IconButton sx={playButtonStyle} onClick={handlePlayNext}>
+                <SkipNextIcon />
+              </IconButton>
+            </Box>
+
+            {/* TODO: handle volume*/}
+            <Stack
+              spacing={2}
+              direction="row"
+              sx={{ mb: 1, px: 1 }}
+              alignItems="center"
+            >
+              <VolumeDownRounded htmlColor={"#fff"} />
+              <Slider
+                aria-label="Volume"
+                defaultValue={30}
+                value={volume}
+                onChange={volumeChangeHandler}
+                sx={{
+                  color: "#fff",
+                  "& .MuiSlider-track": {
+                    border: "none",
+                  },
+                  "& .MuiSlider-thumb": {
+                    width: 24,
+                    height: 24,
+                    backgroundColor: "#fff",
+                    "&:before": {
+                      boxShadow: "0 4px 8px rgba(0,0,0,0.4)",
+                    },
+                    "&:hover, &.Mui-focusVisible, &.Mui-active": {
+                      boxShadow: "none",
+                    },
+                  },
+                }}
+              />
+              <VolumeUpRounded htmlColor={"#fff"} />
+            </Stack>
+          </Box>
+        )}
+
+        {/* SET TIMER*/}
         <Box sx={{ display: "flex", alignItems: "center" }}>
           {showTimer ? (
             <Timer duration={60 * 25} onFinish={timerFinishHandler} />
@@ -351,6 +510,28 @@ const StudyingRoomPage = () => {
           )}
         </Box>
       </Box>
+      {privateRoom && privateRoom.ownerId === getCustomUser()._id && (
+        <PrivateSettingModal
+          open={openSettingModal}
+          handleClose={handleSettingClose}
+          roomData={privateRoom}
+          images={allBackground?.map(
+            (it) => `/src/assets/backgrounds/${it.url}`
+          )}
+          onClickToSave={async (isVisibleToFriend, imageUri) => {
+            const backgroundUri = imageUri.split("/").pop();
+            await savePrivateRoomSetting({
+              query: {
+                privateRoomId: privateRoom._id,
+                isVisibleToFriend: isVisibleToFriend,
+                imageUri: backgroundUri,
+              },
+            });
+            await reFetchPrivateRoom();
+          }}
+          index={findIndexOfCurrentImage()}
+        />
+      )}
     </Page>
   );
 };

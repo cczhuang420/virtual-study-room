@@ -12,12 +12,6 @@ const messageHandler = (io, socket) => {
     // find the receiver socket and send message
     io.sockets.sockets.forEach((eachSocket) => {
       if (eachSocket.user.email === data.receiverEmail) {
-        console.log(
-          data.senderName +
-          " sent message to user with email " +
-          data.receiverEmail
-        );
-
         // send event to update message display
         eachSocket.emit("message", data);
 
@@ -36,15 +30,15 @@ const messageHandler = (io, socket) => {
   });
 
   socket.on("send-group-message-in-room", (data) => {
-    console.log("send-group-message-in-room", data)
-    io.to(data.roomId).emit("new-message", (data))
-  })
+    io.to(data.roomId).emit("new-message", data);
+  });
 
   socket.on("send-private-message-in-room", (data) => {
-    console.log("send-private-message-in-room", data)
-    socket.emit("new-message", data)
-    Array.from(io.sockets.sockets.values()).find(s => s.user.email === data.receiverEmail)?.emit("new-message", data)
-  })
+    socket.emit("new-message", data);
+    Array.from(io.sockets.sockets.values())
+      .find((s) => s.user.email === data.receiverEmail)
+      ?.emit("new-message", data);
+  });
 };
 
 module.exports = messageHandler;

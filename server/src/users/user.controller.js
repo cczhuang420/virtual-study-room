@@ -7,6 +7,7 @@ const {
   animals,
 } = require("unique-names-generator");
 const ytdl = require("ytdl-core");
+const { RetrieveSongsBasicInfo } = require("../services/music");
 
 class UserController {
   async findById(id) {
@@ -194,6 +195,56 @@ class UserController {
     }
     // save the user
     user.save();
+  }
+
+  async getPlayList(id) {
+    if (!id) {
+      return [];
+    }
+
+    const user = await this.findById(id);
+    // sort playlist in random order
+    user.playList.sort(() => Math.random() - 0.5);
+
+    // get the basic info of the songs if it is not already in the playlist with ytdl
+    const songsWithInfo = await Promise.all(
+      user.playList.map(async ({ songUrl, videoId, duration }) => {
+        if (videoId && duration) {
+          return {
+            id: videoId,
+            duration,
+          };
+        }
+
+        // ignore the song if it is not available
+        if (!ytdl.validateURL(songUrl)) {
+          return null;
+        }
+
+        const info = await ytdl.getBasicInfo(songUrl);
+
+        // save the song's title and duration to the database
+        await this.addOrUpdateSong(id, {
+          songUrl,
+          videoId: info.videoDetails.videoId,
+          duration: info.videoDetails.lengthSeconds,
+        });
+
+        return {
+          id: info.videoDetails.videoId,
+          duration: info.videoDetails.lengthSeconds,
+        };
+      })
+    );
+
+    // remove the songs that are not available
+    for (let i = songsWithInfo.length - 1; i >= 0; i--) {
+      if (!songsWithInfo[i]) {
+        songsWithInfo.splice(i, 1);
+      }
+    }
+
+    return songsWithInfo;
   }
 }
 

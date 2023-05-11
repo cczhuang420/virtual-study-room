@@ -25,6 +25,7 @@ const PrivateRoomsContainer = ({
     <Grid container sx={{ height: "100%" }}>
       {privateRooms.map(({ _id, name, backgroundUrl }, index) => (
         <Grid
+          item
           xs={6}
           key={_id}
           sx={{
@@ -50,6 +51,7 @@ const PrivateRoomsContainer = ({
 
       {onAddNewRoom && (
         <Grid
+          item
           xs={6}
           sx={{
             minWidth: 250,

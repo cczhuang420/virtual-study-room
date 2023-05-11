@@ -28,11 +28,14 @@ const PrivateRoomCreationForm = ({ onCreateRoom, onCancel }) => {
   const [visibleToFriends, setVisibleToFriends] = useState(false);
   const [image, setImage] = useState();
   const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false)
-  const [backgroundList, setBackgroundList] = useState([])
+  const [loading, setLoading] = useState(false);
+  const [backgroundList, setBackgroundList] = useState([]);
 
-  const fetchProductHandler = useMutation("products/one", HTTP_METHOD.GET)
-  const createPrivateRoomHandler = useMutation("privateRooms", HTTP_METHOD.POST)
+  const fetchProductHandler = useMutation("products/one", HTTP_METHOD.GET);
+  const createPrivateRoomHandler = useMutation(
+    "privateRooms",
+    HTTP_METHOD.POST
+  );
 
   useEffect(() => {
     ; (async () => {
@@ -60,19 +63,19 @@ const PrivateRoomCreationForm = ({ onCreateRoom, onCancel }) => {
       name: roomName,
       users: [],
       backgroundUrl: image.split("/").reverse()[0],
-      isVisibleToFriends: visibleToFriends
-    }
-    setLoading(true)
+      isVisibleToFriends: visibleToFriends,
+    };
+    setLoading(true);
     try {
       await createPrivateRoomHandler.run({
-        body
-      })
+        body,
+      });
     } catch (e) {
-      throw e
+      throw e;
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-    onCreateRoom()
+    onCreateRoom();
   }, [roomName, visibleToFriends, image]);
 
   return (
@@ -134,9 +137,10 @@ const PrivateRoomCreationForm = ({ onCreateRoom, onCancel }) => {
       <Box sx={{ mb: 4 }}>
         <BackgroundSelectorGrid
           images={backgroundList}
-          onClick={(index) =>
-            setImage((image) => (index === image ? undefined : index))
-          }
+          onClick={(index) => {
+            setImage((image) => (index === image ? undefined : index));
+          }}
+          index={-1}
         />
       </Box>
       <Box sx={{ display: "flex", justifyContent: "flex-end", mb: 4 }}>
@@ -155,7 +159,8 @@ const PrivateRoomCreationForm = ({ onCreateRoom, onCancel }) => {
         <LoadingButton
           loading={loading}
           variant={"contained"}
-          onClick={createRoomHandler} sx={{ backgroundColor: "#7012d3" }}
+          onClick={createRoomHandler}
+          sx={{ backgroundColor: "#7012d3" }}
         >
           Create
         </LoadingButton>

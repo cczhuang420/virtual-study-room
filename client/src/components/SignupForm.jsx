@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from "react"
+import React, { useCallback, useRef, useState } from "react";
 import { useFormik } from "formik";
 import {
   InputLabel,
@@ -7,11 +7,11 @@ import {
   OutlinedInput,
   InputAdornment,
   IconButton,
-  TextField
+  TextField,
 } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
-import VisibilityIcon from "@mui/icons-material/Visibility"
-import VisibilityOffIcon from "@mui/icons-material/VisibilityOff"
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import ThirdPartyLogin from "./ThirdPartyLogin.jsx";
 import { useFetchUsernameSuggestion } from "../api/user-api.js";
 
@@ -20,35 +20,33 @@ import { useFetchUsernameSuggestion } from "../api/user-api.js";
  */
 
 const SignupForm = ({ onSubmit }) => {
+  const [error, setError] = useState("");
+  const [signingUp, setSigningUp] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [gettingSuggestion, setGettingSuggestion] = useState(false);
 
-  const [error, setError] = useState("")
-  const [signingUp, setSigningUp] = useState(false)
-  const [showPassword, setShowPassword] = useState(false)
-  const [gettingSuggestion, setGettingSuggestion] = useState(false)
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  const [username, setUsername] = useState("")
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
+  const baseName = useRef("");
 
-  const baseName = useRef("")
-
-  const fetchUsernameSuggestion = useFetchUsernameSuggestion()
+  const fetchUsernameSuggestion = useFetchUsernameSuggestion();
 
   const getSuggestedUsername = useCallback(async () => {
-    setGettingSuggestion(true)
+    setGettingSuggestion(true);
     try {
       const username = await fetchUsernameSuggestion(
-        baseName.current.replaceAll(" ", "") === "" ?
-          undefined : baseName.current
-      )
-      setUsername(username)
+        baseName.current.replaceAll(" ", "") === ""
+          ? undefined
+          : baseName.current
+      );
+      setUsername(username);
     } catch (e) {
-      console.error(e)
     } finally {
-      setGettingSuggestion(false)
+      setGettingSuggestion(false);
     }
-
-  }, [fetchUsernameSuggestion])
+  }, [fetchUsernameSuggestion]);
 
   const handleSubmit = async () => {
     const values = { username, email, password }
@@ -56,32 +54,37 @@ const SignupForm = ({ onSubmit }) => {
       setError("Please complete all fields")
       return
     } else if (values.password.length < 8) {
-      setError("Password must contain at least 8 characters")
-      return
+      setError("Password must contain at least 8 characters");
+      return;
     } else if (!/\S+@\S+\.\S+/.test(values.email)) {
-      setError("Invalid email address")
-      return
+      setError("Invalid email address");
+      return;
     }
 
-    setSigningUp(true)
+    setSigningUp(true);
     try {
-      await onSubmit(values)
+      await onSubmit(values);
     } catch (e) {
-      console.error(e)
       if (e.message.includes("auth/email-already-in-use")) {
-        setError("Email is already taken")
+        setError("Email is already taken");
       } else {
-        setError(e.message)
+        setError(e.message);
       }
     } finally {
-      setSigningUp(false)
+      setSigningUp(false);
     }
-  }
+  };
 
   return (
     <Box>
       <Box sx={{ mb: { xs: 1, md: 2 } }}>
-        <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
           <InputLabel>Username</InputLabel>
           <LoadingButton
             loading={gettingSuggestion}
@@ -94,20 +97,20 @@ const SignupForm = ({ onSubmit }) => {
         <TextField
           value={username}
           onChange={(e) => {
-            setUsername(e.target.value)
-            baseName.current = e.target.value
+            setUsername(e.target.value);
+            baseName.current = e.target.value;
           }}
         />
       </Box>
       <Box sx={{ mb: { xs: 1, md: 2 } }}>
         <InputLabel>Email</InputLabel>
-        <TextField value={email} onChange={e => setEmail(e.target.value)} />
+        <TextField value={email} onChange={(e) => setEmail(e.target.value)} />
       </Box>
       <Box sx={{ mb: { xs: 1, md: 2 } }}>
         <InputLabel>Password</InputLabel>
         <OutlinedInput
           name={password}
-          onChange={e => setPassword(e.target.value)}
+          onChange={(e) => setPassword(e.target.value)}
           type={showPassword ? "text" : "password"}
           endAdornment={
             <InputAdornment position={"end"}>
@@ -119,22 +122,20 @@ const SignupForm = ({ onSubmit }) => {
         />
       </Box>
       <Box>
-        <FormHelperText>
-          {error}
-        </FormHelperText>
+        <FormHelperText>{error}</FormHelperText>
       </Box>
       <Box
         sx={{
           display: "flex",
           flexDirection: {
             xs: "column",
-            md: "row-reverse"
+            md: "row-reverse",
           },
           justifyContent: "space-between",
           alignItems: {
             xs: "flex-end",
-            md: "center"
-          }
+            md: "center",
+          },
         }}
       >
         <LoadingButton
@@ -143,15 +144,19 @@ const SignupForm = ({ onSubmit }) => {
           variant={"contained"}
           sx={{
             width: { xs: "100%", md: "auto" },
-            mb: 2
+            mb: 2,
           }}
         >
           Submit
         </LoadingButton>
-        <ThirdPartyLogin onError={() => setError("Your email exists with different credential.")} />
+        <ThirdPartyLogin
+          onError={() =>
+            setError("Your email exists with different credential.")
+          }
+        />
       </Box>
     </Box>
-  )
-}
+  );
+};
 
-export default SignupForm
+export default SignupForm;
