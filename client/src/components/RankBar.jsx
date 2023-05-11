@@ -1,4 +1,4 @@
-import {Avatar, Box, Typography} from "@mui/material";
+import { Avatar, Box, Typography } from "@mui/material";
 
 const RankBar = ({
   rankValue,
@@ -11,8 +11,6 @@ const RankBar = ({
   return (
     <Box
       display={"flex"}
-      //flexDirection={"row"}
-      //justifyContent={"space-around"}
       alignItems={"center"}
       sx={{
         height: "100%",
@@ -30,7 +28,7 @@ const RankBar = ({
           color: "white",
           mr: "0.5rem",
           overflow: "hidden",
-            flex: 1,
+          flex: 1,
         }}
       >
         {rankValue.toLocaleString()}
@@ -41,12 +39,12 @@ const RankBar = ({
         alignItems={"center"}
         justifyContent={profileImage === "" ? 'center' : 'flex-start'}
         sx={{
-            flex: 1,
-            overflow: "hidden",
-            textOverflow: "ellipsis"
+          flex: 1,
+          overflow: "hidden",
+          textOverflow: "ellipsis"
         }}
       >
-        {profileImage !== "" && (<Avatar src={profileImage} sx={{mr: 1}} />)}
+        {profileImage !== "" && (<Avatar src={profileImage} sx={{ mr: 1 }} />)}
         <Typography
           sx={{
             textAlign: "center",
@@ -70,7 +68,7 @@ const RankBar = ({
           color: "white",
           mr: "0.5rem",
           overflow: "hidden",
-            flex: 1,
+          flex: 1,
         }}
       >
         {xpValue.toLocaleString()}
@@ -83,7 +81,7 @@ const RankBar = ({
           color: "white",
           mr: "0.5rem",
           overflow: "hidden",
-            flex: 1,
+          flex: 1,
         }}
       >
         {assetValue.toLocaleString()}
@@ -96,7 +94,7 @@ const RankBar = ({
           color: "white",
           mr: "0.5rem",
           overflow: "hidden",
-            flex: 1,
+          flex: 1,
         }}
       >
         {hours.toLocaleString()}

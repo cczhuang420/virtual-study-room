@@ -124,9 +124,7 @@ const AuthProvider = ({ children }) => {
   const logout = useCallback(async () => {
     try {
       await signOut(auth);
-    } catch (e) {
-      console.error(e);
-    }
+    } catch (e) {}
   }, [auth, signOut]);
 
   const reFetchUserData = useCallback(async () => {
@@ -136,7 +134,6 @@ const AuthProvider = ({ children }) => {
           email: firebaseUser.email,
         },
       });
-      console.log(res[0]);
       setUserData(res[0]);
     }
   }, [firebaseUser, fetchUserHandler]);

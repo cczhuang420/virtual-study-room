@@ -1,8 +1,6 @@
 const ytdl = require("ytdl-core");
 const publicRoomControllerClass = require("../publicRooms/publicRoom.controller");
 const publicRoomController = new publicRoomControllerClass();
-const userControllerClass = require("../users/user.controller");
-const userController = new userControllerClass();
 
 const ConfigureMusicService = async (callback) => {
   // Get all public rooms from database along with the songs in each room
@@ -65,45 +63,4 @@ const ConfigureMusicService = async (callback) => {
   });
 };
 
-const RetrieveSongsBasicInfo = async (uid, songs) => {
-  const songsWithInfo = await Promise.all(
-    songs.map(async ({ songUrl, videoId, duration }) => {
-      // if there is already a videoId and duration, then the song is already processed
-      if (videoId && duration) {
-        return {
-          id: videoId,
-          duration,
-        };
-      }
-      // ignore the song if it is not available
-      if (!ytdl.validateURL(songUrl)) {
-        return null;
-      }
-
-      const info = await ytdl.getBasicInfo(songUrl);
-
-      // save the song's title and duration to the database
-      await userController.addOrUpdateSong(uid, {
-        songUrl,
-        videoId: info.videoDetails.videoId,
-        duration: info.videoDetails.lengthSeconds,
-      });
-
-      return {
-        id: info.videoDetails.videoId,
-        duration: info.videoDetails.lengthSeconds,
-      };
-    })
-  );
-
-  // remove the songs that are not available
-  for (let i = songsWithInfo.length - 1; i >= 0; i--) {
-    if (!songsWithInfo[i]) {
-      songsWithInfo.splice(i, 1);
-    }
-  }
-
-  return songsWithInfo;
-};
-
-module.exports = { ConfigureMusicService, RetrieveSongsBasicInfo };
+module.exports = { ConfigureMusicService };

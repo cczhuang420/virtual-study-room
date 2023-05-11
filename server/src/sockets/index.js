@@ -8,8 +8,6 @@ const ConfigureSocket = (io) => {
   io.use(firebaseSocketAuth);
 
   ConfigureMusicService((rooms) => {
-    console.dir(rooms, { depth: 10 });
-    console.log("Music service configured");
     registerMusicHandler(io, rooms);
   });
 
