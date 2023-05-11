@@ -1,4 +1,4 @@
-import { useState, useEffect, createContext, useContext, useRef } from "react";
+import { useState, createContext, useContext, useRef } from "react";
 import YouTube from "react-youtube";
 
 const context = createContext({});
