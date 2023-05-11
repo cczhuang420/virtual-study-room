@@ -13,9 +13,7 @@ import {
   getAuth,
   signOut,
   signInWithPopup,
-  signInAnonymously,
   GoogleAuthProvider,
-  GithubAuthProvider,
 } from "firebase/auth";
 import { auth } from "../firebase.js";
 import {
@@ -30,7 +28,6 @@ import { useLocation } from "react-router-dom";
 const context = createContext({});
 
 const googleAuthProvider = new GoogleAuthProvider();
-const githubAuthProvider = new GithubAuthProvider();
 
 const AuthProvider = ({ children }) => {
   const createUser = useCreateUserHandler();
@@ -117,10 +114,6 @@ const AuthProvider = ({ children }) => {
     [auth, signInWithPopup]
   );
 
-  const anonymousSignIn = useCallback(async () => {
-    await signInAnonymously(auth);
-  }, [signInAnonymously]);
-
   const logout = useCallback(async () => {
     try {
       await signOut(auth);
@@ -179,8 +172,6 @@ const AuthProvider = ({ children }) => {
       getAccessToken: () => firebaseUser.accessToken,
       logout,
       googleSignIn: () => thirdPartySignIn(googleAuthProvider),
-      githubSignIn: () => thirdPartySignIn(githubAuthProvider),
-      anonymousSignIn,
       reFetchUserData,
     }),
     [
@@ -189,12 +180,10 @@ const AuthProvider = ({ children }) => {
       userData,
       thirdPartySignIn,
       googleAuthProvider,
-      githubAuthProvider,
       login,
       logout,
       signup,
       reFetchUserData,
-      anonymousSignIn,
     ]
   );
 
