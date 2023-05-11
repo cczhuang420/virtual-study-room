@@ -279,7 +279,10 @@ const StudyingRoomPage = () => {
       setRoomUsers((prevState) => {
         const newState = JSON.parse(JSON.stringify(prevState));
         const newTarget = newState.find((u) => u.username === user.username);
-        if (newTarget) targetUser.hasUnread = false;
+        if (newTarget) {
+          targetUser.hasUnread = false;
+          newTarget.hasUnread = false;
+        }
         return newState;
       });
     },
@@ -359,7 +362,7 @@ const StudyingRoomPage = () => {
                     xs={12}
                     md={6}
                     sx={{ p: 5, pt: 0 }}
-                    key={roomUser.email}
+                    key={JSON.stringify(roomUser)}
                   >
                     <RoomUserCard
                       {...roomUser}
