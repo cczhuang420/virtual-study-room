@@ -37,7 +37,9 @@ const StudyingRoomPage = () => {
   const { data: publicRoom, isError: isPublicRoomNotFound } = useFetch(
     `publicRooms/${roomId}`
   );
-  const { data: privateRoom } = useFetch(`privateRooms/${roomId}`);
+  const { data: privateRoom, reFetch: reFetchPrivateRoom } = useFetch(
+    `privateRooms/${roomId}`
+  );
 
   const roomData = publicRoom || privateRoom;
 
@@ -118,6 +120,21 @@ const StudyingRoomPage = () => {
   const { data: allBackground } = useFetch(
     `users/getAllBackground?userId=${getCustomUser()._id}`
   );
+
+  //save the private room setting
+  const { run: savePrivateRoomSetting } = useMutation(
+    `privateRooms/updatePrivateRoomSetting`,
+    HTTP_METHOD.PUT
+  );
+
+  const findIndexOfCurrentImage = () => {
+    for (let i = 0; i < allBackground?.length; i++) {
+      if (allBackground[i].url === roomData?.backgroundUrl) {
+        return i;
+      }
+    }
+    return -1;
+  };
 
   useEffect(() => {
     if (!socket) return;
@@ -381,9 +398,18 @@ const StudyingRoomPage = () => {
           images={allBackground?.map(
             (it) => `/src/assets/backgrounds/${it.url}`
           )}
-          onClickToSave={(isVisibleToFriend, imageIndex) => {
-            console.log(isVisibleToFriend, imageIndex);
+          onClickToSave={async (isVisibleToFriend, imageUri) => {
+            const backgroundUri = imageUri.split("/").pop();
+            await savePrivateRoomSetting({
+              query: {
+                privateRoomId: privateRoom._id,
+                isVisibleToFriend: isVisibleToFriend,
+                imageUri: backgroundUri,
+              },
+            });
+            await reFetchPrivateRoom();
           }}
+          index={findIndexOfCurrentImage()}
         />
       )}
     </Page>

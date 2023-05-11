@@ -4,7 +4,7 @@ import BackgroundCard from "./BackgroundCard";
 
 export default function BackgroundSelectorGrid({ images, onClick, index }) {
   const [backgroundSelectedArray, setBackgroundSelectedArray] = useState(
-    images.map((_, i) => i === 0)
+    images?.map((_, i) => i === index) || []
   );
 
   useEffect(() => {
@@ -14,7 +14,7 @@ export default function BackgroundSelectorGrid({ images, onClick, index }) {
   }, []);
 
   const handleBackgroundOnClick = (index) => {
-    setBackgroundSelectedArray(new Array(images.length).fill(false));
+    setBackgroundSelectedArray(new Array(images?.length).fill(false));
 
     setBackgroundSelectedArray((prevState) => {
       const newState = [...prevState];
@@ -80,7 +80,7 @@ export default function BackgroundSelectorGrid({ images, onClick, index }) {
       >
         <Grid container spacing={3}>
           {images?.map((image, index) => (
-            <Grid key={index} item xs={12} sm={4} mb={3}>
+            <Grid key={image} item xs={12} sm={4} mb={3}>
               <BackgroundCard
                 image={image}
                 isSelectable={true}

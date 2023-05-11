@@ -7,13 +7,12 @@ import {
   FormControlLabel,
   IconButton,
   Modal,
-  Stack,
   Tooltip,
   Typography,
   useTheme,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close.js";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useState } from "react";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline.js";
 import BackgroundSelectorGrid from "./BackgroundSelectorGrid.jsx";
 
@@ -37,9 +36,12 @@ const PrivateSettingModal = ({
   roomData,
   images,
   onClickToSave,
+  index,
 }) => {
   const theme = useTheme();
-  const [image, setImage] = useState();
+  const [image, setImage] = useState(
+    `/src/assets/backgrounds/${roomData?.backgroundUrl}`
+  );
   const [visibleToFriend, setVisibleToFriend] = useState(
     roomData ? roomData.isVisibleToFriends : false
   );
@@ -83,7 +85,6 @@ const PrivateSettingModal = ({
               <IconButton
                 onClick={() => {
                   handleClose();
-                  console.log(roomData);
                 }}
               >
                 <CloseIcon sx={{ color: "#fff" }} />
@@ -130,10 +131,10 @@ const PrivateSettingModal = ({
             <Box sx={{ mb: 4, overflowY: "auto" }} height={"80%"}>
               <BackgroundSelectorGrid
                 images={images}
-                onClick={(index) =>
-                  setImage((image) => (index === image ? undefined : index))
-                }
-                index={-1}
+                onClick={(imageUri) => {
+                  setImage(imageUri);
+                }}
+                index={index}
               />
             </Box>
             <Box display={"flex"} justifyContent={"flex-end"}>

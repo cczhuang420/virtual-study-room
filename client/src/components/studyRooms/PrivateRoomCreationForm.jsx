@@ -136,9 +136,9 @@ const PrivateRoomCreationForm = ({ onCreateRoom, onCancel }) => {
       <Box sx={{ mb: 4 }}>
         <BackgroundSelectorGrid
           images={backgroundList}
-          onClick={(index) =>
-            setImage((image) => (index === image ? undefined : index))
-          }
+          onClick={(index) => {
+            setImage((image) => (index === image ? undefined : index));
+          }}
           index={-1}
         />
       </Box>
