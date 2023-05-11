@@ -1,5 +1,9 @@
 const { Schema, model } = require("mongoose");
 
+/**
+ * The user schema is used to store the user information.
+ */
+
 const UserSchema = new Schema({
   email: {
     required: true,

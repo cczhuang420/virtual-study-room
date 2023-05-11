@@ -14,8 +14,8 @@ const messageHandler = (io, socket) => {
       if (eachSocket.user.email === data.receiverEmail) {
         console.log(
           data.senderName +
-            " sent message to user with email " +
-            data.receiverEmail
+          " sent message to user with email " +
+          data.receiverEmail
         );
 
         // send event to update message display

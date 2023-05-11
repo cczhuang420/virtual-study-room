@@ -24,10 +24,10 @@ const SearchUserModal = ({ open, onClose }) => {
 
   const allUsers = !isLoading
     ? data.map(({ _id, username, profile }) => ({
-        id: _id,
-        name: username,
-        image: `/src/assets/profiles/${profile}`,
-      }))
+      id: _id,
+      name: username,
+      image: `/src/assets/profiles/${profile}`,
+    }))
     : [];
 
   return (

@@ -22,10 +22,10 @@ const ModalProductCard = ({ image, title, value }) => {
         width: "100%",
         borderRadius: "13px",
         backgroundImage: `url(${value === 0
-            ? image
-            : value === 1
-              ? musicBackground
-              : profileBackground
+          ? image
+          : value === 1
+            ? musicBackground
+            : profileBackground
           })`,
         backgroundSize: "cover",
         "&:hover": {

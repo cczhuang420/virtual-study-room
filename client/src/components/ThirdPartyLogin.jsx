@@ -9,7 +9,7 @@ import { useAuth } from "../providers/AuthProvider.jsx";
 
 const ThirdPartyLogin = ({ onError }) => {
 
-  const { googleSignIn} = useAuth()
+  const { googleSignIn } = useAuth()
 
   const signInErrorBoundary = useCallback(async (signIn) => {
     try {
