@@ -3,9 +3,12 @@ import Section from "../containers/HomePageSection.jsx";
 import { Box, styled, Typography } from "@mui/material";
 import LottiePlayer from "./LottiePlayer.jsx";
 
-// TODO: delete the following header1 for "What we do" text if others agree
+/**
+ * This is the intro screen which contains two sections "STUDY ROOM" and "REWARDS", and the
+ * animations that are used to attract users.
+ */
+
 const IntroScreen = ({
-  header1,
   header2,
   animation,
   description,
@@ -13,32 +16,6 @@ const IntroScreen = ({
 }) => {
   return (
     <Section verticalCenter horizontalCenter>
-      {/*{header1 && (*/}
-      {/*  <Box*/}
-      {/*    sx={{*/}
-      {/*      position: "absolute",*/}
-      {/*      top: {*/}
-      {/*        xs: 0,*/}
-      {/*        md: "50px",*/}
-      {/*      },*/}
-      {/*      left: "50%",*/}
-      {/*      transform: "translateX(-50%)",*/}
-      {/*    }}*/}
-      {/*  >*/}
-      {/*    <StyledTypography*/}
-      {/*      sx={{*/}
-      {/*        fontWeight: "800",*/}
-      {/*        whiteSpace: "nowrap",*/}
-      {/*        fontSize: {*/}
-      {/*          xs: "34px",*/}
-      {/*          md: "48px",*/}
-      {/*        },*/}
-      {/*      }}*/}
-      {/*    >*/}
-      {/*      {header1}*/}
-      {/*    </StyledTypography>*/}
-      {/*  </Box>*/}
-      {/*)}*/}
       <Box
         sx={{
           display: "flex",
