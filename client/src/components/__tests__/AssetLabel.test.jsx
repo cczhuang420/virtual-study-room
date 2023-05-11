@@ -2,7 +2,7 @@ import '@testing-library/jest-dom';
 import { describe, expect, it } from 'vitest';
 import { render } from '@testing-library/react';
 import AssetLabel from '../AssetLabel';
-import AssetXPIcon from ".../assets/asset-xp-icon.svg";
+import AssetXPIcon from '.../assets/asset-xp-icon.svg';
 
 it('renders correctly when only value is provided', () => {
     const value = 300
@@ -11,7 +11,7 @@ it('renders correctly when only value is provided', () => {
         <AssetLabel value={value} />
     );
 
-    // Ensure the user's experience / coins appears correctly.
+    // Ensure the user's experience / coins appears correctly
     expect(getByText('300')).toBeInTheDocument();
 
     // Check that there are no images
@@ -26,7 +26,7 @@ it('renders correctly when the value and image are supplied', () => {
         <AssetLabel image={AssetXPIcon} value={value} />
     );
 
-    // Ensure the user's experience / coins appears correctly.
+    // Ensure the user's experience / coins appears correctly
     expect(getByText('500')).toBeInTheDocument();
 
     // Check that there's an image

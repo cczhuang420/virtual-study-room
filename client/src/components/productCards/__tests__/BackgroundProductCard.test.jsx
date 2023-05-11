@@ -7,14 +7,14 @@ import BackgroundImage from '..../assets/backgrounds/Room1.png';
 it('renders correctly when only value and image are provided', () => {
     const value = 300
     const productName = 'Background'
-    
+
     const { getByText, queryByRole, queryByText } = render(
         <BackgroundProductCard value={value} image={BackgroundImage} />
     );
 
-    // Ensure the cost of the background appears correctly.
+    // Ensure the cost of the background appears correctly
     expect(getByText('300')).toBeInTheDocument();
-    // Ensure the product name does not appear.
+    // Ensure the product name does not appear
     expect(queryByText('Background')).not.toBeInTheDocument();
 
     // Check that there is an image
@@ -30,9 +30,9 @@ it('renders correctly when only value and productName are provided', () => {
         <BackgroundProductCard value={value} productName={productName} />
     );
 
-    // Ensure the cost of the background appears correctly.
+    // Ensure the cost of the background appears correctly
     expect(getByText('300')).toBeInTheDocument();
-    // Ensure the product name appears correctly.
+    // Ensure the product name appears correctly
     expect(getByText('Background')).toBeInTheDocument();
 
     // Check that there are no images
@@ -54,7 +54,7 @@ it('renders correctly when all inputs are provided', () => {
     // Ensure the product name appears correctly.
     expect(getByText('Background')).toBeInTheDocument();
 
-    // Check that there are no images
+    // Check that there is an image
     const image = queryByRole('Image');
     expect(image).toBeDefined();
 });
