@@ -114,7 +114,7 @@ describe('Router Tests', () => {
                 expect(dataFromDb.length).toBe(3);
                 expect(dataFromDb[dataFromDb.length-1].name).toBe("Testing1");
 
-                done()
+                done();
 
             });
 
