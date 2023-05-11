@@ -91,4 +91,32 @@ describe('Router Tests', () => {
                 done();
             });
     });
+
+    it('test create new private room (POST /api/privateRooms)', (done) => {
+        const newRoom = {
+            ownerId: "000000000000000000000001",
+            name: "Testing1",
+            users: [],
+            backgroundUrl: "testing.svg",
+            isVisibleToFriends: true
+        }
+        request(app)
+            .post('/api/privateRooms')
+            .send(newRoom)
+            .expect(200)
+            .end(async (err, res) => {
+                if (err) {
+                    return done(err);
+                }
+                const dataFromDb = await PrivateRoomModel.find({});
+
+                expect(dataFromDb).toBeTruthy();
+                expect(dataFromDb.length).toBe(3);
+                expect(dataFromDb[dataFromDb.length-1].name).toBe("Testing1");
+
+                done()
+
+            });
+
+    });
 });
