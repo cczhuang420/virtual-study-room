@@ -363,7 +363,7 @@ const StudyingRoomPage = () => {
                   >
                     <RoomUserCard
                       {...roomUser}
-                      onChat={() => setTargetUser(roomUser)}
+                      onChat={() => handleChangeTargetUser(roomUser)}
                     />
                   </Grid>
                 ))}
