@@ -7,11 +7,13 @@ const MusicProvider = ({ children }) => {
   const [videoId, setVideoId] = useState("");
   const [time, setTime] = useState(0);
   const [playList, setPlayList] = useState([]);
+  const [volume, setVolume] = useState(50);
   const youtubeRef = useRef(null);
 
   const playMusic = (id, time) => {
     setVideoId(id);
     setTime(time);
+
     youtubeRef.current.internalPlayer.playVideo();
 
     // if the music is played from the playlist, then continue playing the next music
@@ -32,8 +34,40 @@ const MusicProvider = ({ children }) => {
     playMusic(firstSong.id, 0);
   };
 
+  const playPreviousMusic = () => {
+    const index = playList.findIndex((song) => song.id === videoId);
+    if (index !== -1) {
+      const previousSong =
+        playList[(index - 1 + playList.length) % playList.length];
+      playMusic(previousSong.id, 0);
+    }
+  };
+
+  const playNextMusic = () => {
+    // if no playlist, then keep playing the current music
+    if (playList.length === 0) {
+      youtubeRef.current.internalPlayer.playVideo();
+      return;
+    }
+
+    const index = playList.findIndex((song) => song.id === videoId);
+    if (index !== -1) {
+      const nextSong = playList[(index + 1) % playList.length];
+      playMusic(nextSong.id, 0);
+    }
+  };
+
+  const changeVolume = (volume) => {
+    youtubeRef.current.internalPlayer.setVolume(volume);
+    setVolume(volume);
+  };
+
   const pauseMusic = () => {
     youtubeRef.current.internalPlayer.pauseVideo();
+  };
+
+  const continueMusic = () => {
+    youtubeRef.current.internalPlayer.playVideo();
   };
 
   const stopMusic = () => {
@@ -44,7 +78,11 @@ const MusicProvider = ({ children }) => {
     <context.Provider
       value={{
         startPlayList,
+        playPreviousMusic,
+        playNextMusic,
+        changeVolume,
         playMusic,
+        continueMusic,
         pauseMusic,
         stopMusic,
       }}
@@ -63,12 +101,16 @@ const MusicProvider = ({ children }) => {
           opts={{
             playerVars: {
               autoplay: 1,
+              controls: 0,
+              loop: 1,
               start: time,
             },
           }}
           onReady={(event) => {
+            changeVolume(volume);
             event.target.pauseVideo();
           }}
+          onEnd={playNextMusic}
         />
       </div>
       {children}
