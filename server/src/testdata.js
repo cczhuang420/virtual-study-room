@@ -108,4 +108,22 @@ const privateRooms = [
     }
 ];
 
-export {chats, users, friendRequests, privateRooms};
+const products = [
+    {
+        _id: new mongoose.Types.ObjectId('000000000000000000000001'),
+        name: "Frank",
+        type: "profile-image",
+        price: 100,
+        url: "Frank.svg"
+    },
+    {
+        _id: new mongoose.Types.ObjectId('000000000000000000000002'),
+        name: "Mike",
+        type: "profile-image",
+        price: 100,
+        url: "Mike.svg"
+    }
+];
+
+
+export {chats, users, friendRequests, privateRooms, products};
