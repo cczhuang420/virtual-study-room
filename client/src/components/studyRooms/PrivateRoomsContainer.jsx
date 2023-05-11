@@ -4,6 +4,12 @@ import RoomCreater from "../RoomCreater.jsx";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
+/**
+ * A private room container contains the private rooms that the user created. Each room card
+ * contains a background image and a room name. The room creater will be used if the user would
+ * like to create a new private room.
+ */
+
 const PrivateRoomsContainer = ({
   privateRooms = [],
   isCreateRoom = true,
