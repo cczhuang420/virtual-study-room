@@ -1,5 +1,6 @@
 import { useState, useCallback } from "react";
 import axios from "axios";
+import {useAuth} from "../providers/AuthProvider.jsx";
 
 /**
  * Used for request that is sent on event happens, for example, send DELETE request on button click
@@ -21,6 +22,7 @@ export const useMutation = (url, type) => {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const {getAccessToken} = useAuth()
 
   const run = useCallback(
     async ({ body = {}, query, headers } = {}) => {
@@ -32,13 +34,23 @@ export const useMutation = (url, type) => {
         if (method === "delete" || method === "get") {
           res = await axios[method](
             `${import.meta.env.VITE_SERVICE_URL}/${url}?${queryString}`,
-            { headers }
+            {
+              headers: {
+                Authorization: `Bearer ${getAccessToken?.()}`,
+                ...(headers || {})
+              }
+            }
           );
         } else {
           res = await axios[method](
             `${import.meta.env.VITE_SERVICE_URL}/${url}?${queryString}`,
             body,
-            { headers }
+            {
+              headers: {
+                Authorization: `Bearer ${getAccessToken()}`,
+                ...(headers || {})
+              }
+            }
           );
         }
         setData(res.data);
@@ -47,8 +59,8 @@ export const useMutation = (url, type) => {
       } catch (e) {
         setLoading(false);
         setError({
-          status: e.response.status,
-          message: e.response.data,
+          status: e.response?.status,
+          message: e.response?.data,
         });
         throw e;
       }

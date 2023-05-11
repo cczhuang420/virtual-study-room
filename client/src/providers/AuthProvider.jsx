@@ -167,7 +167,7 @@ const AuthProvider = ({ children }) => {
       getCurrentUser: () => firebaseUser,
       getCustomUser: () => userData,
       // Authorization
-      getAccessToken: () => firebaseUser.accessToken,
+      getAccessToken: () => firebaseUser?.accessToken,
       logout,
       googleSignIn: () => thirdPartySignIn(googleAuthProvider),
       reFetchUserData,
@@ -182,6 +182,7 @@ const AuthProvider = ({ children }) => {
       logout,
       signup,
       reFetchUserData,
+      firebaseUser?.accessToken
     ]
   );
 
