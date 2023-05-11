@@ -1,4 +1,4 @@
-import { useState, createContext, useContext, useRef } from "react";
+import { useState, useEffect, createContext, useContext, useRef } from "react";
 import YouTube from "react-youtube";
 
 const context = createContext({});
@@ -6,12 +6,30 @@ const context = createContext({});
 const MusicProvider = ({ children }) => {
   const [videoId, setVideoId] = useState("");
   const [time, setTime] = useState(0);
+  const [playList, setPlayList] = useState([]);
   const youtubeRef = useRef(null);
 
   const playMusic = (id, time) => {
     setVideoId(id);
     setTime(time);
     youtubeRef.current.internalPlayer.playVideo();
+
+    // if the music is played from the playlist, then continue playing the next music
+    if (playList.length > 0) {
+      const index = playList.findIndex((song) => song.id === id);
+      if (index !== -1) {
+        // start play the next music or the first music if the current music is the last one
+        const nextSong = playList[(index + 1) % playList.length];
+        setVideoId(nextSong.id);
+        setTime(0);
+      }
+    }
+  };
+
+  const startPlayList = (songs) => {
+    setPlayList(songs);
+    const firstSong = songs[0];
+    playMusic(firstSong.id, 0);
   };
 
   const pauseMusic = () => {
@@ -25,6 +43,7 @@ const MusicProvider = ({ children }) => {
   return (
     <context.Provider
       value={{
+        startPlayList,
         playMusic,
         pauseMusic,
         stopMusic,
