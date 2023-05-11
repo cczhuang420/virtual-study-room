@@ -21,12 +21,19 @@ beforeAll(async () => {
 });
 
 beforeEach(async () => {
-
     await mongoose.connection.db.dropDatabase();
     const Chats = await mongoose.connection.db.createCollection('chats');
     const Users = await mongoose.connection.db.createCollection('users');
+    const FriendRequests = await mongoose.connection.db.createCollection('friendrequests');
+    const Products = await mongoose.connection.db.createCollection('products');
+    const PrivateRooms = await mongoose.connection.db.createCollection('privaterooms');
+    const PublicRooms = await mongoose.connection.db.createCollection('publicrooms');
     await Chats.insertMany(chats);
     await Users.insertMany(users);
+    await FriendRequests.insertMany(friendRequests);
+    await Products.insertMany(products);
+    await PrivateRooms.insertMany(privateRooms);
+    await PublicRooms.insertMany(publicRooms);
 });
 
 afterAll(async () => {
