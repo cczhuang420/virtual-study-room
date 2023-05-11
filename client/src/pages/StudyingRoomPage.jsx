@@ -114,6 +114,11 @@ const StudyingRoomPage = () => {
     setOpenSettingModal(false);
   }, [openSettingModal]);
 
+  //get users all background
+  const { data: allBackground } = useFetch(
+    `users/getAllBackground?userId=${getCustomUser()._id}`
+  );
+
   useEffect(() => {
     if (!socket) return;
     socket.listeners("room-member-emails").length !== 0 ||
@@ -237,7 +242,7 @@ const StudyingRoomPage = () => {
               <img src={logo} alt={""} />
             </Box>
             <Box sx={{ pl: 15, paddingY: 2 }}>
-              {privateRoom && (
+              {privateRoom && privateRoom.ownerId === getCustomUser()._id && (
                 <Button
                   onClick={() => {
                     setOpenSettingModal(true);
@@ -368,11 +373,19 @@ const StudyingRoomPage = () => {
           )}
         </Box>
       </Box>
-      <PrivateSettingModal
-        open={openSettingModal}
-        handleClose={handleSettingClose}
-        roomData={privateRoom}
-      />
+      {privateRoom && privateRoom.ownerId === getCustomUser()._id && (
+        <PrivateSettingModal
+          open={openSettingModal}
+          handleClose={handleSettingClose}
+          roomData={privateRoom}
+          images={allBackground?.map(
+            (it) => `/src/assets/backgrounds/${it.url}`
+          )}
+          onClickToSave={(isVisibleToFriend, imageIndex) => {
+            console.log(isVisibleToFriend, imageIndex);
+          }}
+        />
+      )}
     </Page>
   );
 };

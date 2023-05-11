@@ -124,9 +124,7 @@ router.put(
   [payloadValidator(["name", "userId"])],
   async (req, res) => {
     const { name, userId } = req.body;
-    res.json(
-      await userController.updateName(userId, name)
-    )
+    res.json(await userController.updateName(userId, name));
   }
 );
 
@@ -135,9 +133,7 @@ router.put(
   [payloadValidator(["url", "userId"])],
   async (req, res) => {
     const { url, userId } = req.body;
-    res.json(
-      await userController.updateProfileImage(userId, url)
-    )
+    res.json(await userController.updateProfileImage(userId, url));
   }
 );
 
@@ -145,14 +141,21 @@ router.patch(
   "/unlock-private-room",
   [queryValidator(["userId"])],
   async (req, res) => {
-    res.json(
-      await userController.unlockPrivateRoom(req.query.userId)
-    )
+    res.json(await userController.unlockPrivateRoom(req.query.userId));
   }
-)
+);
+
+router.get(
+  "/getAllBackground",
+  [queryValidator(["userId"])],
+  async (req, res) => {
+    const { userId } = req.query;
+    res.json(await userController.findUserProductByType(userId, "background"));
+  }
+);
 
 router.get("/sync", async (req, res) => {
-  res.json(await userController.sync())
-})
+  res.json(await userController.sync());
+});
 
 module.exports = router;

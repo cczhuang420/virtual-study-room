@@ -10,12 +10,9 @@ import {
   Stack,
   Tooltip,
   Typography,
+  useTheme,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close.js";
-import ModalProductCard from "./ModalProductCard.jsx";
-import AssetLabel from "./AssetLabel.jsx";
-import assetMoney from "../assets/asset-money-icon.svg";
-import { LoadingButton } from "@mui/lab";
 import React, { useEffect, useState } from "react";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline.js";
 import BackgroundSelectorGrid from "./BackgroundSelectorGrid.jsx";
@@ -26,7 +23,7 @@ const style = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   width: { xs: "86%", sm: "60%", md: "45%" },
-  height: { xs: "75%", sm: "75%", md: "80%" },
+  height: { xs: "80%", sm: "80%", md: "85%" },
   bgcolor: "#1b0137",
   borderRadius: "13px",
   border: "1px #1b0137 solid",
@@ -34,14 +31,19 @@ const style = {
   p: 1,
 };
 
-const PrivateSettingModal = ({ open, handleClose, roomData }) => {
-  useEffect(() => {
-    console.log(roomData);
-  }, []);
-
+const PrivateSettingModal = ({
+  open,
+  handleClose,
+  roomData,
+  images,
+  onClickToSave,
+}) => {
+  const theme = useTheme();
+  const [image, setImage] = useState();
   const [visibleToFriend, setVisibleToFriend] = useState(
-    roomData?.isVisibleToFriends
+    roomData ? roomData.isVisibleToFriends : false
   );
+
   return (
     <Modal
       aria-labelledby="transition-modal-title"
@@ -73,6 +75,7 @@ const PrivateSettingModal = ({ open, handleClose, roomData }) => {
                 variant={"h5"}
                 color={"white"}
                 pt={1}
+                ml={2}
                 fontWeight={700}
               >
                 Private Room Setting
@@ -122,6 +125,32 @@ const PrivateSettingModal = ({ open, handleClose, roomData }) => {
                   }}
                 />
               </Tooltip>
+            </Box>
+
+            <Box sx={{ mb: 4, overflowY: "auto" }} height={"80%"}>
+              <BackgroundSelectorGrid
+                images={images}
+                onClick={(index) =>
+                  setImage((image) => (index === image ? undefined : index))
+                }
+                index={-1}
+              />
+            </Box>
+            <Box display={"flex"} justifyContent={"flex-end"}>
+              <Button
+                onClick={() => {
+                  onClickToSave(visibleToFriend, image);
+                  handleClose();
+                }}
+                variant={"contained"}
+                size={"small"}
+                sx={{
+                  backgroundColor: theme.palette.secondary.dark,
+                  color: "#fff",
+                }}
+              >
+                Save
+              </Button>
             </Box>
           </Box>
         </Box>
