@@ -76,4 +76,20 @@ describe('Router Tests', () => {
                 done();
             })
     });
+
+    it('test a non-existant type of products (GET /api/products)', (done) => {
+        request(app)
+            .get('/api/products')
+            .query({type: "non-existant"})
+            .send()
+            .expect(400)
+            .end(async (err, res) => {
+                if (err) {
+                    return done(err);
+                }
+                const dataFromApi = res.body;
+
+                done();
+            })
+    });
 });
