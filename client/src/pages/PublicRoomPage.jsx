@@ -8,6 +8,12 @@ import AssetMoneyIcon from "../assets/asset-money-icon.svg";
 import PublicRoomsContainer from "../components/studyRooms/PublicRoomsContainer.jsx";
 import { useAuth } from "../providers/AuthProvider.jsx";
 
+/**
+ * The public room page contains the friend container on the left, the experience and coins of
+ * the user on the top right corner, and the public room container on the middle which contains
+ * 4 public room cards.
+ */
+
 const PublicRoomPage = () => {
   const { getCustomUser } = useAuth();
 

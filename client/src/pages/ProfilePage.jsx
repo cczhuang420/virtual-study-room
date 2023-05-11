@@ -14,6 +14,12 @@ import { HTTP_METHOD } from "../hooks/http-methods.js";
 import FriendRequestItem from "../components/FriendRequestItem.jsx";
 import SelectProfileModal from "../components/SelectProfileModal.jsx";
 
+/**
+ * The public room page contains the user's profile image, coins, experience, username, and the
+ * friend request that has not been accepted or rejected. It also shows the background, music, 
+ * and profile images that the user has.
+ */
+
 const ProfilePage = () => {
   const { getCustomUser } = useAuth();
   const [username, setUserName] = useState(getCustomUser().username);

@@ -1,19 +1,19 @@
-import React, {useCallback, useState} from "react"
-import {Box} from "@mui/material";
+import React, { useCallback, useState } from "react"
+import { Box } from "@mui/material";
 import Page from "../containers/Page.jsx";
 import animation from "../assets/login-animation.json"
 import LottiePlayer from "../components/LottiePlayer.jsx";
 import AuthModal from "../components/AuthModal.jsx";
-import {useAuth} from "../providers/AuthProvider.jsx";
-import {useLocation} from "react-router-dom";
+import { useAuth } from "../providers/AuthProvider.jsx";
+import { useLocation } from "react-router-dom";
 
 const LoginPage = () => {
 
-  const {state} = useLocation()
+  const { state } = useLocation()
 
   const [form, setForm] = useState((state && state.signup) ? "Sign up" : "Log in")
 
-  const {signup, login} = useAuth()
+  const { signup, login } = useAuth()
 
   const loginHandler = useCallback(
     (values) => login(values.email, values.password),
@@ -44,13 +44,13 @@ const LoginPage = () => {
           }
         }}
       >
-        <Box sx={{display: {xs: "none !important", md: "flex !important"}}}>
-          <Box sx={{width: "100%"}}>
+        <Box sx={{ display: { xs: "none !important", md: "flex !important" } }}>
+          <Box sx={{ width: "100%" }}>
             <LottiePlayer animationData={animation} />
           </Box>
         </Box>
         <Box>
-          <Box sx={{width: "70%", height: "70%"}}>
+          <Box sx={{ width: "70%", height: "70%" }}>
             <AuthModal
               form={form}
               onFormChange={(newForm) => setForm(newForm)}

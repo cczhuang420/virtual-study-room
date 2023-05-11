@@ -1,8 +1,8 @@
-import {Box, Button, IconButton, Snackbar} from "@mui/material"
+import { Box, Button, IconButton, Snackbar } from "@mui/material"
 import CloseIcon from "@mui/icons-material/Close"
 import { createContext, useCallback, useContext, useState } from "react";
 
-const context = createContext((message, options) => {});
+const context = createContext((message, options) => { });
 
 const NotificationProvider = ({ children }) => {
   const [message, setMessage] = useState("")
@@ -67,7 +67,7 @@ const NotificationProvider = ({ children }) => {
         }}
         action={
           <Box>
-            {options.map(({text, onClick, closeOnClick}) => (
+            {options.map(({ text, onClick, closeOnClick }) => (
               <Button
                 onClick={() => {
                   onClick()
@@ -83,7 +83,7 @@ const NotificationProvider = ({ children }) => {
               size="small"
               color="inherit"
               onClick={() => setOpenOptionNotification(false)}
-              sx={{pl: 1}}
+              sx={{ pl: 1 }}
             >
               <CloseIcon fontSize="small" />
             </IconButton>

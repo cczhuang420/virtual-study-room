@@ -10,6 +10,12 @@ import PrivateRoomCreationForm from "../components/studyRooms/PrivateRoomCreatio
 import { useFetch } from "../hooks/useFetch.js";
 import { useAuth } from "../providers/AuthProvider.jsx";
 
+/**
+ * The private room page contains the friend container on the left, the experience and coins of
+ * the user on the top right corner, and the private room container on the middle. Also, there
+ * is a private room creation form for user to create new private rooms.
+ */
+
 const PrivateRoomPage = () => {
   const [addingRoom, setAddingRoom] = useState(false);
   const { getCustomUser } = useAuth();
