@@ -1,12 +1,15 @@
 import React, { useCallback } from 'react'
 import { Box, styled, Tooltip } from "@mui/material";
 import google from "../assets/google-logo.svg"
-import github from "../assets/github-logo.svg"
 import { useAuth } from "../providers/AuthProvider.jsx";
+
+/**
+ * This is used for users to login using third party, i.e., Google Account.
+ */
 
 const ThirdPartyLogin = ({ onError }) => {
 
-  const { googleSignIn, githubSignIn } = useAuth()
+  const { googleSignIn} = useAuth()
 
   const signInErrorBoundary = useCallback(async (signIn) => {
     try {
@@ -23,16 +26,6 @@ const ThirdPartyLogin = ({ onError }) => {
           <img src={google} alt={""} />
         </StyledBox>
       </Tooltip>
-      <Tooltip title={"Login with GitHub"}>
-        <StyledBox onClick={() => signInErrorBoundary(githubSignIn)}>
-          <img src={github} alt={""} />
-        </StyledBox>
-      </Tooltip>
-      {/*<Tooltip title={"Login with anonymously"}>*/}
-      {/*  <StyledBox onClick={() => signInErrorBoundary(anonymousSignIn)}>*/}
-      {/*    <img src={anonymous} alt={""} />*/}
-      {/*  </StyledBox>*/}
-      {/*</Tooltip>*/}
     </Box>
   )
 }

@@ -7,32 +7,19 @@ import {
   List,
   ListItem,
   ListItemText,
-  ListItemIcon,
   TextField,
   Typography,
 } from "@mui/material";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { useAuth } from "../providers/AuthProvider.jsx";
-import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
 
-/*
-chatHistory: array of {
-  name: string
-  profileImageUrl: string
-  content: string
-}
-
-targetUser: {
-  name: string
-  uid: string
-}
-
-userList: undefined or array of {
-  name: string
-  uid: string
-  isOnline: boolean
-}
+/**
+ * This chat modal provides the chat box for users to chat in the group or chat with individual
+ * friend.
+ * chatHistory contains the array of chats, where each chat contains the name, profileImageUrl, and content.
+ * targetUser contains the user's name and uid.
+ * userList contains an array of users, where each user contains the name, uid, and whether the user is online or not.
  */
 
 const ChatModal = ({
@@ -161,11 +148,6 @@ const ChatModal = ({
                         >
                           {user.username}
                         </ListItemText>
-                        {/*{user.hasUnread && (*/}
-                        {/*  <ListItemIcon sx={{minWidth: "0"}}>*/}
-                        {/*    <FiberManualRecordIcon sx={{color: "red", fontSize: "8px"}} />*/}
-                        {/*  </ListItemIcon>*/}
-                        {/*)}*/}
                       </ListItem>
                     ))}
                   </List>
