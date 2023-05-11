@@ -1,5 +1,9 @@
 const { Schema, model } = require("mongoose");
 
+/**
+ * The friend request schema is used to store the friend request.
+ */
+
 const FriendRequestSchema = new Schema({
   sender: {
     require: true,

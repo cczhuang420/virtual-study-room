@@ -21,12 +21,7 @@ class FriendController {
     }
   }
 
-  //two user id
-  async deleteFriend(myId, friendId) {
-    await userModel.updateOne({ _id: myId }, { $pull: { friends: friendId } });
-    await userModel.updateOne({ _id: friendId }, { $pull: { friends: myId } });
-  }
-
+  // add friend
   async addFriend(id, fid) {
     const user = await userModel.findById(id);
     const friendUser = await userModel.findById(fid);
@@ -38,6 +33,7 @@ class FriendController {
     }
   }
 
+  // send the friend request
   async sendRequest(id, fid) {
     await friendRequestModel.create({
       sender: id,
@@ -47,6 +43,7 @@ class FriendController {
     });
   }
 
+  // get all the user who sent the friend request
   async getAllSendRequestUser(id) {
     const requests = await friendRequestModel.find({ receiver: id });
     const sendRequestUsers = [];
@@ -59,7 +56,7 @@ class FriendController {
     return sendRequestUsers;
   }
 
-  //check whether these two users have one pending request
+  // check whether these two users have one pending request
   async checkExistPendingRequest(id, fid) {
     const requestFromIdToFid = await friendRequestModel.findOne({
       sender: id,
@@ -75,7 +72,7 @@ class FriendController {
     return requestFromFidToId != null || requestFromIdToFid != null;
   }
 
-  //check whether exist a pending request from fid to id
+  // check whether exist a pending request from fid to id
   async checkExistPendingRequestFromOneSide(id, fid) {
     const request = await friendRequestModel.findOne({
       sender: fid,
@@ -86,7 +83,7 @@ class FriendController {
     return request !== null;
   }
 
-  //the user whose id is id approve the request from the user whose id is fid
+  // the user whose id is id approve the request from the user whose id is fid
   async approvedRequest(id, fid) {
     await friendRequestModel.updateOne(
       {
@@ -99,6 +96,7 @@ class FriendController {
     await this.addFriend(id, fid);
   }
 
+  // reject the friend request
   async rejectedRequest(id, fid) {
     await friendRequestModel.updateOne(
       {
