@@ -15,17 +15,6 @@ const MusicProvider = ({ children }) => {
     setTime(time);
 
     youtubeRef.current.internalPlayer.playVideo();
-
-    // if the music is played from the playlist, then continue playing the next music
-    if (playList.length > 0) {
-      const index = playList.findIndex((song) => song.id === id);
-      if (index !== -1) {
-        // start play the next music or the first music if the current music is the last one
-        const nextSong = playList[(index + 1) % playList.length];
-        setVideoId(nextSong.id);
-        setTime(0);
-      }
-    }
   };
 
   const startPlayList = (songs) => {
