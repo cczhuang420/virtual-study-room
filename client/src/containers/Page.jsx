@@ -1,17 +1,17 @@
-import {Box, IconButton, Drawer, Tooltip} from "@mui/material";
-import {useCallback, useEffect, useMemo} from "react";
+import { Box, IconButton, Drawer, Tooltip } from "@mui/material";
+import { useCallback, useEffect, useMemo } from "react";
 import PublicIcon from '@mui/icons-material/Public';
 import PublicOffIcon from '@mui/icons-material/PublicOff';
 import LeaderboardIcon from '@mui/icons-material/Leaderboard';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import LogoutIcon from '@mui/icons-material/Logout';
 import logo from "../assets/logo.svg"
-import {useAuth} from "../providers/AuthProvider.jsx";
-import {useLocation, useNavigate} from "react-router-dom";
-import {useModal} from "../providers/CheckoutModalProvider.jsx";
+import { useAuth } from "../providers/AuthProvider.jsx";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useModal } from "../providers/CheckoutModalProvider.jsx";
 import privateRoomBg from "../assets/private-room/private-room-bg.svg"
-import {useMutation} from "../hooks/useMutation.js";
-import {HTTP_METHOD} from "../hooks/http-methods.js";
+import { useMutation } from "../hooks/useMutation.js";
+import { HTTP_METHOD } from "../hooks/http-methods.js";
 
 const drawerWidth = 80
 
@@ -24,7 +24,7 @@ const Page = ({
   excludeNavigation = false,
   sx
 }) => {
-  const {logout, getCustomUser, reFetchUserData} = useAuth()
+  const { logout, getCustomUser, reFetchUserData } = useAuth()
 
   const { handleOpen, setContent, handleClose } = useModal();
   const updateUserHandler = useMutation("users/unlock-private-room", HTTP_METHOD.PATCH)
@@ -56,7 +56,7 @@ const Page = ({
   }, [setContent, handleOpen]);
 
   const navigate = useNavigate()
-  const {pathname} = useLocation()
+  const { pathname } = useLocation()
 
   const logoutHandler = useCallback(() => logout(), [logout])
 
@@ -123,7 +123,7 @@ const Page = ({
     >
       {!excludeNavigation && (
         <Drawer
-          sx={{width: `${drawerWidth}px`, "& .MuiPaper-root": {border: "none"}}}
+          sx={{ width: `${drawerWidth}px`, "& .MuiPaper-root": { border: "none" } }}
           variant={"permanent"}
           anchor={"left"}
         >
@@ -142,7 +142,7 @@ const Page = ({
             <Box>
               <Box
                 onClick={iconClickHandler}
-                sx={{cursor: "pointer"}}
+                sx={{ cursor: "pointer" }}
               >
                 <img src={logo} alt={""} />
               </Box>
@@ -152,8 +152,8 @@ const Page = ({
                   margin: 1
                 }}
               />
-              <Box sx={{display: "flex", flexDirection: "column", alignItems: "center"}}>
-                {navigationOptions.map(({icon, onClick, shouldHighlight, tooltip}) => (
+              <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+                {navigationOptions.map(({ icon, onClick, shouldHighlight, tooltip }) => (
                   <Box
                     key={tooltip}
                     sx={{
@@ -177,7 +177,7 @@ const Page = ({
                     </Tooltip>
                   </Box>
                 ))}
-                <Box sx={{marginY: 1}}>
+                <Box sx={{ marginY: 1 }}>
                   <Tooltip title={"Profile"}>
                     <IconButton
                       onClick={profileClickHandler}
