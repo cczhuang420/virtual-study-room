@@ -10,7 +10,10 @@ let mongod;
 
 const app = express();
 app.use(express.json());
-app.use('/api/chats', router);
+app.use('/api/friends', router);
+
+describe('friend test suite', () => {
+
 
 beforeAll(async () => {
     mongod = await MongoMemoryServer.create();
@@ -50,4 +53,39 @@ describe('Model Tests', () => {
             expect(friendReqFromDb[i]._id.toString()).toBe(chats[i]._id.toString());
         }
     });
+});
+
+describe('Router Tests', () => {
+    it('get friend requests (GET /api/friends/requests)', (done) => {
+        request(app)
+            .get('/api/friends/requests')
+            .query({id: "000000000000000000000002"})
+            .send()
+            .expect(200)
+            .end(async (err, res) => {
+                if (err) {
+                    return done(err);
+                }
+                const dataFromApi = res.body;
+                expect(dataFromApi).toBeTruthy();
+                expect(dataFromApi.length).toBe(1);
+                done();
+            });
+    });
+
+    it('post new request (POST /api/friends/requests)', (done) => {
+        request(app)
+            .post('/api/friends/requests')
+            .query({id: "000000000000000000000001", fid: "000000000000000000000002"})
+            .send()
+            .expect(409)
+            .end(async (err) => {
+                if (err) {
+                    return done(err);
+                }
+                done();
+            });
+    });
+});
+
 });

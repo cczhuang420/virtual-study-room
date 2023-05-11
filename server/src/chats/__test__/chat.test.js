@@ -106,7 +106,7 @@ describe('Router Tests', () => {
             .query({myId: "000000000000000000000001", customerId: "000000000000000000000002", messages: "new message!"})
             .send()
             .expect(201)
-            .end(async (err, red) => {
+            .end(async (err, res) => {
                 if (err) {
                     return done(err);
                 }

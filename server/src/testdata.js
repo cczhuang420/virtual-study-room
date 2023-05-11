@@ -85,7 +85,7 @@ const friendRequests = [
         sender: "000000000000000000000001",
         receiver: "000000000000000000000002",
         timestamp: 1683621553,
-        status: "approved",
+        status: "pending",
     }
 ];
 
