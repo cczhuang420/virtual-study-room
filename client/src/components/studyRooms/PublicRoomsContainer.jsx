@@ -41,7 +41,7 @@ const PublicRoomsContainer = () => {
             title={name}
             showLockIcon={false}
             showPeopleAmount={false}
-            image={StudyRoombackground}
+            image={`/src/assets/backgrounds/${backgroundUrl}`}
             amount={users.length}
             showVagueBackground={true}
             onClick={() => handleOpenRoom(_id)}
