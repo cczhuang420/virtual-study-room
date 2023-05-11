@@ -77,8 +77,35 @@ const users = [
             },
         ],
     }
-]
+];
 
+const friendRequests = [
+    {
+        _id: new mongoose.Types.ObjectId('000000000000000000000001'),
+        sender: "000000000000000000000001",
+        receiver: "000000000000000000000002",
+        timestamp: 1683621553,
+        status: "approved",
+    }
+];
 
+const privateRooms = [
+    {
+        _id: new mongoose.Types.ObjectId('000000000000000000000001'),
+        name: "CC",
+        ownerId: "000000000000000000000001",
+        users: [],
+        backgroundUrl: "Room1.png",
+        isVisibleToFriends: true,
+    },
+    {
+        _id: new mongoose.Types.ObjectId('000000000000000000000002'),
+        name: "DD",
+        ownerId: "000000000000000000000002",
+        users: ["000000000000000000000002"],
+        backgroundUrl: "Room1.png",
+        isVisibleToFriends: true,
+    }
+];
 
-export {chats, users};
+export {chats, users, friendRequests, privateRooms};
