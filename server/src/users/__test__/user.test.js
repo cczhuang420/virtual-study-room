@@ -54,3 +54,49 @@ describe('Model Tests', () => {
         }
     });
 });
+
+describe('Router Tests', () => {
+    it('get user (GET /api/users)', (done) => {
+        request(app)
+            .get('/api/users')
+            .query({email: "cc@gmail.com"})
+            .send()
+            .expect(200)
+            .end(async (err, res) => {
+                if (err) {
+                    return done(err);
+                }
+                const dataFromApi = res.body;
+                expect(dataFromApi).toBeTruthy();
+                expect(dataFromApi.length).toBe(1);
+                expect(dataFromApi[0].username).toBe("cc");
+
+                done();
+            })
+    });
+
+    it('test create new user (POST /api/users)', (done) => {
+        const newUser = {
+            username: "testing111",
+            email: "sss@gmail.com"
+        }
+        request(app)
+            .post('/api/users')
+            .send(newUser)
+            .expect(200)
+            .end(async (err, res) => {
+                if (err) {
+                    return done(err);
+                }
+                const dataFromDb = await UserModel.find({});
+
+                expect(dataFromDb).toBeTruthy();
+                expect(dataFromDb.length).toBe(3);
+                expect(dataFromDb[dataFromDb.length-1].username).toBe("testing111");
+
+                done();
+
+            });
+
+    });
+});
