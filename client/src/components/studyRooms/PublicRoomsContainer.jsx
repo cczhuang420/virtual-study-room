@@ -25,7 +25,7 @@ const PublicRoomsContainer = () => {
 
   return (
     <Box className="flex flex-row flex-wrap h-full">
-      {publicRooms.map(({ _id, name, users, }) => (
+      {publicRooms.map(({ _id, name, users, backgroundUrl }) => (
         <Box
           key={_id}
           sx={{
