@@ -81,4 +81,40 @@ describe('Router Tests', () => {
                 done();
             });
     });
+
+    it('get latest chat history (GET /api/chats/latest)', (done) => {
+        request(app)
+            .get('/api/chats/latest')
+            .query({myId: "000000000000000000000001", customerId: "000000000000000000000002"})
+            .send()
+            .expect(200)
+            .end(async (err, res) => {
+                if (err) {
+                    return done(err);
+                }
+                const latestChatHistory = res.body;
+                expect(latestChatHistory).toBeTruthy();
+                expect(latestChatHistory[0][0].message).toEqual("hi, back!")
+
+                done();
+            });
+    });
+
+    it('post new chat (POST /api/chats/)', (done) => {
+        request(app)
+            .post('/api/chats/')
+            .query({myId: "000000000000000000000001", customerId: "000000000000000000000002", messages: "new message!"})
+            .send()
+            .expect(201)
+            .end(async (err, red) => {
+                if (err) {
+                    return done(err);
+                }
+                const allChatHistoryFromDb = await ChatModel.find({});
+                expect(allChatHistoryFromDb).toBeTruthy();
+                expect(allChatHistoryFromDb[allChatHistoryFromDb.length-1].message).toBe("new message!");
+
+                done();
+            })
+    })
 });
