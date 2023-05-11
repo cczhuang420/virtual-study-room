@@ -6,20 +6,25 @@ import React from "react";
 import { useFetch } from "../../hooks/useFetch.js";
 import ProgressLoading from "../ProgressLoading.jsx";
 
-// TODO: add real product later
+/**
+ * A product container which contains the background product card, the music product card, and
+ * the profile product card.
+ */
+
 const ProductContainer = ({ value }) => {
   const url =
     value === 0
       ? `products?type=background`
       : value === 1
-      ? `products?type=profile-image`
-      : `products?type=music`;
+        ? `products?type=profile-image`
+        : `products?type=music`;
 
   const { isLoading, data } = useFetch(url);
 
   return (
     <div>
       {value === 0 ? (
+        // background product card
         <Box className="flex flex-row flex-wrap space-x-10 space-y-10">
           <div></div>
           {isLoading ? (
@@ -37,6 +42,7 @@ const ProductContainer = ({ value }) => {
           )}
         </Box>
       ) : value === 1 ? (
+        // profile product card
         <Box className="flex flex-row flex-wrap space-x-10 space-y-10">
           <div></div>
           {isLoading ? (
@@ -54,6 +60,7 @@ const ProductContainer = ({ value }) => {
           )}
         </Box>
       ) : value === 2 ? (
+        // music product card
         <Box className="flex flex-row flex-wrap space-x-10 space-y-10">
           <div></div>
           {isLoading ? (
