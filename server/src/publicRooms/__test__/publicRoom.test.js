@@ -55,3 +55,51 @@ describe('Model Tests', () => {
     });
 });
 
+describe('Router Tests', () => {
+    it('test get all public rooms (GET /api/publicRooms)', (done) => {
+        request(app)
+            .get('/api/publicRooms')
+            .query({owner: "000000000000000000000001"})
+            .send()
+            .expect(200)
+            .end(async (err, res) => {
+                if (err) {
+                    return done(err);
+                }
+                const dataFromApi = res.body;
+                expect(dataFromApi).toBeTruthy();
+                expect(dataFromApi.length).toBe(1);
+                expect(dataFromApi[0].name).toBe("Classical");
+
+                done();
+            });
+    });
+
+    it('test create new public room (POST /api/publicRooms)', (done) => {
+        const newRoom = {
+            name: "Testing1",
+            users: [],
+            playList: [],
+            backgroundUrl: "testing.svg"
+        }
+        request(app)
+            .post('/api/publicRooms')
+            .send(newRoom)
+            .expect(200)
+            .end(async (err, res) => {
+                if (err) {
+                    return done(err);
+                }
+                const dataFromDb = await PublicRoomModel.find({});
+
+                expect(dataFromDb).toBeTruthy();
+                expect(dataFromDb.length).toBe(2);
+                expect(dataFromDb[dataFromDb.length-1].name).toBe("Testing1");
+
+                done();
+
+            });
+
+    });
+});
+
