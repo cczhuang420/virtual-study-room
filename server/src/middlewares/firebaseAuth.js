@@ -1,8 +1,8 @@
 const { auth } = require("../firebase");
 
 const firebaseAuth = async (req, res, next) => {
-  const token = req.header("Authorization").replace("Bearer ", "");
   try {
+    const token = req.header("Authorization").replace("Bearer ", "");
     req.user = await auth.verifyIdToken(token);
     next();
   } catch (e) {

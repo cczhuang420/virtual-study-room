@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import axios from "axios";
+import {useAuth} from "../providers/AuthProvider.jsx";
 
 /**
  * Used for request that is sent at the page load time
@@ -17,6 +18,7 @@ import axios from "axios";
 export const useFetch = (url, headers) => {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
+  const {getAccessToken} = useAuth()
 
   const fetch = useCallback(async () => {
     setData(null);
@@ -24,7 +26,12 @@ export const useFetch = (url, headers) => {
     try {
       const res = await axios.get(
         `${import.meta.env.VITE_SERVICE_URL}/${url}`,
-        { headers }
+        {
+          headers: {
+            Authorization: `Bearer ${getAccessToken()}`,
+            ...(headers || {})
+          }
+        }
       );
       setData(res.data);
     } catch (e) {

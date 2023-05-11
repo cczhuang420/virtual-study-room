@@ -22,6 +22,9 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/api/users", userRouter);
+
+app.use(firebaseAuth)
+
 app.use("/api/products", productRouter);
 app.use("/api/friends", friendRouter);
 app.use("/api/chats", chatRouter);
