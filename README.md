@@ -149,6 +149,10 @@ To allow you to try out the platform with coins to purchase, we have provided tw
 
 Additionally, `tester1` and `tester2` have been set up as friends by default. You can use these accounts to test out the private room feature and study together while enjoying the music available on the platform. Please note that these accounts are only for demo purposes and should not be used for any other purposes.
 
+
+
+The accounts also have friend requests sent from other existing accounts for you to see what it's like when someone sends you a friend request.
+
 ## Testing
 
 ### Running Tests
