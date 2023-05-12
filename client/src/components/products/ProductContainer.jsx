@@ -21,6 +21,22 @@ const ProductContainer = ({ value }) => {
 
   const { isLoading, data } = useFetch(url);
 
+  const [isPlay, setIsPlay] = React.useState([]);
+
+  React.useEffect(() => {
+    if (!data) return;
+    if (value === 2) {
+      setIsPlay(new Array(data.length).fill(false));
+    }
+  }, [data]);
+
+  const handlePlay = (index, play) => {
+    // set all to false
+    let temp = new Array(data.length).fill(false);
+    temp[index] = play;
+    setIsPlay(temp);
+  };
+
   return (
     <div>
       {value === 0 ? (
@@ -74,6 +90,8 @@ const ProductContainer = ({ value }) => {
                 artist={it?.artist}
                 productId={it?._id}
                 musicUrl={it?.url}
+                setPlay={(play) => handlePlay(index, play)}
+                isPlay={isPlay[index]}
               />
             ))
           )}
