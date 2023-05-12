@@ -49,9 +49,9 @@ it('renders correctly when all inputs are provided', () => {
         <BackgroundProductCard value={value} productName={productName} image={BackgroundImage} productId={productId} />
     );
 
-    // Ensure the cost of the background appears correctly.
+    // Ensure the cost of the background appears correctly
     expect(getByText('300')).toBeInTheDocument();
-    // Ensure the product name appears correctly.
+    // Ensure the product name appears correctly
     expect(getByText('Background')).toBeInTheDocument();
 
     // Check that there is an image
