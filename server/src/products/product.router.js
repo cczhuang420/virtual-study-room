@@ -10,7 +10,7 @@ const productController = new ProductController();
 const router = Router({ mergeParams: true });
 
 router.get("/", [queryValidator(["type"])], async (req, res) => {
-  if (!productTypes.includes(req.query.type)) {
+  if (!productTypes.includes(req.query?.type)) {
     res
       .status(400)
       .json(
@@ -22,10 +22,8 @@ router.get("/", [queryValidator(["type"])], async (req, res) => {
 });
 
 router.get("/one", [queryValidator(["id"])], async (req, res) => {
-  res.json(
-    await productController.findProductById(req.query.id)
-  )
-})
+  res.json(await productController.findProductById(req.query.id));
+});
 
 router.post(
   "/",

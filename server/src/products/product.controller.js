@@ -1,9 +1,8 @@
 const productModel = require("./product.model");
-const userModel = require("../users/user.model");
 
 class ProductController {
   async findProductById(id) {
-    return productModel.findById(id)
+    return productModel.findById(id);
   }
 
   async findProductsByType(type) {

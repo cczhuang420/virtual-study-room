@@ -47,11 +47,7 @@ class ChatController {
     const latestChat = [];
     for (let message1 of messageFromUserToCustomer) {
       for (let message2 of messageFromCustomerToUser) {
-        if (
-          message1.timestamp < message2.timestamp &&
-          message1 !== null &&
-          message2 !== null
-        ) {
+        if (message1?.timestamp < message2?.timestamp) {
           latestChat.push(messageFromCustomerToUser);
         } else {
           latestChat.push(messageFromUserToCustomer);
@@ -62,11 +58,11 @@ class ChatController {
   }
 
   // create the chat
-  async createChat(myId, customerId, messages) {
+  async createChat(myId, customerId, messages, timestamp) {
     await chatModel.create({
       sender: myId,
       receiver: customerId,
-      timestamp: 0,
+      timestamp,
       message: messages,
     });
   }

@@ -52,6 +52,7 @@ const FriendsPage = () => {
               ? getCustomUser().profile
               : friend.profile,
           content: item.message,
+          receiverId: item.receiver,
         };
       })
     );
@@ -65,6 +66,7 @@ const FriendsPage = () => {
         ...prev,
         {
           senderId: data?.senderId,
+          receiverId: data?.receiverId,
           profileImageUrl: data?.profileImageUrl,
           content: data?.message,
         },
@@ -164,6 +166,7 @@ const FriendsPage = () => {
             targetUser={{
               name: friend?.username,
               uid: friend?._id,
+              email: friend?.email,
             }}
             onSend={handleSendChat}
           />

@@ -32,18 +32,17 @@ const ChatModal = ({
   const [message, setMessage] = useState("");
   const { getCustomUser } = useAuth();
   const [showUserList, setShowUserList] = useState(false);
-
   const displayChatHistory = useMemo(() => {
-    return chatHistory.filter(({ senderId, receiverEmail }) => {
+    return chatHistory.filter(({ senderId, receiverId, receiverEmail }) => {
       if (targetUser.username === "All Users") {
         return receiverEmail === "All Users";
       } else {
         return (
           receiverEmail !== "All Users" &&
-          ((senderId === getCustomUser()._id &&
-            receiverEmail === targetUser.email) ||
-            (senderId === targetUser._id &&
-              receiverEmail === getCustomUser().email))
+          ((senderId === getCustomUser()?._id &&
+            receiverId === (targetUser?.uid || targetUser?._id)) ||
+            (senderId === (targetUser?.uid || targetUser?._id) &&
+              receiverId === getCustomUser()?._id))
         );
       }
     });

@@ -1,7 +1,6 @@
 const { Router } = require("express");
 const PublicRoomController = require("./publicRoom.controller");
 const { payloadValidator } = require("../middlewares/payloadValidator");
-const { queryValidator } = require("../middlewares/queryValidator");
 
 const publicRoomController = new PublicRoomController();
 

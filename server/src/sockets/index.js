@@ -5,23 +5,25 @@ const registerMusicHandler = require("./musicHandler");
 const { ConfigureMusicService } = require("../services/music");
 
 const ConfigureSocket = (io) => {
-  io.use(firebaseSocketAuth);
+  io?.use(firebaseSocketAuth);
 
   ConfigureMusicService((rooms) => {
     registerMusicHandler(io, rooms);
   });
 
-  io.on("connection", (socket) => {
-    console.log(`${socket.user.email} with id ${socket.user.uid} connected`);
+  io?.on("connection", (socket) => {
+    console.log(
+      `${socket?.user?.email} with id ${socket?.user?.uid} connected`
+    );
 
     registerMessageHandler(io, socket);
 
-    socket.on("disconnect", () => {
+    socket?.on("disconnect", () => {
       console.log(
-        `${socket.user.email} with id ${socket.user.uid} disconnected`
+        `${socket?.user?.email} with id ${socket?.user?.uid} disconnected`
       );
 
-      socket.leaveAll();
+      socket?.leaveAll();
     });
   });
 };

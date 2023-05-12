@@ -266,6 +266,7 @@ const StudyingRoomPage = () => {
       roomId: roomId,
       senderId: getCustomUser()?._id,
       receiverEmail: targetUser?.email,
+      receiverId: targetUser?._id,
       profileImageUrl: getCustomUser()?.profile,
       message: message,
       timestamp: Date.now(),

@@ -38,7 +38,7 @@ const SelectProfileModal = ({ open, handleClose, profileImage, onClick }) => {
   const theme = useTheme();
   const { getCustomUser } = useAuth();
 
-  const [imageIdx, setImageIdx] = useState();
+  const [imageIdx, setImageIdx] = useState(-1);
   useEffect(() => {
     profileImage?.forEach((it, index) => {
       if (it.url === getCustomUser()?.profile) {
@@ -76,6 +76,7 @@ const SelectProfileModal = ({ open, handleClose, profileImage, onClick }) => {
           <Grid container spacing={2}>
             {profileImage?.map((it, index) => (
               <Grid
+                item
                 key={index}
                 xs={3}
                 md={4}
@@ -129,7 +130,7 @@ const SelectProfileModal = ({ open, handleClose, profileImage, onClick }) => {
             variant={"contained"}
             onClick={() => {
               handleClose();
-              if (imageIdx) {
+              if (imageIdx !== -1) {
                 onClick(imageIdx);
               }
             }}
