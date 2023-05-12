@@ -91,6 +91,12 @@ npm run client
 
 This will start the client and open it in a new browser tab.
 
+
+
+> **Note!**
+>
+> The frontend must be run from `http://localhost:4000` and not any other address such as `http://127.0.0.1:4000`. This is because we use Firebase authentication, which requires the domain to be whitelisted for security purposes. By default, only `http://localhost` is whitelisted for authentication.
+
 ### Connecting to the backend server from the frontend
 
 #### Local server
