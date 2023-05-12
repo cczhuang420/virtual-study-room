@@ -8,7 +8,7 @@ import { Box, IconButton } from "@mui/material";
 import PurchaseButton from "./PurchaseButton.jsx";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import StopIcon from "@mui/icons-material/Stop";
-import { useState } from "react";
+import { useEffect } from "react";
 import { useMusic } from "../../providers/MusicProvider.jsx";
 import StyledCard from "../common/StyleCard.jsx";
 
@@ -42,10 +42,10 @@ const MusicProductCard = ({
   artist,
   productId,
   musicUrl,
+  setPlay,
+  isPlay,
 }) => {
   const { playMusic, stopMusic } = useMusic();
-
-  const [isPlay, setIsPlay] = useState(false);
 
   const handlePlay = () => {
     if (!isPlay) {
@@ -57,11 +57,15 @@ const MusicProductCard = ({
       }
       stopMusic();
 
+      if (timer) {
+        clearTimeout(timer);
+      }
+
       // start a timer to play music for only 15 seconds
       timer = setTimeout(() => {
         stopMusic();
-        setIsPlay(false);
-      }, 15000);
+        setPlay(false);
+      }, 20000);
 
       playMusic(musicId, 0);
     } else {
@@ -70,8 +74,17 @@ const MusicProductCard = ({
       }
       stopMusic();
     }
-    setIsPlay((pre) => !pre);
+    setPlay(!isPlay);
   };
+
+  useEffect(() => {
+    return () => {
+      if (timer) {
+        clearTimeout(timer);
+      }
+      stopMusic();
+    };
+  }, []);
 
   return (
     <StyledCard
