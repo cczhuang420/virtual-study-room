@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useRef, useEffect } from "react";
 import {
   Avatar,
   Box,
@@ -47,6 +47,13 @@ const ChatModal = ({
       }
     });
   }, [chatHistory, targetUser, targetUser.username]);
+
+  const chatRef = useRef(null);
+
+  // Scroll to bottom of chat history when chat history changes
+  useEffect(() => {
+    chatRef.current?.scrollTo(0, chatRef.current?.scrollHeight);
+  }, [displayChatHistory]);
 
   return (
     <Box
@@ -173,6 +180,7 @@ const ChatModal = ({
             backgroundColor: "rgba(255,255,255,.4)",
           },
         }}
+        ref={chatRef}
       >
         {displayChatHistory.map(({ senderId, profileImageUrl, content }) => (
           <Box
