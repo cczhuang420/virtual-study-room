@@ -123,11 +123,27 @@ VITE_SERVICE_URL=https://amber-axolotls.herokuapp.com/api
 VITE_SOCKET_URL=https://amber-axolotls.herokuapp.com/
 ```
 
+## Demo Login Details
+
+To allow you to try out the platform with coins to purchase, we have provided two different user accounts. Here are the login details:
+
+### User 1:
+
+- Username: `tester1`
+- Password: `password`
+- Coins: 100000
+
+### User 2:
+
+- Username: `tester2`
+- Password: `password`
+- Coins: 1200 (default value for new users)
+
+
+
+Additionally, `tester1` and `tester2` have been set up as friends by default. You can use these accounts to test out the private room feature and study together while enjoying the music available on the platform. Please note that these accounts are only for demo purposes and should not be used for any other purposes.
+
 ## Testing
-
-### Adding Tests
-
-To add tests, create a new test file in the `tests` directory in either the client or server folder, depending on what you are testing. Make sure the filename ends with `.test.js`. You can use any testing framework you prefer, but we recommend using Jest, which is already included in the project.
 
 ### Running Tests
 
@@ -137,21 +153,21 @@ To run all tests, use the following command:
 npm run test
 ```
 
-To run tests for only the client or server, use the following commands:
+To run tests for only the client, use the following commands:
 
 ```bash
-npm run test-server
+cd client
+npm install
+npm run test
 ```
 
-If you want to run a specific test file, use the following command:
+To run tests for only the server, use the following commands:
 
 ```bash
-npm run test -- <file-path>
+cd server
+npm install
+npm run test
 ```
-
-Replace `<file-path>` with the path to the test file you want to run.
-
-We strongly recommend running tests before submitting any changes to the codebase. This will ensure that new changes do not introduce any bugs or regressions.
 
 ## Contribution
 
