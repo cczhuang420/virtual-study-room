@@ -39,6 +39,8 @@ cd project-group-amber-axolotls
 
 ### Install dependencies
 
+> Execute below code from project directory.
+
 #### Server
 
 To install the server dependencies, run the following command:
@@ -79,7 +81,7 @@ To start the server, run the following command:
 npm run server
 ```
 
-This will start the server and listen for incoming requests at address `http://localhost:4000`
+This will start the server and listen for incoming requests at address `http://localhost`
 
 ### Running the client
 
@@ -95,7 +97,7 @@ This will start the client and open it in a new browser tab.
 
 > **Note!**
 >
-> The frontend must be run from `http://localhost:4000` and not any other address such as `http://127.0.0.1:4000`. This is because we use Firebase authentication, which requires the domain to be whitelisted for security purposes. By default, only `http://localhost` is whitelisted for authentication.
+> The frontend must be run from `http://localhost` and not any other address such as `http://127.0.0.1`. This is because we use Firebase authentication, which requires the domain to be whitelisted for security purposes. By default, only `http://localhost` is whitelisted for authentication.
 
 ### Connecting to the backend server from the frontend
 
@@ -147,13 +149,7 @@ Additionally, `tester1` and `tester2` have been set up as friends by default. Yo
 
 ### Running Tests
 
-To run all tests, use the following command:
-
-```bash
-npm run test
-```
-
-To run tests for only the client, use the following commands:
+To run tests for only the client, go to project directory then use the following commands:
 
 ```bash
 cd client
@@ -161,7 +157,7 @@ npm install
 npm run test
 ```
 
-To run tests for only the server, use the following commands:
+To run tests for only the server, go to project directory then use the following commands:
 
 ```bash
 cd server
