@@ -73,6 +73,8 @@ This will install all the required dependencies for the server and client.
 
 ## Usage
 
+> Execute below code from project directory.
+
 ### Running the server
 
 To start the server, run the following command:
@@ -84,6 +86,8 @@ npm run server
 This will start the server and listen for incoming requests at address `http://localhost`
 
 ### Running the client
+
+If you have already opened up a terminal to open the server / client, open up another terminal ro run the client.
 
 To start the client, run the following command:
 
