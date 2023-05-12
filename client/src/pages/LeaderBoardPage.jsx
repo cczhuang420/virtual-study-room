@@ -1,8 +1,8 @@
 import Page from "../containers/Page.jsx";
 import React from "react";
 import { Box, Typography, Grid } from "@mui/material";
-import TopLeaderCard from "../components/TopLeaderCard.jsx";
-import RankBar from "../components/RankBar.jsx";
+import TopLeaderCard from "../components/leaderboard/TopLeaderCard.jsx";
+import RankBar from "../components/leaderboard/RankBar.jsx";
 import { useFetch } from "../hooks/useFetch.js";
 
 /**

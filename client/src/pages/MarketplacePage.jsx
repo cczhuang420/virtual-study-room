@@ -7,7 +7,7 @@ import { buttonUnstyledClasses } from "@mui/base/ButtonUnstyled";
 import TabsListUnstyled from "@mui/base/TabsListUnstyled";
 import { TabPanelUnstyled } from "@mui/base";
 import TabsUnstyled from "@mui/base/TabsUnstyled";
-import ProductContainer from "../components/productCards/ProductContainer.jsx";
+import ProductContainer from "../components/products/ProductContainer.jsx";
 
 /**
  * The market place page is used for user to buy background, music, and profile photo.

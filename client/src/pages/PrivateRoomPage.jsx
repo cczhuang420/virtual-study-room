@@ -3,10 +3,10 @@ import React, { useState, useMemo } from "react";
 import { Box } from "@mui/material";
 import AssetXPIcon from "../assets/asset-xp-icon.svg";
 import AssetMoneyIcon from "../assets/asset-money-icon.svg";
-import FriendContainer from "../components/FriendContainer.jsx";
-import AssetLabel from "../components/AssetLabel.jsx";
-import PrivateRoomsContainer from "../components/studyRooms/PrivateRoomsContainer.jsx";
-import PrivateRoomCreationForm from "../components/studyRooms/PrivateRoomCreationForm.jsx";
+import FriendContainer from "../components/friend/FriendContainer.jsx";
+import AssetLabel from "../components/profile/assets/AssetLabel.jsx";
+import PrivateRoomsContainer from "../components/room/PrivateRoomsContainer.jsx";
+import PrivateRoomCreationForm from "../components/room/PrivateRoomCreationForm.jsx";
 import { useFetch } from "../hooks/useFetch.js";
 import { useAuth } from "../providers/AuthProvider.jsx";
 

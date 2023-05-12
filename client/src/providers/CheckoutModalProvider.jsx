@@ -5,7 +5,7 @@ import {
   useMemo,
   useState,
 } from "react";
-import CheckoutModal from "../components/CheckoutModal.jsx";
+import CheckoutModal from "../components/modals/CheckoutModal.jsx";
 
 const ModalContext = createContext({});
 
@@ -22,7 +22,7 @@ const CheckoutModalProvider = ({ children }) => {
     cost: 0,
     money: 0,
     type: 0,
-    onClick: () => { },
+    onClick: () => {},
   });
 
   const value = useMemo(

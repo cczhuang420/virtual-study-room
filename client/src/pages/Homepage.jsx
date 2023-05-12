@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import HomeScreen from "../components/HomeScreen.jsx";
-import IntroScreen from "../components/IntroScreen.jsx";
+import HomeScreen from "../components/entry/HomeScreen.jsx";
+import IntroScreen from "../components/entry/IntroScreen.jsx";
 import text from "../constants/homepage-text.json";
 import { Box, Button, Typography } from "@mui/material";
 
@@ -40,7 +40,12 @@ const Homepage = () => {
   }, []);
 
   return (
-    <Box sx={{ overflowX: "hidden", background: "linear-gradient(#3f096a, #2f065a, #1b0652)" }}>
+    <Box
+      sx={{
+        overflowX: "hidden",
+        background: "linear-gradient(#3f096a, #2f065a, #1b0652)",
+      }}
+    >
       <HomeScreen onLogin={loginHandler} onSignup={signupHandler} />
       {introScreens}
       <Box
