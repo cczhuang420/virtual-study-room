@@ -1,11 +1,11 @@
 import Page from "../containers/Page.jsx";
 import React from "react";
 import { Box } from "@mui/material";
-import FriendContainer from "../components/FriendContainer.jsx";
-import AssetLabel from "../components/AssetLabel.jsx";
+import FriendContainer from "../components/friend/FriendContainer.jsx";
+import AssetLabel from "../components/profile/assets/AssetLabel.jsx";
 import AssetXPIcon from "../assets/asset-xp-icon.svg";
 import AssetMoneyIcon from "../assets/asset-money-icon.svg";
-import PublicRoomsContainer from "../components/studyRooms/PublicRoomsContainer.jsx";
+import PublicRoomsContainer from "../components/room/PublicRoomsContainer.jsx";
 import { useAuth } from "../providers/AuthProvider.jsx";
 
 /**

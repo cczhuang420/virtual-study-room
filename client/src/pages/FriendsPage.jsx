@@ -1,9 +1,9 @@
 import Page from "../containers/Page.jsx";
 import React, { useState, useEffect } from "react";
 import { Box, Typography } from "@mui/material";
-import ChatModal from "../components/ChatModal.jsx";
+import ChatModal from "../components/modals/ChatModal.jsx";
 import { useAuth } from "../providers/AuthProvider.jsx";
-import PrivateRoomsContainer from "../components/studyRooms/PrivateRoomsContainer.jsx";
+import PrivateRoomsContainer from "../components/room/PrivateRoomsContainer.jsx";
 import { useFetch } from "../hooks/useFetch.js";
 import { useParams } from "react-router-dom";
 import { useSocket } from "../providers/SocketProvider.jsx";
@@ -106,7 +106,7 @@ const FriendsPage = () => {
         <Box
           sx={{
             width: "100%",
-            height: "100%"
+            height: "100%",
           }}
         >
           <Box
@@ -135,7 +135,10 @@ const FriendsPage = () => {
           </Box>
           {privateRooms.length === 0 && (
             <Box sx={{ mt: 5 }}>
-              <Typography variant={"h5"} sx={{ textAlign: 'center', color: "rgba(255,255,255,.5)" }}>
+              <Typography
+                variant={"h5"}
+                sx={{ textAlign: "center", color: "rgba(255,255,255,.5)" }}
+              >
                 Your friend has not created any visible rooms
               </Typography>
             </Box>
@@ -148,7 +151,12 @@ const FriendsPage = () => {
           </Box>
         </Box>
         <Box
-          sx={{ width: "35%", minWidth: 200, height: "90vh", overflow: "hidden" }}
+          sx={{
+            width: "35%",
+            minWidth: 200,
+            height: "90vh",
+            overflow: "hidden",
+          }}
           className={"mr-2 mt-4 w-1/3"}
         >
           <ChatModal

@@ -1,22 +1,22 @@
 import Page from "../containers/Page.jsx";
 import React, { useCallback, useEffect, useState } from "react";
 import { Avatar, Box, Stack, Typography } from "@mui/material";
-import AssetPanel from "../components/AssetPanel.jsx";
+import AssetPanel from "../components/profile/assets/AssetPanel.jsx";
 import moneyIcon from "../assets/asset-money-icon.svg";
 import xpIcon from "../assets/asset-xp-icon.svg";
-import AssetLabel from "../components/AssetLabel.jsx";
-import ModifiableTextField from "../components/ModifiableTextField.jsx";
+import AssetLabel from "../components/profile/assets/AssetLabel.jsx";
+import ModifiableTextField from "../components/common/ModifiableTextField.jsx";
 import { useAuth } from "../providers/AuthProvider.jsx";
 import { useFetch } from "../hooks/useFetch.js";
-import ProgressLoading from "../components/ProgressLoading";
+import ProgressLoading from "../components/common/ProgressLoading.jsx";
 import { useMutation } from "../hooks/useMutation.js";
 import { HTTP_METHOD } from "../hooks/http-methods.js";
-import FriendRequestItem from "../components/FriendRequestItem.jsx";
-import SelectProfileModal from "../components/SelectProfileModal.jsx";
+import FriendRequestItem from "../components/friend/FriendRequestItem.jsx";
+import SelectProfileModal from "../components/modals/SelectProfileModal.jsx";
 
 /**
  * The public room page contains the user's profile image, coins, experience, username, and the
- * friend request that has not been accepted or rejected. It also shows the background, music, 
+ * friend request that has not been accepted or rejected. It also shows the background, music,
  * and profile images that the user has.
  */
 
