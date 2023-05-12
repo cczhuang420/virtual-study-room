@@ -50,10 +50,10 @@ const AuthProvider = ({ children }) => {
         try {
           const userWithSameUsername = (
             await fetchUsers({ username: emailOrUsername })
-          ).data[0];
+          )?.data[0];
           await signInWithEmailAndPassword(
             auth,
-            userWithSameUsername.email,
+            userWithSameUsername?.email,
             password
           );
         } catch (e) {
@@ -62,7 +62,7 @@ const AuthProvider = ({ children }) => {
       }
       const usersWithSameEmail = (await fetchUsers({ email: emailOrUsername }))
         .data;
-      if (usersWithSameEmail.length === 0) {
+      if (usersWithSameEmail?.length === 0) {
         await createUser(
           "User" +
             Array.from({ length: 5 }, () =>
@@ -86,10 +86,10 @@ const AuthProvider = ({ children }) => {
           usersWithSameUsernamePromise,
         ]);
 
-      if (usersWithSameEmail.length !== 0) {
+      if (usersWithSameEmail?.length !== 0) {
         throw new Error("Email is already taken");
       }
-      if (usersWithSameUsername.length !== 0) {
+      if (usersWithSameUsername?.length !== 0) {
         throw new Error("Username is already taken");
       }
 
@@ -105,9 +105,9 @@ const AuthProvider = ({ children }) => {
     async (thirdPartyAuthProvider) => {
       const res = await signInWithPopup(auth, thirdPartyAuthProvider);
       const email = res.user.email;
-      const usersWithSameEmail = (await fetchUsers({ email })).data;
+      const usersWithSameEmail = (await fetchUsers({ email }))?.data;
       const suggestedUsername = await fetchUsernameSuggestion(undefined);
-      if (usersWithSameEmail.length === 0) {
+      if (usersWithSameEmail?.length === 0) {
         await createUser(suggestedUsername, email);
       }
     },
@@ -121,10 +121,10 @@ const AuthProvider = ({ children }) => {
   }, [auth, signOut]);
 
   const reFetchUserData = useCallback(async () => {
-    if (firebaseUser && firebaseUser.email) {
+    if (firebaseUser && firebaseUser?.email) {
       const res = await fetchUserHandler.run({
         query: {
-          email: firebaseUser.email,
+          email: firebaseUser?.email,
         },
       });
       setUserData(res[0]);
@@ -133,10 +133,10 @@ const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     onAuthStateChanged(getAuth(), async (user) => {
-      if (user && user.email) {
+      if (user && user?.email) {
         const res = await fetchUserHandler.run({
           query: {
-            email: user.email,
+            email: user?.email,
           },
         });
         setUserData(res[0]);
@@ -148,10 +148,10 @@ const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     (async () => {
-      if (firebaseUser && firebaseUser.email) {
+      if (firebaseUser && firebaseUser?.email) {
         const res = await fetchUserHandler.run({
           query: {
-            email: firebaseUser.email,
+            email: firebaseUser?.email,
           },
         });
         setUserData(res[0]);
@@ -182,7 +182,7 @@ const AuthProvider = ({ children }) => {
       logout,
       signup,
       reFetchUserData,
-      firebaseUser?.accessToken
+      firebaseUser?.accessToken,
     ]
   );
 

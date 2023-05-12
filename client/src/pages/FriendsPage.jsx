@@ -44,11 +44,11 @@ const FriendsPage = () => {
       : chatData.sort((a, b) => a.timestamp - b.timestamp);
 
     setChatHistoryList(
-      chatHistoryTemp.map((item, index) => {
+      chatHistoryTemp?.map((item) => {
         return {
           senderId: item.sender,
           profileImageUrl:
-            item.sender === getCustomUser()._id
+            item.sender === getCustomUser()?._id
               ? getCustomUser().profile
               : friend.profile,
           content: item.message,
@@ -64,16 +64,16 @@ const FriendsPage = () => {
       setChatHistoryList((prev) => [
         ...prev,
         {
-          senderId: data.senderId,
-          profileImageUrl: data.profileImageUrl,
-          content: data.message,
+          senderId: data?.senderId,
+          profileImageUrl: data?.profileImageUrl,
+          content: data?.message,
         },
       ]);
     });
 
     return () => {
       socket.on("message-notification", (data) => {
-        notify(`${data.senderName} sent you a message!`);
+        notify(`${data?.senderName} sent you a message!`);
       });
       socket.off("message");
     };
@@ -81,11 +81,11 @@ const FriendsPage = () => {
 
   const handleSendChat = (message) => {
     socket.emit("send-message", {
-      senderId: getCustomUser()._id,
-      senderName: getCustomUser().username,
-      receiverEmail: friend.email,
+      senderId: getCustomUser()?._id,
+      senderName: getCustomUser()?.username,
+      receiverEmail: friend?.email,
       receiverId: friendId,
-      profileImageUrl: getCustomUser().profile,
+      profileImageUrl: getCustomUser()?.profile,
       message: message,
       timestamp: Date.now(),
     });
@@ -130,10 +130,10 @@ const FriendsPage = () => {
                 minWidth: 180,
               }}
             >
-              {friend.username}'s Rooms
+              {friend?.username}'s Rooms
             </Box>
           </Box>
-          {privateRooms.length === 0 && (
+          {privateRooms?.length === 0 && (
             <Box sx={{ mt: 5 }}>
               <Typography
                 variant={"h5"}
@@ -162,8 +162,8 @@ const FriendsPage = () => {
           <ChatModal
             chatHistory={chatHistoryList}
             targetUser={{
-              name: friend.username,
-              uid: friend._id,
+              name: friend?.username,
+              uid: friend?._id,
             }}
             onSend={handleSendChat}
           />

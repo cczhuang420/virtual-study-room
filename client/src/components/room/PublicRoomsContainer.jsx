@@ -1,8 +1,6 @@
 import { Box } from "@mui/material";
 import RoomCard from "./RoomCard.jsx";
-import StudyRoombackground from "../../assets/study-room-bg.svg";
 import React from "react";
-import { useSocket } from "../../providers/SocketProvider.jsx";
 import { useFetch } from "../../hooks/useFetch.js";
 import { useNavigate } from "react-router-dom";
 
@@ -12,7 +10,6 @@ import { useNavigate } from "react-router-dom";
  */
 
 const PublicRoomsContainer = () => {
-  const socket = useSocket();
   const { isLoading, data: publicRooms } = useFetch("publicRooms");
   const navigate = useNavigate();
 
@@ -25,7 +22,7 @@ const PublicRoomsContainer = () => {
 
   return (
     <Box className="flex flex-row flex-wrap h-full">
-      {publicRooms.map(({ _id, name, users, backgroundUrl }) => (
+      {publicRooms?.map(({ _id, name, users, backgroundUrl }) => (
         <Box
           key={_id}
           sx={{
@@ -42,7 +39,7 @@ const PublicRoomsContainer = () => {
             showLockIcon={false}
             showPeopleAmount={false}
             image={`/src/assets/backgrounds/${backgroundUrl}`}
-            amount={users.length}
+            amount={users?.length}
             showVagueBackground={true}
             onClick={() => handleOpenRoom(_id)}
           />

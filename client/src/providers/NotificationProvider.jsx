@@ -1,28 +1,28 @@
-import { Box, Button, IconButton, Snackbar } from "@mui/material"
-import CloseIcon from "@mui/icons-material/Close"
+import { Box, Button, IconButton, Snackbar } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
 import { createContext, useCallback, useContext, useState } from "react";
 
-const context = createContext((message, options) => { });
+const context = createContext((message, options) => {});
 
 const NotificationProvider = ({ children }) => {
-  const [message, setMessage] = useState("")
+  const [message, setMessage] = useState("");
   // array of { text: string, onClick: () => void, closeOnClick: boolean }
-  const [options, setOptions] = useState([])
-  const [openTextNotification, setOpenTextNotification] = useState(false)
-  const [openOptionNotification, setOpenOptionNotification] = useState(false)
+  const [options, setOptions] = useState([]);
+  const [openTextNotification, setOpenTextNotification] = useState(false);
+  const [openOptionNotification, setOpenOptionNotification] = useState(false);
 
   const notify = useCallback(
     (message, option) => {
-      setMessage(message)
+      setMessage(message);
       if (!option) {
-        setOpenTextNotification(true)
+        setOpenTextNotification(true);
       } else {
-        setOptions(option)
-        setOpenOptionNotification(true)
+        setOptions(option);
+        setOpenOptionNotification(true);
       }
     },
     [setOpenTextNotification, setMessage]
-  )
+  );
 
   return (
     <context.Provider value={notify}>
@@ -37,7 +37,7 @@ const NotificationProvider = ({ children }) => {
             color: "#000",
             paddingY: 1,
             paddingX: 2,
-            fontSize: 16
+            fontSize: 16,
           },
         }}
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
@@ -62,17 +62,17 @@ const NotificationProvider = ({ children }) => {
             color: "#000",
             paddingY: 1,
             paddingX: 2,
-            fontSize: 16
+            fontSize: 16,
           },
         }}
         action={
           <Box>
-            {options.map(({ text, onClick, closeOnClick }) => (
+            {options?.map(({ text, onClick, closeOnClick }) => (
               <Button
                 onClick={() => {
-                  onClick()
+                  onClick();
                   if (closeOnClick) {
-                    setOpenOptionNotification(false)
+                    setOpenOptionNotification(false);
                   }
                 }}
               >

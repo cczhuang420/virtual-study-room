@@ -33,10 +33,10 @@ const ProductContainer = ({ value }) => {
             data.map((it, index) => (
               <BackgroundProductCard
                 key={index}
-                value={it.price}
-                productName={it.name}
-                image={`/src/assets/backgrounds/${it.url}`}
-                productId={it._id}
+                value={it?.price}
+                productName={it?.name}
+                image={`/src/assets/backgrounds/${it?.url}`}
+                productId={it?._id}
               />
             ))
           )}
@@ -51,10 +51,10 @@ const ProductContainer = ({ value }) => {
             data.map((it, index) => (
               <ProfileProductCard
                 key={index}
-                value={it.price}
-                productName={it.name}
-                image={`/src/assets/profiles/${it.url}`}
-                productId={it._id}
+                value={it?.price}
+                productName={it?.name}
+                image={`/src/assets/profiles/${it?.url}`}
+                productId={it?._id}
               />
             ))
           )}
@@ -69,11 +69,11 @@ const ProductContainer = ({ value }) => {
             data.map((it, index) => (
               <MusicProductCard
                 key={index}
-                value={it.price}
-                productName={it.name}
-                artist={it.artist}
-                productId={it._id}
-                musicUrl={it.url}
+                value={it?.price}
+                productName={it?.name}
+                artist={it?.artist}
+                productId={it?._id}
+                musicUrl={it?.url}
               />
             ))
           )}

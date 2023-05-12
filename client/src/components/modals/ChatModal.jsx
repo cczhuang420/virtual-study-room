@@ -72,7 +72,7 @@ const ChatModal = ({
           }}
         >
           <Typography variant={"h4"} sx={{ color: "#3D3A3A" }}>
-            {targetUser.name || targetUser.username}
+            {targetUser?.name || targetUser?.username}
           </Typography>
           {userList && !showUserList && <KeyboardArrowDownIcon />}
           {userList && showUserList && <KeyboardArrowUpIcon />}
@@ -122,7 +122,7 @@ const ChatModal = ({
                       },
                     }}
                   >
-                    {userList.map((user) => (
+                    {userList?.map((user) => (
                       <ListItem
                         onClick={() => onChangeTargetUser(user)}
                         key={`${Math.random()}`}
@@ -146,7 +146,7 @@ const ChatModal = ({
                             },
                           }}
                         >
-                          {user.username}
+                          {user?.username}
                         </ListItemText>
                       </ListItem>
                     ))}

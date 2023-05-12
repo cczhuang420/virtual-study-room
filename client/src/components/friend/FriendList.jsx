@@ -2,7 +2,6 @@ import { Box } from "@mui/material";
 import FriendCard from "./FriendCard.jsx";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
-import { useNavigate } from "react-router-dom";
 
 /**
  * The friend list contains a list of all the friends that the user has. Each friend is shown
@@ -10,8 +9,6 @@ import { useNavigate } from "react-router-dom";
  */
 
 const FriendList = ({ friends, onClick, onAddFriend }) => {
-  const navigate = useNavigate();
-
   return (
     <Box
       sx={{

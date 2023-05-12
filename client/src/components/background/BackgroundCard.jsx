@@ -25,6 +25,7 @@ export default function BackgroundCard({
         height={"100%"}
         width={"100%"}
         src={image}
+        alt={""}
         draggable={false}
         style={{ objectFit: "cover" }}
       />
@@ -54,6 +55,7 @@ export default function BackgroundCard({
               src={Checkmark}
               height={"50%"}
               width={"50%"}
+              alt={""}
               draggable={false}
             />
           </Box>

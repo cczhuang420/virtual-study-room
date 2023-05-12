@@ -122,7 +122,7 @@ const TopLeaderCard = ({ profileImage, name, ranking, hours }) => {
               color: "white",
             }}
           >
-            {hours.toLocaleString()} hours
+            {hours?.toLocaleString()} hours
           </Typography>
         </Box>
       </Box>

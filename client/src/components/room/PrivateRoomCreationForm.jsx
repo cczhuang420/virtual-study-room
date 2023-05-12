@@ -39,7 +39,7 @@ const PrivateRoomCreationForm = ({ onCreateRoom, onCancel }) => {
 
   useEffect(() => {
     (async () => {
-      const assetIds = getCustomUser().assets;
+      const assetIds = getCustomUser()?.assets;
       const allAssets = await Promise.all(
         assetIds.map((id) =>
           fetchProductHandler.run({
@@ -63,10 +63,10 @@ const PrivateRoomCreationForm = ({ onCreateRoom, onCancel }) => {
       return;
     }
     const body = {
-      ownerId: getCustomUser()._id,
+      ownerId: getCustomUser()?._id,
       name: roomName,
       users: [],
-      backgroundUrl: image.split("/").reverse()[0],
+      backgroundUrl: image?.split("/")?.reverse()[0],
       isVisibleToFriends: visibleToFriends,
     };
     setLoading(true);

@@ -36,20 +36,20 @@ const RankBar = ({
           flex: 1,
         }}
       >
-        {rankValue.toLocaleString()}
+        {rankValue?.toLocaleString()}
       </Typography>
       <Box
         display={"flex"}
         flexDirection={"row"}
         alignItems={"center"}
-        justifyContent={profileImage === "" ? 'center' : 'flex-start'}
+        justifyContent={profileImage === "" ? "center" : "flex-start"}
         sx={{
           flex: 1,
           overflow: "hidden",
-          textOverflow: "ellipsis"
+          textOverflow: "ellipsis",
         }}
       >
-        {profileImage !== "" && (<Avatar src={profileImage} sx={{ mr: 1 }} />)}
+        {profileImage !== "" && <Avatar src={profileImage} sx={{ mr: 1 }} />}
         <Typography
           sx={{
             textAlign: "center",
@@ -59,7 +59,7 @@ const RankBar = ({
             mr: "0.5rem",
             overflow: "hidden",
             textOverflow: "ellipsis",
-            whiteSpace: "nowrap"
+            whiteSpace: "nowrap",
           }}
         >
           {name}
@@ -76,7 +76,7 @@ const RankBar = ({
           flex: 1,
         }}
       >
-        {xpValue.toLocaleString()}
+        {xpValue?.toLocaleString()}
       </Typography>
       <Typography
         sx={{
@@ -89,7 +89,7 @@ const RankBar = ({
           flex: 1,
         }}
       >
-        {assetValue.toLocaleString()}
+        {assetValue?.toLocaleString()}
       </Typography>
       <Typography
         sx={{
@@ -102,7 +102,7 @@ const RankBar = ({
           flex: 1,
         }}
       >
-        {hours.toLocaleString()}
+        {hours?.toLocaleString()}
       </Typography>
     </Box>
   );

@@ -1,16 +1,9 @@
-import {
-  Box,
-  IconButton,
-  TextField,
-  Typography,
-  useTheme,
-} from "@mui/material";
+import { Box, IconButton, TextField, Typography } from "@mui/material";
 import { useState } from "react";
 import EditIcon from "@mui/icons-material/Edit";
 
 const ModifiableTextField = ({ label, value, onSubmitChange }) => {
   const [isModifying, setIsModifying] = useState(false);
-  const theme = useTheme();
   const [formValue, setFormValue] = useState(value);
 
   return (

@@ -28,7 +28,6 @@ import SkipPreviousIcon from "@mui/icons-material/SkipPrevious";
 import playButtonStyle from "../components/common/MusicButtonStyle.js";
 import VolumeUpRounded from "@mui/icons-material/VolumeUpRounded";
 import VolumeDownRounded from "@mui/icons-material/VolumeDownRounded";
-import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd";
 
 const sortByOptions = ["name", "experience"];
 
@@ -82,9 +81,7 @@ const StudyingRoomPage = () => {
     changeVolume,
   } = useMusic();
 
-  const { data: publicRoom, isError: isPublicRoomNotFound } = useFetch(
-    `publicRooms/${roomId}`
-  );
+  const { data: publicRoom } = useFetch(`publicRooms/${roomId}`);
   const { data: privateRoom, reFetch: reFetchPrivateRoom } = useFetch(
     `privateRooms/${roomId}`
   );
@@ -117,7 +114,7 @@ const StudyingRoomPage = () => {
   );
 
   const sortedRoomUsers = useMemo(() => {
-    const users = roomUsers.map((u) => ({ ...u }));
+    const users = roomUsers?.map((u) => ({ ...u }));
     users.sort((a, b) => {
       if (a[sortBy] > b[sortBy]) return 1;
       if (a[sortBy] < b[sortBy]) return -1;
@@ -154,9 +151,9 @@ const StudyingRoomPage = () => {
   const newMessageSocketHandler = useCallback(
     (data) => {
       if (
-        data.username !== "All Users" &&
-        data.senderId !== targetUser._id &&
-        data.senderId !== getCustomUser()._id
+        data?.username !== "All Users" &&
+        data?.senderId !== targetUser?._id &&
+        data?.senderId !== getCustomUser()?._id
       ) {
         setRoomUsers((prevState) => {
           const newState = JSON.parse(JSON.stringify(prevState));
@@ -169,7 +166,7 @@ const StudyingRoomPage = () => {
         ...prevState,
         {
           ...data,
-          content: data.message,
+          content: data?.message,
         },
       ]);
     },
@@ -209,14 +206,14 @@ const StudyingRoomPage = () => {
       socket.on("room-member-emails", async (emails) => {
         const roomMembers = (
           await Promise.all(
-            emails.map((email) =>
+            emails?.map((email) =>
               fetchUserHandler.run({
                 query: { email },
               })
             )
           )
         )
-          .map((res) => {
+          ?.map((res) => {
             return res[0];
           })
           .map((user) => ({
@@ -256,9 +253,9 @@ const StudyingRoomPage = () => {
   const handleSendGroupChat = (message) => {
     socket.emit("send-group-message-in-room", {
       roomId: roomId,
-      senderId: getCustomUser()._id,
+      senderId: getCustomUser()?._id,
       receiverEmail: "All Users",
-      profileImageUrl: getCustomUser().profile,
+      profileImageUrl: getCustomUser()?.profile,
       message: message,
       timestamp: Date.now(),
       username: "All Users",
@@ -267,12 +264,12 @@ const StudyingRoomPage = () => {
   const handleSendPrivateChat = (message) => {
     socket.emit("send-private-message-in-room", {
       roomId: roomId,
-      senderId: getCustomUser()._id,
-      receiverEmail: targetUser.email,
-      profileImageUrl: getCustomUser().profile,
+      senderId: getCustomUser()?._id,
+      receiverEmail: targetUser?.email,
+      profileImageUrl: getCustomUser()?.profile,
       message: message,
       timestamp: Date.now(),
-      username: getCustomUser().username,
+      username: getCustomUser()?.username,
     });
   };
 
@@ -288,7 +285,7 @@ const StudyingRoomPage = () => {
       setTargetUser(user);
       setRoomUsers((prevState) => {
         const newState = JSON.parse(JSON.stringify(prevState));
-        const newTarget = newState.find((u) => u.username === user.username);
+        const newTarget = newState?.find((u) => u.username === user.username);
         if (newTarget) {
           targetUser.hasUnread = false;
           newTarget.hasUnread = false;
@@ -311,7 +308,7 @@ const StudyingRoomPage = () => {
           height: "90%",
           background:
             roomData &&
-            `url(/src/assets/backgrounds/${roomData.backgroundUrl}) no-repeat center`,
+            `url(/src/assets/backgrounds/${roomData?.backgroundUrl}) no-repeat center`,
           backgroundSize: "cover",
           display: "flex",
         }}
@@ -336,7 +333,7 @@ const StudyingRoomPage = () => {
               <img src={logo} alt={""} />
             </Box>
             <Box sx={{ pl: 15, paddingY: 2 }}>
-              {privateRoom && privateRoom.ownerId === getCustomUser()._id && (
+              {privateRoom && privateRoom?.ownerId === getCustomUser()?._id && (
                 <Button
                   onClick={() => {
                     setOpenSettingModal(true);
@@ -366,7 +363,7 @@ const StudyingRoomPage = () => {
               }}
             >
               <Grid container sx={{ p: 10, pt: 1 }}>
-                {sortedRoomUsers.map((roomUser) => (
+                {sortedRoomUsers?.map((roomUser) => (
                   <Grid
                     item
                     xs={12}
@@ -412,7 +409,7 @@ const StudyingRoomPage = () => {
                 chatHistory={chatHistory}
                 targetUser={targetUser}
                 userList={roomUsers.filter(
-                  ({ username }) => username !== getCustomUser().username
+                  ({ username }) => username !== getCustomUser()?.username
                 )}
                 onSend={chatHandler}
                 onChangeTargetUser={(user) => handleChangeTargetUser(user)}
@@ -520,7 +517,7 @@ const StudyingRoomPage = () => {
           )}
         </Box>
       </Box>
-      {privateRoom && privateRoom.ownerId === getCustomUser()._id && (
+      {privateRoom && privateRoom?.ownerId === getCustomUser()?._id && (
         <PrivateSettingModal
           open={openSettingModal}
           handleClose={handleSettingClose}

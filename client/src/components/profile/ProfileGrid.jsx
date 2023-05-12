@@ -3,7 +3,7 @@ import { Grid, Avatar } from "@mui/material";
 export default function ProfileGrid({ images }) {
   return (
     <Grid container padding={3} spacing={3}>
-      {images.map((image, index) => (
+      {images?.map((image, index) => (
         <Grid
           key={index}
           item

@@ -37,7 +37,7 @@ export default function TodoList() {
 
   const todoList = useMemo(() => {
     if (isLoading || !data) return [];
-    return data[0].todoList;
+    return data[0]?.todoList;
   }, [data, isLoading]);
 
   const handleHideCompleted = () => {
@@ -113,7 +113,7 @@ export default function TodoList() {
       <List>
         {todoList
           .filter(({ isCompleted }) => !isCompleted)
-          .map(({ content }) => (
+          ?.map(({ content }) => (
             <ListItem key={`${Math.random()}`}>
               <Checkbox onChange={() => handleTaskComplete(content)} />
               <ListItemText primary={content} />
@@ -130,7 +130,7 @@ export default function TodoList() {
           <List>
             {todoList
               .filter(({ isCompleted }) => isCompleted)
-              .map(({ content }) => (
+              ?.map(({ content }) => (
                 <ListItem key={`${Math.random()}`}>
                   <Checkbox
                     color="secondary"

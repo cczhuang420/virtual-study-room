@@ -48,9 +48,9 @@ const PrivateRoomPage = () => {
           >
             <AssetLabel
               image={AssetXPIcon}
-              value={getCustomUser().experience}
+              value={getCustomUser()?.experience}
             />
-            <AssetLabel image={AssetMoneyIcon} value={getCustomUser().coins} />
+            <AssetLabel image={AssetMoneyIcon} value={getCustomUser()?.coins} />
           </Box>
 
           <Box sx={{ height: "100%" }}>
@@ -58,7 +58,7 @@ const PrivateRoomPage = () => {
               <PrivateRoomsContainer
                 privateRooms={privateRooms}
                 onAddNewRoom={
-                  privateRooms.length < 4
+                  privateRooms?.length < 4
                     ? () => setAddingRoom(true)
                     : undefined
                 }
@@ -70,7 +70,7 @@ const PrivateRoomPage = () => {
                   setAddingRoom(false);
                 }}
                 onCancel={
-                  privateRooms.length === 0
+                  privateRooms?.length === 0
                     ? undefined
                     : () => setAddingRoom(false)
                 }

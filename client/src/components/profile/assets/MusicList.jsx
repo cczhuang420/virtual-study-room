@@ -12,7 +12,7 @@ export default function MusicList({ musics }) {
   return (
     <Box padding={2}>
       <List>
-        {musics.map((music, index) => (
+        {musics?.map((music, index) => (
           <ListItem key={index} sx={{ padding: 1.5 }}>
             <Box
               sx={{
@@ -46,7 +46,7 @@ export default function MusicList({ musics }) {
                       variant="h4"
                       sx={{ fontWeight: "bold", color: "black" }}
                     >
-                      {music.name}
+                      {music?.name}
                     </Typography>
                   }
                 />
@@ -55,7 +55,7 @@ export default function MusicList({ musics }) {
                 <ListItemText
                   primary={
                     <Typography variant="h5" sx={{ color: "black" }}>
-                      {"By " + music.artist}
+                      {"By " + music?.artist}
                     </Typography>
                   }
                 />

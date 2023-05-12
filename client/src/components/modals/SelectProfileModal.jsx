@@ -8,7 +8,6 @@ import {
   styled,
   Badge,
   useTheme,
-  Icon,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useAuth } from "../../providers/AuthProvider.jsx";
@@ -42,7 +41,7 @@ const SelectProfileModal = ({ open, handleClose, profileImage, onClick }) => {
   const [imageIdx, setImageIdx] = useState();
   useEffect(() => {
     profileImage?.forEach((it, index) => {
-      if (it.url === getCustomUser().profile) {
+      if (it.url === getCustomUser()?.profile) {
         setImageIdx(index);
       }
     });
