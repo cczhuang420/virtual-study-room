@@ -62,15 +62,6 @@ export default function BackgroundSelectorGrid({ images, onClick, index }) {
         >
           Choose your background
         </Typography>
-        <Typography
-          sx={{
-            fontSize: "1.2vw",
-            color: "#9783b0",
-            cursor: "pointer",
-          }}
-        >
-          Browse more
-        </Typography>
       </Box>
 
       <Box
