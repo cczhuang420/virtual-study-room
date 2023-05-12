@@ -14,7 +14,7 @@ const MusicProvider = ({ children }) => {
     setVideoId(id);
     setTime(time);
 
-    youtubeRef.current.internalPlayer.playVideo();
+    youtubeRef.current?.internalPlayer?.playVideo();
   };
 
   const startPlayList = (songs) => {
@@ -24,18 +24,18 @@ const MusicProvider = ({ children }) => {
   };
 
   const playPreviousMusic = () => {
-    const index = playList.findIndex((song) => song.id === videoId);
+    const index = playList.findIndex((song) => song?.id === videoId);
     if (index !== -1) {
       const previousSong =
-        playList[(index - 1 + playList.length) % playList.length];
+        playList[(index - 1 + playList?.length) % playList?.length];
       playMusic(previousSong.id, 0);
     }
   };
 
   const playNextMusic = () => {
     // if no playlist, then keep playing the current music
-    if (playList.length === 0) {
-      youtubeRef.current.internalPlayer.playVideo();
+    if (playList?.length === 0) {
+      youtubeRef.current.internalPlayer?.playVideo();
       return;
     }
 
@@ -47,20 +47,20 @@ const MusicProvider = ({ children }) => {
   };
 
   const changeVolume = (volume) => {
-    youtubeRef.current.internalPlayer.setVolume(volume);
+    youtubeRef.current?.internalPlayer?.setVolume(volume);
     setVolume(volume);
   };
 
   const pauseMusic = () => {
-    youtubeRef.current.internalPlayer.pauseVideo();
+    youtubeRef.current?.internalPlayer?.pauseVideo();
   };
 
   const continueMusic = () => {
-    youtubeRef.current.internalPlayer.playVideo();
+    youtubeRef.current.internalPlayer?.playVideo();
   };
 
   const stopMusic = () => {
-    youtubeRef.current.internalPlayer.stopVideo();
+    youtubeRef.current.internalPlayer?.stopVideo();
   };
 
   return (
@@ -97,7 +97,7 @@ const MusicProvider = ({ children }) => {
           }}
           onReady={(event) => {
             changeVolume(volume);
-            event.target.pauseVideo();
+            event.target?.pauseVideo();
           }}
           onEnd={playNextMusic}
         />

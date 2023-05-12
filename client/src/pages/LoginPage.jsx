@@ -17,11 +17,11 @@ const LoginPage = () => {
   const { signup, login } = useAuth();
 
   const loginHandler = useCallback(
-    (values) => login(values.email, values.password),
+    (values) => login(values?.email, values?.password),
     [login]
   );
   const signupHandler = useCallback(
-    (values) => signup(values.email, values.password, values.username),
+    (values) => signup(values?.email, values?.password, values?.username),
     [signup]
   );
 

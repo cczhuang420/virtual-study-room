@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import axios from "axios";
-import {useAuth} from "../providers/AuthProvider.jsx";
+import { useAuth } from "../providers/AuthProvider.jsx";
 
 /**
  * Used for request that is sent at the page load time
@@ -18,7 +18,7 @@ import {useAuth} from "../providers/AuthProvider.jsx";
 export const useFetch = (url, headers) => {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
-  const {getAccessToken} = useAuth()
+  const { getAccessToken } = useAuth();
 
   const fetch = useCallback(async () => {
     setData(null);
@@ -29,8 +29,8 @@ export const useFetch = (url, headers) => {
         {
           headers: {
             Authorization: `Bearer ${getAccessToken()}`,
-            ...(headers || {})
-          }
+            ...(headers || {}),
+          },
         }
       );
       setData(res.data);

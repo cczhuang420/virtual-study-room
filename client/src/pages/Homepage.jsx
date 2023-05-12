@@ -19,15 +19,15 @@ const Homepage = () => {
   useEffect(() => {
     (async () => {
       const introSections = await Promise.all(
-        text.map(async (t, i) => {
-          const animationId = t.header2.toLowerCase().replaceAll(" ", "-");
+        text?.map(async (t, i) => {
+          const animationId = t?.header2.toLowerCase().replaceAll(" ", "-");
           const module = await import(
             `../assets/${animationId}-animation.json`
           );
           const anim = JSON.parse(JSON.stringify(module)).default;
           return (
             <IntroScreen
-              key={t.header1 + t.header2}
+              key={t?.header1 + t?.header2}
               {...t}
               animation={JSON.parse(JSON.stringify(anim))}
               textOnRight={i % 2 === 0}

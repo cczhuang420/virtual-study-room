@@ -36,6 +36,7 @@ const ThirdPartyLogin = ({ onError }) => {
 
 const StyledBox = styled(Box)({
   marginRight: "15px",
+  cursor: "pointer",
 });
 
 export default ThirdPartyLogin;

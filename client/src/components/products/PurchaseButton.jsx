@@ -37,7 +37,7 @@ const PurchaseButton = ({ title, type, image, cost, productId }) => {
       imageTitle: `purchase "${title}" now`,
       image: image,
       cost: cost,
-      money: getCustomUser().coins,
+      money: getCustomUser()?.coins,
       type: type,
       onClick: async () => {
         try {

@@ -96,9 +96,9 @@ const CheckoutModal = () => {
             </Box>
             <Box p={2.5} height={"50%"} width={"100%"}>
               <ModalProductCard
-                title={content.imageTitle}
-                image={content.image}
-                value={content.type}
+                title={content?.imageTitle}
+                image={content?.image}
+                value={content?.type}
               />
             </Box>
             <Box pl={2.5}>
@@ -108,7 +108,7 @@ const CheckoutModal = () => {
                   color: "#fff",
                   fontWeight: 550,
                 }}
-              >{`$ ${content.cost}`}</Typography>
+              >{`$ ${content?.cost}`}</Typography>
             </Box>
             <Stack
               p={2.5}
@@ -121,7 +121,7 @@ const CheckoutModal = () => {
                 <Typography color={"#fff"}>Your Total Coins:</Typography>
               </Box>
               <Box height={"95%"} width={"33%"}>
-                <AssetLabel image={assetMoney} value={content.money} />
+                <AssetLabel image={assetMoney} value={content?.money} />
               </Box>
             </Stack>
             <Box
@@ -141,7 +141,7 @@ const CheckoutModal = () => {
               >
                 Cancel
               </Button>
-              {content.hasProduct || content.cost > content.money ? (
+              {content?.hasProduct || content?.cost > content?.money ? (
                 <Typography
                   variant={"h5"}
                   color={"#fff"}
@@ -149,7 +149,7 @@ const CheckoutModal = () => {
                   display={"flex"}
                   alignItems={"center"}
                 >
-                  {content.hasProduct
+                  {content?.hasProduct
                     ? "You already have this product"
                     : "You do not have enough funds"}
                 </Typography>

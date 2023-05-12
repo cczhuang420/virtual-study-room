@@ -19,7 +19,7 @@ const LeaderboardPage = () => {
     return {
       ...item,
       ranking: index + 1,
-      hours: Math.floor(item.experience / 240),
+      hours: Math.floor(item?.experience / 240),
       profile: `/src/assets/profiles/${item.profile}`,
     };
   });
@@ -62,7 +62,7 @@ const LeaderboardPage = () => {
             height: heightPercent[1],
           }}
         >
-          {podiumArray.map(({ profile, username, ranking, hours }, index) => (
+          {podiumArray?.map(({ profile, username, ranking, hours }, index) => (
             <Box
               display={"flex"}
               flexDirection={"row"}

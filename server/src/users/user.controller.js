@@ -7,7 +7,6 @@ const {
   animals,
 } = require("unique-names-generator");
 const ytdl = require("ytdl-core");
-const { RetrieveSongsBasicInfo } = require("../services/music");
 
 class UserController {
   async findById(id) {
@@ -49,17 +48,17 @@ class UserController {
   async getNameSuggestion(name) {
     const generateRandomName = name
       ? (base) =>
-        base +
-        Array.from({ length: 5 }, () => Math.round(Math.random() * 10)).join(
-          ""
-        )
+          base +
+          Array.from({ length: 5 }, () => Math.round(Math.random() * 10)).join(
+            ""
+          )
       : () =>
-        uniqueNamesGenerator({
-          dictionaries: [adjectives, colors, animals],
-          length: 3,
-          style: "capital",
-          separator: " ",
-        });
+          uniqueNamesGenerator({
+            dictionaries: [adjectives, colors, animals],
+            length: 3,
+            style: "capital",
+            separator: " ",
+          });
 
     let username;
     do {
@@ -78,18 +77,18 @@ class UserController {
     const user = await this.findById(userId);
     const product = await this.findProductById(productId);
 
-    if (product.type === "music") {
+    if (product?.type === "music") {
       // ignore the song if it is not available
-      if (!ytdl.validateURL(product.url)) {
+      if (!ytdl.validateURL(product?.url)) {
         return null;
       }
 
-      const info = await ytdl.getBasicInfo(product.url);
+      const info = await ytdl.getBasicInfo(product?.url);
 
       await this.addOrUpdateSong(userId, {
-        songUrl: product.url,
-        videoId: info.videoDetails.videoId,
-        duration: info.videoDetails.lengthSeconds,
+        songUrl: product?.url,
+        videoId: info?.videoDetails?.videoId,
+        duration: info?.videoDetails?.lengthSeconds,
       });
     }
 
@@ -97,7 +96,7 @@ class UserController {
       {
         _id: userId,
       },
-      { $push: { assets: productId }, $inc: { coins: -product.price } }
+      { $push: { assets: productId }, $inc: { coins: -product?.price } }
     );
   }
 
@@ -109,11 +108,11 @@ class UserController {
   async findUserProductByType(userId, type) {
     const user = await this.findById(userId);
     let assets = [];
-    for (let productId of user.assets) {
+    for (let productId of user?.assets) {
       const data = await this.findProductById(productId);
       assets.push(data);
     }
-    return assets.filter((it) => it.type === type);
+    return assets.filter((it) => it?.type === type);
   }
 
   // add a new todo in the todo list
@@ -143,7 +142,7 @@ class UserController {
     const userDoc = await this.findById(userId);
     userDoc.experience = userDoc.experience + 100;
     userDoc.coins = userDoc.coins + 50;
-    userDoc.save();
+    await userDoc.save();
   }
 
   // modify the username
@@ -182,12 +181,12 @@ class UserController {
     // get the user
     const user = await this.findById(id);
     // find the song with the same songUrl
-    const songIndex = user.playList.findIndex(
+    const songIndex = user?.playList?.findIndex(
       (it) => it.songUrl === song.songUrl
     );
     // if the song is not in the playlist, add it
     if (songIndex === -1) {
-      user.playList.push(song);
+      user?.playList.push(song);
     }
     // if the song is in the playlist, update it
     else {

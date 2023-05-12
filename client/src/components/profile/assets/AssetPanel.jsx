@@ -24,7 +24,7 @@ const AssetPanel = ({ backgrounds, musics, profilePhotos }) => {
         <Box flex={1} height={"100%"}>
           <AssetTypeButton
             title={"Background"}
-            amount={backgrounds.length}
+            amount={backgrounds?.length}
             shouldHighLight={value === 0}
             onClick={() => {
               setValue(0);
@@ -46,7 +46,7 @@ const AssetPanel = ({ backgrounds, musics, profilePhotos }) => {
         <Box flex={1} height={"100%"}>
           <AssetTypeButton
             title={"Profile Image"}
-            amount={profilePhotos.length}
+            amount={profilePhotos?.length}
             shouldHighLight={value === 2}
             onClick={() => {
               setValue(2);

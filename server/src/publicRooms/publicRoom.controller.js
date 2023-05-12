@@ -39,7 +39,7 @@ class PublicRoomController {
     const room = await this.getPublicRoom(id);
 
     // add the song to the room
-    room.playList.push(song);
+    room?.playList.push(song);
 
     // save the room
     await room.save();

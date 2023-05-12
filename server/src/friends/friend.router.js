@@ -51,7 +51,7 @@ router.post("/requests", [queryValidator(["id", "fid"])], async (req, res) => {
       .json(
         "You have already send add friend request to this user or you have a pending request from this user"
       );
-  } else if (user.friends.includes(fid)) {
+  } else if (user?.friends?.includes(fid)) {
     res.status(409).json("This user has already your friend");
   } else {
     await friendController.sendRequest(id, fid);

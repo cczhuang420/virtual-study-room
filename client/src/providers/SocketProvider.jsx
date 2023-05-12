@@ -25,7 +25,7 @@ const SocketProvider = ({ children }) => {
       newSocket.on("song", (song) => {
         playMusic(song.id, song.time);
         const audioContext = new AudioContext();
-        if (audioContext.state === "suspended") {
+        if (audioContext?.state === "suspended") {
           notify("Music is suspended by browser", [
             {
               text: "PLAY",

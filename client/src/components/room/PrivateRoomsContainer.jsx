@@ -23,7 +23,7 @@ const PrivateRoomsContainer = ({
 
   return (
     <Grid container sx={{ height: "100%" }}>
-      {privateRooms.map(({ _id, name, backgroundUrl }, index) => (
+      {privateRooms?.map(({ _id, name, backgroundUrl }, index) => (
         <Grid
           item
           xs={6}

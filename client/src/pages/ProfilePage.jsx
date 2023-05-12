@@ -1,5 +1,5 @@
 import Page from "../containers/Page.jsx";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Avatar, Box, Stack, Typography } from "@mui/material";
 import AssetPanel from "../components/profile/assets/AssetPanel.jsx";
 import moneyIcon from "../assets/asset-money-icon.svg";
@@ -31,19 +31,19 @@ const ProfilePage = () => {
   };
 
   const { data: backgroundImages, isLoading: backgroundLoading } = useFetch(
-    `users/assets?userId=${getCustomUser()._id}&type=background`
+    `users/assets?userId=${getCustomUser()?._id}&type=background`
   );
 
   const { data: profileImages, isLoading: profileImageLoading } = useFetch(
-    `users/assets?userId=${getCustomUser()._id}&type=profile-image`
+    `users/assets?userId=${getCustomUser()?._id}&type=profile-image`
   );
 
   const { data: musics, isLoading: musicLoading } = useFetch(
-    `users/assets?userId=${getCustomUser()._id}&type=music`
+    `users/assets?userId=${getCustomUser()?._id}&type=music`
   );
 
   const { data: friendRequests, isLoading: friendLoading } = useFetch(
-    `friends/requests?id=${getCustomUser()._id}`
+    `friends/requests?id=${getCustomUser()?._id}`
   );
 
   const [friendRequestList, setFriendRequestList] = useState([]);
@@ -118,8 +118,8 @@ const ProfilePage = () => {
             spacing={2}
             height={{ xs: "18%", sx: "10%", md: "5%" }}
           >
-            <AssetLabel image={moneyIcon} value={getCustomUser().coins} />
-            <AssetLabel image={xpIcon} value={getCustomUser().experience} />
+            <AssetLabel image={moneyIcon} value={getCustomUser()?.coins} />
+            <AssetLabel image={xpIcon} value={getCustomUser()?.experience} />
           </Stack>
           <Box
             mt={4}
@@ -133,7 +133,7 @@ const ProfilePage = () => {
                 setUserName(value);
                 await run({
                   body: {
-                    userId: getCustomUser()._id,
+                    userId: getCustomUser()?._id,
                     name: value,
                   },
                 });
@@ -173,16 +173,16 @@ const ProfilePage = () => {
                   No friend request
                 </Typography>
               ) : (
-                friendRequestList.map((it, index) => (
+                friendRequestList?.map((it, index) => (
                   <FriendRequestItem
                     key={index}
-                    name={it.username}
+                    name={it?.username}
                     onAcceptClick={async () => {
                       setFriendRequestList((pre) => pre.splice(index, 1));
                       await updateRequest({
                         query: {
-                          id: getCustomUser()._id,
-                          fid: it._id,
+                          id: getCustomUser()?._id,
+                          fid: it?._id,
                           action: "approved",
                         },
                       });
@@ -191,8 +191,8 @@ const ProfilePage = () => {
                       setFriendRequestList((pre) => pre.splice(index, 1));
                       await updateRequest({
                         query: {
-                          id: getCustomUser()._id,
-                          fid: it._id,
+                          id: getCustomUser()?._id,
+                          fid: it?._id,
                           action: "rejected",
                         },
                       });

@@ -12,7 +12,7 @@ import {
   useTheme,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close.js";
-import React, { useCallback, useState } from "react";
+import React, { useState } from "react";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline.js";
 import BackgroundSelectorGrid from "../background/BackgroundSelectorGrid.jsx";
 
